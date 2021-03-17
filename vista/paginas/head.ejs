@@ -1,0 +1,42 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Conexión PostgreSQL y Node usando Express y Bootstrap">
+    <meta name="author" content="Parzibyte">
+    <title>Conexión PostgreSQL y Node usando Express y Bootstrap</title>
+    <!-- Cargar el CSS de Boostrap-->
+    <!--<link href="/stylesheets/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- Cargar estilos propios -->
+    <!--<link href="/stylesheets/style.css" rel="stylesheet">-->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <!-- Definición del menú -->
+    <ul class="nav nav-pills ">
+        <li role="presentation" class="active"><a href="/obtenerDatosBips">Registros Archivos Planos</a></li>
+        <li role="presentation" class="active"><a href="/cargar">Cargar plano</a></li>
+        <li role="presentation"><a href="#">Profile</a></li>
+        <li role="presentation"><a href="#">Messages</a></li>
+      </ul>
+    <script type="text/javascript">
+        // Tomado de https://github.com/parzibyte/cotizaciones_web/blob/master/js/cotizaciones.js#L2
+        document.addEventListener("DOMContentLoaded", () => {
+            const menu = document.querySelector("#menu"),
+                botonMenu = document.querySelector("#botonMenu");
+            if (menu) {
+                botonMenu.addEventListener("click", () => menu.classList.toggle("show"));
+            }
+        });
+    </script>
+    <!-- Termina la definición del menú -->
+    <main role="main" class="container">
+        <div class="row">

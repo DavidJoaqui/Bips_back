@@ -1,0 +1,32 @@
+<%- include("header"); %>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="col-md-3">
+                <form id="formulario" enctype="multipart/form-data" method="POST">
+
+
+                    <h2>&nbsp;<b> Formulario Pruebas</b></h2>
+                    <input type="file" name="files" id="files" multiple>
+                    <p>&nbsp;</p>
+                    <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir"
+                        disabled="disabled">Subir</button>
+
+                    <div class="preview">
+                        <div id="datos"></div>
+                    </div>
+
+
+                </form>
+            </div>
+          
+        </div>
+    </div>
+
+</div>
+
+<%- include("footer"); %>
