@@ -1,4 +1,4 @@
-const conexion = require("../conexion")
+const conexion = require("./persistencia/conexion")
 module.exports = {
     /*async insertar(nombre, precio) {
         let resultados = await conexion.query(`insert into productos
