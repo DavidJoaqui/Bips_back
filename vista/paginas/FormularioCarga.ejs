@@ -9,7 +9,7 @@
                 <div class="col-md-3">
 
                     <div class="form-group row">
-                        
+
                         <form id="formulario" enctype="multipart/form-data" method="POST">
 
 
@@ -33,12 +33,12 @@
                             <label for="fecha_ini">Seleccione Rango Fecha</label>
                             <div>
                                 <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
-                            
+
                                 <script>
-                                    $(function () {
+                                    $(function() {
                                         $('input[name="daterange"]').daterangepicker({
                                             opens: 'left'
-                                        }, function (start, end, label) {
+                                        }, function(start, end, label) {
                                             console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
                                         });
                                     });
@@ -52,10 +52,9 @@
 
 
 
-                    <input type="file" name="files" id="files" multiple>
+                    <input type="file" name="files" id="files" multiple disabled="disabled">
                     <p>&nbsp;</p>
-                    <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir"
-                        disabled="disabled">Subir</button>
+                    <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
 
                     <div class="preview">
                         <div id="datos"></div>
