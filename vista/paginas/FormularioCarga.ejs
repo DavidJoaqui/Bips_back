@@ -30,9 +30,19 @@
                             </select>
 
                             <p>&nbsp;&nbsp;&nbsp;</p>
-                            <label for="fecha_ini">Seleccione Fecha Inicial</label>
+                            <label for="fecha_ini">Seleccione Rango Fecha</label>
                             <div>
-                                <input type="date" value="2011-08-19" id="example-date-input">
+                                <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+                            
+                                <script>
+                                    $(function () {
+                                        $('input[name="daterange"]').daterangepicker({
+                                            opens: 'left'
+                                        }, function (start, end, label) {
+                                            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                        });
+                                    });
+                                </script>
                             </div>
                     </div>
 
