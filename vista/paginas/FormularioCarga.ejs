@@ -1,16 +1,47 @@
 <%- include("header"); %>
 
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
-    <div class="row">
-        <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
 
-            <div class="col-md-3">
-                <form id="formulario" enctype="multipart/form-data" method="POST">
+                <div class="col-md-3">
+
+                    <div class="form-group row">
+                        
+                        <form id="formulario" enctype="multipart/form-data" method="POST">
 
 
-                    <h2>&nbsp;<b> Formulario Pruebas</b></h2>
+                            <h2> Formulario Pruebas</h2>
+                            <label for="number">Seleccione el Codigo IPS</label>
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+
+                                <option selected>Seleccionar IPS</option>
+                                <% listaIps.forEach(lista=> { %>
+
+
+                                    <option value="<%= lista.idips %>">
+                                        <%= lista.codigo_ips %>
+                                    </option>
+
+                                    <% })%>
+
+                            </select>
+
+                            <p>&nbsp;&nbsp;&nbsp;</p>
+                            <label for="fecha_ini">Seleccione Fecha Inicial</label>
+                            <div>
+                                <input type="date" value="2011-08-19" id="example-date-input">
+                            </div>
+                    </div>
+
+                    <div>
+                        <button>Consultar Registros</button>
+                    </div>
+
+
+
                     <input type="file" name="files" id="files" multiple>
                     <p>&nbsp;</p>
                     <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir"
@@ -21,12 +52,12 @@
                     </div>
 
 
-                </form>
+                    </form>
+                </div>
+
             </div>
-          
         </div>
+
     </div>
 
-</div>
-
-<%- include("footer"); %>
+    <%- include("footer"); %>

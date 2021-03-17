@@ -28,22 +28,18 @@
 
 <body>
     <!-- Definición del menú -->
-    <ul class="nav nav-pills ">
-        <li role="presentation" class=""><a href="/obtenerDatosBips">Registros Archivos Planos</a></li>
-        <li role="presentation" class=""><a href="/cargar">Cargar plano</a></li>
-        <li role="presentation"><a href="#">Profile</a></li>
+    
+    <ul class="nav nav-pills">
+        <a class="navbar-brand" target="_blank" href="//parzibyte.me/blog">BIPS</a>
+
+        <li role="presentation"><a href="/obtenerRegistrosPlanos">Registros Archivos Planos</a></li>
+        <li role="presentation"><a href="/obtenerIps">Cargar plano</a></li>
+        <li role="presentation"><a href="#">Generador de Reportes</a></li>
         <li role="presentation"><a href="#">Messages</a></li>
       </ul>
-    <script type="text/javascript">
-        // Tomado de https://github.com/parzibyte/cotizaciones_web/blob/master/js/cotizaciones.js#L2
-        document.addEventListener("DOMContentLoaded", () => {
-            const menu = document.querySelector("#menu"),
-                botonMenu = document.querySelector("#botonMenu");
-            if (menu) {
-                botonMenu.addEventListener("click", () => menu.classList.toggle("show"));
-            }
-        });
-    </script>
+
+    
+    
     <!-- Termina la definición del menú -->
     <main role="main" class="container">
         <div class="row">

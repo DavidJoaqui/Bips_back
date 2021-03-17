@@ -7,10 +7,19 @@ module.exports = {
         ($1, $2)`, [nombre, precio]);
         return resultados;
     },*/
-    async obtener() {
+    async obtenerRegistrosPlanos() {
         const resultados = await conexion.query("select * from schema_planos.registroplanos");
         return resultados.rows;
-    },/*
+    },
+    async obtenerIps() {
+        const resultados = await conexion.query("select idips,codigo_ips from schema_bips.ips");
+        return resultados.rows;
+    },
+    
+    
+    
+    
+    /*
     async obtenerPorId(id) {
         const resultados = await conexion.query(`select id, nombre, precio from productos where id = $1`, [id]);
         return resultados.rows[0];
