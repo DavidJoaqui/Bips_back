@@ -1,21 +1,20 @@
 <%- include("header"); %>
+    <%- include("head"); %>
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-4">
+
+                    <div class="col-md-12">
+
+                        <div class="form-group row">
+
+                            <form>
 
 
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="col-md-3">
-
-                    <div class="form-group row">
-
-                        <form id="formulario" enctype="multipart/form-data" method="POST">
-
-
-                            <h2> Formulario Pruebas</h2>
-                            <label for="number">Seleccione el Codigo IPS</label>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                <h2> Formulario Pruebas</h2>
+                                <label for="number">Seleccione el Codigo IPS</label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
 
                                 <option selected>Seleccionar IPS</option>
                                 <% listaIps.forEach(lista=> { %>
@@ -29,44 +28,104 @@
 
                             </select>
 
-                            <p>&nbsp;&nbsp;&nbsp;</p>
-                            <label for="fecha_ini">Seleccione Rango Fecha</label>
-                            <div>
-                                <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+                                <p>&nbsp;&nbsp;&nbsp;</p>
+                                <label for="fecha_ini">Seleccione Rango Fecha</label>
+                                <div>
+                                    <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
 
-                                <script>
-                                    $(function() {
-                                        $('input[name="daterange"]').daterangepicker({
-                                            opens: 'left'
-                                        }, function(start, end, label) {
-                                            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                    <script>
+                                        $(function() {
+                                            $('input[name="daterange"]').daterangepicker({
+                                                opens: 'left'
+                                            }, function(start, end, label) {
+                                                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                            });
                                         });
-                                    });
-                                </script>
-                            </div>
+                                    </script>
+                                </div>
+                        </div>
+
+                        <div>
+                            <button>Consultar Registros</button>
+                        </div>
+                        </form>
                     </div>
 
-                    <div>
-                        <button>Consultar Registros</button>
-                    </div>
-
-
-
-                    <input type="file" name="files" id="files" multiple disabled="disabled">
-                    <p>&nbsp;</p>
-                    <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
-
-                    <div class="preview">
-                        <div id="datos"></div>
-                    </div>
-
-
-                    </form>
                 </div>
 
+                <div class="col-md-8">
+
+
+                    <form id="formulario" enctype="multipart/form-data" method="POST" class="navbar-form navbar-left">
+                        <input type="file" name="files" id="files" multiple>
+                        <br>
+                        <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
+
+                        <div class="preview">
+                            <div id="datos"></div>
+                        </div>
+
+                    </form>
+
+
+                    <div class="col-md-12 embed-responsive embed-responsive-16by9" id="archivos_cargados" name="archivos_cargados">
+                        <iframe src="listadoArchivos" title="Archivos cargados" class="embed-responsive-item" name="iframe_arch" id="iframe_arch" hidden>
+                    </iframe>
+                    </div>
+                </div>
             </div>
+
+            <script>
+                $(document).ready(function() {
+
+                    const $form = document.querySelector('#formulario');
+
+
+                    $("#files").change(function() {
+                        $("#btn-subir").prop("disabled", this.files.length == 0);
+                    });
+
+                    $form.addEventListener('submit', (event) => {
+
+                        event.preventDefault();
+
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/files',
+                            data: new FormData($form),
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+
+                            beforeSend: function() {
+                                $('#datos').html('<p>Procesando...</p>');
+                            },
+                            error: function() {
+                                $('#datos').html('<p>Error intente de nuevo...</p>');
+                            },
+                            success: function(result) {
+
+                                $('#formulario')[0].reset();
+                                //$('#datos').html('');
+                                $('#btn-subir').attr("disabled", true);
+
+                                $('#datos').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>' + JSON.stringify(result['respuesta']) + '</p>');
+
+                                $("#iframe_arch").show();
+                                var iframe = document.getElementById('iframe_arch')
+                                $('#iframe_arch').attr("src", iframe.src);
+                                alert("<div class='alert alert-success' role='alert'>Los archivos se cargaron correctamente!</div>");
+
+                            }
+
+                        });
+
+                    });
+
+                });
+            </script>
+
         </div>
 
-    </div>
-
-    <%- include("footer"); %>
+        <%- include("footer"); %>
