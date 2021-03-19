@@ -1,72 +1,88 @@
 <%- include("header"); %>
+    <form action="" method="get">
 
+        <div class="col-md-12">
+            <h2> Cargar Archivos Planos</h2>
+        </div>
 
-    <div class="container-fluid">
+        <p>&nbsp;</p>
+        <div class="form-row" >
+            <div class="form-group col-md-3">
 
-        <div class="row">
-            <div class="col-md-12">
+                <label for="number" id="formulario" enctype="multipart/form-data" method="POST">Seleccionar IPS</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
 
-                <div class="col-md-3">
+                    <option selected>Seleccionar IPS</option>
+                    <% listaIps.forEach(lista=> { %>
+                        <option value="<%= lista.idips %>">
+                            <%= lista.descripcion_ips %>
+                        </option>
+                        <% })%>
 
-                    <div class="form-group row">
+                </select>
+            </div>
 
-                        <form id="formulario" enctype="multipart/form-data" method="POST">
+            <div class="form-group col-md-2">
+                <label for="fecha_ini">Fecha inicial</label>
+                <div>
+                    <input type="text" name="txtfecha_inicial" value="01/01/2020" />
+                    <script>
+                        $(function () {
+                            $('input[name="txtfecha_inicial"]').daterangepicker({
+                                singleDatePicker: true,
+                                showDropdowns: true,
+                                minYear: 2018,
+                                maxYear:moment()
+                            });
+                        });
+                    </script>
 
+                </div>
 
-                            <h2> Formulario Pruebas</h2>
-                            <label for="number">Seleccione el Codigo IPS</label>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            </div>
 
-                                <option selected>Seleccionar IPS</option>
-                                <% listaIps.forEach(lista=> { %>
+            <div class="form-group col-md-2">
+                <label for="fecha_ini">Fecha Final</label>
+                <div>
+                    <input type="text" name="txtfecha_fin"/>
+                    <script>
+                        $(function () {
+                            $('input[name="txtfecha_fin"]').daterangepicker({
+                                singleDatePicker: true,
+                                showDropdowns: true,
+                                minYear: 2018,
+                                maxYear: moment().format('YYYY MM DD')
+                            });
+                        });
+                    </script>
 
-
-                                    <option value="<%= lista.idips %>">
-                                        <%= lista.codigo_ips %>
-                                    </option>
-
-                                    <% })%>
-
-                            </select>
-
-                            <p>&nbsp;&nbsp;&nbsp;</p>
-                            <label for="fecha_ini">Seleccione Rango Fecha</label>
-                            <div>
-                                <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
-
-                                <script>
-                                    $(function() {
-                                        $('input[name="daterange"]').daterangepicker({
-                                            opens: 'left'
-                                        }, function(start, end, label) {
-                                            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                                        });
-                                    });
-                                </script>
-                            </div>
-                    </div>
-
-                    <div>
-                        <button>Consultar Registros</button>
-                    </div>
-
-
-
-                    <input type="file" name="files" id="files" multiple disabled="disabled">
-                    <p>&nbsp;</p>
-                    <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
-
-                    <div class="preview">
-                        <div id="datos"></div>
-                    </div>
-
-
-                    </form>
                 </div>
 
             </div>
         </div>
 
-    </div>
+        <div class="form-group col-md-4">
+            <div>
+                <button type="submit" class="btn btn-primary">Consultar Registros</button>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <input type="file" name="files" id="files" multiple>
+
+        </div>
+
+        <p>&nbsp;</p>
+
+        <div class="form-group col-md-12">
+            <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
+            <div class="preview">
+                <div id="datos"></div>
+            </div>
+
+        </div>
+
+    </form>
+
 
     <%- include("footer"); %>
