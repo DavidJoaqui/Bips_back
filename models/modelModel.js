@@ -12,7 +12,7 @@ module.exports = {
         return resultados.rows;
     },
     async obtenerIps() {
-        const resultados = await conexion.query("select idips,codigo_ips from schema_bips.ips");
+        const resultados = await conexion.query("select idips,codigo_ips,descripcion_ips from schema_bips.ips");
         return resultados.rows;
     },
 

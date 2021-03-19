@@ -13,7 +13,7 @@
 
 
                                 <h2> Formulario Pruebas</h2>
-                                <label for="number">Seleccione el Codigo IPS</label>
+                                <label for="number">Seleccione la IPS</label>
                                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
 
                                 <option selected>Seleccionar IPS</option>
@@ -21,7 +21,7 @@
 
 
                                     <option value="<%= lista.idips %>">
-                                        <%= lista.codigo_ips %>
+                                        <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
                                     </option>
 
                                     <% })%>
