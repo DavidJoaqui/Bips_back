@@ -12,23 +12,6 @@ module.exports = {
         return resultados.rows;
     },
     async obtenerIps() {
-<<<<<<< HEAD
-        const resultados = await conexion.query("select idips,descripcion_ips from schema_bips.ips");
-        return resultados.rows;
-    },
-    
-    async validarRegistrosAP() {
-        
-        const resultados = await conexion.query('select ips from schema_planos.registroplanos where ips = $3', [ips]);
-        return resultados.rows;
-        
-    },
-    
-
-    
-    
-    
-=======
         const resultados = await conexion.query("select idips,codigo_ips,descripcion_ips from schema_bips.ips");
         return resultados.rows;
     },
@@ -37,7 +20,6 @@ module.exports = {
 
     }
 
->>>>>>> rdavid
     /*
     async obtenerPorId(id) {
         const resultados = await conexion.query(`select id, nombre, precio from productos where id = $1`, [id]);

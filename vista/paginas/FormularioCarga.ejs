@@ -1,168 +1,102 @@
 <%- include("header"); %>
-<<<<<<< HEAD
-    <form action="" method="get">
-
-        <div class="col-md-12">
-            <h2> Cargar Archivos Planos</h2>
-        </div>
-
-        <p>&nbsp;</p>
-        <div class="form-row" >
-            <div class="form-group col-md-3">
-=======
     <%- include("head"); %>
         <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-md-4">
+            <div class="row" style="margin-top:50px">
 
-                    <div class="col-md-12">
+                <div class="col-md-3">
 
-                        <div class="form-group row">
+                    <div class="form-group row">
 
-                            <form>
+                        <form>
 
+                            <h2>Carga Archivos Planos</h2>
 
-                                <h2> Formulario Pruebas</h2>
-                                <label for="number">Seleccione la IPS</label>
-                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                            <label>Seleccionar IPS</label>
 
-                                <option selected>Seleccionar IPS</option>
-                                <% listaIps.forEach(lista=> { %>
->>>>>>> rdavid
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
 
-                <label for="number" id="formulario" enctype="multipart/form-data" method="POST">Seleccionar IPS</label>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                    <% listaIps.forEach(lista=> { %>                                    
+                                        <option value="<%= lista.idips %>">
+                                            <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
+                                        </option>                                 
+                                    <% }); %>
+                            </select>
 
-<<<<<<< HEAD
-                    <option selected>Seleccionar IPS</option>
-                    <% listaIps.forEach(lista=> { %>
-                        <option value="<%= lista.idips %>">
-                            <%= lista.descripcion_ips %>
-                        </option>
-                        <% })%>
-=======
-                                    <option value="<%= lista.idips %>">
-                                        <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
-                                    </option>
->>>>>>> rdavid
-
-                </select>
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="fecha_ini">Fecha inicial</label>
-                <div>
-                    <input type="text" name="txtfecha_inicial" value="01/01/2020" />
-                    <script>
-                        $(function () {
-                            $('input[name="txtfecha_inicial"]').daterangepicker({
-                                singleDatePicker: true,
-                                showDropdowns: true,
-                                minYear: 2018,
-                                maxYear:moment()
-                            });
-                        });
-                    </script>
-
-<<<<<<< HEAD
-                </div>
-
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="fecha_ini">Fecha Final</label>
-                <div>
-                    <input type="text" name="txtfecha_fin"/>
-                    <script>
-                        $(function () {
-                            $('input[name="txtfecha_fin"]').daterangepicker({
-                                singleDatePicker: true,
-                                showDropdowns: true,
-                                minYear: 2018,
-                                maxYear: moment().format('YYYY MM DD')
-                            });
-                        });
-                    </script>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="form-group col-md-4">
-            <div>
-                <button type="submit" class="btn btn-primary">Consultar Registros</button>
-            </div>
-        </div>
-
-        <div class="form-group col-md-12">
-            <input type="file" name="files" id="files" multiple>
-
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="form-group col-md-12">
-            <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
-            <div class="preview">
-                <div id="datos"></div>
-            </div>
-
-        </div>
-
-    </form>
-
-=======
-                                <p>&nbsp;&nbsp;&nbsp;</p>
-                                <label for="fecha_ini">Seleccione Rango Fecha</label>
+                            <div class="form-group col-md-6">
+                                <label for="fecha_ini">Fecha inicial</label>
                                 <div>
-                                    <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
-
+                                    <input type="text" name="txtfecha_inicial" value="01/01/2020" />
                                     <script>
                                         $(function() {
-                                            $('input[name="daterange"]').daterangepicker({
-                                                opens: 'left'
-                                            }, function(start, end, label) {
-                                                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                            $('input[name="txtfecha_inicial"]').daterangepicker({
+                                                singleDatePicker: true,
+                                                showDropdowns: true,
+                                                minYear: 2018,
+                                                maxYear: moment()
                                             });
                                         });
                                     </script>
-                                </div>
-                        </div>
 
-                        <div>
-                            <button>Consultar Registros</button>
-                        </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="fecha_ini">Fecha Final</label>
+                                <div>
+                                    <input type="text" name="txtfecha_fin" />
+                                    <script>
+                                        $(function() {
+                                            $('input[name="txtfecha_fin"]').daterangepicker({
+                                                singleDatePicker: true,
+                                                showDropdowns: true,
+                                                minYear: 2018,
+                                                maxYear: moment()
+                                            });
+                                        });
+                                    </script>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group col-md-4">
+                                <div>
+                                    <button type="submit" class="btn btn-primary">Consultar Registros</button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-9">
+
+                    <div class="form-group row" style="padding-top: 70px;">
+                        <form id="formulario" enctype="multipart/form-data" method="POST" class="navbar-form navbar-left">
+
+                            <input type="file" name="files" id="files" multiple>
+                            <p>&nbsp;</p>
+                            <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
+
+                            <div class="preview">
+                                <div id="datos"></div>
+                            </div>
+
                         </form>
                     </div>
 
-                </div>
-
-                <div class="col-md-8">
-
-
-                    <form id="formulario" enctype="multipart/form-data" method="POST" class="navbar-form navbar-left">
-                        <input type="file" name="files" id="files" multiple>
-                        <br>
-                        <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
-
-                        <div class="preview">
-                            <div id="datos"></div>
-                        </div>
-
-                    </form>
-
-
-                    <div class="col-md-12 embed-responsive embed-responsive-16by9" id="archivos_cargados" name="archivos_cargados">
+                    <div class="col-md-12 embed-responsive embed-responsive-16by9">
                         <iframe src="listadoArchivos" title="Archivos cargados" class="embed-responsive-item" name="iframe_arch" id="iframe_arch" hidden>
-                    </iframe>
+                        </iframe>
                     </div>
                 </div>
+
             </div>
-
->>>>>>> rdavid
-
 
             <script>
                 $(document).ready(function() {

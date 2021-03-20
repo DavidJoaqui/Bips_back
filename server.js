@@ -11,7 +11,7 @@ const mimeTypes = require('mime-types');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-var moment = require('moment'); 
+var moment = require('moment');
 
 
 const app = express();
@@ -69,12 +69,8 @@ app.get('/obtenerRegistrosPlanos', function(req, res) {
         });
 });
 
-<<<<<<< HEAD
-app.get('/obtenerIps', function (req, res) {
-=======
 
 app.get('/obtenerIps', function(req, res) {
->>>>>>> rdavid
     modelbips.obtenerIps().then(listaIps => {
 
             res.render("paginas/FormularioCarga", {
@@ -87,15 +83,16 @@ app.get('/obtenerIps', function(req, res) {
         });
 });
 
-app.get('/validarRegistrosAP/:idips', function (req, res) {
+app.get('/validarRegistrosAP/:idips', function(req, res) {
     modelbips.obtenerIps(req.params.idips).then(listaRegIps => {
-        if (listaRegIps) res.render("paginas/FormularioCarga", {
-            listaRegIps: listaRegIps,
-        }); else {
-            return res.status(500).send("No existe registros");
-        }
+            if (listaRegIps) res.render("paginas/FormularioCarga", {
+                listaRegIps: listaRegIps,
+            });
+            else {
+                return res.status(500).send("No existe registros");
+            }
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
