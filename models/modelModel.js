@@ -12,6 +12,7 @@ module.exports = {
         return resultados.rows;
     },
     async obtenerIps() {
+<<<<<<< HEAD
         const resultados = await conexion.query("select idips,descripcion_ips from schema_bips.ips");
         return resultados.rows;
     },
@@ -27,6 +28,16 @@ module.exports = {
     
     
     
+=======
+        const resultados = await conexion.query("select idips,codigo_ips,descripcion_ips from schema_bips.ips");
+        return resultados.rows;
+    },
+
+    async obtenerPlanosCargados() {
+
+    }
+
+>>>>>>> rdavid
     /*
     async obtenerPorId(id) {
         const resultados = await conexion.query(`select id, nombre, precio from productos where id = $1`, [id]);
@@ -45,4 +56,3 @@ module.exports = {
         return resultados;
     },*/
 }
-

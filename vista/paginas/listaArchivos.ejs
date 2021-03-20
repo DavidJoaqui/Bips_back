@@ -1,0 +1,38 @@
+<%- include("head"); %>
+
+    <div class="col-12">
+        <h1>Archivos planos cargados</h1>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>nombre</th>
+                    <th>extension</th>
+                    <th>...</th>
+                    <th>Acciones</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <% arr_files.forEach(arr_files => { %>
+
+                    <tr>
+                        <td>
+                            <%= arr_files %>
+                        </td>
+                        <td>
+                            <%= ".txt" %>
+                        </td>
+                        <td>
+                            <%= %>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary">
+                            Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    <% })%>
+            </tbody>
+        </table>
+    </div>
