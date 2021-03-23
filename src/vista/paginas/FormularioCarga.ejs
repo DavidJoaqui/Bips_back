@@ -80,7 +80,7 @@
                                 <div class="form-group row">
                                     <form id="formulario" enctype="multipart/form-data" method="POST" class="navbar-form navbar-left">
 
-                                        <input type="file" name="files" id="files" multiple>
+                                        <input type="file" name="files" id="files">
                                         <p>&nbsp;</p>
                                         <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
 
@@ -104,7 +104,7 @@
 
                 <div class="col-md-8">
                     <div class="col-md-12 embed-responsive embed-responsive-16by9">
-                        <iframe src="listadoArchivos" title="Archivos cargados" class="embed-responsive-item" name="iframe_arch" id="iframe_arch" hidden>
+                        <iframe src="listadoArchivos" title="Archivos cargados" class="embed-responsive-item" name="iframe_arch" id="iframe_arch">
                         </iframe>
                     </div>
                 </div>
@@ -138,7 +138,9 @@
                                 $('#datos').html('<p>Procesando...</p>');
                             },
                             error: function() {
-                                $('#datos').html('<p>Error intente de nuevo...</p>');
+                                $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> Solo se permiten archivos .csv');
+                                $('#formulario')[0].reset();
+
                             },
                             success: function(result) {
 
@@ -151,7 +153,7 @@
                                 $("#iframe_arch").show();
                                 var iframe = document.getElementById('iframe_arch')
                                 $('#iframe_arch').attr("src", iframe.src);
-                                alert("<div class='alert alert-success' role='alert'>Los archivos se cargaron correctamente!</div>");
+                                alert("Los archivos se cargaron correctamente!");
 
                             }
 

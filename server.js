@@ -16,23 +16,28 @@ var moment = require('moment');
 
 const app = express();
 
-app.use(express.json());
-//app.use(express.urlencoded({extended: false}));
+//app.use(express.urlencoded);
+//app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'filesBipsUploads')));
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
-app.set('views', path.join(__dirname, 'vista'));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
+app.set('views', path.join(__dirname, 'src/vista'));
 app.set("view engine", "ejs");
 
 // parse application/json
-app.use(bodyParser.json())
+
 
 const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
     filename: function(req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
-        cb("", file.originalname);
+        const ext = path.extname(file.originalname);
+        if (ext !== '.csv') {
+            return cb(new Error('Solo se permiten archivos .CSV'));
+        } else {
+            cb("", file.originalname);
+        }
     }
 
 })
@@ -47,7 +52,7 @@ const modelbips = require("./models/modelModel");
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//-----------------------------------------------METODOS------------------------------------------------------//
+//-----------------------------------------------RUTAS--------------------------------------------------------//
 //                                                                                                            //
 //                                              17/03/2021                                                    //
 //                                                                                                            //          
@@ -110,9 +115,11 @@ app.get('/cargar', function(req, res) {
 });
 
 
-app.post("/files", upload.array('files', 10), (req, res) => {
+app.post("/files", upload.array('files', 1), (req, res, err) => {
+
+
     res.setHeader('Content-type', 'application/json');
-    console.log(__dirname);
+    console.log(path.join(__dirname));
     console.log("OK...ruta uploads");
     res.send('{"estado":"200","respuesta": "La operacion se ejecuto con exito.."}');
 });
@@ -128,13 +135,15 @@ app.get("/listadoArchivos", (req, res) => {
             res.send('{"estado":"500" ,"respuesta": "Error", "err":"' + err + '"}');
         } else {
             console.log("Los archivos encontrados son: ");
+            var hoy = new Date();
+
+            fecha = hoy.getDate() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getFullYear() + ' ' + hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
 
             files.forEach(file => {
                     arr_files.push(file);
-                    console.log(file);
                 })
                 //res.send(arr_files);
-
+            console.log(JSON.stringify(arr_files));
             res.render("paginas/listaArchivos", {
                 arr_files: arr_files,
             })
@@ -146,8 +155,29 @@ app.get("/listadoArchivos", (req, res) => {
 
 app.get('/recursos_marca', function(req, res) {
 
-    res.sendFile(__dirname + "/vista/paginas/recursos/marca_final.png");
+    res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final.png");
 
+});
+
+
+app.post('/file/delete', function(req, res) {
+
+    var name = req.query;
+    console.log(name);
+
+    fs.unlink(path.join(__dirname + "/" + 'filesBipsUploads/' + name), (err) => {
+        if (err) {
+            console.log(err)
+            res.send({
+                status: 1,
+                msg: 'No se pudo borrar el archivo'
+            })
+        } else {
+            res.send({
+                status: 0
+            })
+        }
+    })
 });
 
 
