@@ -14,11 +14,11 @@
                 </tr>
             </thead>
             <tbody>
-                <% arr_files.forEach(arr_files => { %>
+                <% for(var i=0; i<arr_files.length; i++) { %>
 
                     <tr>
                         <td>
-                            <%= arr_files %>
+                            <%= arr_files[i] %>
                         </td>
                         <td>
                             <%= ".csv" %>
@@ -27,13 +27,13 @@
                             <%= "01/01/2021 - 31/03/2021" %>
                         </td>
                         <td>
-                            <form id="form_eliminacion" enctype="multipart/form-data" method="POST">
-                                <button class="btn btn-danger" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files %>">Eliminar
+                            <form id="form_eliminacion" method="POST">
+                                <button class="btn btn-danger" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i] %>">Eliminar
                                     </button>
                             </form>
                         </td>
                     </tr>
-                    <% })%>
+                    <% }%>
             </tbody>
         </table>
 
@@ -41,15 +41,16 @@
             $(document).ready(function() {
 
                 const $form_eliminar = document.querySelector('#form_eliminacion');
-
                 $form_eliminar.addEventListener('submit', (event) => {
-                    var name = document.getElementById('btn-eliminar').value;
+
                     event.preventDefault();
 
+                    var name = document.querySelector('#btn-eliminar').val;
+                    var url = '/file/delete/' + name;
                     $.ajax({
                         type: 'POST',
-                        url: '/file/delete',
-                        data: new FormData($form_eliminar),
+                        url: url,
+                        data: {},
                         contentType: false,
                         cache: false,
                         processData: false,
@@ -65,9 +66,12 @@
                         },
                         success: function(result) {
                             if (result.status == 0) {
-                                alert("El archivo se elimino correctamente." + result.status);
+
+                                alert("El archivo se elimino correctamente. " + result.status);
+                                location.reload(true);
+
                             } else {
-                                alert("No se puedo eliminar el archivo" + result.status);
+                                alert("No se puedo eliminar el archivo " + result.status);
                             }
 
 

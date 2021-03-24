@@ -139,10 +139,17 @@ app.get("/listadoArchivos", (req, res) => {
 
             fecha = hoy.getDate() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getFullYear() + ' ' + hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
 
-            files.forEach(file => {
-                    arr_files.push(file);
-                })
-                //res.send(arr_files);
+            /*files.forEach(file => {
+                arr_files.push(file);
+            });*/
+
+            for (let index = 0; index < files.length; index++) {
+
+                arr_files.push(files[index]);
+
+            };
+            //res.send(arr_files);
+
             console.log(JSON.stringify(arr_files));
             res.render("paginas/listaArchivos", {
                 arr_files: arr_files,
@@ -160,11 +167,11 @@ app.get('/recursos_marca', function(req, res) {
 });
 
 
-app.post('/file/delete', function(req, res) {
+app.post('/file/delete/:name', function(req, res) {
 
-    var name = req.query;
+    var name = req.params.name;
+    //console.log(req.body.name + " " + req.params.name + " " + req.query.name);
     console.log(name);
-
     fs.unlink(path.join(__dirname + "/" + 'filesBipsUploads/' + name), (err) => {
         if (err) {
             console.log(err)

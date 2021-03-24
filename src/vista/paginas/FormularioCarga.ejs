@@ -17,11 +17,11 @@
                             <div class="panel-body">
                                 <form>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12 col-sm-7">
 
                                         <label>Seleccionar IPS</label>
 
-                                        <select class="form-select" aria-label=".form-select-lg example">
+                                        <select class="form-select col-md-12 col-sm-7" aria-label=".form-select-lg example">
 
                                         <% listaIps.forEach(lista=> { %>                                    
                                             <option value="<%= lista.idips %>">
@@ -31,10 +31,10 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-6 col-sm-5">
                                         <label for="fecha_ini">Fecha inicial</label>
                                         <div>
-                                            <input type="text" name="txtfecha_inicial" value="01/01/2020" />
+                                            <input type="text" class="form-group col-md-12 col-sm-8" name="txtfecha_inicial" value="01/01/2020" />
                                             <script>
                                                 $(function() {
                                                     $('input[name="txtfecha_inicial"]').daterangepicker({
@@ -50,10 +50,10 @@
 
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-6 col-sm-5">
                                         <label for="fecha_ini">Fecha Final</label>
                                         <div>
-                                            <input type="text" name="txtfecha_fin" />
+                                            <input type="text" class="form-group col-md-12 col-sm-8" name="txtfecha_fin" />
                                             <script>
                                                 $(function() {
                                                     $('input[name="txtfecha_fin"]').daterangepicker({
@@ -80,7 +80,7 @@
                                 <div class="form-group row">
                                     <form id="formulario" enctype="multipart/form-data" method="POST" class="navbar-form navbar-left">
 
-                                        <input type="file" name="files" id="files">
+                                        <input type="file" name="files" id="files" class="form-group col-md-12 col-sm-8">
                                         <p>&nbsp;</p>
                                         <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
 
