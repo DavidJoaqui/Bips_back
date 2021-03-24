@@ -188,6 +188,11 @@ app.post('/file/delete/:name', function(req, res) {
 });
 
 
+app.get("/reportes", (req, res) => {
+    res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
+  });
+
+
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
 
 module.exports = app;
