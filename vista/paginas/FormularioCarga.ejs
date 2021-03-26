@@ -15,36 +15,27 @@
                             <div class="panel-heading">Carga Archivos Planos</div>
 
                             <div class="panel-body">
-                                <form>
+                                <form id="formulario_validacion" method="get">
 
                                     <div class="form-group col-md-12">
 
                                         <label>Seleccionar IPS</label>
 
-                                        <select class="form-select" aria-label=".form-select-lg example">
+                                        <select class="form-select" aria-label=".form-select-lg example" name="cbxips" id="cbxips">
 
-                                        <% listaIps.forEach(lista=> { %>                                    
-                                            <option value="<%= lista.idips %>">
-                                                <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
-                                            </option>                                 
-                                        <% }); %>
+                                            <% listaIps.forEach(lista=> { %>
+                                                <option value="<%= lista.codigo_ips %>">
+                                                    <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
+                                                </option>
+                                                <% }); %>
                                         </select>
                                     </div>
 
                                     <div class="form-group col-md-6">
                                         <label for="fecha_ini">Fecha inicial</label>
                                         <div>
-                                            <input type="text" name="txtfecha_inicial" value="01/01/2020" />
-                                            <script>
-                                                $(function() {
-                                                    $('input[name="txtfecha_inicial"]').daterangepicker({
-                                                        singleDatePicker: true,
-                                                        showDropdowns: true,
-                                                        minYear: 2018,
-                                                        maxYear: moment()
-                                                    });
-                                                });
-                                            </script>
+                                            <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="2020-01-01" min="2018-01-01" max="2021-12-31">
+                                           
 
                                         </div>
 
@@ -53,18 +44,8 @@
                                     <div class="form-group col-md-6">
                                         <label for="fecha_ini">Fecha Final</label>
                                         <div>
-                                            <input type="text" name="txtfecha_fin" />
-                                            <script>
-                                                $(function() {
-                                                    $('input[name="txtfecha_fin"]').daterangepicker({
-                                                        singleDatePicker: true,
-                                                        showDropdowns: true,
-                                                        minYear: 2018,
-                                                        maxYear: moment()
-                                                    });
-                                                });
-                                            </script>
-
+                                            <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="2020-02-15" min="2018-01-01" max="2021-12-31">
+                                            
                                         </div>
 
                                     </div>
@@ -72,17 +53,26 @@
 
                                     <div class="form-group col-md-12" style="text-align: center;">
                                         <div>
-                                            <button type="submit" class="btn btn-primary">Consultar Registros</button>
+                                            <button class="btn btn-primary">Consultar Registros</button>
                                         </div>
+                                    </div>
+
+
+                                    <div class="preview">
+                                        <div id="datos_val"></div>
                                     </div>
                                 </form>
 
+
+
                                 <div class="form-group row">
-                                    <form id="formulario" enctype="multipart/form-data" method="POST" class="navbar-form navbar-left">
+                                    <form id="formulario" enctype="multipart/form-data" method="POST"
+                                        class="navbar-form navbar-left">
 
                                         <input type="file" name="files" id="files" multiple>
                                         <p>&nbsp;</p>
-                                        <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
+                                        <button class="btn btn-primary btn-md" id="btn-subir" name="btn-subir"
+                                            >Subir</button>
 
                                         <div class="preview">
                                             <div id="datos"></div>
@@ -104,20 +94,22 @@
 
                 <div class="col-md-8">
                     <div class="col-md-12 embed-responsive embed-responsive-16by9">
-                        <iframe src="listadoArchivos" title="Archivos cargados" class="embed-responsive-item" name="iframe_arch" id="iframe_arch" hidden>
+                        <iframe src="listadoArchivos" title="Archivos cargados" class="embed-responsive-item"
+                            name="iframe_arch" id="iframe_arch" hidden>
                         </iframe>
                     </div>
                 </div>
 
+               
             </div>
 
             <script>
-                $(document).ready(function() {
+                $(document).ready(function () {
 
                     const $form = document.querySelector('#formulario');
+                    const $form_val = document.querySelector('#formulario_validacion');
 
-
-                    $("#files").change(function() {
+                    $("#files").change(function () {
                         $("#btn-subir").prop("disabled", this.files.length == 0);
                     });
 
@@ -134,17 +126,17 @@
                             cache: false,
                             processData: false,
 
-                            beforeSend: function() {
+                            beforeSend: function () {
                                 $('#datos').html('<p>Procesando...</p>');
                             },
-                            error: function() {
+                            error: function () {
                                 $('#datos').html('<p>Error intente de nuevo...</p>');
                             },
-                            success: function(result) {
+                            success: function (result) {
 
                                 $('#formulario')[0].reset();
                                 //$('#datos').html('');
-                                $('#btn-subir').attr("disabled", true);
+                                //$('#btn-subir').attr("disabled", true);
 
                                 $('#datos').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>' + JSON.stringify(result['respuesta']) + '</p>');
 
@@ -159,7 +151,56 @@
 
                     });
 
+
+                    $form_val.addEventListener('submit', (event) => {
+
+                        event.preventDefault();      
+                        const peticion = "/validar-registros-ap/"+$('#cbxips').val()+"?fecha_inicial='"+$('#txtfecha_inicial').val()+"'&fecha_fin='"+$('#txtfecha_fin').val()+"'";
+
+                        $.ajax({
+                            type: 'get',
+                            url: peticion,
+                            data: [],
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+
+                           /* beforeSend: function () {
+                                $('#datos_val').html('<p>Procesando...</p>');
+                            },
+                            error: function () {
+                                $('#datos_val').html('<p>Error intente de nuevo...</p>');
+                            },*/
+                            
+                            success: function (result) {                                                         
+                                //$('#formulario_validacion')[0].reset();
+                                //$('#datos').html('');
+                                //$('#btn-subir').attr("disabled", true);
+
+                                //$('#datos_val').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>' + JSON.stringify(result['respuesta'][0]) + '</p>');
+                                                        
+                                if(result>0){
+                                    //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
+                                    alert("La IPS "+$('#cbxips').val()+" tiene Registros de Archivos Planos para el Rango de Fecha: "+$('#txtfecha_inicial').val()+" hasta "+$('#txtfecha_fin').val());
+                                    $('#btn-subir').attr("disabled", true);
+                                }else {
+                                    $('#btn-subir').attr("disabled", false);
+                                    alert("No Tiene registros ");
+                                    
+                                }
+                                
+                            }
+
+                        });
+
+                    });
+
+
+
                 });
+
+
+
             </script>
 
         </div>

@@ -30,7 +30,7 @@ app.use(bodyParser.json())
 const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
         cb("", file.originalname);
     }
@@ -54,15 +54,15 @@ const modelbips = require("./models/modelModel");
 //                                                                                                            //      
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.get('/obtenerRegistrosPlanos', function(req, res) {
+app.get('/obtenerRegistrosPlanos', function (req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
 
-            console.log(registroplanos);
+        console.log(registroplanos);
 
-            res.render("paginas/RegistrosPlanos", {
-                registroplanos: registroplanos,
-            });
-        })
+        res.render("paginas/RegistrosPlanos", {
+            registroplanos: registroplanos,
+        });
+    })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -70,43 +70,35 @@ app.get('/obtenerRegistrosPlanos', function(req, res) {
 });
 
 
-app.get('/obtenerIps', function(req, res) {
+app.get('/obtenerIps', function (req, res) {
+
     modelbips.obtenerIps().then(listaIps => {
 
-            res.render("paginas/FormularioCarga", {
-                listaIps: listaIps,
-            });
-        })
+        res.render("paginas/FormularioCarga", {
+            listaIps: listaIps,
+
+        });
+
+    })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
         });
 });
 
-app.get('/validarRegistrosAP/:idips', function(req, res) {
-    modelbips.obtenerIps(req.params.idips).then(listaRegIps => {
-            if (listaRegIps) res.render("paginas/FormularioCarga", {
-                listaRegIps: listaRegIps,
-            });
-            else {
-                return res.status(500).send("No existe registros");
-            }
-
-        })
-        .catch(err => {
-            console.log(err);
-            return res.status(500).send("Error obteniendo registros");
-        });
+app.get('/validar-registros-ap/:ips', async function (req, res, next) {
+    modelbips.validarRegistrosAP(req.params.ips, req.query.fecha_inicial, req.query.fecha_fin).then(validaregistros => {
+        const respuesta = validaregistros.rows[0].total_reg;
+        console.log(respuesta);
+        res.setHeader('Content-type', 'text/javascript');
+        res.send(respuesta);
+    })
+        ;
 });
 
-
-
-app.get('/cargar', function(req, res) {
-
+app.get('/cargar', function (req, res) {
     console.log(req);
-
     res.render("paginas/FormularioCarga");
-
 });
 
 
@@ -130,10 +122,10 @@ app.get("/listadoArchivos", (req, res) => {
             console.log("Los archivos encontrados son: ");
 
             files.forEach(file => {
-                    arr_files.push(file);
-                    console.log(file);
-                })
-                //res.send(arr_files);
+                arr_files.push(file);
+                console.log(file);
+            })
+            //res.send(arr_files);
 
             res.render("paginas/listaArchivos", {
                 arr_files: arr_files,
@@ -144,13 +136,9 @@ app.get("/listadoArchivos", (req, res) => {
 
 });
 
-app.get('/recursos_marca', function(req, res) {
-
+app.get('/recursos_marca', function (req, res) {
     res.sendFile(__dirname + "/vista/paginas/recursos/marca_final.png");
-
 });
 
-
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
-
 module.exports = app;
