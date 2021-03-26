@@ -1,41 +1,48 @@
 <%- include("header"); %>
     <%- include("head"); %>
-        <div class="col-12">
-            <h1>Registros</h1>
 
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Codigo IPS</th>
-                        <th>Fecha inicial</th>
-                        <th>Fecha final</th>
-                        <th>Acciones</th>
+        <div class="container-fluid">
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <% registroplanos.forEach(registroplanos => { %>
-                        <tr>
-                            <td>
-                                <%= registroplanos.ips %>
-                            </td>
-                            <td>
-                                <%= registroplanos.fecha_inicio.toLocaleDateString() %>
-                            </td>
-                            <td>
-                                <%= registroplanos.fecha_final.toLocaleDateString()  %>
-                            </td>
-                            <td>
+            <div class="container" style="margin-top:70px">
+
+                <div class="col-12">
+                    <h1>Registros</h1>
+
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Codigo IPS</th>
+                                <th>Fecha inicial</th>
+                                <th>Fecha final</th>
+                                <th>Acciones</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% registroplanos.forEach(registroplanos => { %>
+                                <tr>
+                                    <td>
+                                        <%= registroplanos.ips %>
+                                    </td>
+                                    <td>
+                                        <%= registroplanos.fecha_inicio.toLocaleDateString() %>
+                                    </td>
+                                    <td>
+                                        <%= registroplanos.fecha_final.toLocaleDateString()  %>
+                                    </td>
+                                    <td>
 
 
-                                <a href="#" class="btn btn-primary">
+                                        <a href="#" class="btn btn-primary">
                         Eliminar
                     </a>
-                            </td>
-                        </tr>
-                        <% })%>
-                </tbody>
-            </table>
+                                    </td>
+                                </tr>
+                                <% })%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <%- include("footer"); %>
