@@ -133,19 +133,6 @@ app.get("/listadoArchivos", (req, res) => {
                 arr_files.push(file);
                 console.log(file);
             })
-            //res.send(arr_files);
-
-            /*files.forEach(file => {
-                arr_files.push(file);
-            });*/
-
-            for (let index = 0; index < files.length; index++) {
-
-                arr_files.push(files[index]);
-
-            };
-            //res.send(arr_files);
-
             console.log(JSON.stringify(arr_files));
             res.render("paginas/listaArchivos", {
                 arr_files: arr_files,
