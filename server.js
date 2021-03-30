@@ -30,11 +30,11 @@ app.set("view engine", "ejs");
 const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
         const ext = path.extname(file.originalname);
-        if (ext !== '.csv') {
-            return cb(new Error('Solo se permiten archivos .CSV'));
+        if (ext !== '.txt') {
+            return cb(new Error('Solo se permiten archivos .txt'));
         } else {
             cb("", file.originalname);
         }
@@ -59,15 +59,15 @@ const modelbips = require("./models/modelModel");
 //                                                                                                            //      
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.get('/obtenerRegistrosPlanos', function (req, res) {
+app.get('/obtenerRegistrosPlanos', function(req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
 
-        console.log(registroplanos);
+            console.log(registroplanos);
 
-        res.render("paginas/RegistrosPlanos", {
-            registroplanos: registroplanos,
-        });
-    })
+            res.render("paginas/RegistrosPlanos", {
+                registroplanos: registroplanos,
+            });
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -75,33 +75,32 @@ app.get('/obtenerRegistrosPlanos', function (req, res) {
 });
 
 
-app.get('/obtenerIps', function (req, res) {
+app.get('/obtenerIps', function(req, res) {
 
     modelbips.obtenerIps().then(listaIps => {
 
-        res.render("paginas/FormularioCarga", {
-            listaIps: listaIps,
+            res.render("paginas/FormularioCarga", {
+                listaIps: listaIps,
 
-        });
+            });
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
         });
 });
 
-app.get('/validar-registros-ap/:ips', async function (req, res, next) {
+app.get('/validar-registros-ap/:ips', async function(req, res, next) {
     modelbips.validarRegistrosAP(req.params.ips, req.query.fecha_inicial, req.query.fecha_fin).then(validaregistros => {
         const respuesta = validaregistros.rows[0].total_reg;
         console.log(respuesta);
         res.setHeader('Content-type', 'text/javascript');
         res.send(respuesta);
-    })
-        ;
+    });
 });
 
-app.get('/cargar', function (req, res) {
+app.get('/cargar', function(req, res) {
     console.log(req);
     res.render("paginas/FormularioCarga");
 });
@@ -109,7 +108,7 @@ app.get('/cargar', function (req, res) {
 
 app.post("/files", upload.array('files', 1), (req, res, err) => {
 
-
+    //console.log(req.body);
     res.setHeader('Content-type', 'application/json');
     console.log(path.join(__dirname));
     console.log("OK...ruta uploads");
@@ -118,7 +117,7 @@ app.post("/files", upload.array('files', 1), (req, res, err) => {
 
 app.get("/listadoArchivos", (req, res) => {
 
-    fs.readdir(path.join(__dirname, 'filesBipsUploads'), (err, files) => {
+    fs.readdir(path.join(__dirname, 'filesBipsUploads'), { withFileTypes: true }, (err, files) => {
 
         const arr_files = new Array();
 
@@ -127,13 +126,12 @@ app.get("/listadoArchivos", (req, res) => {
             res.send('{"estado":"500" ,"respuesta": "Error", "err":"' + err + '"}');
         } else {
             console.log("Los archivos encontrados son: ");
-            var hoy = new Date();
-
+            var fecha = new Date();
+            console.log(fecha);
             files.forEach(file => {
                 arr_files.push(file);
                 console.log(file);
             })
-            console.log(JSON.stringify(arr_files));
             res.render("paginas/listaArchivos", {
                 arr_files: arr_files,
             })
@@ -154,7 +152,7 @@ app.post('/file/delete/:name', function(req, res) {
 
     var name = req.params.name;
     //console.log(req.body.name + " " + req.params.name + " " + req.query.name);
-    console.log(name);
+    //console.log(name);
     fs.unlink(path.join(__dirname + "/" + 'filesBipsUploads/' + name), (err) => {
         if (err) {
             console.log(err)
@@ -163,9 +161,26 @@ app.post('/file/delete/:name', function(req, res) {
                 msg: 'No se pudo borrar el archivo'
             })
         } else {
-            res.send({
-                status: 0
-            })
+            //res.status("200").send("OK");
+
+            fs.readdir(path.join(__dirname, 'filesBipsUploads'), { withFileTypes: true }, (err, files) => {
+
+                const arr_files = new Array();
+
+                if (err) {
+                    res.send('{"estado":"500" ,"respuesta": "Error", "err":"' + err + '"}');
+                } else {
+                    console.log("Los archivos encontrados despues de eliminar son : ");
+                    files.forEach(file => {
+                        arr_files.push(file);
+                        console.log(file);
+                    })
+                    res.render("paginas/listaArchivos", {
+                        arr_files: arr_files,
+                    })
+                }
+            });
+
         }
     })
 });
@@ -173,7 +188,7 @@ app.post('/file/delete/:name', function(req, res) {
 
 app.get("/reportes", (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
-  });
+});
 
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));

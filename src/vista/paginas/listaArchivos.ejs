@@ -17,70 +17,29 @@
 
                     <tr>
                         <td>
-                            <%= arr_files[i] %>
+                            <%= arr_files[i]['name'] %>
                         </td>
                         <td>
-                            <%= ".csv" %>
+                            <%= ".txt" %>
                         </td>
                         <td>
                             <%= "01/01/2021 - 31/03/2021" %>
                         </td>
                         <td>
-                            <form id="form_eliminacion" method="POST">
-                                <button class="btn btn-danger" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i] %>">Eliminar
+                            <form id="form_eliminacion" method="POST" action="/file/delete/<%= arr_files[i]['name'] %>">
+                                <button type="submit" class="btn btn-danger" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Eliminar
                                     </button>
                             </form>
+
+                            <form>
+                                <button type="submit" class="btn btn-success" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Cargar
+                                    </button>
+                            </form>
+
                         </td>
                     </tr>
                     <% }%>
             </tbody>
         </table>
 
-        <script>
-            $(document).ready(function() {
-
-                const $form_eliminar = document.querySelector('#form_eliminacion');
-                $form_eliminar.addEventListener('submit', (event) => {
-
-                    event.preventDefault();
-
-                    var name = document.querySelector('#btn-eliminar').val;
-                    var url = '/file/delete/' + name;
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        data: {},
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-
-                        beforeSend: function() {
-                            //$('#datos').html('<p>Procesando...</p>');
-                        },
-                        error: function() {
-                            //$('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> Solo se permiten archivos .csv');
-                            //$('#formulario')[0].reset();
-                            alert("ocurrio un error");
-
-                        },
-                        success: function(result) {
-                            if (result.status == 0) {
-
-                                alert("El archivo se elimino correctamente. " + result.status);
-                                location.reload(true);
-
-                            } else {
-                                alert("No se puedo eliminar el archivo " + result.status);
-                            }
-
-
-                        }
-
-                    });
-
-                });
-
-
-            });
-        </script>
     </div>
