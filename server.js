@@ -14,6 +14,7 @@ const path = require('path');
 var moment = require('moment');
 
 
+
 const app = express();
 
 //app.use(express.urlencoded);
@@ -92,6 +93,27 @@ app.get('/obtenerIps', function (req, res) {
 });
 
 app.get('/validar-registros-ap/:ips', async function (req, res, next) {
+    //var exec = require('shelljs.exec');
+   //var sh = require('execSync');
+
+    const execSync = require('child_process').execSync;
+    var code = execSync('node -v', {encoding: 'utf8', timeout: 10000});    
+    console.log('respuesta comando prueba'+code);
+
+    var prueba_2 = execSync('cd '+ path.join(__dirname)+";git describe", {encoding: 'utf8', timeout: 10000});
+    console.log('la version actual de la aplicacion es: '+ prueba_2);
+
+    //var prueba_3 = execSync('cd /var/lib/data-integration/; sh pan.sh -version;', {encoding: 'utf8', timeout: 10000});
+    var prueba_3 = execSync('sh /var/lib/data-integration/kitchen.sh -file="/archivos_bips/Trans_Archivos_Planos/Job_reporte2193.kjb" -level=Nothing >> /archivos_bips/trans.log;', {encoding: 'utf8', timeout: 10000});
+    
+    
+
+    //console.log('ls : '+ prueba_3);
+
+    //var result = sh.exec('node -v');
+    //console.log('return code ' + result.code);
+    //console.log('stdout + stderr ' + result.stdout);
+
     modelbips.validarRegistrosAP(req.params.ips, req.query.fecha_inicial, req.query.fecha_fin).then(validaregistros => {
         const respuesta = validaregistros.rows[0].total_reg;
         console.log(respuesta);
