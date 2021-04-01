@@ -1,5 +1,5 @@
 <%- include("head"); %>
-    <div class="col-12">
+    <div class="col-md-12">
         <h1 style="color: grey;">Archivos planos cargados</h1>
 
         <table class="table table-bordered table-striped">
@@ -26,6 +26,7 @@
                             <%= "01/01/2021 - 31/03/2021" %>
                         </td>
                         <td>
+                            <div class="btn-group btn-group-xs"> 
                             <form id="form_eliminacion" method="POST" action="/file/delete/<%= arr_files[i]['name'] %>">
                                 <button type="submit" class="btn btn-danger" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Eliminar
                                     </button>
@@ -35,6 +36,7 @@
                                 <button type="submit" class="btn btn-success" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Cargar
                                     </button>
                             </form>
+                        </div>
 
                         </td>
                     </tr>
@@ -43,3 +45,5 @@
         </table>
 
     </div>
+
+    <script></script>
