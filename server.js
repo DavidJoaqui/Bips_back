@@ -12,8 +12,8 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 var moment = require('moment');
-var flash = require('flash-express');
-
+const flash=require('express-flash-messages') 
+const session = require('express-session')
 
 const app = express();
 
@@ -24,6 +24,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'src/vista'));
 app.set("view engine", "ejs");
+app.use(session({
+    secret: 'secret'
+  }))
 app.use(flash());
 
 // parse application/json
@@ -169,6 +172,8 @@ app.get('/cargar', function(req, res) {
 
 app.post("/files", upload.array('files', 10), (req, res, err) => {
 
+    //se debe registrar en bd los datos de los archivos cargados (periodo,mimetype,ips)
+
     //console.log(req.body);
     res.setHeader('Content-type', 'application/json');
     console.log(path.join(__dirname));
@@ -236,7 +241,10 @@ app.post('/file/delete/:name', function(req, res) {
                         arr_files.push(file);
                         console.log(file);
                     });
-                    res.flash('El archivo se elimino correctamente..','info');
+                    /*Se debe elimnar tambien el registro de la BD cuando se elimine un archivo plano cargado para determinado periodo de tiempo*/
+
+
+                    req.flash('notify','El archivo se elimino correctamente..');
                     res.render("paginas/listaArchivos", {
                         arr_files: arr_files,
                     })
