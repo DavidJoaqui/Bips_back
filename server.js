@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 var moment = require('moment');
-const flash=require('express-flash-messages') 
+const flash = require('express-flash-messages')
 const session = require('express-session')
 
 const app = express();
@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, 'src/vista'));
 app.set("view engine", "ejs");
 app.use(session({
     secret: 'secret'
-  }))
+}))
 app.use(flash());
 
 // parse application/json
@@ -96,46 +96,47 @@ app.get('/obtenerIps', function(req, res) {
         });
 });
 
-app.get('/validar-registros-ap/:ips', async function (req, res, next) {
+app.get('/validar-registros-ap/:ips', async function(req, res, next) {
     //var exec = require('shelljs.exec');
-   //var sh = require('execSync');
- 
+    //var sh = require('execSync');
+
     const execSync = require('child_process').execSync;
     const exec = require('child_process').exec;
     const spawn = require('child_process').spawn;
-    var code = execSync('node -v', {encoding: 'utf8', timeout: 10000});    
-    console.log('respuesta comando prueba '+code);
+    /*
+    var code = execSync('node -v', { encoding: 'utf8', timeout: 10000 });
+    console.log('respuesta comando prueba ' + code);
 
-    var prueba_2 = execSync('cd '+ path.join(__dirname)+";git describe", {encoding: 'utf8', timeout: 10000, shell : true});
-    console.log('la version actual de la aplicacion es: '+ prueba_2);
+    var prueba_2 = execSync('cd ' + path.join(__dirname) + ";git describe", { encoding: 'utf8', timeout: 10000, shell: true });
+    console.log('la version actual de la aplicacion es: ' + prueba_2);
 
-   
-  
+
+
     //var prueba_3 = spawn('cd /var/lib/data-integration/; sh pan.sh -file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr" -level=Error >> /archivos_bips/trans.log;', {encoding: 'utf8', stdio: 'ignore'});
     //const spawn_pr = spawn('sh pan.sh',['-file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr']);
     console.log(__dirname);
     //const spawn_pr = spawn('sh',['/var/lib/data-integration/pan.sh','-file=src/IntegracionKtr/Trans_archivosPlanos.ktr','-level=Minimal','logfile=./archivos_bips/trans.log']);
     //const spawn_pr = spawn('ls',['-ltr','/var/lib/data-integration']);
-    const spawn_pr = spawn('ls',['-ltr']);
+    const spawn_pr = spawn('ls', ['-ltr']);
     spawn_pr.stdout.pipe(process.stdout);
-    spawn_pr.stdout.on('data',data => {
+    spawn_pr.stdout.on('data', data => {
         console.log(`stdout:\n${data}`)
-    }
-        );
+    });
     spawn_pr.stderr.on('data', (data) => {
         console.error(`stderr: ${data}`);
-      });
+    });
 
-      spawn_pr.on('close', (code) => {
+    spawn_pr.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
 
-        if(code == '0'){
-            console.log("La transformacion se ejecuto con exito... estado: "+code);
+        if (code == '0') {
+            console.log("La transformacion se ejecuto con exito... estado: " + code);
+        } else {
+            console.error('Ocurrio un problema con la ejecucion de la transformacion ' + code);
         }
-        else{
-            console.error('Ocurrio un problema con la ejecucion de la transformacion '+code);
-        }
-      });
+    });
+
+    */
     //console.log(prueba_3);
     //process.stdout.write('salida'+prueba_3);
     //process.error.write('error'+prueba_3);
@@ -143,11 +144,11 @@ app.get('/validar-registros-ap/:ips', async function (req, res, next) {
 
 
 
-    
+
     //const {error , stdout, stderr } = await exec('sh /var/lib/data-integration/kitchen.sh -file="/archivos_bips/Trans_Archivos_Planos/Job_reporte2193.kjb" -level=Nothing >> /archivos_bips/trans.log;', {encoding: 'utf8', timeout: 10000, shell : true});
-    
+
     //const {error , stdout, stderr } = await exec('node -v', {encoding: 'utf8', timeout: 10000});
-    
+
     //console.log('error: ', error );
     //console.log('salida: ', stdout );
     //console.log('stderr: ', stderr );
@@ -214,7 +215,7 @@ app.get('/recursos_marca', function(req, res) {
 });
 
 
-app.post('/file/delete/:name', function(req, res) {
+app.post('/file/delete/:name/archivos-bips', function(req, res) {
 
     var name = req.params.name;
     //console.log(req.body.name + " " + req.params.name + " " + req.query.name);
@@ -244,7 +245,7 @@ app.post('/file/delete/:name', function(req, res) {
                     /*Se debe elimnar tambien el registro de la BD cuando se elimine un archivo plano cargado para determinado periodo de tiempo*/
 
 
-                    req.flash('notify','El archivo se elimino correctamente..');
+                    req.flash('notify', 'El archivo plano ' + name + ' se eliminó correctamente...');
                     res.render("paginas/listaArchivos", {
                         arr_files: arr_files,
                     })

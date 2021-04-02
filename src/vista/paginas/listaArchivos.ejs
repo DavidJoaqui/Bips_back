@@ -8,12 +8,12 @@
             <% if (m.notify) { %>
                 <div class="container">
                     <div class="alert alert-success alert-dismissible fade in">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <% m.notify.forEach((element)=> { %>
-                        <strong>OK!</strong>
-                        <%= element %>
-                            <% }) %>
-                        </div>
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <% m.notify.forEach((element)=> { %>
+                            <strong>OK!</strong>
+                            <%= element %>
+                                <% }) %>
+                    </div>
                 </div>
                 <% } %>
 
@@ -46,16 +46,13 @@
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-xs">
-                                            <form id="form_eliminacion" method="POST"
-                                                action="/file/delete/<%= arr_files[i]['name'] %>">
-                                                <button type="submit" class="btn btn-danger btn-sm" id="btn-eliminar"
-                                                    name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Eliminar
+                                            <form id="form_eliminacion" method="POST" action="/file/delete/<%= arr_files[i]['name'] %>/archivos-bips">
+                                                <button type="submit" class="btn btn-danger btn-sm" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Eliminar
                                                 </button>
                                             </form>
 
                                             <form>
-                                                <button type="submit" class="btn btn-success btn-sm" id="btn-eliminar"
-                                                    name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Cargar
+                                                <button type="submit" class="btn btn-success btn-sm" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Cargar
                                                 </button>
                                             </form>
                                         </div>
