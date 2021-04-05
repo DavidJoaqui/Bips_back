@@ -1,11 +1,12 @@
-<%- include("header"); %>
-    <%- include("head"); %>
+<%- include("head"); %>
+    <%- include("header"); %>
+
         <div class="container-fluid">
 
-            <div class="row" style="margin-top:70px">
+            <div class="row" style="margin-top:30px">
 
 
-                <div class="col-md-3" style="margin-top:30px;margin-left: 20px;">
+                <div class="col-md-3" style="margin-top:45px;margin-left: 15px;">
 
                     <div class="form-group row">
 
@@ -15,44 +16,45 @@
                             <div class="panel-heading">Carga Archivos Planos</div>
 
                             <div class="panel-body">
-                                <form id="formulario_validacion" method="get">
+
+                                <form id="formulario" enctype="multipart/form-data" method="POST">
+
+
 
                                     <div class="form-group">
+                                        <label>Seleccionar IPS</label>
 
-                                        <div class="form-group col-xs-12">
-                                            <label>Seleccionar IPS</label>
 
-                                            <select class="form-select form-group form-control col-xs-6 col-md-6" name="cbxips" id="cbxips">
+                                        <input type="text" name="nombre_ips" id="nombre_ips" value="" hidden>
 
-                                            <% listaIps.forEach(lista=> { %>
+                                        <select class="form-select form-group form-control input-sm" name="cbxips" id="cbxips" data-toggle="tooltip" title="Seleccionar IPS!" data-placement="right" required>
+                                            <option selected="selected" value="">Seleccionar Ips</option>
+                                            <% listaIps.forEach(lista=> { %>                                                
                                                 <option value="<%= lista.codigo_ips %>">
                                                     <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
                                                 </option>
                                                 <% }); %>
-                                        </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="form-group col-md-6 col-xs-12">
-                                                <label for="fecha_ini">Fecha inicial</label>
-                                                <div>
-                                                    <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="2020-01-01" min="2018-01-01" max="2021-12-31">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group col-md-6 col-xs-12">
-                                                <label for="fecha_ini">Fecha Final</label>
-                                                <div>
-                                                    <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="2020-02-15" min="2018-01-01" max="2021-12-31">
-                                                </div>
+                                            </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-group col-md-6 col-xs-12">
+                                            <label for="fecha_ini">Fecha inicial</label>
+                                            <div>
+                                                <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" required>
                                             </div>
                                         </div>
 
+                                        <div class="form-group col-md-6 col-xs-12">
+                                            <label for="fecha_ini">Fecha Final</label>
+                                            <div>
+                                                <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" required>
+                                            </div>
+                                        </div>
                                     </div>
 
-
-                                    <div class="form-group col-md-12" style="text-align: center;">
+                                    <div class="form-group">
                                         <div>
-                                            <button class="btn btn-primary btn-sm">Consultar Registros</button>
+                                            <input type="button" style="font-weight: bold;" class="btn btn-success btn-sm btn-block" onclick="validar_registros()" value="Consultar Registros">
                                         </div>
                                     </div>
 
@@ -60,23 +62,19 @@
                                     <div class="preview">
                                         <div id="datos_val"></div>
                                     </div>
-                                </form>
 
+                                    <div class="form-group">
 
+                                        <input type="file" name="files" id="files" class="form-group" disabled="disabled" multiple>
 
-                                <div class="form-group row">
-                                    <form id="formulario" enctype="multipart/form-data" method="POST" class="navbar-form navbar-left">
-
-                                        <input type="file" name="files" id="files" class="form-group col-md-12 col-sm-8" disabled="disabled" multiple>
-                                        <p>&nbsp;</p>
-                                        <button class="btn btn-success btn-sm" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
+                                        <button class="btn btn btn-primary btn-sm" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
 
                                         <div class="preview">
                                             <div id="datos"></div>
                                         </div>
-                                    </form>
-                                </div>
 
+                                    </div>
+                                </form>
 
                             </div>
 
@@ -88,85 +86,48 @@
                 </div>
 
 
-                <div class="col-md-8">
-                    <div class="col-md-12 embed-responsive embed-responsive-4by3">
-                        <iframe src="listadoArchivos" title="Archivos cargados" class="embed-responsive-item" name="iframe_arch" id="iframe_arch">
+                <div class="col-md-8" id="lista_archivos" name="lista_archivos">
+
+                    <iframe src="/listadoArchivos" title="Archivos cargados" class="" scrolling="" width="100%" height="700" frameborder="0" name="iframe_arch" id="iframe_arch">
                         </iframe>
-                    </div>
-                    
+
+
                 </div>
 
 
             </div>
 
-            <script>
-                $(document).ready(function() {
+            <script type="text/javascript">
+                function validar_registros() {
 
-                    const $form = document.querySelector('#formulario');
-                    const $form_val = document.querySelector('#formulario_validacion');
+                    event.preventDefault();
 
-                    $("#files").change(function() {
-                        $("#btn-subir").prop("disabled", this.files.length == 0);
-                    });
+                    if (($('#cbxips').val() == "")) {
+                        setTimeout(function() {
+                            $('#cbxips').tooltip();
+                            $('#cbxips').focus();
 
-                    $("#cbxips").change(function() {
-                        $("#btn-subir").prop("disabled", true);
-                        $('#files').attr("disabled", true);
-                    });
+                        })
+                    } else if ($('#txtfecha_inicial').val() == "") {
+                        $('#txtfecha_inicial').tooltip();
+                        $('#txtfecha_inicial').focus();
 
-                    $form.addEventListener('submit', (event) => {
+                    } else if (($('#txtfecha_fin').val()) == "") {
+                        $('#txtfecha_fin').tooltip();
+                        $('#txtfecha_fin').focus();
 
-                        event.preventDefault();
+                    } else if (new Date($('#txtfecha_fin').val()) < new Date($('#txtfecha_inicial').val())) {
+                        $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> La fecha final no puede ser menor a la fecha inicial</p>');
 
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '/files',
-                            data: new FormData($form),
-                            contentType: false,
-                            cache: false,
-                            processData: false,
-
-                            beforeSend: function() {
-                                $('#datos').html('<p>Procesando...</p>');
-                            },
-                            error: function() {
-                                $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> Solo se permiten archivos .txt');
-                                $('#formulario')[0].reset();
-
-                            },
-                            success: function(result) {
-
-                                $('#formulario')[0].reset();
-                                //$('#datos').html('');
-                                //$('#btn-subir').attr("disabled", true);
-                                if (result['estado'] == '200') {
-                                    $('#datos').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>La operacion se ejecuto con exito...</p>');
-                                    console.log(JSON.stringify(result['respuesta']));
-                                    $("#iframe_arch").show();
-                                    var iframe = document.getElementById('iframe_arch')
-                                    $('#iframe_arch').attr("src", iframe.src);
-                                    $("#btn-subir").prop("disabled", true);
-                                    $('#files').attr("disabled", true);
-                                    //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
-                                    console.log("Se debe persistir en BD: id_ips "+$('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
-                                    alert("Los archivos se cargaron correctamente!");
-
-                                    
-                                } else {
-                                    alert("ocurrio un error...");
-                                }
-
-                            }
-
-                        });
-
-                    });
+                        setTimeout(function() {
+                            $('#datos').fadeOut('fast');
+                        }, 5000);
 
 
-                    $form_val.addEventListener('submit', (event) => {
+                        $('#datos').show();
 
-                        event.preventDefault();
+                    } else {
+
                         const peticion = "/validar-registros-ap/" + $('#cbxips').val() + "?fecha_inicial='" + $('#txtfecha_inicial').val() + "'&fecha_fin='" + $('#txtfecha_fin').val() + "'";
 
                         $.ajax({
@@ -204,8 +165,90 @@
                             }
 
                         });
+                    }
+
+                };
+
+                $(document).ready(function() {
+
+                    const $form = document.querySelector('#formulario');
+                    //const $form_val = document.querySelector('#formulario_validacion');
+
+                    $("#files").change(function() {
+                        $("#btn-subir").prop("disabled", this.files.length == 0);
+                    });
+
+                    $("#cbxips").change(function() {
+                        $("#btn-subir").prop("disabled", true);
+                        $('#files').attr("disabled", true);
+                        $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                        $('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    });
+
+                    $form.addEventListener('submit', (event) => {
+
+                        event.preventDefault();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/files',
+                            data: new FormData($form),
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+
+                            beforeSend: function() {
+                                $('#datos').html('<p>Procesando...</p>');
+                            },
+                            error: function() {
+                                $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> Solo se permiten archivos .txt</p>');
+
+                                setTimeout(function() {
+                                    $('#datos').fadeOut('fast');
+                                }, 5000);
+
+                                $('#datos').show();
+
+                                //$('#formulario')[0].reset();
+
+                            },
+                            success: function(result) {
+
+
+                                //$('#datos').html('');
+                                //$('#btn-subir').attr("disabled", true);
+                                if (result['estado'] == '200') {
+                                    $('#datos').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>La operacion se ejecuto con exito...</p>');
+                                    console.log(JSON.stringify(result['respuesta']));
+                                    var iframe = document.getElementById('iframe_arch')
+
+                                    $("#btn-subir").prop("disabled", true);
+                                    $('#files').attr("disabled", true);
+                                    //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
+                                    console.log("Se debe persistir en BD: id_ips " + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
+                                    alert("Los archivos se cargaron correctamente!");
+                                    $('#formulario')[0].reset();
+                                    $('#iframe_arch').attr("src", iframe.src);
+                                    $("#iframe_arch").show();
+
+                                    setTimeout(function() {
+                                        $('#datos').fadeOut('fast');
+                                    }, 5000);
+                                    $('#datos').show();
+
+
+                                } else {
+                                    alert("ocurrio un error...");
+                                }
+
+                            }
+
+                        });
 
                     });
+
+
+
 
 
 
