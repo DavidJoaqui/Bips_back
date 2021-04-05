@@ -1,6 +1,5 @@
 <%- include("head"); %>
     <%- include("styles_gral"); %>
-
         <div class="col-md-12" id="lista_archivos" name="lista_archivos">
             <% const m=getMessages() %>
 
@@ -72,8 +71,9 @@
                                         </td>
                                         <td>
                                             <div class="btn-group btn-group-xs">
-                                                <form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">
-                                                    <button type="submit" class="btn btn-danger btn-sm" value="<%= arr_files[i].nombre_original %>">Eliminar
+                                                <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
+                                                <form method="get" action="/eliminar-popup">
+                                                    <button type="submit" value="<%= arr_files[i].nombre_original %>">Eliminar
                                                 </button>
                                                 </form>
 

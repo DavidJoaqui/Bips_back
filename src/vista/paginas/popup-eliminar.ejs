@@ -1,0 +1,39 @@
+<%- include("head"); %>
+    <%- include("styles_gral"); %>
+
+
+        <div class="overlay" id="overlay">
+            <div class="popup" id="popup">
+                <a href="/listadoArchivos" id="btn-cerrar-popup" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
+                <h3>Alerta</h3>
+                <h4>Seguro desea eliminar el plano</h4>
+                <form action="">
+                    <div class="contenedor-inputs">
+                        <input type="text" placeholder="Nombre">
+                        <input type="email" placeholder="Correo">
+                    </div>
+                    <input type="submit" class="btn-submit" value="Suscribirse">
+                </form>
+            </div>
+        </div>
+
+
+
+        <script>
+            $(document).ready(function() {
+
+                overlay = document.getElementById('overlay'),
+                    popup = document.getElementById('popup'),
+                    btnCerrarPopup = document.getElementById('btn-cerrar-popup');
+
+                overlay.classList.add('active');
+                popup.classList.add('active');
+
+                btnCerrarPopup.addEventListener('click', function(e) {
+                    //e.preventDefault();
+                    overlay.classList.remove('active');
+                    popup.classList.remove('active');
+                });
+
+            });
+        </script>
