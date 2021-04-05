@@ -20,6 +20,7 @@ const app = express();
 //app.use(express.urlencoded);
 //app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'filesBipsUploads')));
+app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'src/vista'));
@@ -37,11 +38,22 @@ const storage = multer.diskStorage({
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
     filename: function(req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
+
+        let fech_now = Date.now();
+
+        let date_ = new Date(fech_now);
+
+        let fecha_completa = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear();
+        let hora = date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds();
+
+        let fecha_hora = fecha_completa + "_" + hora;
+
+        //console.log(req.body);
         const ext = path.extname(file.originalname);
         if (ext !== '.txt') {
-            return cb(new Error('Solo se permiten archivos .txt'));
+            cb(new Error('Solo se permiten archivos .txt'));
         } else {
-            cb("", file.originalname);
+            cb("", req.body.cbxips + "_" + fecha_hora + "_" + file.originalname);
         }
     }
 
@@ -53,7 +65,7 @@ const upload = multer({
 
 
 const modelbips = require("./models/modelModel");
-
+const modelplanos = require("./models/archivosPlanosModel");
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +75,11 @@ const modelbips = require("./models/modelModel");
 //                                                                                                            //          
 //                                                                                                            //      
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+app.get('/', function(req, res) {
+    res.redirect('/obtenerRegistrosPlanos');
+})
 
 app.get('/obtenerRegistrosPlanos', function(req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
@@ -80,7 +97,7 @@ app.get('/obtenerRegistrosPlanos', function(req, res) {
 });
 
 
-app.get('/obtenerIps', function(req, res) {
+app.get('/cargar-plano', function(req, res) {
 
     modelbips.obtenerIps().then(listaIps => {
 
@@ -173,18 +190,49 @@ app.get('/cargar', function(req, res) {
 
 app.post("/files", upload.array('files', 10), (req, res, err) => {
 
-    //se debe registrar en bd los datos de los archivos cargados (periodo,mimetype,ips)
-
+    console.log(req.files);
     //console.log(req.body);
+
+    let periodo = req.body.txtfecha_inicial + " - " + req.body.txtfecha_fin;
+
+    for (var i in req.files) {
+
+        let fech_now = Date.now();
+
+        let date_ = new Date(fech_now);
+
+        let fecha_completa = date_.getDate() + "/" + (date_.getMonth() + 1) + "/" + date_.getFullYear();
+        let hora = date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds() + ":" + date_.getUTCMilliseconds();
+
+        let fecha_hora = fecha_completa + " " + hora;
+
+        console.log(fecha_hora);
+
+        try {
+
+            modelplanos.insertar_RegistrosPlanos_tmp(req.body.cbxips, req.body.nombre_ips, periodo, req.files[i].originalname, req.files[i].mimetype, fecha_hora, '0', req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname).then(respuesta => {
+                //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
+                if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                    console.log("OK... upload");
+
+                }
+            });
+
+        } catch (error) {
+            console.log("err " + error);
+        }
+
+    }
+
     res.setHeader('Content-type', 'application/json');
-    console.log(path.join(__dirname));
-    console.log("OK...ruta uploads");
     res.send('{"estado":"200","respuesta": "La operacion se ejecuto con exito.."}');
+
+
 });
 
 app.get("/listadoArchivos", (req, res) => {
 
-    fs.readdir(path.join(__dirname, 'filesBipsUploads'), { withFileTypes: true }, (err, files) => {
+    /*fs.readdir(path.join(__dirname, 'filesBipsUploads'), (err, files) => {
 
         const arr_files = new Array();
 
@@ -193,17 +241,31 @@ app.get("/listadoArchivos", (req, res) => {
             res.send('{"estado":"500" ,"respuesta": "Error", "err":"' + err + '"}');
         } else {
             console.log("Los archivos encontrados son: ");
-            var fecha = new Date();
-            console.log(fecha);
             files.forEach(file => {
                 arr_files.push(file);
-                console.log(file);
-            })
+                var array_nombre = file.split('.');
+                console.log("." + array_nombre[1]);
+
+            });
+            res.setHeader('Content-type', 'text/html');
             res.render("paginas/listaArchivos", {
                 arr_files: arr_files,
-            })
+            });
         }
-    });
+    });*/
+
+    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+            res.setHeader('Content-type', 'text/html');
+            res.render("paginas/listaArchivos", {
+                arr_files: listaArchivos,
+
+            });
+
+        })
+        .catch(err => {
+            console.log(err);
+            return res.status(500).send("Error obteniendo registros");
+        });
 
 
 });
@@ -215,10 +277,10 @@ app.get('/recursos_marca', function(req, res) {
 });
 
 
-app.post('/file/delete/:name/archivos-bips', function(req, res) {
+app.post('/file/delete/:name', function(req, res) {
 
     var name = req.params.name;
-    //console.log(req.body.name + " " + req.params.name + " " + req.query.name);
+    console.log(req.query);
     //console.log(name);
     fs.unlink(path.join(__dirname + "/" + 'filesBipsUploads/' + name), (err) => {
         if (err) {
@@ -229,28 +291,34 @@ app.post('/file/delete/:name/archivos-bips', function(req, res) {
             })
         } else {
             //res.status("200").send("OK");
+            var array_nombre = name.split('_');
+            console.log("nombre_original " + array_nombre[3]);
 
-            fs.readdir(path.join(__dirname, 'filesBipsUploads'), { withFileTypes: true }, (err, files) => {
+            modelplanos.eliminar_RegistrosPlanos_tmp(req.query.id_ips, name).then(respuesta => {
 
-                const arr_files = new Array();
+                if (respuesta == "")
+                    console.log("respuesta de eliminacion: 1");
 
-                if (err) {
-                    res.send('{"estado":"500" ,"respuesta": "Error", "err":"' + err + '"}');
-                } else {
-                    console.log("Los archivos encontrados despues de eliminar son : ");
-                    files.forEach(file => {
-                        arr_files.push(file);
-                        console.log(file);
-                    });
-                    /*Se debe elimnar tambien el registro de la BD cuando se elimine un archivo plano cargado para determinado periodo de tiempo*/
+                console.log("OK elimnado...");
 
+                modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                        res.setHeader('Content-type', 'text/html');
+                        req.flash('notify', 'El archivo plano ' + array_nombre[3] + ' se eliminó correctamente...');
+                        res.render("paginas/listaArchivos", {
+                            arr_files: listaArchivos,
 
-                    req.flash('notify', 'El archivo plano ' + name + ' se eliminó correctamente...');
-                    res.render("paginas/listaArchivos", {
-                        arr_files: arr_files,
+                        });
+
                     })
-                }
-            });
+                    .catch(err => {
+                        console.log(err);
+                        return res.status(500).send("Error obteniendo registros");
+                    });
+
+
+
+            })
+
 
         }
     })
@@ -260,7 +328,6 @@ app.post('/file/delete/:name/archivos-bips', function(req, res) {
 app.get("/reportes", (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
 });
-
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
 module.exports = app;

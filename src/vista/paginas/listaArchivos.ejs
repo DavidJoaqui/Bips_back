@@ -1,13 +1,10 @@
 <%- include("head"); %>
-    <div class="col-md-12">
-
-
-
+    <div class="col-md-12" id="lista_archivos" name="lista_archivos">
         <% const m=getMessages() %>
 
             <% if (m.notify) { %>
                 <div class="container">
-                    <div class="alert alert-success alert-dismissible fade in">
+                    <div class="alert alert-success alert-dismissible fade in" id="alertas">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <% m.notify.forEach((element)=> { %>
                             <strong>OK!</strong>
@@ -17,42 +14,69 @@
                 </div>
                 <% } %>
 
+                    <h2 style="color: grey;">Archivos planos a cargar</h2>
 
-
-                    <h1 style="color: grey;">Archivos planos a cargar</h1>
-
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-striped table-bordered" style="width:100%" id="tbl_planos" cellspacing="0">
                         <thead style="color: rgb(76, 113, 214);">
                             <tr>
                                 <th>nombre del archivo</th>
-                                <th>extension</th>
+                                <th>nombre<br> IPS</th>
+                                <th>mimetype archivo</th>
                                 <th>Periodo cargado</th>
+                                <th>validado</th>
                                 <th>Acciones</th>
 
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="developers">
                             <% for(var i=0; i<arr_files.length; i++) { %>
 
                                 <tr>
                                     <td>
-                                        <%= arr_files[i]['name'] %>
+                                        <%= arr_files[i].nombre_original %>
                                     </td>
                                     <td>
-                                        <%= ".txt" %>
+                                        <strong>
+                                        <%= arr_files[i].nombre_ips %>
+                                        </strong>
                                     </td>
                                     <td>
-                                        <%= "01/01/2021 - 31/03/2021" %>
+                                        <%= arr_files[i].mimetypes %>
+                                    </td>
+                                    <td>
+                                        <p><span class="glyphicon glyphicon-time" style="color:cadetblue"></span>
+                                            <%= arr_files[i].periodo_cargado %>
+                                        </p>
+
+                                    </td>
+                                    <td>
+                                        <% if (!arr_files[i].validado) { %>
+                                            <div>
+                                                <p><span class="glyphicon glyphicon-remove-circle" style="color:red
+                                                    "></span>
+                                                    <%= "No" %>
+                                                </p>
+
+                                            </div>
+
+                                            <% } else { %>
+                                                <p><span class="glyphicon glyphicon-check" style="color:green"></span>
+                                                    <%= "Si" %>
+                                                </p>
+
+                                                <% }  %>
+
+
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-xs">
-                                            <form id="form_eliminacion" method="POST" action="/file/delete/<%= arr_files[i]['name'] %>/archivos-bips">
-                                                <button type="submit" class="btn btn-danger btn-sm" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Eliminar
+                                            <form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/?id_ips=<%= arr_files[i].id_ips %>">
+                                                <button type="submit" class="btn btn-danger btn-sm" value="<%= arr_files[i].nombre_original %>">Eliminar
                                                 </button>
                                             </form>
 
                                             <form>
-                                                <button type="submit" class="btn btn-success btn-sm" id="btn-eliminar" name="btn-eliminar" value="<%= arr_files[i]['name'] %>">Cargar
+                                                <button type="submit" class="btn btn-success btn-sm">Validar
                                                 </button>
                                             </form>
                                         </div>
@@ -61,8 +85,51 @@
                                 </tr>
                                 <% }%>
                         </tbody>
+                        <tfoot>
+
+                        </tfoot>
                     </table>
+                    <div id="planos">
+
+                    </div>
 
     </div>
 
-    <script></script>
+    <script>
+        $(document).ready(function() {
+            $('#tbl_planos').DataTable({
+                "dom": 'T<"clear">lfrtip',
+                "tableTools": {
+                    "sRowSelect": "multi",
+                    "aButtons": [{
+                        "sExtends": "select_none",
+                        "sButtonText": "Borrar selección"
+                    }]
+                },
+                "pagingType": "simple_numbers",
+                //Actualizo las etiquetas de mi tabla para mostrarlas en español
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros por página.",
+                    "search": "Buscar: ",
+                    "zeroRecords": "No se encontró registro.",
+                    "info": "  _START_ de _END_ (_TOTAL_ registros totales)",
+                    "infoEmpty": "0 de 0 de 0 registros",
+                    "infoFiltered": "(Encontrado de _MAX_registros)",
+                    "processing": "Procesando la información",
+                    "paginate": {
+                        "first": " |< ",
+                        "previous": "Ant.",
+                        "next": "Sig.",
+                        "last": " >| "
+                    }
+                }
+            });
+
+            setTimeout(function() {
+                $('#alertas').fadeOut('fast');
+            }, 5000);
+
+
+            $('#alertas').show();
+        });
+    </script>

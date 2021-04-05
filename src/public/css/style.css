@@ -1,0 +1,12 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    background-color: #eaedee;
+}
+
+#lista_archivos {
+    margin-top: 30px;
+    ;
+}
