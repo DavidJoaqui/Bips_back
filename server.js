@@ -277,7 +277,7 @@ app.get('/recursos_marca', function(req, res) {
 });
 
 
-app.post('/file/delete/:name', function(req, res) {
+app.post('/file/delete/:name/archivo-bips', function(req, res) {
 
     var name = req.params.name;
     console.log(req.query);
@@ -302,12 +302,9 @@ app.post('/file/delete/:name', function(req, res) {
                 console.log("OK elimnado...");
 
                 modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-                        res.setHeader('Content-type', 'text/html');
-                        req.flash('notify', 'El archivo plano ' + array_nombre[3] + ' se eliminó correctamente...');
-                        res.render("paginas/listaArchivos", {
-                            arr_files: listaArchivos,
 
-                        });
+                        req.flash('notify', 'El archivo plano ' + array_nombre[3] + ' se eliminó correctamente...');
+                        res.redirect("/listadoArchivos");
 
                     })
                     .catch(err => {
