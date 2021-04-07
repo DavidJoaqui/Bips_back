@@ -7,7 +7,7 @@
                 <div class="popup" id="popup">
 
                     <div class="panel panel-danger" id="panel" name="panel">
-                        <div class="panel-heading">
+                        <div class="panel-heading" id="panel_heading">
                             <a href="/listadoArchivos" id="btn-cerrar-popup" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
                             <p> <b>Confirmación</b></p>
                         </div>
@@ -63,6 +63,11 @@
             width: 400px;
         }
         
+        #panel_heading {
+            background-color: red;
+            color: #ffffff;
+        }
+        
         .overlay {
             background: #eaedee;
             position: fixed;
@@ -102,7 +107,7 @@
         }
         
         .popup .btn-cerrar-popup:hover {
-            color: #000;
+            color: #fff;
         }
         
         .contenedor {
