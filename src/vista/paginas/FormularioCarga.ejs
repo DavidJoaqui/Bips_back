@@ -3,7 +3,7 @@
 
         <%- include("styles_gral"); %>
 
-            <div class="container-fluid">
+            <div class="container-fluid" id="cont-gral">
 
                 <div class="row" style="margin-top:30px">
 
@@ -21,7 +21,7 @@
                             </div>
                             <% } %>
 
-                                <div class="col-md-3" style="margin-top:45px;margin-left: 15px;">
+                                <div class="col-md-3" id="panel_carga">
 
                                     <div class="form-group row">
 
@@ -43,13 +43,13 @@
                                                         <input type="text" name="nombre_ips" id="nombre_ips" value="" hidden>
 
                                                         <select class="form-select form-group form-control input-sm" name="cbxips" id="cbxips" data-toggle="tooltip" title="Seleccionar IPS!" data-placement="right" required>
-                                            <option selected="selected" value="">Seleccionar Ips</option>
-                                            <% listaIps.forEach(lista=> { %>                                                
-                                                <option value="<%= lista.codigo_ips %>">
-                                                    <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
-                                                </option>
-                                                <% }); %>
-                                            </select>
+                                                            <option selected="selected" value="">Seleccionar Ips</option>
+                                                            <% listaIps.forEach(lista=> { %>                                                
+                                                                <option value="<%= lista.codigo_ips %>">
+                                                                    <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
+                                                                </option>
+                                                                <% }); %>
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="form-group col-md-6 col-xs-12">

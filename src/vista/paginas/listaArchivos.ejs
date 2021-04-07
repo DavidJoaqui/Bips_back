@@ -1,11 +1,13 @@
 <%- include("head"); %>
     <%- include("styles_gral"); %>
+
         <div class="col-md-12" id="lista_archivos" name="lista_archivos">
+
             <% const m=getMessages() %>
 
                 <% if (m.notify) { %>
                     <div class="container">
-                        <div class="alert alert-success alert-dismissible fade in" id="alertas">
+                        <div class="alert alert-success alert-dismissible fade in" id="alertas" style="margin-top: 20px;">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <% m.notify.forEach((element)=> { %>
                                 <strong>OK!</strong>
@@ -22,7 +24,7 @@
                                 <tr>
                                     <th>nombre del archivo</th>
                                     <th>nombre<br> IPS</th>
-                                    <th>mimetype archivo</th>
+                                    <th>tipo archivo</th>
                                     <th>Periodo cargado</th>
                                     <th>validado</th>
                                     <th>Acciones</th>
@@ -72,9 +74,9 @@
                                         <td>
                                             <div class="btn-group btn-group-xs">
                                                 <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
-                                                <form method="get" action="/eliminar-popup">
-                                                    <button type="submit" value="<%= arr_files[i].nombre_original %>">Eliminar
-                                                </button>
+                                                <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
+                                                    <button class="btn btn-danger btn-sm" value="<%=arr_files[i].nombre_original %>">Eliminar
+                                                    </button>
                                                 </form>
 
                                                 <form>
@@ -94,6 +96,8 @@
                         <div id="planos">
 
                         </div>
+
+
 
         </div>
 
