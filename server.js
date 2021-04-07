@@ -326,8 +326,22 @@ app.get("/reportes", (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
 });
 
-app.get("/eliminar-popup", (req, res) => {
-    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar"));
+app.post("/eliminar-popup/:name/archivo-bips", (req, res) => {
+    //console.log(req.query);
+
+    var name = req.query.nombre_tmp;
+    var array_nombre = name.split('_');
+
+    var name_ips = req.query.nombre_ips;
+    var array_nombre_ips = name_ips.split('(');
+
+    nombre_corto_ips = array_nombre_ips[1].substring(0, array_nombre_ips[1].length - 1);
+    //console.log(array_nombre_ips[1].substring(0, array_nombre_ips[1].length - 1));
+
+    let params = [req.query.id_ips, array_nombre[3], nombre_corto_ips, req.query.nombre_tmp];
+
+    console.log(params);
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar"), { datos_plano: params });
 });
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));

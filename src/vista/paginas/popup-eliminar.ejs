@@ -1,39 +1,174 @@
 <%- include("head"); %>
-    <%- include("styles_gral"); %>
 
+    <body id="body_pop">
 
-        <div class="overlay" id="overlay">
-            <div class="popup" id="popup">
-                <a href="/listadoArchivos" id="btn-cerrar-popup" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
-                <h3>Alerta</h3>
-                <h4>Seguro desea eliminar el plano</h4>
-                <form action="">
-                    <div class="contenedor-inputs">
-                        <input type="text" placeholder="Nombre">
-                        <input type="email" placeholder="Correo">
+        <div class="contenedor">
+            <div class="overlay" id="overlay">
+                <div class="popup" id="popup">
+
+                    <div class="panel panel-danger" id="panel" name="panel">
+                        <div class="panel-heading">
+                            <a href="/listadoArchivos" id="btn-cerrar-popup" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
+                            <p> <b>Confirmación</b></p>
+                        </div>
+                        <div class="panel-body">
+
+                            <p>Seguro desea eliminar el plano<b> <%= datos_plano[1] %></b>?<br> para la Ips:
+                                <b>
+                                <%= datos_plano[0] %> -
+                                    <%= datos_plano[2] %>
+                                </b>
+                            </p>
+                            <form action="/file/delete/<%= datos_plano[3] %>/archivo-bips/?id_ips=<%= datos_plano[0] %>" method="POST">
+                                <input type="submit" class="btn-submit btn btn-success" value="Aceptar">
+                            </form>
+                            <form action="/listadoArchivos" method="GET">
+                                <input type="submit" class="btn-submit btn btn-default" value="Cancelar">
+                            </form>
+
+                        </div>
+
                     </div>
-                    <input type="submit" class="btn-submit" value="Suscribirse">
-                </form>
+
+                </div>
             </div>
         </div>
+    </body>
+
+    <script>
+        function abrir_popup_eliminar() {
+            overlay = document.getElementById('overlay'),
+                popup = document.getElementById('popup'),
+                btnCerrarPopup = document.getElementById('btn-cerrar-popup');
 
 
+            overlay.classList.add('active');
+            popup.classList.add('active');
 
-        <script>
-            $(document).ready(function() {
 
-                overlay = document.getElementById('overlay'),
-                    popup = document.getElementById('popup'),
-                    btnCerrarPopup = document.getElementById('btn-cerrar-popup');
-
-                overlay.classList.add('active');
-                popup.classList.add('active');
-
-                btnCerrarPopup.addEventListener('click', function(e) {
-                    //e.preventDefault();
-                    overlay.classList.remove('active');
-                    popup.classList.remove('active');
-                });
-
+            btnCerrarPopup.addEventListener('click', function(e) {
+                e.preventDefault();
+                overlay.classList.remove('active');
+                popup.classList.remove('active');
             });
-        </script>
+        };
+    </script>
+
+    <style type="text/css">
+        #body_pop {
+            background: #eaedee;
+        }
+        
+        #panel {
+            width: 400px;
+        }
+        
+        .overlay {
+            background: #eaedee;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            align-items: top;
+            justify-content: center;
+            display: flex;
+            margin-top: 40;
+        }
+        
+        .overlay.active {
+            visibility: visible;
+        }
+        
+        .popup {
+            background: #eaedee;
+            box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+        }
+        
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .popup .btn-cerrar-popup {
+            font-size: 16px;
+            line-height: 16px;
+            display: block;
+            text-align: right;
+            transition: .3s ease all;
+            color: #BBBBBB;
+        }
+        
+        .popup .btn-cerrar-popup:hover {
+            color: #000;
+        }
+        
+        .contenedor {
+            margin-top: 10px;
+            background-color: #eaedee;
+            width: 600px;
+            align-items: center;
+            position: center;
+        }
+        
+        .popup form .btn-submit:hover {
+            background: rgba(156, 173, 231, 0.9);
+        }
+        
+        .popup form .btn-submit {
+            border: none;
+            border-radius: 3px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: .3s ease all;
+        }
+        /* ------------------------- */
+        /* ANIMACIONES */
+        /* ------------------------- */
+        
+        .popup.active h3 {
+            animation: entradaTitulo .8s ease .5s forwards;
+        }
+        
+        .popup.active h4 {
+            animation: entradaSubtitulo .8s ease .5s forwards;
+        }
+        
+        .popup.active .contenedor-inputs {
+            animation: entradaInputs 1s linear 1s forwards;
+        }
+        
+        @keyframes entradaTitulo {
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes entradaSubtitulo {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes entradaInputs {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
