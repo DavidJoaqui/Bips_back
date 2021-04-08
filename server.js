@@ -195,18 +195,18 @@ app.post("/files", upload.array('files', 10), (req, res, err) => {
 
     let periodo = req.body.txtfecha_inicial + " - " + req.body.txtfecha_fin;
 
+    let fech_now = Date.now();
+
+    let date_ = new Date(fech_now);
+
+    let fecha_completa = date_.getDate() + "/" + (date_.getMonth() + 1) + "/" + date_.getFullYear();
+    let hora = date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds();
+
+    let fecha_hora = fecha_completa + " " + hora;
+
+    //console.log(fecha_hora);
+
     for (var i in req.files) {
-
-        let fech_now = Date.now();
-
-        let date_ = new Date(fech_now);
-
-        let fecha_completa = date_.getDate() + "/" + (date_.getMonth() + 1) + "/" + date_.getFullYear();
-        let hora = date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds() + ":" + date_.getUTCMilliseconds();
-
-        let fecha_hora = fecha_completa + " " + hora;
-
-        console.log(fecha_hora);
 
         try {
 
