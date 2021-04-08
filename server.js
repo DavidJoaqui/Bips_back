@@ -287,7 +287,7 @@ app.post('/file/delete/:name/archivo-bips', function(req, res) {
             console.log(err)
             res.send({
                 status: 1,
-                msg: 'No se pudo borrar el archivo'
+                msg: 'No se pudo borrar el archivo,posiblemente este ya NO existe, por favor contacte con el administrador'
             })
         } else {
             //res.status("200").send("OK");
