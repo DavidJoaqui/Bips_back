@@ -28,66 +28,65 @@
 
                                         <div class="panel panel-primary">
 
-                                            <div class="panel-heading">Carga Archivos Planos</div>
+                                            <div class="panel-heading" style="text-align: center;"><b> Validacion carga de Planos </b></div>
 
                                             <div class="panel-body">
+
+                                                <div class="preview">
+                                                    <div id="datos"></div>
+                                                </div>
 
                                                 <form id="formulario" enctype="multipart/form-data" method="POST">
 
 
+                                                    <div class="well">
+                                                        <div class="form-group">
+                                                            <label>Seleccionar IPS</label>
 
-                                                    <div class="form-group">
-                                                        <label>Seleccionar IPS</label>
 
+                                                            <input type="text" name="nombre_ips" id="nombre_ips" value="" hidden>
 
-                                                        <input type="text" name="nombre_ips" id="nombre_ips" value="" hidden>
-
-                                                        <select class="form-select form-group form-control input-sm" name="cbxips" id="cbxips" data-toggle="tooltip" title="Seleccionar IPS!" data-placement="right" required>
+                                                            <select class="form-select form-group form-control input-sm" name="cbxips" id="cbxips" data-toggle="tooltip" title="Seleccionar IPS!" data-placement="right" required>
                                                             <option selected="selected" value="">Seleccionar Ips</option>
                                                             <% listaIps.forEach(lista=> { %>                                                
                                                                 <option value="<%= lista.codigo_ips %>">
-                                                                    <%= lista.codigo_ips + "(" + lista.descripcion_ips +")" %>
+                                                                    <%= lista.codigo_ips + " (" + lista.descripcion_ips +")" %>
                                                                 </option>
                                                                 <% }); %>
                                                         </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="form-group col-md-6 col-xs-12">
-                                                            <label for="fecha_ini">Fecha inicial</label>
-                                                            <div>
-                                                                <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" required>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="form-group col-xs-6 col-md-6">
+                                                                <label for="fecha_ini">Fecha inicial</label>
+                                                                <div>
+                                                                    <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-xs-6 col-md-6">
+                                                                <label for="fecha_ini">Fecha Final</label>
+                                                                <div>
+                                                                    <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" required>
+                                                                </div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group col-md-6 col-xs-12">
-                                                            <label for="fecha_ini">Fecha Final</label>
+                                                        <div class="form-group">
                                                             <div>
-                                                                <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" required>
+                                                                <input type="button" style="font-weight: bold;" class="btn btn-success btn-sm btn-block" onclick="validar_registros()" value="Consultar Registros">
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group">
-                                                        <div>
-                                                            <input type="button" style="font-weight: bold;" class="btn btn-success btn-sm btn-block" onclick="validar_registros()" value="Consultar Registros">
+
+                                                    <div class="form-group panel panel-info" id="div_carga" name="div_carga" hidden>
+                                                        <div class="panel-heading"><b> Selecciona los planos a cargar</b></div>
+                                                        <div class="panel-body">
+
+                                                            <input type="file" name="files" id="files" class="form-group" disabled="disabled" multiple>
+
+                                                            <button class="btn btn btn-primary btn-sm" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
                                                         </div>
-                                                    </div>
-
-
-                                                    <div class="preview">
-                                                        <div id="datos_val"></div>
-                                                    </div>
-
-                                                    <div class="form-group">
-
-                                                        <input type="file" name="files" id="files" class="form-group" disabled="disabled" multiple>
-
-                                                        <button class="btn btn btn-primary btn-sm" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
-
-                                                        <div class="preview">
-                                                            <div id="datos"></div>
-                                                        </div>
-
                                                     </div>
                                                 </form>
 
@@ -173,6 +172,7 @@
                                         $('#btn-subir').attr("disabled", true);
                                     } else {
                                         $('#files').attr("disabled", false);
+                                        $('#div_carga').show();
                                         alert("No Tiene registros, puede proceder a cargar los planos");
 
                                     }
@@ -239,6 +239,7 @@
 
                                         $("#btn-subir").prop("disabled", true);
                                         $('#files').attr("disabled", true);
+                                        $('#div_carga').hide();
                                         //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
                                         console.log("Se debe persistir en BD: id_ips " + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
                                         alert("Los archivos se cargaron correctamente!");
