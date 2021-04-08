@@ -24,10 +24,11 @@
 
                                 <thead class="head-tabla-reg">
                                     <tr>
-                                        <th>nombre del archivo</th>
+                                        <th>nombre<br> plano</th>
                                         <th>nombre<br> IPS</th>
-                                        <th>tipo archivo</th>
                                         <th>Periodo cargado</th>
+                                        <th>ext archivo</th>
+                                        <th>fecha carga</th>
                                         <th>validado</th>
                                         <th>Acciones</th>
 
@@ -46,14 +47,19 @@
                                         </strong>
                                             </td>
                                             <td>
-                                                <% arr_files[i].mimetypes == "text/plain" %>
-                                                    <%= ".txt" %>
-                                            </td>
-                                            <td>
                                                 <p><span class="glyphicon glyphicon-time" style="color:cadetblue"></span>
                                                     <%= arr_files[i].periodo_cargado %>
                                                 </p>
 
+                                            </td>
+                                            <td>
+                                                <% if(arr_files[i].mimetypes == "text/plain"){ %>
+                                                    <%= ".txt" %>
+                                                        <% } %>
+                                            </td>
+                                            <td>
+
+                                                <%= arr_files[i].fecha_carga %>
                                             </td>
                                             <td>
                                                 <% if (!arr_files[i].validado) { %>
