@@ -17,82 +17,86 @@
                     </div>
                     <% } %>
 
-                        <h2 style="color: grey;">Archivos planos a cargar</h2>
+                        <h2 class="titulo-tabla">Archivos planos a cargar</h2>
+                        <div class="table-responsive">
 
-                        <table class="table table-striped table-bordered" style="width:100%" id="tbl_planos" cellspacing="0">
-                            <thead style="color: rgb(76, 113, 214);">
-                                <tr>
-                                    <th>nombre del archivo</th>
-                                    <th>nombre<br> IPS</th>
-                                    <th>tipo archivo</th>
-                                    <th>Periodo cargado</th>
-                                    <th>validado</th>
-                                    <th>Acciones</th>
+                            <table class="table table-striped table-bordered" style="width:100%" id="tbl_planos" cellspacing="0">
 
-                                </tr>
-                            </thead>
-                            <tbody id="developers">
-                                <% for(var i=0; i<arr_files.length; i++) { %>
-
+                                <thead class="head-tabla-reg">
                                     <tr>
-                                        <td>
-                                            <%= arr_files[i].nombre_original %>
-                                        </td>
-                                        <td>
-                                            <strong>
+                                        <th>nombre del archivo</th>
+                                        <th>nombre<br> IPS</th>
+                                        <th>tipo archivo</th>
+                                        <th>Periodo cargado</th>
+                                        <th>validado</th>
+                                        <th>Acciones</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="developers">
+                                    <% for(var i=0; i<arr_files.length; i++) { %>
+
+                                        <tr>
+                                            <td>
+                                                <%= arr_files[i].nombre_original %>
+                                            </td>
+                                            <td>
+                                                <strong>
                                         <%= arr_files[i].nombre_ips %>
                                         </strong>
-                                        </td>
-                                        <td>
-                                            <%= arr_files[i].mimetypes %>
-                                        </td>
-                                        <td>
-                                            <p><span class="glyphicon glyphicon-time" style="color:cadetblue"></span>
-                                                <%= arr_files[i].periodo_cargado %>
-                                            </p>
+                                            </td>
+                                            <td>
+                                                <% arr_files[i].mimetypes == "text/plain" %>
+                                                    <%= ".txt" %>
+                                            </td>
+                                            <td>
+                                                <p><span class="glyphicon glyphicon-time" style="color:cadetblue"></span>
+                                                    <%= arr_files[i].periodo_cargado %>
+                                                </p>
 
-                                        </td>
-                                        <td>
-                                            <% if (!arr_files[i].validado) { %>
-                                                <div>
-                                                    <p><span class="glyphicon glyphicon-remove-circle" style="color:red
+                                            </td>
+                                            <td>
+                                                <% if (!arr_files[i].validado) { %>
+                                                    <div>
+                                                        <p><span class="glyphicon glyphicon-remove-circle" style="color:red
                                                     "></span>
-                                                        <%= "No" %>
-                                                    </p>
+                                                            <%= "No" %>
+                                                        </p>
 
+                                                    </div>
+
+                                                    <% } else { %>
+                                                        <p><span class="glyphicon glyphicon-check" style="color:green"></span>
+                                                            <%= "Si" %>
+                                                        </p>
+
+                                                        <% }  %>
+
+
+                                            </td>
+                                            <td class="btns-acciones">
+                                                <div class="btn-group btn-group-sm">
+                                                    <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
+                                                    <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
+                                                        <button class="btn btn-submit btn-danger btn-sm" value="<%=arr_files[i].nombre_original %>">Eliminar
+                                                    </button>
+                                                    </form>
+
+                                                    <form>
+                                                        <button type="submit" class="btn btn-submit btn-success btn-sm">Validar
+                                                </button>
+                                                    </form>
                                                 </div>
 
-                                                <% } else { %>
-                                                    <p><span class="glyphicon glyphicon-check" style="color:green"></span>
-                                                        <%= "Si" %>
-                                                    </p>
+                                            </td>
+                                        </tr>
+                                        <% }%>
+                                </tbody>
+                                <tfoot>
 
-                                                    <% }  %>
-
-
-                                        </td>
-                                        <td>
-                                            <div class="btn-group btn-group-xs">
-                                                <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
-                                                <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
-                                                    <button class="btn btn-danger btn-sm" value="<%=arr_files[i].nombre_original %>">Eliminar
-                                                    </button>
-                                                </form>
-
-                                                <form>
-                                                    <button type="submit" class="btn btn-success btn-sm">Validar
-                                                </button>
-                                                </form>
-                                            </div>
-
-                                        </td>
-                                    </tr>
-                                    <% }%>
-                            </tbody>
-                            <tfoot>
-
-                            </tfoot>
-                        </table>
+                                </tfoot>
+                            </table>
+                        </div>
                         <div id="planos">
 
                         </div>
@@ -101,10 +105,31 @@
 
         </div>
 
+        <style>
+            .btns-acciones form .btn-submit {
+                font-family: 'Montserrat', sans-serif;
+                border-radius: 5px;
+                font-size: 10px;
+                border: none;
+                cursor: pointer;
+                transition: .3s ease all;
+                width: 70px;
+            }
+            
+            .head-tabla-reg {
+                background-color: cadetblue;
+                color: #fff;
+            }
+            
+            .titulo-tabla {
+                color: cadetblue;
+            }
+        </style>
+
         <script>
             $(document).ready(function() {
                 $('#tbl_planos').DataTable({
-                    "dom": 'T<"clear">lfrtip',
+
                     "tableTools": {
                         "sRowSelect": "multi",
                         "aButtons": [{
@@ -115,8 +140,8 @@
                     "pagingType": "simple_numbers",
                     //Actualizo las etiquetas de mi tabla para mostrarlas en español
                     "language": {
+                        "search": "Buscar:",
                         "lengthMenu": "Mostrar _MENU_ registros por página.",
-                        "search": "Buscar: ",
                         "zeroRecords": "No se encontró registro.",
                         "info": "  _START_ de _END_ (_TOTAL_ registros totales)",
                         "infoEmpty": "0 de 0 de 0 registros",
@@ -128,7 +153,7 @@
                             "next": "Sig.",
                             "last": " >| "
                         }
-                    }
+                    },
                 });
 
                 setTimeout(function() {
