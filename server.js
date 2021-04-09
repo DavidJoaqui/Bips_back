@@ -14,6 +14,7 @@ const path = require('path');
 var moment = require('moment');
 const flash = require('express-flash-messages')
 const session = require('express-session')
+const alert = require('alert');
 
 const app = express();
 
@@ -66,6 +67,7 @@ const upload = multer({
 
 const modelbips = require("./models/modelModel");
 const modelplanos = require("./models/archivosPlanosModel");
+const modelvalidaciones = require("./models/validacionModel");
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,12 +257,13 @@ app.get("/listadoArchivos", (req, res) => {
     });*/
 
     modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-            res.setHeader('Content-type', 'text/html');
+        //console.log(listaArchivos);    
+        res.setHeader('Content-type', 'text/html');
             res.render("paginas/listaArchivos", {
                 arr_files: listaArchivos,
-
+                
             });
-
+            
         })
         .catch(err => {
             console.log(err);
@@ -278,8 +281,7 @@ app.get('/recursos_marca', function(req, res) {
 
 
 app.post('/file/delete/:name/archivo-bips', function(req, res) {
-
-    var name = req.params.name;
+    let name = req.params.name;
     console.log(req.query);
     //console.log(name);
     fs.unlink(path.join(__dirname + "/" + 'filesBipsUploads/' + name), (err) => {
@@ -311,14 +313,64 @@ app.post('/file/delete/:name/archivo-bips', function(req, res) {
                         console.log(err);
                         return res.status(500).send("Error obteniendo registros");
                     });
-
-
-
             })
-
-
         }
     })
+});
+
+
+app.post('/file/validar/:name/archivo-bips', function(req, res) {
+
+    let name = req.params.name;
+    var array_nombre = name.split('_');
+    let nombre_txt=array_nombre[3];
+
+    var nombre_plano = nombre_txt.slice(0, 2);
+    console.log("nombre_PLANO:" + nombre_plano);
+    console.log(name);
+    console.log("nombre_original " + nombre_txt);
+     //console.log(req.query);
+    //console.log(name);
+ 
+    modelvalidaciones.select_archivo(name,nombre_plano).then(resval => {
+    
+        if (resval == ""){
+            modelplanos.validar_RegistrosPlanos_tmp(req.query.id_ips,name);
+            modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+
+                req.flash('notify', 'El archivo plano ' + array_nombre[3] + ' se valido correctamente...');
+                res.redirect("/listadoArchivos");
+
+            })
+            .catch(err => {
+                console.log(err);
+                return res.status(500).send("Error obteniendo registros");
+            });
+
+            console.log("CT validado...");
+
+        }else{
+
+            Object.entries(resval).forEach(([key, value]) => {
+                
+                console.log(`${value}`);
+                //console.log(`${value}`); // "a 5", "b 7", "c 9"
+                
+            });    
+
+            req.flash('error', 'El Archivo Plano '+ nombre_plano +' tiene los siguientes errores:'+ resval);
+            res.redirect("/listadoArchivos");
+            console.log("cantidad de errores:"+resval.length);
+            
+            
+            //console.log("select respuesta:"+resval);
+            
+                       
+            
+    }
+            //console.log("Archivo validado");
+    })
+
 });
 
 

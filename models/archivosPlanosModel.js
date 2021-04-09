@@ -20,5 +20,11 @@ module.exports = {
         return resultados.rows;
     },
 
+    async validar_RegistrosPlanos_tmp(id_ips, nombre_archivo) {
+        const resultados = await conexion.query("UPDATE schema_planos.registros_planos_tmp SET validado=true where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo]);
+        return resultados.rows;
+    },
+    
+
 
 }
