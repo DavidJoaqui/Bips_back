@@ -100,7 +100,7 @@
 
                                                         <form method="POST"
                                                             action="/file/validar/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">
-                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                            <button type="submit" class="btn btn-success btn-sm" id ="btn-validar"
                                                                 value="<%= arr_files[i].nombre_original %>">Validar
                                                             </button>
                                                         </form>
@@ -121,6 +121,9 @@
             </div>
 
             <script>
+
+                
+                
                 $(document).ready(function () {
                     $('#tbl_planos').DataTable({
                         "dom": 'T<"clear">lfrtip',
