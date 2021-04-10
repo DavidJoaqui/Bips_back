@@ -12,7 +12,7 @@
                             <% m.notify.forEach((element)=> { %>
                                 <strong>OK!</strong>
                                 <%= element %>
-                                    <% }) %>
+                                    <% }) %>; %>
                         </div>
                     </div>
                     <% } %>
@@ -162,11 +162,11 @@
                     },
                 });
 
-                setTimeout(function() {
-                    $('#alertas').fadeOut('fast');
-                }, 5000);
+                    setTimeout(function () {
+                        $('#alertas').fadeOut('fast');
+                    }, 5000);
 
 
-                $('#alertas').show();
-            });
-        </script>
+                    $('#alertas').show();
+                });
+            </script>
