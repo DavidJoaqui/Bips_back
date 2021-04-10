@@ -16,6 +16,17 @@
                         </div>
                     </div>
                     <% } %>
+                    <% if (m.error) { %>
+                        <div class="container">
+                            <div class="alert alert-danger alert-dismissible fade in" style="margin-top: 20px;">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <% m.error.forEach((element)=> { %>
+                                    <strong>ERROR<br></strong>
+                                    <%= element %>
+                                        <% }) %>; %>
+                            </div>
+                        </div>
+                        <% } %>
 
                         <h2 class="titulo-tabla">Archivos planos a cargar</h2>
                         <div class="table-responsive">
@@ -88,8 +99,8 @@
                                                     </button>
                                                     </form>
 
-                                                    <form>
-                                                        <button type="submit" class="btn btn-submit btn-success btn-sm">Validar
+                                                    <form method="POST" action="/file/validar/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">
+                                                        <button type="submit" class="btn btn-submit btn-success btn-sm" value="<%= arr_files[i].nombre_tmp%>">Validar
                                                 </button>
                                                     </form>
                                                 </div>
