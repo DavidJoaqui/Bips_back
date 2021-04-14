@@ -8,10 +8,17 @@ body {
 
 #panel_carga {
     margin-left: 15px;
-    margin-top: 50px;
+    margin-top: 5px;
+    background-color: #eaedee;
 }
 
-#lista_archivos {
-    padding-top: 10px;
+#lista_archivos {    
     font-family: 'Montserrat', sans-serif;
 }
+
+#head-carga{
+    background-color: cadetblue;
+    color: #fff;
+    text-align: center;
+}
+

@@ -3,181 +3,281 @@
 
         <div class="col-md-12" id="lista_archivos" name="lista_archivos">
 
+
+
+            <h2 class="titulo-tabla" style="font-weight: bold;">Lista de Archivos Planos</h2>
+
             <% const m=getMessages() %>
 
                 <% if (m.notify) { %>
-                    <div class="container">
-                        <div class="alert alert-success alert-dismissible fade in" id="alertas" style="margin-top: 20px;">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <% m.notify.forEach((element)=> { %>
-                                <strong>OK!</strong>
-                                <%= element %>
-                                    <% }) %>; %>
-                        </div>
-                    </div>
-                    <% } %>
-                    <% if (m.error) { %>
-                        <div class="container">
-                            <div class="alert alert-danger alert-dismissible fade in" style="margin-top: 20px;">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <% m.error.forEach((element)=> { %>
-                                    <strong>ERROR<br></strong>
-                                    <%= element %>
-                                        <% }) %>; %>
+                    
+                        <div class="card text-white bg-success mb-3" style="margin-top: 20px;" id="card-success">
+                            <div class="card-header container-fluid" id="btn-cerrar-ok"><strong>OK!</strong>
+                                <button type="button" class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
+
+                            <div class="card-body">
+
+                                <% m.notify.forEach((element)=> { %>
+
+                                    <%= element %>
+                                        <% }) %> %>
+                            </div>
+
+                            
                         </div>
-                        <% } %>
+                    
+                    <% } %>
+                        <% if (m.error) { %>
 
-                        <h2 class="titulo-tabla">Archivos planos a cargar</h2>
-                        <div class="table-responsive">
+                            <div class="card text-white bg-danger mb-3" style="margin-top: 20px;">
+                                <div class="card-header container-fluid" id="btn-cerrar-err"><strong>Error!</strong>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
 
-                            <table class="table table-striped table-bordered" style="width:100%" id="tbl_planos" cellspacing="0">
+                                <div class="card-body">
 
-                                <thead class="head-tabla-reg">
-                                    <tr>
-                                        <th>Nombre<br> plano</th>
-                                        <th>Nombre<br> IPS</th>
-                                        <th>Periodo cargado</th>
-                                        <th>Extensión</th>
-                                        <th>Fecha de carga</th>
-                                        <th>Validado</th>
-                                        <th>Acciones</th>
+                                    <% m.error.forEach((element)=> { %>
 
-                                    </tr>
-                                </thead>
-                                <tbody id="developers">
-                                    <% for(var i=0; i<arr_files.length; i++) { %>
+                                        <%= element %>
+                                            <% }) %> %>
+                                </div>
 
-                                        <tr>
-                                            <td>
-                                                <%= arr_files[i].nombre_original %>
-                                            </td>
-                                            <td>
-                                                <strong>
-                                        <%= arr_files[i].nombre_ips %>
-                                        </strong>
-                                            </td>
-                                            <td>
-                                                <p><span class="glyphicon glyphicon-time" style="color:cadetblue"></span>
-                                                    <%= arr_files[i].periodo_cargado %>
-                                                </p>
+                            </div>
 
-                                            </td>
-                                            <td>
-                                                <% if(arr_files[i].mimetypes == "text/plain"){ %>
-                                                    <%= ".txt" %>
-                                                        <% } %>
-                                            </td>
-                                            <td>
+                            <% } %>
 
-                                                <%= arr_files[i].fecha_carga %>
-                                            </td>
-                                            <td>
-                                                <% if (!arr_files[i].validado) { %>
-                                                    <div>
-                                                        <p><span class="glyphicon glyphicon-remove-circle" style="color:red
+                                <p type="text" id="loading" value="" hidden>loading...</p>
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped table-bordered" style="width:100%"
+                                        id="tbl_planos">
+
+
+                                        <thead class="head-tabla-reg">
+                                            <tr>
+                                                <th>Nombre plano</th>
+                                                <th>Nombre IPS</th>
+                                                <th>Periodo cargado</th>
+                                                <th>Fecha de carga</th>
+                                                <th>Validado</th>
+                                                <th>Acciones</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="developers">
+                                            <% for(var i=0; i<arr_files.length; i++) { %>
+
+                                                <tr>
+                                                    <td>
+                                                        <%= arr_files[i].nombre_original %>
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            <%= arr_files[i].nombre_ips %>
+                                                        </strong>
+                                                    </td>
+                                                    <td>
+                                                        <p><span class="glyphicon glyphicon-time"
+                                                                style="color:cadetblue"></span>
+                                                            <%= arr_files[i].periodo_cargado %>
+                                                        </p>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <%= arr_files[i].fecha_carga %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (!arr_files[i].validado) { %>
+                                                            <div>
+                                                                <p><span class="glyphicon glyphicon-remove-circle"
+                                                                        style="color:red
                                                     "></span>
-                                                            <%= "No" %>
-                                                        </p>
+                                                                    <%= "No" %>
+                                                                </p>
 
-                                                    </div>
+                                                            </div>
 
-                                                    <% } else { %>
-                                                        <p><span class="glyphicon glyphicon-check" style="color:green"></span>
-                                                            <%= "Si" %>
-                                                        </p>
+                                                            <% } else { %>
+                                                                <p><span class="glyphicon glyphicon-check"
+                                                                        style="color:green"></span>
+                                                                    <%= "Si" %>
+                                                                </p>
 
-                                                        <% }  %>
+                                                                <% } %>
 
 
-                                            </td>
-                                            <td class="btns-acciones">
-                                                <div class="btn-group btn-group-sm">
-                                                    <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
-                                                    <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
-                                                        <button class="btn btn-submit btn-danger btn-sm" value="<%=arr_files[i].nombre_original %>">Eliminar
-                                                    </button>
-                                                    </form>
+                                                    </td>
+                                                    <td class="btns-acciones">
+                                                        <div class="btn-group">
+                                                            <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
+                                                            <form method="post"
+                                                                action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
+                                                                <button class="btn btn-danger btn-submit"
+                                                                    value="<%=arr_files[i].nombre_original %>">Eliminar
+                                                                </button>
+                                                            </form>
 
-                                                    <form method="POST" action="/file/validar/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">
-                                                        <button type="submit" class="btn btn-submit btn-success btn-sm" value="<%= arr_files[i].nombre_tmp%>">Validar
-                                                </button>
-                                                    </form>
-                                                </div>
+                                                            <form>
 
-                                            </td>
-                                        </tr>
-                                        <% }%>
-                                </tbody>
-                                <tfoot>
+                                                                <input type="button"
+                                                                    onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>')"
+                                                                    class="btn btn-success btn-submit" value="Validar">
 
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div id="planos">
+                                                            </form>
 
-                        </div>
+                                                        </div>
+
+
+
+
+
+                                                    </td>
+
+                                                </tr>
+                                                <% }%>
+                                        </tbody>
+                                        <tfoot>
+
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div id="planos">
+
+                                </div>
 
 
 
         </div>
 
         <style>
+            #tbl_planos {
+                font-size: 11px;
+                font-family: 'Montserrat', sans-serif;
+            }
+
             .btns-acciones form .btn-submit {
                 font-family: 'Montserrat', sans-serif;
                 border-radius: 5px;
-                font-size: 10px;
+                font-size: 12px;
                 border: none;
                 cursor: pointer;
                 transition: .3s ease all;
                 width: 70px;
+                font-weight: bold;
             }
-            
+
             .head-tabla-reg {
                 background-color: cadetblue;
                 color: #fff;
             }
-            
+
             .titulo-tabla {
                 color: cadetblue;
             }
         </style>
 
-        <script>
-            $(document).ready(function() {
+        <script type="text/javascript">
+            $('.close').click(function () {
+                $('#btn-cerrar-ok').parent().fadeOut();
+                $('#btn-cerrar-err').parent().fadeOut();
+            })
+
+            function validar_plano(id_ips, nombre_tmp) {
+
+                event.preventDefault();
+
+                $("#loading").attr("hidden", false);
+
+                const peticion = "/file/validar/" + nombre_tmp + "/archivo-bips/?id_ips=" + id_ips;
+
+                $.ajax({
+                    type: 'post',
+                    url: peticion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    beforeSend: function () {
+
+                        $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando...</strong></div>');
+                    },
+                    /* error: function () {
+                         $('#datos_val').html('<p>Error intente de nuevo...</p>');
+                     },*/
+
+                    success: function (result) {
+
+
+                        console.log(result);
+                        //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
+                        //alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
+                        //$('#btn-subir').attr("disabled", true);
+
+
+
+                        //$('#loading').html(result);
+
+                        setTimeout(function () {
+                            window.location.reload(1);
+                        }, 5000);
+
+
+
+
+
+
+
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+
                 $('#tbl_planos').DataTable({
 
-                    "tableTools": {
-                        "sRowSelect": "multi",
-                        "aButtons": [{
-                            "sExtends": "select_none",
-                            "sButtonText": "Borrar selección"
-                        }]
-                    },
-                    "pagingType": "simple_numbers",
                     //Actualizo las etiquetas de mi tabla para mostrarlas en español
-                    "language": {
-                        "search": "Buscar:",
-                        "lengthMenu": "Mostrar _MENU_ registros por página.",
-                        "zeroRecords": "No se encontró registro.",
-                        "info": "  _START_ de _END_ (_TOTAL_ registros totales)",
-                        "infoEmpty": "0 de 0 de 0 registros",
-                        "infoFiltered": "(Encontrado de _MAX_registros)",
-                        "processing": "Procesando la información",
-                        "paginate": {
-                            "first": " |< ",
-                            "previous": "Ant.",
-                            "next": "Sig.",
-                            "last": " >| "
-                        }
-                    },
+                    language: {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        },
+                    }
+
                 });
 
-                    setTimeout(function () {
-                        $('#alertas').fadeOut('fast');
-                    }, 5000);
+                setTimeout(function () {
+                    $('#card-success').hide();
+                }, 5000);
 
 
-                    $('#alertas').show();
-                });
-            </script>
+                $('#card-success').show();
+            });
+
+        </script>
