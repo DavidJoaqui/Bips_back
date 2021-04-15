@@ -12,7 +12,7 @@ const moment = require('moment');
 
 module.exports = {
 
-    async select_archivo(nombre_archivo, nombre_plano) {
+    async validarPlano(nombre_archivo, nombre_plano) {
         //let nombre_plano = nombre_txt.slice(0, 2);
         //console.log("nombre_PLANO:" + nombre_plano);
         if (nombre_plano == 'CT') {
@@ -40,20 +40,21 @@ module.exports = {
             console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAT(nombre_archivo);
         }
-       
-        if (nombre_plano == 'AU') { 
+
+        if (nombre_plano == 'AU') {
             console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAU(nombre_archivo);
         }
 
-        if (nombre_plano == 'AN') { 
-            res = nombre_plano; 
-       }
+        if (nombre_plano == 'AN') {
+            res = nombre_plano;
+        }
 
 
-        if (nombre_plano == 'US') { 
+        if (nombre_plano == 'US') {
             console.log("nombre_PLANO:" + nombre_plano);
-            var res = this.validar_planoUS(nombre_archivo); }
+            var res = this.validar_planoUS(nombre_archivo);
+        }
 
         if (nombre_plano == 'AM') {
             console.log("nombre_PLANO:" + nombre_plano);
@@ -83,7 +84,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -138,7 +139,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -256,7 +257,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -279,14 +280,16 @@ module.exports = {
             if (!moment(vf5, 'DD/MM/YYYY', true).isValid()) {
                 let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_005:" + vf5 + " en la linea " + vflinea;
                 if (vf5 != '') { objerr.push(err); }
-            } if (!moment(vf6, 'DD/MM/YYYY', true).isValid()) {
+            }
+            if (!moment(vf6, 'DD/MM/YYYY', true).isValid()) {
                 let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_006:" + vf6 + " en la linea " + vflinea;
                 if (vf6 != '') { objerr.push(err); }
             }
             if (!moment(vf7, 'DD/MM/YYYY', true).isValid()) {
                 let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_007:" + vf7 + " en la linea " + vflinea;
                 if (vf7 != '') { objerr.push(err); }
-            } if (isNaN(vf13)) {
+            }
+            if (isNaN(vf13)) {
                 let err = "Valor númerico esperado para el campo field_013:" + vf13 + " en la linea " + vflinea;
                 if (vf13 != '') { objerr.push(err); }
             }
@@ -327,7 +330,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016, field_017 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -361,7 +364,8 @@ module.exports = {
             if (isNaN(vf15)) {
                 let err = "Valor númerico esperado para el campo field_015:" + vf15 + " en la linea " + vflinea;
                 if (vf15 != '') { objerr.push(err); }
-            } if (!moment(vf17, 'DD/MM/YYYY', true).isValid()) {
+            }
+            if (!moment(vf17, 'DD/MM/YYYY', true).isValid()) {
                 let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_005:" + vf17 + " en la linea " + vflinea;
                 if (vf17 != '') { objerr.push(err); }
             }
@@ -388,7 +392,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -463,7 +467,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -521,11 +525,11 @@ module.exports = {
 
         for await (var line of rl) {
 
-            let [field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014,field_015,field_016] = line.split(',');
-            objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014,field_015,field_016 };
+            let [field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016] = line.split(',');
+            objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -583,7 +587,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -606,7 +610,7 @@ module.exports = {
                 let err = "Valor númerico esperado para el campo field_003:" + vf3 + " en la linea " + vflinea;
                 if (vf3 != '') { objerr.push(err); }
             }
-            
+
             if (isNaN(vf6)) {
                 let err = "Valor númerico esperado para el campo field_006:" + vf6 + " en la linea " + vflinea;
                 if (vf6 != '') { objerr.push(err); }
@@ -614,7 +618,8 @@ module.exports = {
             if (isNaN(vf11)) {
                 let err = "Valor númerico esperado para el campo field_011:" + vf11 + " en la linea " + vflinea;
                 if (vf11 != '') { objerr.push(err); }
-            } if (isNaN(vf12)) {
+            }
+            if (isNaN(vf12)) {
                 let err = "Valor númerico esperado para el campo field_012:" + vf12 + " en la linea " + vflinea;
                 if (vf12 != '') { objerr.push(err); }
             }
@@ -623,7 +628,7 @@ module.exports = {
                 if (vf13 != '') { objerr.push(err); }
             }
 
-            
+
 
         });
         return objerr;
@@ -647,7 +652,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013 };
 
             let genregistro = 1;
-            objplanoct.forEach(function (dato) {
+            objplanoct.forEach(function(dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -670,7 +675,7 @@ module.exports = {
                 let err = "Valor númerico esperado para el campo field_003:" + vf3 + " en la linea " + vflinea;
                 if (vf3 != '') { objerr.push(err); }
             }
-            
+
             if (isNaN(vf8)) {
                 let err = "Valor númerico esperado para el campo field_008:" + vf8 + " en la linea " + vflinea;
                 if (vf8 != '') { objerr.push(err); }
@@ -682,13 +687,14 @@ module.exports = {
             if (isNaN(vf11)) {
                 let err = "Valor númerico esperado para el campo field_011:" + vf11 + " en la linea " + vflinea;
                 if (vf11 != '') { objerr.push(err); }
-            } if (isNaN(vf12)) {
+            }
+            if (isNaN(vf12)) {
                 let err = "Valor númerico esperado para el campo field_012:" + vf12 + " en la linea " + vflinea;
                 if (vf12 != '') { objerr.push(err); }
             }
-           
 
-            
+
+
 
         });
         return objerr;
@@ -700,4 +706,3 @@ module.exports = {
 
 
 }
-

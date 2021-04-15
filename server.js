@@ -38,8 +38,8 @@ var num_archivos = 10;
 const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
-    
-    filename: function (req, file, cb) {
+
+    filename: function(req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
 
         let fech_now = Date.now();
@@ -54,13 +54,12 @@ const storage = multer.diskStorage({
         //console.log(req.body);
         const ext = path.extname(file.originalname);
         if (num_archivos < 0) {
-            cb("","max numero 10");
+            cb("", "max numero 10");
         }
 
         if (ext !== '.txt') {
             cb(new Error('Solo se permiten archivos formato .txt'));
-        }    
-        else {
+        } else {
             cb("", req.body.cbxips + "_" + fecha_hora + "_" + file.originalname);
         }
     }
@@ -77,6 +76,7 @@ const upload = multer({
 const modelbips = require("./models/modelModel");
 const modelplanos = require("./models/archivosPlanosModel");
 const modelvalidaciones = require("./models/validacionModel");
+const { send } = require('process');
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,19 +88,19 @@ const modelvalidaciones = require("./models/validacionModel");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     res.redirect('/obtenerRegistrosPlanos');
 })
 
-app.get('/obtenerRegistrosPlanos', function (req, res) {
+app.get('/obtenerRegistrosPlanos', function(req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
 
-        console.log(registroplanos);
+            console.log(registroplanos);
 
-        res.render("paginas/RegistrosPlanos", {
-            registroplanos: registroplanos,
-        });
-    })
+            res.render("paginas/RegistrosPlanos", {
+                registroplanos: registroplanos,
+            });
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -108,23 +108,23 @@ app.get('/obtenerRegistrosPlanos', function (req, res) {
 });
 
 
-app.get('/cargar-plano', function (req, res) {
+app.get('/cargar-plano', function(req, res) {
 
     modelbips.obtenerIps().then(listaIps => {
 
-        res.render("paginas/FormularioCarga", {
-            listaIps: listaIps,
+            res.render("paginas/FormularioCarga", {
+                listaIps: listaIps,
 
-        });
+            });
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
         });
 });
 
-app.get('/validar-registros-ap/:ips', async function (req, res, next) {
+app.get('/validar-registros-ap/:ips', async function(req, res, next) {
     //var exec = require('shelljs.exec');
     //var sh = require('execSync');
 
@@ -193,7 +193,7 @@ app.get('/validar-registros-ap/:ips', async function (req, res, next) {
     });
 });
 
-app.get('/cargar', function (req, res) {
+app.get('/cargar', function(req, res) {
     console.log(req);
     res.render("paginas/FormularioCarga");
 });
@@ -278,14 +278,14 @@ app.get("/listadoArchivos", (req, res) => {
     });*/
 
     modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-        //console.log(listaArchivos);    
-        res.setHeader('Content-type', 'text/html');
-        res.render("paginas/listaArchivos", {
-            arr_files: listaArchivos,
+            //console.log(listaArchivos);    
+            res.setHeader('Content-type', 'text/html');
+            res.render("paginas/listaArchivos", {
+                arr_files: listaArchivos,
 
-        });
+            });
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -294,14 +294,14 @@ app.get("/listadoArchivos", (req, res) => {
 
 });
 
-app.get('/recursos_marca', function (req, res) {
+app.get('/recursos_marca', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final.png");
 
 });
 
 
-app.post('/file/delete/:name/archivo-bips', function (req, res) {
+app.post('/file/delete/:name/archivo-bips', function(req, res) {
     let name = req.params.name;
     console.log(req.query);
     //console.log(name);
@@ -319,17 +319,15 @@ app.post('/file/delete/:name/archivo-bips', function (req, res) {
 
             modelplanos.eliminar_RegistrosPlanos_tmp(req.query.id_ips, name).then(respuesta => {
 
-                if (respuesta == "")
+                if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0)
                     console.log("respuesta de eliminacion: 1");
-
-                console.log("OK elimnado...");
 
                 modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
 
-                    req.flash('notify', 'El archivo plano ' + array_nombre[3] + ' se eliminó correctamente...');
-                    res.redirect("/listadoArchivos");
+                        req.flash('notify', 'El archivo plano ' + array_nombre[3] + ' se eliminó correctamente...');
+                        res.redirect("/listadoArchivos");
 
-                })
+                    })
                     .catch(err => {
                         console.log(err);
                         return res.status(500).send("Error obteniendo registros");
@@ -340,55 +338,83 @@ app.post('/file/delete/:name/archivo-bips', function (req, res) {
 });
 
 
-app.post('/file/validar/:name/archivo-bips', function (req, res) {
+app.post('/file/validar/:name/archivo-bips', function(req, res) {
 
-    let name = req.params.name;
-    var array_nombre = name.split('_');
+    let name_tmp = req.params.name;
+    var array_nombre = name_tmp.split('_');
     let nombre_txt = array_nombre[3];
 
     var nombre_plano = nombre_txt.slice(0, 2);
     console.log("nombre_PLANO:" + nombre_plano);
-    console.log(name);
+    console.log(name_tmp);
     console.log("nombre_original " + nombre_txt);
     //console.log(req.query);
     //console.log(name);
 
 
-    modelvalidaciones.select_archivo(name, nombre_plano).then(resval => {
+    modelvalidaciones.validarPlano(name_tmp, nombre_plano).then(rsta_validacion => {
 
-        if (resval == "") {
-            modelplanos.validar_RegistrosPlanos_tmp(req.query.id_ips, name);
-            modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+        //si la respuesta de validacion del plano, retorna la respuesta vacia ""
+        //significa que el plano se valido CORRECTAMENTE.
+        if (rsta_validacion == "") {
+            modelplanos.validar_RegistrosPlanos_tmp(req.query.id_ips, name_tmp).then(respuesta => {
+                if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
 
-                req.flash('notify', 'El Archivo Plano ' + nombre_plano + ' fue validado correctamente...');
-                res.send("OK,200");
+                    console.log("actualizo OK... ");
+                    //Aqui se valida por cada iteracion de validacion de planos si todos se encuentran validados,
+                    //esto con el fin de habilitar el boton de envio de los planos ya validados, tener en cuenta los planos
+                    //que son necesarios AP, AC, AT, AH, AU , AF
 
 
-            })
-                .catch(err => {
-                    console.log(err);
-                    return res.status(500).send("Error obteniendo registros");
-                });
+                    modelplanos.ObtenerPlanos_validos().then(planos_val => {
+                        modelplanos.validarPlanosNecesarios(planos_val).then(rsta => {
 
-            console.log("Plano " + array_nombre[3] + " Validado...");
 
-        } else {
+                            if (rsta == 1) {
 
-            Object.entries(resval).forEach(([key, value]) => {
+
+                                console.log('El plano ' + nombre_plano + ' fue validado correctamente...');
+                                req.flash('notify', 'El Archivo Plano ' + nombre_plano + ' fue validado correctamente...');
+                                res.json({ respuesta: "OK", status: 200, habilitar_envio: true, descripcion: 'El plano ' + nombre_plano + ' fue validado correctamente...' });
+
+
+
+                            } else {
+
+                                console.log('El plano ' + nombre_plano + ' fue validado correctamente...');
+                                req.flash('notify', 'El Archivo Plano ' + nombre_plano + ' fue validado correctamente...');
+                                res.json({ respuesta: "OK", status: 200, habilitar_envio: false, descripcion: 'El plano ' + nombre_plano + ' fue validado correctamente...' });
+
+
+                            }
+                        });
+
+                    });
+                }
+
+            }).catch(err => {
+                console.log(err);
+                return res.status(500).send("Error obteniendo registros");
+            });
+
+
+
+        } else { //si la respuesta de validacion NO esta vacia, se retornan los errores encontrados
+
+            Object.entries(rsta_validacion).forEach(([key, value]) => {
 
                 console.log(`${value}`);
                 //console.log(`${value}`); // "a 5", "b 7", "c 9"
 
             });
 
-            req.flash('error', 'El Archivo Plano ' + nombre_plano + ' tiene los siguientes errores:' + resval);
-            res.send("Error, 500");
-            res.redirect("/listadoArchivos");
-            console.log("cantidad de errores:" + resval.length);
+            req.flash('error', 'El Archivo Plano ' + nombre_plano + ' tiene los siguientes errores:' + rsta_validacion);
+            res.json({ error: 500, respuesta: 'El Archivo Plano ' + nombre_plano + ' tiene los siguientes errores:' + rsta_validacion });
+            console.log("cantidad de errores:" + rsta_validacion.length);
 
 
 
-            //console.log("select respuesta:"+resval);
+            //console.log("select respuesta:"+rsta_validacion);
 
 
 
@@ -419,6 +445,47 @@ app.post("/eliminar-popup/:name/archivo-bips", (req, res) => {
 
     console.log(params);
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar"), { datos_plano: params });
+});
+
+app.post("/delete-all/archivo-bips", (req, res) => {
+
+    fs.readdir(path.join(__dirname, 'filesBipsUploads'), (err, files) => {
+
+        if (err) {
+            console.log(err);
+            res.json({ resultado: err });
+        } else if (files.length == 0) {
+
+            res.json({ resultado: "DATA_NOT_FOUND" });
+        } else {
+            console.log("Los archivos encontrados son: ");
+            files.forEach(file => {
+                try {
+                    var ruta = path.join(__dirname, 'filesBipsUploads') + '/' + file;
+                    fs.unlinkSync(ruta);
+                } catch (error) {
+                    console.error('Something wrong happened removing the file', error)
+                }
+            });
+
+            modelplanos.eliminar_all_RegistrosPlanos_tmp().then(respuesta => {
+
+                    if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                        console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
+                    }
+
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
+            req.flash("notify", "Los archivos fueron eliminados correctamente..");
+            res.json({ resultado: "OK", status: 200 });
+
+
+        }
+
+    });
 });
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
