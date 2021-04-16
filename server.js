@@ -63,7 +63,8 @@ const storage = multer.diskStorage({
             console.log("suma bd + archivos de carga" + numplanos);
             
             
-            if (ext !== '.txt') {
+            if (ext !== '.txt' && ext !== '.Txt'
+            ) {
                 return cb("Error: Solo Archivos Formato .txt");
 
             }
@@ -100,16 +101,7 @@ const storage = multer.diskStorage({
 
 
         //console.log(req.body);
-        const ext = path.extname(file.originalname);
-        if (num_archivos < 0) {
-            cb("", "max numero 10");
-        }
-
-        if (ext !== '.txt') {
-            cb(new Error('Solo se permiten archivos formato .txt'));
-        } else {
-            cb("", req.body.cbxips + "_" + fecha_hora + "_" + file.originalname);
-        }
+        
     }
 
 })
