@@ -64,13 +64,15 @@ const storage = multer.diskStorage({
             
             
             if (ext !== '.txt') {
-                cb("Error: Solo Archivos Formato .txt");
+                return cb("Error: Solo Archivos Formato .txt");
+
             }
             if (numplanos > 10) {
-                cb("Error: Maximo 10 Archivos planos");
+                return cb("Error: Maximo 10 Archivos planos");
             }
 
             else {
+                console.log("prueba plano");
                 let fech_now = Date.now();
 
                 let date_ = new Date(fech_now);
@@ -267,6 +269,7 @@ app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
     for (var i in req.files) {
 
         try {
+
 
             modelplanos.insertar_RegistrosPlanos_tmp(req.body.cbxips, req.body.nombre_ips, periodo, req.files[i].originalname, req.files[i].mimetype, fecha_hora, '0', req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname).then(respuesta => {
                 //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
