@@ -24,6 +24,13 @@ module.exports = {
         const resultados = await conexion.query("UPDATE schema_planos.registros_planos_tmp SET validado=true where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo]);
         return resultados.rows;
     },
+
+    async cantidad_RegistrosPlanos_tmp() {
+        const resultados = await conexion.query("select count(nombre_original) from schema_planos.registros_planos_tmp");
+        return resultados.rows;
+    },
+    
+
     
 
 

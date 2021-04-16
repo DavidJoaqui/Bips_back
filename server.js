@@ -35,34 +35,69 @@ app.use(flash());
 
 var num_archivos = 10;
 
+const modelplanos = require("./models/archivosPlanosModel");
+
+
 const storage = multer.diskStorage({
+
+
+
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
-    
+
     filename: function (req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
 
-        let fech_now = Date.now();
+        
+        //console.log("planos 10 - planos bd:"+num_archivos-numplanos);
+        var numcarga= req.files.length;
+        console.log("numero de archivos a cargar" + numcarga);
+        
+        modelplanos.cantidad_RegistrosPlanos_tmp().then(rescount => {
+            //count_temp=JSON.stringify(rescount);
+            var ext = path.extname(file.originalname);
 
-        let date_ = new Date(fech_now);
+            var numplanos = Number(Object.values(rescount[0]));
+            numplanos=numplanos+numcarga;
 
-        let fecha_completa = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear();
-        let hora = date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds();
+            console.log("suma bd + archivos de carga" + numplanos);
+            
+            
+            if (ext !== '.txt') {
+                cb("Error: Solo Archivos Formato .txt");
+            }
+            if (numplanos > 10) {
+                cb("Error: Maximo 10 Archivos planos");
+            }
 
-        let fecha_hora = fecha_completa + "_" + hora;
+            else {
+                let fech_now = Date.now();
 
-        //console.log(req.body);
-        const ext = path.extname(file.originalname);
-        if (num_archivos < 0) {
-            cb("","max numero 10");
-        }
+                let date_ = new Date(fech_now);
 
-        if (ext !== '.txt') {
-            cb(new Error('Solo se permiten archivos formato .txt'));
-        }    
-        else {
-            cb("", req.body.cbxips + "_" + fecha_hora + "_" + file.originalname);
-        }
+                let fecha_completa = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear();
+                let hora = date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds();
+
+                let fecha_hora = fecha_completa + "_" + hora;
+
+                //console.log(req.body);
+
+                /*if (num_archivos < 0) {
+                    cb("","max numero 10");
+                }*/
+
+
+
+                cb("", req.body.cbxips + "_" + fecha_hora + "_" + file.originalname);
+
+
+            }
+
+
+        })
+
+
+
     }
 
 })
@@ -75,8 +110,9 @@ const upload = multer({
 
 
 const modelbips = require("./models/modelModel");
-const modelplanos = require("./models/archivosPlanosModel");
+
 const modelvalidaciones = require("./models/validacionModel");
+const { Console, count } = require('console');
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,50 +238,52 @@ app.get('/cargar', function (req, res) {
 
 app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
 
+
+    
     //console.log(req.files);
     //console.log(req.files.length);
 
-    num_archivos = num_archivos - req.files.length;
+    //num_archivos = num_archivos - req.files.length;
 
-    console.log(num_archivos);
+    //console.log(num_archivos);
     //console.log(req.body);
-    if (num_archivos < 0) {
+    /*if (num_archivos < 0) {
         console.log("max num archivos 10");
-    } else {
+    } else*/
 
-        let periodo = req.body.txtfecha_inicial + " - " + req.body.txtfecha_fin;
+    let periodo = req.body.txtfecha_inicial + " - " + req.body.txtfecha_fin;
 
-        let fech_now = Date.now();
+    let fech_now = Date.now();
 
-        let date_ = new Date(fech_now);
+    let date_ = new Date(fech_now);
 
-        let fecha_completa = date_.getDate() + "/" + (date_.getMonth() + 1) + "/" + date_.getFullYear();
-        let hora = date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds();
+    let fecha_completa = date_.getDate() + "/" + (date_.getMonth() + 1) + "/" + date_.getFullYear();
+    let hora = date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds();
 
-        let fecha_hora = fecha_completa + " " + hora;
+    let fecha_hora = fecha_completa + " " + hora;
 
-        //console.log(fecha_hora);
+    //console.log(fecha_hora);
 
-        for (var i in req.files) {
+    for (var i in req.files) {
 
-            try {
+        try {
 
-                modelplanos.insertar_RegistrosPlanos_tmp(req.body.cbxips, req.body.nombre_ips, periodo, req.files[i].originalname, req.files[i].mimetype, fecha_hora, '0', req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname).then(respuesta => {
-                    //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
-                    if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                        console.log("OK... upload");
-                        //num_archivos--;
-                        //console.log("archivos insert "+num_archivos);
+            modelplanos.insertar_RegistrosPlanos_tmp(req.body.cbxips, req.body.nombre_ips, periodo, req.files[i].originalname, req.files[i].mimetype, fecha_hora, '0', req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname).then(respuesta => {
+                //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
+                if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                    console.log("OK... upload");
+                    //num_archivos--;
+                    //console.log("archivos insert "+num_archivos);
 
-                    }
-                });
+                }
+            });
 
-            } catch (error) {
-                console.log("err " + error);
-            }
-
+        } catch (error) {
+            console.log("err " + error);
         }
+
     }
+
 
     res.setHeader('Content-type', 'application/json');
     res.send('{"estado":"200","respuesta": "La operacion se ejecuto con exito.."}');
@@ -342,6 +380,8 @@ app.post('/file/delete/:name/archivo-bips', function (req, res) {
 
 app.post('/file/validar/:name/archivo-bips', function (req, res) {
 
+
+
     let name = req.params.name;
     var array_nombre = name.split('_');
     let nombre_txt = array_nombre[3];
@@ -352,6 +392,7 @@ app.post('/file/validar/:name/archivo-bips', function (req, res) {
     console.log("nombre_original " + nombre_txt);
     //console.log(req.query);
     //console.log(name);
+
 
 
     modelvalidaciones.select_archivo(name, nombre_plano).then(resval => {

@@ -263,12 +263,27 @@
                                                 cache: false,
                                                 processData: false,
 
-                                                beforeSend: function () {
+                                                beforeSend: function (data) {
+                                                    //console.log(data.status + ':' + data.statusText,data.responseText);
                                                     $('#datos').html('<p>Procesando...</p>');
                                                 },
-                                                error: function () {
-                                                    $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>Solo se permiten archivos .txt</p>');
+                                                error: function (data) {
+                                                    console.log(data.responseText);
+                                                    $('#datos').html(data.responseText);
+                                                       
 
+                                                    /*if(data['readyState']== 4){
+                                                        $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>maximo 10 archivos</p>');
+                                                        console.log("error function"+JSON.stringify(data));
+
+                                                    }else if(data['status']== 'ERR_EXT'){
+                                                        $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>Solo se permiten archivos .txt</p>');
+
+
+                                                    }*/
+
+                                                    
+      
                                                     setTimeout(function () {
                                                         $('#datos').fadeOut('fast');
                                                     }, 5000);
