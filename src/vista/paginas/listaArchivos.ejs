@@ -128,9 +128,12 @@
                                                             </form>
 
                                                             <form>
+                                                                <% if (!arr_files[i].validado) { %>
 
-                                                                <input type="button" onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>')" class="btn btn-success btn-submit" value="Validar">
-
+                                                                    <input type="button" id="btn-<%= i %>" name="btn-<%= i %>" onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>')" class="btn btn-success btn-submit" value="Validar">
+                                                                    <% }else{ %>
+                                                                        <input type="button" id="btn-<%= i %>" name="btn-<%= i %>" onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>')" class="btn btn-success btn-submit" value="Validar" disabled>
+                                                                        <% } %>
                                                             </form>
 
                                                         </div>
@@ -261,16 +264,11 @@
                         console.log(result["habilitar_envio"]);
 
                         if (result["habilitar_envio"] == true) {
-                            alert("se pueden enviar la transformacion");
+                            alert("se puede enviar la transformacion");
                         }
                         //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
                         //alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
-                        //$('#btn-subir').attr("disabled", true);
-
-
-
-                        //$('#loading').html(result);
-
+                        //$('#btn-subir').attr("disabled", true);                                            
                         setTimeout(function() {
                             window.location.reload(1);
                         }, 5000);

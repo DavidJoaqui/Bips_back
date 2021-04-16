@@ -3,14 +3,16 @@ body::-webkit-scrollbar {
 }
 
 body {
-    background-color: #eaedee;
+    /*background-color: #eaedee;*/
+    background-color: #fff;
 }
 
 #panel_carga {
     margin-left: 15px;
     padding-left: 5px;
     margin-top: 5px;
-    background-color: #eaedee;
+    /*background-color: #eaedee;*/
+    background-color: #fff;
 }
 
 #lista_archivos {

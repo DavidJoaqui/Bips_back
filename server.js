@@ -45,34 +45,31 @@ const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
 
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
 
-        
+
         //console.log("planos 10 - planos bd:"+num_archivos-numplanos);
-        var numcarga= req.files.length;
+        var numcarga = req.files.length;
         console.log("numero de archivos a cargar" + numcarga);
-        
+
         modelplanos.cantidad_RegistrosPlanos_tmp().then(rescount => {
             //count_temp=JSON.stringify(rescount);
             var ext = path.extname(file.originalname);
 
             var numplanos = Number(Object.values(rescount[0]));
-            numplanos=numplanos+numcarga;
+            numplanos = numplanos + numcarga;
 
             console.log("suma bd + archivos de carga" + numplanos);
-            
-            
-            if (ext !== '.txt' && ext !== '.Txt'
-            ) {
+
+
+            if (ext !== '.txt' && ext !== '.Txt') {
                 return cb("Error: Solo Archivos Formato .txt");
 
             }
             if (numplanos > 10) {
                 return cb("Error: Maximo 10 Archivos planos");
-            }
-
-            else {
+            } else {
                 console.log("prueba plano");
                 let fech_now = Date.now();
 
@@ -101,7 +98,7 @@ const storage = multer.diskStorage({
 
 
         //console.log(req.body);
-        
+
     }
 
 })
@@ -244,7 +241,7 @@ app.get('/cargar', function(req, res) {
 app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
 
 
-    
+
     //console.log(req.files);
     //console.log(req.files.length);
 
@@ -274,7 +271,19 @@ app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
         try {
 
 
-            modelplanos.insertar_RegistrosPlanos_tmp(req.body.cbxips, req.body.nombre_ips, periodo, req.files[i].originalname, req.files[i].mimetype, fecha_hora, '0', req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname).then(respuesta => {
+            modelplanos.insertar_RegistrosPlanos_tmp(
+
+                req.body.cbxips,
+                req.body.nombre_ips,
+                periodo,
+                req.files[i].originalname,
+                req.files[i].mimetype,
+                fecha_hora,
+                '0',
+                req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname,
+                path.join(__dirname + "/" + 'filesBipsUploads/' + req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname)
+
+            ).then(respuesta => {
                 //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
                 if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
                     console.log("OK... upload");

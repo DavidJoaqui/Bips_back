@@ -5,8 +5,8 @@ const conexion = require("./persistencia/conexion");
 module.exports = {
 
 
-    async insertar_RegistrosPlanos_tmp(id_ips, nombre_ips, periodo_cargado, nombre_archivo, mimetypes, fecha_carga, validado, nombre_tmp) {
-        const resultados = await conexion.query('insert into schema_planos.registros_planos_tmp (id_ips,nombre_ips,periodo_cargado,nombre_original,mimetypes,fecha_carga,validado,nombre_tmp) values ($1,$2,$3,$4,$5,$6,$7,$8)', [id_ips, nombre_ips, periodo_cargado, nombre_archivo, mimetypes, fecha_carga, validado, nombre_tmp]);
+    async insertar_RegistrosPlanos_tmp(id_ips, nombre_ips, periodo_cargado, nombre_archivo, mimetypes, fecha_carga, validado, nombre_tmp, path_archivo) {
+        const resultados = await conexion.query('insert into schema_planos.registros_planos_tmp (id_ips,nombre_ips,periodo_cargado,nombre_original,mimetypes,fecha_carga,validado,nombre_tmp,path_plano) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)', [id_ips, nombre_ips, periodo_cargado, nombre_archivo, mimetypes, fecha_carga, validado, nombre_tmp, path_archivo]);
         return resultados;
     },
 
@@ -39,9 +39,9 @@ module.exports = {
         const resultados = await conexion.query("select count(nombre_original) from schema_planos.registros_planos_tmp");
         return resultados.rows;
     },
-    
 
-    
+
+
 
     async validarPlanosNecesarios(planos_val) {
         console.log(planos_val);
@@ -74,6 +74,13 @@ module.exports = {
             // 0 : no cumple
             return "0";
         }
+    },
+
+
+    async eliminarPlanosValidosTmp() {
+
+        const resultados = await conexion.query("delete from schema_planos.registros_planos_tmp where validado = true");
+        return resultados;
     }
 
 
