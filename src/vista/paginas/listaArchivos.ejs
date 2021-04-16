@@ -4,36 +4,46 @@
         <div class="col-md-12" id="lista_archivos" name="lista_archivos">
 
 
+            <h2>
+                <span class="titulo-tabla" style="font-weight: bold;text-align: left;">Lista de Archivos Planos
+                </span>
+                <span style="float: right;">
+                    
+                <button type="button" class="btn btn-danger btn-submit"  id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()" >
+                    <i class="fas fa-trash"></i> Eliminar todos.
+                    </button>
+                </span>
+            </h2>
 
-            <h2 class="titulo-tabla" style="font-weight: bold;">Lista de Archivos Planos</h2>
+
 
             <% const m=getMessages() %>
 
                 <% if (m.notify) { %>
-                    
-                        <div class="card text-white bg-success mb-3" style="margin-top: 20px;" id="card-success">
-                            <div class="card-header container-fluid" id="btn-cerrar-ok"><strong>OK!</strong>
-                                <button type="button" class="close" aria-label="Close">
+
+                    <div class="card" style="margin-top: 20px;" id="card-success">
+                        <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok"><strong>OK!</strong>
+                            <button type="button" class="close" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                            </div>
-
-                            <div class="card-body">
-
-                                <% m.notify.forEach((element)=> { %>
-
-                                    <%= element %>
-                                        <% }) %> %>
-                            </div>
-
-                            
                         </div>
-                    
+
+                        <div class="card-body">
+
+                            <% m.notify.forEach((element)=> { %>
+
+                                <%= element %>
+                                    <% }) %> %>
+                        </div>
+
+
+                    </div>
+
                     <% } %>
                         <% if (m.error) { %>
 
-                            <div class="card text-white bg-danger mb-3" style="margin-top: 20px;">
-                                <div class="card-header container-fluid" id="btn-cerrar-err"><strong>Error!</strong>
+                            <div class="card " style="margin-top: 20px;">
+                                <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err"><strong>Error!</strong>
                                     <button type="button" class="close" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -54,8 +64,7 @@
                                 <p type="text" id="loading" value="" hidden>loading...</p>
                                 <div class="table-responsive">
 
-                                    <table class="table table-striped table-bordered" style="width:100%"
-                                        id="tbl_planos">
+                                    <table class="table table-striped table-bordered" style="width:100%" id="tbl_planos">
 
 
                                         <thead class="head-tabla-reg">
@@ -82,8 +91,7 @@
                                                         </strong>
                                                     </td>
                                                     <td>
-                                                        <p><span class="glyphicon glyphicon-time"
-                                                                style="color:cadetblue"></span>
+                                                        <p><i class="far fa-clock" style="color: cadetblue;"></i>
                                                             <%= arr_files[i].periodo_cargado %>
                                                         </p>
 
@@ -96,17 +104,14 @@
                                                     <td>
                                                         <% if (!arr_files[i].validado) { %>
                                                             <div>
-                                                                <p><span class="glyphicon glyphicon-remove-circle"
-                                                                        style="color:red
-                                                    "></span>
+                                                                <p><i class="far fa-times-circle" style="color: red;"></i>
                                                                     <%= "No" %>
                                                                 </p>
 
                                                             </div>
 
                                                             <% } else { %>
-                                                                <p><span class="glyphicon glyphicon-check"
-                                                                        style="color:green"></span>
+                                                                <p><i class="far fa-check-circle" style="color: green;"></i>
                                                                     <%= "Si" %>
                                                                 </p>
 
@@ -117,18 +122,14 @@
                                                     <td class="btns-acciones">
                                                         <div class="btn-group">
                                                             <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
-                                                            <form method="post"
-                                                                action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
-                                                                <button class="btn btn-danger btn-submit"
-                                                                    value="<%=arr_files[i].nombre_original %>">Eliminar
+                                                            <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
+                                                                <button class="btn btn-danger btn-submit" value="<%=arr_files[i].nombre_original %>">Eliminar
                                                                 </button>
                                                             </form>
 
                                                             <form>
 
-                                                                <input type="button"
-                                                                    onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>')"
-                                                                    class="btn btn-success btn-submit" value="Validar">
+                                                                <input type="button" onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>')" class="btn btn-success btn-submit" value="Validar">
 
                                                             </form>
 
@@ -162,7 +163,7 @@
                 font-size: 11px;
                 font-family: 'Montserrat', sans-serif;
             }
-
+            
             .btns-acciones form .btn-submit {
                 font-family: 'Montserrat', sans-serif;
                 border-radius: 5px;
@@ -170,29 +171,69 @@
                 border: none;
                 cursor: pointer;
                 transition: .3s ease all;
-                width: 70px;
                 font-weight: bold;
             }
-
+            
+            #btn-elim-all {
+                font-family: 'Montserrat', sans-serif;
+                border-radius: 5px;
+                font-size: 10px;
+                border: none;
+                cursor: pointer;
+                transition: .3s ease all;
+            }
+            
             .head-tabla-reg {
                 background-color: cadetblue;
                 color: #fff;
             }
-
+            
             .titulo-tabla {
                 color: cadetblue;
             }
         </style>
 
         <script type="text/javascript">
-            $('.close').click(function () {
+            $('.close').click(function() {
                 $('#btn-cerrar-ok').parent().fadeOut();
                 $('#btn-cerrar-err').parent().fadeOut();
             })
 
+            function eliminar_all() {
+
+                $.ajax({
+                    type: 'post',
+                    url: "/delete-all/archivo-bips",
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function(result) {
+                        console.log("Success ... " + result["resultado"]);
+
+                        if (result["resultado"] == "DATA_NOT_FOUND") {
+                            alert("No hay planos a eliminar");
+                        } else if (result["resultado"] == "OK" && result["status"] == 200) {
+                            setTimeout(function() {
+                                window.location.reload(1);
+                            }, 1000);
+                        }
+
+                    }
+
+                });
+
+            }
+
             function validar_plano(id_ips, nombre_tmp) {
 
                 event.preventDefault();
+
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 'slow'); //seleccionamos etiquetas,clase o identificador destino, creamos animación hacia top de la página.
+
 
                 $("#loading").attr("hidden", false);
 
@@ -206,7 +247,7 @@
                     cache: false,
                     processData: false,
 
-                    beforeSend: function () {
+                    beforeSend: function() {
 
                         $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando...</strong></div>');
                     },
@@ -214,10 +255,14 @@
                          $('#datos_val').html('<p>Error intente de nuevo...</p>');
                      },*/
 
-                    success: function (result) {
+                    success: function(result) {
 
 
-                        console.log(result);
+                        console.log(result["habilitar_envio"]);
+
+                        if (result["habilitar_envio"] == true) {
+                            alert("se pueden enviar la transformacion");
+                        }
                         //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
                         //alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
                         //$('#btn-subir').attr("disabled", true);
@@ -226,7 +271,7 @@
 
                         //$('#loading').html(result);
 
-                        setTimeout(function () {
+                        setTimeout(function() {
                             window.location.reload(1);
                         }, 5000);
 
@@ -240,7 +285,7 @@
                 });
             }
 
-            $(document).ready(function () {
+            $(document).ready(function() {
 
                 $('#tbl_planos').DataTable({
 
@@ -272,12 +317,11 @@
 
                 });
 
-                setTimeout(function () {
+                setTimeout(function() {
                     $('#card-success').hide();
                 }, 5000);
 
 
                 $('#card-success').show();
             });
-
         </script>
