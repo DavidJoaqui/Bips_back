@@ -308,34 +308,25 @@ app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
 
 app.get("/listadoArchivos", (req, res) => {
 
-    /*fs.readdir(path.join(__dirname, 'filesBipsUploads'), (err, files) => {
+    var bandera_envio = false;
+    modelplanos.ObtenerPlanos_validos().then(planos_val => {
 
-        const arr_files = new Array();
+        modelplanos.validarPlanosNecesarios(planos_val).then(rsta => {
 
-        if (err) {
-            console.log(err);
-            res.send('{"estado":"500" ,"respuesta": "Error", "err":"' + err + '"}');
-        } else {
-            console.log("Los archivos encontrados son: ");
-            files.forEach(file => {
-                arr_files.push(file);
-                var array_nombre = file.split('.');
-                console.log("." + array_nombre[1]);
+            if (rsta == 1) {
+                bandera_envio = true;
+            }
+        });
 
-            });
-            res.setHeader('Content-type', 'text/html');
-            res.render("paginas/listaArchivos", {
-                arr_files: arr_files,
-            });
-        }
-    });*/
+    });
+
 
     modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
             //console.log(listaArchivos);    
             res.setHeader('Content-type', 'text/html');
             res.render("paginas/listaArchivos", {
                 arr_files: listaArchivos,
-
+                habilitar_envio_la: bandera_envio,
             });
 
         })
@@ -539,6 +530,16 @@ app.post("/delete-all/archivo-bips", (req, res) => {
         }
 
     });
+});
+
+
+
+app.post("/enviar-transformacion/archivo-bips", (req, res) => {
+
+    //se debera validar si cuando se envia la peticion, ya se encutran los archivos necesarios 
+
+
+
 });
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));

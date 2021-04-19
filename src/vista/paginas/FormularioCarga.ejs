@@ -101,18 +101,6 @@
                                                         </div>
                                                     </div>
 
-
-                                                    <div class=" form-group">
-                                                        <div class="card" id="div_envio" name="div_envio" hidden>
-                                                            <div class="card-header text-white bg-success mb-3 container-fluid"><b> ENVIAR</b></div>
-                                                            <div class="panel-body">
-                                                                <div style="text-align: center;">
-                                                                    <button class="btn btn btn-success btn-sm">ENVIAR</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                 </form>
 
                                             </div>
@@ -246,14 +234,14 @@
                                                 cache: false,
                                                 processData: false,
 
-                                                beforeSend: function (data) {
+                                                beforeSend: function(data) {
                                                     //console.log(data.status + ':' + data.statusText,data.responseText);
                                                     $('#datos').html('<p>Procesando...</p>');
                                                 },
-                                                error: function (data) {
+                                                error: function(data) {
                                                     console.log(data.responseText);
                                                     $('#datos').html(data.responseText);
-                                                       
+
 
                                                     /*if(data['readyState']== 4){
                                                         $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>maximo 10 archivos</p>');
@@ -265,9 +253,9 @@
 
                                                     }*/
 
-                                                    
-      
-                                                    setTimeout(function () {
+
+
+                                                    setTimeout(function() {
                                                         $('#datos').fadeOut('fast');
                                                     }, 5000);
 
