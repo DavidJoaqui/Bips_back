@@ -40,11 +40,15 @@ module.exports = {
         return resultados.rows;
     },
 
+    async obtener_plano_tmp(nombre_archivo_tmp){
+        const resultados = await conexion.query("select nombre_original,nombre_tmp,path_plano,validado from schema_planos.registros_planos_tmp where nombre_tmp = $1",[nombre_archivo_tmp]);
+        return resultados.rows;
+    },
 
 
 
     async validarPlanosNecesarios(planos_val) {
-        console.log(planos_val);
+        //console.log(planos_val);
         var cont_obligatorios = 0;
         if (planos_val.length >= 6) {
             // son necesarios AP, AC, AT, AH, AU, AF, no entra US, AN,CT,AM

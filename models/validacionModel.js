@@ -1,7 +1,3 @@
-const { query } = require("./persistencia/conexion");
-const conexion = require("./persistencia/conexion");
-
-
 const fs = require('fs');
 const readline = require('readline');
 const moment = require('moment');
@@ -21,28 +17,28 @@ module.exports = {
             //console.log('./filesBipsUploads/' + nombre_archivo);
         }
         if (nombre_plano == 'AC') {
-            console.log("nombre_PLANO:" + nombre_plano);
+            //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAC(nombre_archivo);
         }
         if (nombre_plano == 'AF') {
-            console.log("nombre_PLANO:" + nombre_plano);
+            //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAF(nombre_archivo);
         }
         if (nombre_plano == 'AH') {
-            console.log("nombre_PLANO:" + nombre_plano);
+            //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAH(nombre_archivo);
         }
         if (nombre_plano == 'AP') {
-            console.log("nombre_PLANO:" + nombre_plano);
+            //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAP(nombre_archivo);
         }
         if (nombre_plano == 'AT') {
-            console.log("nombre_PLANO:" + nombre_plano);
+            //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAT(nombre_archivo);
         }
 
         if (nombre_plano == 'AU') {
-            console.log("nombre_PLANO:" + nombre_plano);
+            //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAU(nombre_archivo);
         }
 
@@ -52,12 +48,12 @@ module.exports = {
 
 
         if (nombre_plano == 'US') {
-            console.log("nombre_PLANO:" + nombre_plano);
+            //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoUS(nombre_archivo);
         }
 
         if (nombre_plano == 'AM') {
-            console.log("nombre_PLANO:" + nombre_plano);
+            //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAM(nombre_archivo);
         }
 
@@ -68,7 +64,7 @@ module.exports = {
     async validar_planoCT(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+        //console.log(objerr.length);
         //var elementosRemovidos = objerr.splice(0, objerr.length);
         //console.log("removidos"+elementosRemovidos);
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
@@ -125,7 +121,7 @@ module.exports = {
     async validar_planoAC(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+       // console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -144,7 +140,7 @@ module.exports = {
             });
         }
 
-        console.log(objplanoct);
+        //console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
             let vf0 = val["field_000"];
             let vf1 = val["field_001"];
@@ -243,7 +239,7 @@ module.exports = {
     async validar_planoAF(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+        //console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -261,7 +257,7 @@ module.exports = {
                 dato.linea = genregistro++;
             });
         }
-        console.log(objplanoct);
+        //console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
             let vf0 = val["field_000"];
             let vf5 = val["field_005"];
@@ -316,7 +312,7 @@ module.exports = {
     async validar_planoAH(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+        //console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -334,7 +330,7 @@ module.exports = {
                 dato.linea = genregistro++;
             });
         }
-        console.log(objplanoct);
+        //console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
@@ -378,7 +374,7 @@ module.exports = {
     async validar_planoAP(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+        //console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -396,7 +392,7 @@ module.exports = {
                 dato.linea = genregistro++;
             });
         }
-        console.log(objplanoct);
+        //console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
@@ -453,7 +449,7 @@ module.exports = {
     async validar_planoAT(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+        //console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -471,7 +467,7 @@ module.exports = {
                 dato.linea = genregistro++;
             });
         }
-        console.log(objplanoct);
+      //  console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
@@ -515,7 +511,7 @@ module.exports = {
     async validar_planoAU(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+        //console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -533,7 +529,7 @@ module.exports = {
                 dato.linea = genregistro++;
             });
         }
-        console.log(objplanoct);
+        //console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
@@ -573,7 +569,7 @@ module.exports = {
     async validar_planoAM(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+        //console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -591,7 +587,7 @@ module.exports = {
                 dato.linea = genregistro++;
             });
         }
-        console.log(objplanoct);
+      //  console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
@@ -638,7 +634,7 @@ module.exports = {
     async validar_planoUS(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-        console.log(objerr.length);
+      //  console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -656,7 +652,7 @@ module.exports = {
                 dato.linea = genregistro++;
             });
         }
-        console.log(objplanoct);
+      //  console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
