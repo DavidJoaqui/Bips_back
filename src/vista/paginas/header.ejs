@@ -2,30 +2,42 @@
 <html lang="es">
 
 <body>
-    <!-- Definición del menú -->
-    <main>
-        <div>
+  <!-- Definición del menú -->
+  <main>
+    <div>
+      <div class="container "></div>
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-                <a class="navbar-brand" href="#">
-                    <img alt="Brand" src="recursos_marca">
-                </a>
-              
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item ">
-                      <a class="nav-link" href="/obtenerRegistrosPlanos">Registros Archivos Planos <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/cargar-plano">Cargar plano</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/reportes">Generador de Reportes</a>
-                    </li>
-                  </ul>
-                  
-                </div>
-              </nav>
-            
 
-            <!-- Termina la definición del menú -->
+      <ul class="nav nav-tabs nav-fill " id="myTab" role="tablist">
+        <li class="nav-brand ">
+          <a class="navbar-brand" href="#">
+            <img alt="Brand" src="recursos_marca">
+          </a>
+        </li>
+
+        <li class="nav-item ">
+          <a class="nav-link" href="/obtenerRegistrosPlanos">Registros Archivos
+            Planos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/cargar-plano">Cargar plano</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/reportes">Generador de Reportes</a>
+        </li>
+      </ul>
+
+      <script>
+        $('li a').click(function (e) {
+          //e.preventDefault();
+          $('a').removeClass('active');
+          $(this).addClass('active');
+        });
+      </script>
+
+
+
+
+
+
+      <!-- Termina la definición del menú -->
