@@ -131,10 +131,16 @@
                                                             <td class="btns-acciones">
                                                                 <div class="btn-group">
                                                                     <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
+                                                                        <% if (!arr_files[i].validado) { %>
                                                                     <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
-                                                                        <button class="btn btn-danger btn-submit" value="<%=arr_files[i].nombre_original %>">Eliminar
-                                                                </button>
+                                                                        <button class="btn btn-danger btn-submit" value="<%=arr_files[i].nombre_original %>">Eliminar</button>
                                                                     </form>
+                                                                    <% }else{ %>
+                                                                        <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
+                                                                            <button class="btn btn-danger btn-submit" value="<%=arr_files[i].nombre_original %>" disabled>Eliminar</button>
+                                                                        </form>
+
+                                                                        <% } %>
 
                                                                     <form>
                                                                         <% if (!arr_files[i].validado) { %>

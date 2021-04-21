@@ -65,7 +65,10 @@ module.exports = {
                 console.log("===========================================================================");
 
 
-
+                /*
+                La función spawn lanza un comando en un nuevo proceso y podemos usarlo para pasarle cualquier argumento a ese comando
+                
+                */    
                 const spawn_pr = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo=" + path_plano, '-logfile=/tmp/trans.log']);
                 //const spawn_pr = spawn('ls',['-ltr','/var/lib/data-integration']);
 
