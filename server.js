@@ -67,13 +67,16 @@ const storage = multer.diskStorage({
             numplanos = numplanos + numcarga;
 
             console.log("suma bd + archivos de carga" + numplanos);
-
-
-            if (ext !== '.txt' && ext !== '.Txt') {
+            if (numcarga > 10) {
+                return cb("Error: Maximo 10 Archivos planos");
+            }
+            
+            else if (ext !== '.txt' && ext !== '.Txt'
+            ) {
                 return cb("Error: Solo Archivos Formato .txt");
 
             }
-            if (numplanos > 10) {
+            else if (numplanos > 10) {
                 return cb("Error: Maximo 10 Archivos planos");
             } else {
                 //console.log("prueba plano");
