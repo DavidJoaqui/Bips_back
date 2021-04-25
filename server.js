@@ -339,7 +339,7 @@ app.post('/file/validar/:name/archivo-bips', function (req, res) {
 
     let name_tmp = req.params.name;
     var array_nombre = name_tmp.split('_');
-    let nombre_txt = array_nombre[3];
+    let nombre_txt = array_nombre[2];
 
     var nombre_plano = nombre_txt.slice(0, 2);
     //console.log("nombre_PLANO:" + nombre_plano);
@@ -552,7 +552,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
     //modelktr.obtener_fecha_hora().then(fh => console.log(fh));
     console.log("===========================================================================");
 
-    const spawn_job = spawn('sh', ['/var/lib/data-integration/kitchen.sh', "-file=/archivos_bips/Trans_Archivos_Planos/Job_reporte2193.kjb", '-level=Basic', '-logfile=/tmp/trans.log']);
+    const spawn_job = spawn('sh', ['/var/lib/data-integration/kitchen.sh', "-file=/home/bips/Documentos/node-postgresql/src/integracionKjb/Job_reporte2193.kjb", '-level=Basic', '-logfile=/tmp/trans.log']);
 
     spawn_job.stdout.pipe(process.stdout);
 
