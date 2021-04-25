@@ -82,9 +82,9 @@ const storage = multer.diskStorage({
                 let date_ = new Date(fech_now);
 
                 let fecha_completa = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear();
-                let hora = date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds();
+                //let hora = date_.getHours() + "" + date_.getMinutes() ;
 
-                let fecha_hora = fecha_completa + "_" + hora;
+                //let fecha_hora = fecha_completa + "_" + hora;
 
                 //console.log(req.body);
 
@@ -94,7 +94,7 @@ const storage = multer.diskStorage({
 
 
 
-                cb("", req.body.cbxips + "_" + fecha_hora + "_" + file.originalname);
+                cb("", req.body.cbxips + "_" + fecha_completa + "_" + file.originalname);
 
 
             }
@@ -167,65 +167,7 @@ app.get('/cargar-plano', function (req, res) {
 });
 
 app.get('/validar-registros-ap/:ips', async function (req, res, next) {
-    //var exec = require('shelljs.exec');
-    //var sh = require('execSync');
 
-    const execSync = require('child_process').execSync;
-    const exec = require('child_process').exec;
-    const spawn = require('child_process').spawn;
-    /*
-    var code = execSync('node -v', { encoding: 'utf8', timeout: 10000 });
-    console.log('respuesta comando prueba ' + code);
-
-    var prueba_2 = execSync('cd ' + path.join(__dirname) + ";git describe", { encoding: 'utf8', timeout: 10000, shell: true });
-    console.log('la version actual de la aplicacion es: ' + prueba_2);
-
-
-
-    //var prueba_3 = spawn('cd /var/lib/data-integration/; sh pan.sh -file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr" -level=Error >> /archivos_bips/trans.log;', {encoding: 'utf8', stdio: 'ignore'});
-    //const spawn_pr = spawn('sh pan.sh',['-file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr']);
-    console.log(__dirname);
-    //const spawn_pr = spawn('sh',['/var/lib/data-integration/pan.sh','-file=src/IntegracionKtr/Trans_archivosPlanos.ktr','-level=Minimal','logfile=./archivos_bips/trans.log']);
-    //const spawn_pr = spawn('ls',['-ltr','/var/lib/data-integration']);
-    const spawn_pr = spawn('ls', ['-ltr']);
-    spawn_pr.stdout.pipe(process.stdout);
-    spawn_pr.stdout.on('data', data => {
-        console.log(`stdout:\n${data}`)
-    });
-    spawn_pr.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
-    });
-
-    spawn_pr.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
-
-        if (code == '0') {
-            console.log("La transformacion se ejecuto con exito... estado: " + code);
-        } else {
-            console.error('Ocurrio un problema con la ejecucion de la transformacion ' + code);
-        }
-    });
-
-    */
-    //console.log(prueba_3);
-    //process.stdout.write('salida'+prueba_3);
-    //process.error.write('error'+prueba_3);
-    //process.stderr.write('st error'+prueba_3);    
-
-
-
-
-    //const {error , stdout, stderr } = await exec('sh /var/lib/data-integration/kitchen.sh -file="/archivos_bips/Trans_Archivos_Planos/Job_reporte2193.kjb" -level=Nothing >> /archivos_bips/trans.log;', {encoding: 'utf8', timeout: 10000, shell : true});
-
-    //const {error , stdout, stderr } = await exec('node -v', {encoding: 'utf8', timeout: 10000});
-
-    //console.log('error: ', error );
-    //console.log('salida: ', stdout );
-    //console.log('stderr: ', stderr );
-
-    //var result = sh.exec('node -v');
-    //console.log('return code ' + result.code);
-    //console.log('stdout + stderr ' + result.stdout);
 
     modelbips.validarRegistrosAP(req.params.ips, req.query.fecha_inicial, req.query.fecha_fin).then(validaregistros => {
         const respuesta = validaregistros.rows[0].total_reg;
@@ -264,6 +206,7 @@ app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
     let date_ = new Date(fech_now);
 
     let fecha_completa = date_.getDate() + "/" + (date_.getMonth() + 1) + "/" + date_.getFullYear();
+    let fecha_completa_sinSeparador = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_";
     let hora = date_.getHours() + ":" + date_.getMinutes() + ":" + date_.getSeconds();
 
     let fecha_hora = fecha_completa + " " + hora;
@@ -271,6 +214,9 @@ app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
     //console.log(fecha_hora);
 
     for (var i in req.files) {
+
+        let path_ins = path.join(__dirname + "/" + 'filesBipsUploads/' + req.body.cbxips + "_" + fecha_completa_sinSeparador + req.files[i].originalname);
+        let nombre_temp = req.body.cbxips + "_" + fecha_completa_sinSeparador + req.files[i].originalname;
 
         try {
 
@@ -284,8 +230,8 @@ app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
                 req.files[i].mimetype,
                 fecha_hora,
                 '0',
-                req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname,
-                path.join(__dirname + "/" + 'filesBipsUploads/' + req.body.cbxips + "_" + date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_" + date_.getHours() + "" + date_.getMinutes() + "" + date_.getSeconds() + "_" + req.files[i].originalname)
+                nombre_temp,
+                path_ins,
 
             ).then(respuesta => {
                 //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
@@ -363,7 +309,7 @@ app.post('/file/delete/:name/archivo-bips', function (req, res) {
         } else {
             //res.status("200").send("OK");
             var array_nombre = name.split('_');
-            console.log("nombre_original " + array_nombre[3]);
+            console.log("nombre_original " + array_nombre[2]);
 
             modelplanos.eliminar_RegistrosPlanos_tmp(req.query.id_ips, name).then(respuesta => {
 
@@ -372,7 +318,7 @@ app.post('/file/delete/:name/archivo-bips', function (req, res) {
 
                 modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
 
-                    req.flash('notify', 'El archivo plano ' + array_nombre[3] + ' se eliminó correctamente...');
+                    req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
                     res.redirect("/listadoArchivos");
 
                 })
@@ -417,29 +363,71 @@ app.post('/file/validar/:name/archivo-bips', function (req, res) {
                     modelplanos.ObtenerPlanos_validos().then(planos_val => {
                         modelplanos.validarPlanosNecesarios(planos_val).then(rsta => {
 
+                            //llamado de la transformacion que envia los datos del archivos plano tmp a las tablas de los planos
+                            //modelktr.selecionaKtr(name_tmp,nombre_plano);
+                            //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
+                            //se debe verficar que el plano este validado
+                            modelktr.selecionaKtr(name_tmp, nombre_plano).then(rsta2 => {
+
+                                console.log("rsta2 server" + rsta2);
+                                if (rsta2 == 0) {
+
+
+                                    //despues de realizar la validacion del plano y la carga con su transformacion, se debera responder a la vista
+                                    //validando que la transformacion se ha ejecutado con EXITO cod_estado = o
+
+                                    //if (cod_estado == 0) {
+                                    console.log("ingresa validacion selecciona ktr...");
+                                    console.log('El plano ' + nombre_plano + ' fue validado correctamente...');
+                                    req.flash('notify', 'El Archivo Plano ' + nombre_plano + ' fue validado correctamente sktr...');
+                                    res.json({ respuesta: "OK", status: 200, habilitar_envio: true, descripcion: 'El plano ' + nombre_plano + ' fue validado correctamente...' });
+                                    // } else {
+                                    // console.error("Ocurrio un problema con la ejecucion del comando/tranformacion_ rspta de retorno: ");
+                                    //}
+
+
+
+                                } else (
+                                    console.log("error en transformacion ")
+
+                                )
+
+                            });
+
+                            //console.log("cod_estado server"+cod_estado);
+
+                            //Si la validacion de los planos necesarios resulta con exito "1" -> rsta = 1, el sistema debera habilitar el boton de 
+                            //envio para el trabajo, habilitar_envio: true
 
                             if (rsta == 1) {
 
 
+                                //despues de realizar la validacion del plano y la carga con su transformacion, se debera responder a la vista
+                                //validando que la transformacion se ha ejecutado con EXITO cod_estado = o
+
+                                //if (cod_estado == 0) {
                                 console.log('El plano ' + nombre_plano + ' fue validado correctamente...');
                                 req.flash('notify', 'El Archivo Plano ' + nombre_plano + ' fue validado correctamente...');
                                 res.json({ respuesta: "OK", status: 200, habilitar_envio: true, descripcion: 'El plano ' + nombre_plano + ' fue validado correctamente...' });
-
-                                //llamado de la transformacion que envia los datos del archivos plano tmp a las tablas de los planos
-                                //modelktr.selecionaKtr(name_tmp,nombre_plano);
-                                //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
-                                //se debe verficar que el plano este validado
-                                modelktr.selecionaKtr(name_tmp, nombre_plano);                                                    
+                                // } else {
+                                // console.error("Ocurrio un problema con la ejecucion del comando/tranformacion_ rspta de retorno: ");
+                                //}
 
 
 
                             } else {
 
+                                //despues de realizar la validacion del plano y la carga con su transformacion, se debera responder a la vista
+                                //validando que la transformacion se ha ejecutado con EXITO                                
+                                //Se debe validar la respuesta
+
+                                //if (cod_estado == 0) {
                                 console.log('El plano ' + nombre_plano + ' fue validado correctamente:');
                                 req.flash('notify', 'El Archivo Plano ' + nombre_plano + ' fue validado correctamente...');
                                 res.json({ respuesta: "OK", status: 200, habilitar_envio: false, descripcion: 'El plano ' + nombre_plano + ' fue validado correctamente...' });
-                                modelktr.selecionaKtr(name_tmp, nombre_plano);
-
+                                // }else {
+                                //console.error("Ocurrio un problema con la ejecucion del comando/tranformacion_ rspta de retorno: " );
+                                //}
                             }
                         });
 
@@ -495,7 +483,7 @@ app.post("/eliminar-popup/:name/archivo-bips", (req, res) => {
     nombre_corto_ips = array_nombre_ips[1].substring(0, array_nombre_ips[1].length - 1);
     //console.log(array_nombre_ips[1].substring(0, array_nombre_ips[1].length - 1));
 
-    let params = [req.query.id_ips, array_nombre[3], nombre_corto_ips, req.query.nombre_tmp];
+    let params = [req.query.id_ips, array_nombre[2], nombre_corto_ips, req.query.nombre_tmp];
 
     console.log(params);
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar"), { datos_plano: params });
@@ -544,9 +532,121 @@ app.post("/delete-all/archivo-bips", (req, res) => {
 
 
 
-app.post("/enviar-transformacion/archivo-bips", (req, res) => {
+app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
 
-    //se debera validar si cuando se envia la peticion, ya se encutran los archivos necesarios 
+    //RETORNA  O CUANDO TERMINA EL TRABAJO EXITOSO  
+
+    //Se realiza el llamado de la funcion que permite ejecutar el trabajo con la herramienta kitchen de spoon
+    //modelktr.ejecucionJob().then(rsta => console.log("La respuesta de ejecucion del trabajo es "+rsta));
+
+    const path = require('path');
+    const fs = require('fs');
+    const spawn = require('child_process').spawn;
+
+    console.log("===========================================================================");
+    console.log("================Inicia ejecucion de la job      =================");
+    console.log("fecha/hora de inicio de la ejecucion : ");
+    //modelktr.obtener_fecha_hora().then(fh => console.log(fh));
+    console.log("===========================================================================");
+
+    const spawn_job = spawn('sh', ['/var/lib/data-integration/kitchen.sh', "-file=/archivos_bips/Trans_Archivos_Planos/Job_reporte2193.kjb", '-level=Basic', '-logfile=/tmp/trans.log']);
+
+    spawn_job.stdout.pipe(process.stdout);
+
+
+    spawn_job.stdout.on('data', data => {
+        console.log(`stdout:\n${data}`)
+
+        // res.send(data.toString());
+    });
+    spawn_job.stderr.on('data', (data) => {
+        //console.error(`stderr: ${data}`);
+    });
+    //res.send(stdout);
+
+
+
+    spawn_job.on('close', (code) => {
+
+
+
+        console.log("CODE EJECUCION :" + code);
+
+        //res.send(code);
+
+
+
+        console.log("===========================================================================");
+        console.log("================   FIN ejecucion del Job      =================");
+        console.log("fecha/hora fin de la ejecucion: ");
+        //modelktr.obtener_fecha_hora().then(fh => console.log(fh));
+        console.log("===========================================================================");
+        console.log("resultado de la ejecucion: ");
+
+        console.log(`child process exited with code: ${code}`);
+
+        if (code == '0') {
+            //res.send(code);
+            console.log("El comando/job se ejecuto con exito... estado: " + code);
+
+            //res.status(200).send(code.toString());
+            modelplanos_.ObtenerPlanos_validos().then(rsta => {
+
+                var cont = rsta.length;
+
+                rsta.forEach(plano => {
+                    ruta = plano["path_plano"];
+                    var bandera = false;
+
+                    try {
+                        //var ruta = path.join(__dirname, 'filesBipsUploads') + '/' + file;
+                        fs.unlinkSync(ruta, function (err) {
+                            if (err) {
+                                bandera = true;
+                                return console.error(err);
+                            }
+
+                        });
+
+                        if (!bandera) {
+
+                            modelplanos_.eliminar_all_RegistrosPlanos_tmp_validos().then(rsta_elim => {
+                                if (rsta_elim['command'] == "DELETE" && rsta_elim['rowCount'] > 0) {
+                                    console.log("respuesta de eliminacion: 1, todos los planos fueron eliminados en bd y proyecto");
+                                    req.flash('notify', 'informacion fue cargada exitosamente...');
+                                    res.json({ respuesta: "OK", status: 200, retorno: code.toString(), descripcion: 'El trabajo se ejecuto con exito... ' });
+                                    
+                                }
+                            });
+                        }
+
+                    } catch (error) {
+                        console.error('Something wrong happened removing the file', error)
+                    }
+
+                })
+
+
+
+
+            });
+
+
+
+
+
+        } else {
+            res.status(200).send(code.toString());
+            console.error('Ocurrio un problema con la ejecucion del comando/job CODE:' + code);
+        }
+
+    });
+
+
+
+
+
+
 
 
 

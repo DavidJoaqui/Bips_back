@@ -29,7 +29,7 @@ module.exports = {
         console.log(fecha_fin);
         
         //const resultados = conexion.query('select count(ips)total_reg from schema_planos.registroplanos where ips = $1 and fecha_inicio = $2 and fecha_final = $3', [ips, fecha_inicial, fecha_fin]);        
-        const resultados = conexion.query('select count(field_000)total_reg from schema_planos.plano_af where field_000 = $1 and (field_005 between $2 and $3)', [ips, fecha_inicial, fecha_fin]);
+        const resultados = conexion.query('select count(field_000) as total_reg from schema_planos.plano_af where field_000 = $1 and (field_005 between $2 and $3)', [ips, fecha_inicial, fecha_fin]);
          
         return resultados;
         

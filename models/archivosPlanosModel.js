@@ -25,13 +25,18 @@ module.exports = {
         return resultados;
     },
 
+    async eliminar_all_RegistrosPlanos_tmp_validos() {
+        const resultados = await conexion.query("delete from schema_planos.registros_planos_tmp where id_ips is not null and validado = true");
+        return resultados;
+    },
+
     async validar_RegistrosPlanos_tmp(id_ips, nombre_archivo) {
         const resultados = await conexion.query("UPDATE schema_planos.registros_planos_tmp SET validado=true where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo]);
         return resultados;
     },
 
     async ObtenerPlanos_validos() {
-        const resultados = await conexion.query("select nombre_original from schema_planos.registros_planos_tmp where validado= true");
+        const resultados = await conexion.query("select * from schema_planos.registros_planos_tmp where validado= true");
         return resultados.rows;
     },
 

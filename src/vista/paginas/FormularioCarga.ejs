@@ -50,7 +50,7 @@
 
                                                             <input type="text" name="nombre_ips" id="nombre_ips" value="" hidden>
 
-                                                            <select class="form-select form-group form-control input-sm" name="cbxips" id="cbxips" data-toggle="tooltip_1" title="Seleccionar IPS!" data-placement="right" required>
+                                                            <select class="form-select form-group form-control input-sm" name="cbxips" id="cbxips" data-toggle="tooltip" title="Seleccionar IPS!" data-placement="right" required>
                                                                 <option selected="selected" value="">Seleccionar Ips
                                                                 </option>
                                                                 <% listaIps.forEach(lista=> { %>
@@ -66,7 +66,7 @@
                                                                 <label for="fecha_ini" style="font-weight: bold;">Fecha
                                                                     inicial</label>
                                                                 <div>
-                                                                    <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip_2" title="fecha inicial" data-placement="top" required>
+                                                                    <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" required>
                                                                 </div>
                                                             </div>
 
@@ -74,7 +74,7 @@
                                                                 <label for="fecha_ini" style="font-weight: bold;">Fecha
                                                                     Final</label>
                                                                 <div>
-                                                                    <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip_3" title="fecha final" data-placement="top" required>
+                                                                    <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" required>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -125,9 +125,11 @@
                                 </div>
 
                                 <script>
-                                    $(document).ready(function() {
+                                    $(document).ready(function() { 
+                                        
 
                                         $('#btn-validar').click(function() {
+                                            $( document ).tooltip();
 
                                             event.preventDefault();
 
@@ -136,13 +138,15 @@
 
 
                                                     $('#cbxips').focus();
-
+                                                    
+                                                    
 
 
                                                 })
                                             } else if ($('#txtfecha_inicial').val() == "") {
 
                                                 $('#txtfecha_inicial').focus();
+                                                $('#txtfecha_inicial').tooltip;
 
                                             } else if (($('#txtfecha_fin').val()) == "") {
 
@@ -183,8 +187,8 @@
                                                         //$('#btn-subir').attr("disabled", true);
 
                                                         //$('#datos_val').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>' + JSON.stringify(result['respuesta'][0]) + '</p>');
-
-                                                        if (result['total_reg'] > 0) {
+                                                        console.log(result);
+                                                        if (result> 0) {
                                                             //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
                                                             alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
                                                             $('#btn-subir').attr("disabled", true);
