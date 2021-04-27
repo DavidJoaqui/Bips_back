@@ -92,12 +92,12 @@
                                                         <div class="panel-body">
 
                                                             <div class="form-group">
-                                                                <input type="file" class="input-file-input" name="files" id="files" disabled="disabled" multiple>
+                                                                <input type="file" class="input-file-input" name="files" id="files" multiple>
 
                                                             </div>
 
 
-                                                            <button class="btn btn btn-primary btn-sm" id="btn-subir" name="btn-subir" disabled="disabled">Subir</button>
+                                                            <button class="btn btn btn-primary btn-sm" id="btn-subir" name="btn-subir">Subir</button>
                                                         </div>
                                                     </div>
 
@@ -278,7 +278,7 @@
                                                         console.log(JSON.stringify(result['respuesta']));
                                                         var iframe = document.getElementById('iframe_arch')
 
-                                                        $("#btn-subir").prop("disabled", true);
+                                                        //$("#btn-subir").prop("disabled", true);
                                                         //$('#files').attr("disabled", true);
                                                         //$('#div_carga').hide();
                                                         //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo

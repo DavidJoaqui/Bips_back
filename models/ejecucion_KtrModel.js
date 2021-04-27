@@ -17,65 +17,78 @@ const tras_AN = "tras-AN.ktr";
 module.exports = {
 
 
-    async selecionaKtr(nombre_archivo_tmp, nombre_plano) {
+    async selecionaKtr(nombre_plano) {
         if (nombre_plano == 'AF') {
-            var res = await ejecucionKtr(tras_AF, nombre_archivo_tmp).then(cod_est => {
+            /*var res = await ejecucionKtr(tras_AF, nombre_archivo_tmp).then(cod_est => {
                 //console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_AF;
         }
 
         if (nombre_plano == 'CT') {
-            await ejecucionKtr(tras_CT, nombre_archivo_tmp).then(cod_est => {
+            /*await ejecucionKtr(tras_CT, nombre_archivo_tmp).then(cod_est => {
                 //console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_CT;
         }
 
         if (nombre_plano == 'US') {
-            await ejecucionKtr(tras_US, nombre_archivo_tmp).then(cod_est => {
+            /*await ejecucionKtr(tras_US, nombre_archivo_tmp).then(cod_est => {
                 //console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_US;
         }
 
         if (nombre_plano == 'AC') {
-            await ejecucionKtr(tras_AC, nombre_archivo_tmp).then(cod_est => {
+            /*await ejecucionKtr(tras_AC, nombre_archivo_tmp).then(cod_est => {
                 // console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_AC;
         }
 
         if (nombre_plano == 'AP') {
-            await ejecucionKtr(tras_AP, nombre_archivo_tmp).then(cod_est => {
+
+            /*await ejecucionKtr(tras_AP, nombre_archivo_tmp).then(cod_est => {
                 //console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_AP;
+
         }
 
         if (nombre_plano == 'AU') {
-            await ejecucionKtr(tras_AU, nombre_archivo_tmp).then(cod_est => {
+            /*await ejecucionKtr(tras_AU, nombre_archivo_tmp).then(cod_est => {
                 //console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_AU;
         }
 
         if (nombre_plano == 'AH') {
-            await ejecucionKtr(tras_AH, nombre_archivo_tmp).then(cod_est => {
+           /* await ejecucionKtr(tras_AH, nombre_archivo_tmp).then(cod_est => {
                 //console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_AH;
         }
 
         if (nombre_plano == 'AT') {
-            await ejecucionKtr(tras_AT, nombre_archivo_tmp).then(cod_est => {
+            /*await ejecucionKtr(tras_AT, nombre_archivo_tmp).then(cod_est => {
                 // console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_AT;
         }
 
         if (nombre_plano == 'AM') {
-            await ejecucionKtr(tras_AM, nombre_archivo_tmp).then(cod_est => {
+           /* await ejecucionKtr(tras_AM, nombre_archivo_tmp).then(cod_est => {
                 //console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_AM;
+
         }
 
         if (nombre_plano == 'AN') {
-            await ejecucionKtr(tras_AN, nombre_archivo_tmp).then(cod_est => {
+            /*await ejecucionKtr(tras_AN, nombre_archivo_tmp).then(cod_est => {
                 //console.log("res code:" + cod_est);
-            });
+            });*/
+            var res= tras_AN;
         }
 
         /*if (nombre_plano == 'CT') {

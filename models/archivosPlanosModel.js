@@ -35,6 +35,14 @@ module.exports = {
         return resultados;
     },
 
+    async actualizar_carga_temp(id_ips, nombre_archivo) {
+        const resultados = await conexion.query("UPDATE schema_planos.registros_planos_tmp SET cargado=true where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo]);
+        return resultados;
+    },
+
+
+
+
     async ObtenerPlanos_validos() {
         const resultados = await conexion.query("select * from schema_planos.registros_planos_tmp where validado= true");
         return resultados.rows;
@@ -45,12 +53,37 @@ module.exports = {
         return resultados.rows;
     },
 
-    async obtener_plano_tmp(nombre_archivo_tmp){
-        const resultados = await conexion.query("select nombre_original,nombre_tmp,path_plano,validado from schema_planos.registros_planos_tmp where nombre_tmp = $1",[nombre_archivo_tmp]);
+    async obtener_plano_tmp(nombre_archivo_tmp) {
+        const resultados = await conexion.query("select nombre_original,nombre_tmp,path_plano,validado from schema_planos.registros_planos_tmp where nombre_tmp = $1", [nombre_archivo_tmp]);
         return resultados.rows;
     },
 
 
+    async validarPlanosCargados(planos) {
+        var num_reg = planos.length;
+        var cont_validados = 0;
+        var cont = 0;
+        planos.forEach(plano => {
+
+            if(plano["validado"] == true){
+                cont_validados++;
+            }
+
+            if(plano["cargado"] == true && plano["validado"] == true){
+                cont++;
+            }
+
+        });
+
+        if (cont == cont_validados){
+            return "1";
+        }else{
+            return "0";
+        }
+        
+
+
+    },
 
     async validarPlanosNecesarios(planos_val) {
         //console.log(planos_val);

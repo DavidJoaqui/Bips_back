@@ -67,11 +67,35 @@
                                             <div class="card-header text-white bg-success mb-3 container-fluid"><b>
                                                     ENVIAR</b></div>
                                             <div class="panel-body">
-                                                <div style="text-align: center;padding: 20px;">
-                                                    <button class="btn btn btn-success btn-sm"
-                                                        onclick="enviar_trabajo()">ENVIAR</button>
+                                                <div class="text-center" style="margin: 20px;">
+
+                                                    <% if (habilitar_carga == true) { %>
+                                                        <button style="width:45%;font-weight: bold;"
+                                                        class="btn btn-success " id="btn-cargar" name="btn-cargar"
+                                                        onclick="enviar_carga()">Cargar</button>
+                                                    <% }else{ %>
+
+                                                        <button style="width:45%;font-weight: bold;"
+                                                        class="btn btn-success " id="btn-cargar" name="btn-cargar"
+                                                        onclick="enviar_carga()" disabled>Cargar</button>
+                                                         
+                                                        <% } %>
+                                                    
+
+
+                                                    <button style="width:45%;font-weight: bold;"
+                                                        class="btn btn-primary "
+                                                        onclick="enviar_trabajo()">Enviar</button>
+
+
+
                                                 </div>
+
+
+
                                             </div>
+
+
                                         </div>
                                     </div>
                                     <% } %>
@@ -165,14 +189,15 @@
                                                                                             name="btn-<%= i %>"
                                                                                             onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>','<%= arr_files[i].nombre_ips %>')"
                                                                                             class="btn btn-success btn-submit"
-                                                                                            value="Cargar">
+                                                                                            value="Validar">
                                                                                         <% }else{ %>
                                                                                             <input type="button"
                                                                                                 id="btn-<%= i %>"
                                                                                                 name="btn-<%= i %>"
                                                                                                 onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>','<%= arr_files[i].nombre_ips %>')"
                                                                                                 class="btn btn-success btn-submit"
-                                                                                                value="Cargar" disabled>
+                                                                                                value="Validar"
+                                                                                                disabled>
                                                                                             <% } %>
                                                                                 </form>
 
@@ -285,21 +310,64 @@
 
                         //console.log(data.status + ':' + data.statusText,data.responseText);
                         $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b> ...</strong></div>');
-                   
+
                     },
 
                     success: function (result) {
 
-                    if (result["status"] == 200 && result["retorno"] == "0") {
-                        $('#loading').html("");
-                        console.log("Success ... " + result["descripcion"]);   
+                        if (result["status"] == 200 && result["retorno"] == "0") {
+                            $('#loading').html("");
+                            console.log("Success ... " + result["descripcion"]);
 
-                        setTimeout(function () {
-                            window.location.reload(1);
-                        }, 1000);
+                            setTimeout(function () {
+                                window.location.reload(1);
+                            }, 1000);
+                        }
+
+
+
                     }
+
+                });
+
+
+
+
+
+
+            }
+
+
+
+            function enviar_carga() {
+
+                $("#loading").attr("hidden", false);
+
+
+                $.ajax({
+                    type: 'post',
+                    url: "/enviar-carga/ejecucion-multiple/archivo-bips",
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend: function () {
+
+                        //console.log(data.status + ':' + data.statusText,data.responseText);
+                        $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b> ...</strong></div>');
+
+                    },
+
+                    success: function (result) {
+
                         
+                            $('#loading').html("");                                                        
+                            $('#lista_archivos').html(result); 
+                            console.log("Success ... " + result["descripcion"]);
+
                         
+
+
 
                     }
 

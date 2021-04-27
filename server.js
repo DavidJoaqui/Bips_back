@@ -70,7 +70,7 @@ const storage = multer.diskStorage({
             if (numcarga > 10) {
                 return cb("Error: Maximo 10 Archivos planos");
             }
-            
+
             else if (ext !== '.txt' && ext !== '.Txt'
             ) {
                 return cb("Error: Solo Archivos Formato .txt");
@@ -262,16 +262,32 @@ app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
 app.get("/listadoArchivos", (req, res) => {
 
     var bandera_envio = false;
+    var habilitar_carga_bandera = true;
     modelplanos.ObtenerPlanos_validos().then(planos_val => {
 
         modelplanos.validarPlanosNecesarios(planos_val).then(rsta => {
 
             if (rsta == 1) {
                 bandera_envio = true;
+                
+
             }
         });
 
     });
+
+    modelplanos_.consultar_RegistrosPlanos_tmp().then(planos_all => {
+        modelplanos_.validarPlanosCargados(planos_all).then(rsta_cargados => {
+            console.log(rsta_cargados);
+            if (rsta_cargados == 1) {
+                habilitar_carga_bandera = false;
+            }
+
+        });
+
+    });
+
+
 
 
     modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
@@ -280,6 +296,7 @@ app.get("/listadoArchivos", (req, res) => {
         res.render("paginas/listaArchivos", {
             arr_files: listaArchivos,
             habilitar_envio_la: bandera_envio,
+            habilitar_carga: habilitar_carga_bandera,
         });
 
     })
@@ -366,37 +383,6 @@ app.post('/file/validar/:name/archivo-bips', function (req, res) {
                     modelplanos.ObtenerPlanos_validos().then(planos_val => {
                         modelplanos.validarPlanosNecesarios(planos_val).then(rsta => {
 
-                            //llamado de la transformacion que envia los datos del archivos plano tmp a las tablas de los planos
-                            //modelktr.selecionaKtr(name_tmp,nombre_plano);
-                            //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
-                            //se debe verficar que el plano este validado
-                            modelktr.selecionaKtr(name_tmp, nombre_plano).then(rsta2 => {
-
-                                console.log("rsta2 server" + rsta2);
-                                if (rsta2 == 0) {
-
-
-                                    //despues de realizar la validacion del plano y la carga con su transformacion, se debera responder a la vista
-                                    //validando que la transformacion se ha ejecutado con EXITO cod_estado = o
-
-                                    //if (cod_estado == 0) {
-                                    console.log("ingresa validacion selecciona ktr...");
-                                    console.log('El plano ' + nombre_plano + ' fue validado correctamente...');
-                                    req.flash('notify', 'El Archivo Plano ' + nombre_plano + ' fue validado correctamente sktr...');
-                                    res.json({ respuesta: "OK", status: 200, habilitar_envio: true, descripcion: 'El plano ' + nombre_plano + ' fue validado correctamente...' });
-                                    // } else {
-                                    // console.error("Ocurrio un problema con la ejecucion del comando/tranformacion_ rspta de retorno: ");
-                                    //}
-
-
-
-                                } else (
-                                    console.log("error en transformacion ")
-
-                                )
-
-                            });
-
                             //console.log("cod_estado server"+cod_estado);
 
                             //Si la validacion de los planos necesarios resulta con exito "1" -> rsta = 1, el sistema debera habilitar el boton de 
@@ -469,7 +455,6 @@ app.post('/file/validar/:name/archivo-bips', function (req, res) {
 
 });
 
-
 app.get("/reportes", (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
 });
@@ -532,8 +517,6 @@ app.post("/delete-all/archivo-bips", (req, res) => {
 
     });
 });
-
-
 
 app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
 
@@ -618,7 +601,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
                                     console.log("respuesta de eliminacion: 1, todos los planos fueron eliminados en bd y proyecto");
                                     req.flash('notify', 'informacion fue cargada exitosamente...');
                                     res.json({ respuesta: "OK", status: 200, retorno: code.toString(), descripcion: 'El trabajo se ejecuto con exito... ' });
-                                    
+
                                 }
                             });
                         }
@@ -655,5 +638,212 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
 
 });
 
+app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
+
+    //llamado de la transformacion que envia los datos de los archivos planos tmp a las tablas de los planos
+    //modelktr.selecionaKtr(name_tmp,nombre_plano);
+    //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
+    //se debe verficar que el plano este validado
+
+
+
+    //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
+    //se debe verficar que el plano este validado
+
+
+
+    modelplanos_.ObtenerPlanos_validos().then(rsta => {
+        //console.log(rsta);        
+        var num_planos = rsta.length;
+        console.log("numero incial de planos validados: " + num_planos);
+        rsta.forEach(plano => {
+
+            var spawn = require('child_process').spawn;
+            if (plano['validado'] == true) {
+
+                var path_plano = plano['path_plano'];
+                modelktr.selecionaKtr(plano['nombre_original'].slice(0, 2)).then(nombre_transformacion => {
+                    // console.log(rsta_seleccionKtr);
+                    //console.log(path_plano);
+
+
+
+                    //var prueba_3 = spawn('cd /var/lib/data-integration/; sh pan.sh -file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr" -level=Error >> /archivos_bips/trans.log;', {encoding: 'utf8', stdio: 'ignore'});
+                    //const spawn_trs = spawn('sh pan.sh',['-file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr']);
+                    //console.log(__dirname);.
+                    //console.log(rsta[0]['validado']);
+                    //console.log(rsta[0]['path_plano']);
+                    //var str=JSON.stringify(rsta,['path_plano']);
+                    //console.log(str);
+                    //console.log(Object.entries(str));
+
+                    //console.log(`value=${path_plano}`);
+
+                    //console.log(path);
+
+
+                    //console.log(JSON.stringify(rsta));
+                    //console.log(JSON.parse(JSON.stringify(rsta)));
+                    //console.log(JSON.stringify(rsta,['path_plano']));
+                    console.log("===========================================================================");
+                    console.log("================Inicia ejecucion de la transformacion      =================");
+                    console.log("fecha/hora de inicio de la ejecucion : ");
+                    //obtener_fecha_hora().then(rt=>{
+                    //  console.log(rt);
+
+                    //            });
+                    console.log("===========================================================================");
+
+
+                    /*
+                    La función spawn lanza un comando en un nuevo proceso y podemos usarlo para pasarle cualquier argumento a ese comando
+                    
+                    */
+                    let spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo=" + path_plano, '-logfile=/tmp/trans.log']);
+
+
+                    //const spawn_trs = spawn('ls',['-ltr','/var/lib/data-integration']);
+
+                    //const spawn_trs = spawn('ls', ['-ltr']);
+
+                    //la opcion pipe canaliza spawn_trs.stdout directamente a process.stdout
+                    spawn_trs.stdout.pipe(process.stdout);
+
+                    spawn_trs.stdout.setEncoding('utf8');
+
+                    spawn_trs.stderr.setEncoding('utf8');
+
+                    //Con los flujos legibles, podemos escuchar el evento de datos, que tendrá la 
+                    //salida del comando o cualquier error encontrado al ejecutar el comando
+                    spawn_trs.stdout.on('data', data => {
+                        console.log(`stdout:\n${data}`)
+                    });
+                    spawn_trs.stderr.on('data', (data) => {
+                        // console.error(`stderr: ${data}`);
+                    });
+
+
+
+                    spawn_trs.on('close', (code) => {
+
+                        console.log("===========================================================================");
+                        console.log("================   FIN ejecucion de la transforacion      =================");
+                        console.log("fecha/hora fin de la ejecucion: ");
+                        //console.log(obtener_fecha_hora());
+                        console.log("===========================================================================");
+                        console.log("resultado de la ejecucion: ");
+                        console.log(code)
+                        //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
+                        //OK : 0
+
+                        if (code == 0) {
+
+                            console.log("El comando/transformacion se ejecuto con exito... estado: " + code);
+
+
+                            modelplanos_.actualizar_carga_temp(plano['id_ips'], plano['nombre_tmp']).then(respuesta => {
+                                if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+                                    console.log("actualizo CARGA TEMP OK para el plano ... " + plano['nombre_original']);
+
+
+
+                                }
+
+                            });
+                            num_planos--;
+                            //return 0;      
+                            console.log("numero de planos decrementando: " + num_planos);
+                            if (num_planos == 0) {
+
+
+
+                                modelplanos_.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                                    //console.log(listaArchivos);    
+                                    req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                                    //res.setHeader('Content-type', 'text/html');
+                                    res.render("paginas/listaArchivos", {
+                                        arr_files: listaArchivos,
+                                        habilitar_envio_la: true,
+                                        habilitar_carga: false,
+                                        status: 200,
+                                        code: 0,
+                                        retorno: "0",
+                                    });
+
+
+                                })
+                                    .catch(err => {
+                                        console.log(err);
+                                        return res.status(500).send("Error obteniendo registros");
+                                    });
+
+                                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                                /*res.json({
+                                    status: 200,
+                                    code: 0,
+                                    retorno: "0",
+                                    descripcion: 'La operacion de carga multiple se ejecuto con exito',
+
+                                });*/
+
+
+                            }
+
+
+                        } else {
+                            console.error('Ocurrio un problema con la ejecucion del comando/transformacion ' + code);
+                            //se retorna el codigo de estado de errro
+                            //return 1;
+                            req.flash('error', 'Ocurrio un error en la carga del plano ' + plano['nombre_original'] + ' Contacte con el administrador...');
+                            res.json({
+                                status: 500,
+                                retorno: code,
+                            });
+
+
+                        }
+
+
+
+                    });
+
+                    spawn_trs.on('exit', (code) => {
+                        console.log(`exit child process exited with code ${code}`);
+                        //return code;
+                    });
+
+
+
+
+                });
+
+
+            } else {
+                console.log("----------------------------------------------------------------------------------------------------");
+                console.log("Se omite la ejecucion del comando/transformacion para el archivo: " + plano['nombre_original'] + " NO se encuentra validado...");
+                console.log("----------------------------------------------------------------------------------------------------");
+                return 1;
+            }
+        });
+
+
+
+
+
+    });
+
+
+
+
+
+});
+
+
+
+
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
 module.exports = app;
+
+
+
+
