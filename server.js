@@ -42,7 +42,7 @@ const modelktr = require("./models/ejecucion_KtrModel");
 const modelplanos_ = require('./models/archivosPlanosModel');
 
 
-var num_archivos = 10;
+//var num_archivos = 11;
 
 const storage = multer.diskStorage({
 
@@ -51,16 +51,30 @@ const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
 
+
     filename: function (req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
 
+        var numcarga = req.files.length;
+        
+        console.log("numero de archivos a cargar" + numcarga);
+        modelplanos_.consultar_RegistrosPlanos_tmp().then(rsta => {
+            
+            rsta.forEach(plano => {
+                console.log("nombre2"+plano['nombre_original']);
+                if (plano['nombre_original'] == file.originalname) {
+                    return cb("Error: Archivo "+file.originalname+" esta cargado");
+                }
+            });
+
+        });
 
         //console.log("planos 10 - planos bd:"+num_archivos-numplanos);
-        var numcarga = req.files.length;
-        console.log("numero de archivos a cargar" + numcarga);
+        
 
         modelplanos.cantidad_RegistrosPlanos_tmp().then(rescount => {
             //count_temp=JSON.stringify(rescount);
+            
             var ext = path.extname(file.originalname);
 
             var numplanos = Number(Object.values(rescount[0]));
@@ -78,7 +92,9 @@ const storage = multer.diskStorage({
             }
             else if (numplanos > 10) {
                 return cb("Error: Maximo 10 Archivos planos");
-            } else {
+            }
+            
+            else {
                 //console.log("prueba plano");
                 let fech_now = Date.now();
 
@@ -187,7 +203,8 @@ app.get('/cargar', function (req, res) {
 
 
 
-app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
+app.post("/files", upload.array('files' ), (req, res, err) => {
+
 
 
 
@@ -248,6 +265,7 @@ app.post("/files", upload.array('files', num_archivos), (req, res, err) => {
 
         } catch (error) {
             console.log("err " + error);
+          
         }
 
     }
