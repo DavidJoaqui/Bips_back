@@ -8,17 +8,21 @@
                 <h2>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">Lista de Archivos Planos
         </span>
-                    <span style="float: right;">
-                    <% if(habilitar_eliminar==true ){ %> 
 
-                        <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()">
-                        <i class="fas fa-trash"></i> Eliminar todos.
+                    <% if(habilitar_eliminar==true ){ %>
+                        <span style="float: right;">
+
+                                <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()">
+                                <i class="fas fa-trash"></i> Eliminar todos.
+                                </button>
+                            </span>
+                        <% }else{ %>
+                            <span style="float: right;">
+                            <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()" disabled="disabled"><i class="fas fa-trash"></i> Eliminar todos.
                         </button>
-                    <% }else{ %>
-                        <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()" disabled="disabled"><i class="fas fa-trash"></i> Eliminar todos.
-                        </button>
-                        <% } %> 
-        </span>
+                        </span>
+                            <% } %>
+
                 </h2>
             </div>
 
