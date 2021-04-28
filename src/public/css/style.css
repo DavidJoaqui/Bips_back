@@ -9,11 +9,14 @@ body {
 #panel_carga {
     margin-left: 15px;
     padding-left: 5px;
-    margin-top: 5px;
+    margin-top: 75px;
+    padding-top: 10px;
     background-color: #eaedee;
 }
 
 #lista_archivos {
+    margin-top: 32px;
+    padding-top: 10px;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -38,7 +41,5 @@ body {
 .navbar-default .navbar-nav>.active>a:focus {
     color: #50A0FF;
     background-color: #ebebeb !important;
-    display:block;
+    display: block;
 }
-
-
