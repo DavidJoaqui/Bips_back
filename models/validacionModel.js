@@ -56,6 +56,10 @@ module.exports = {
             //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoAM(nombre_archivo);
         }
+        if (nombre_plano == 'AN') {
+            //console.log("nombre_PLANO:" + nombre_plano);
+            var res = this.validar_planoAN(nombre_archivo);
+        }
 
 
         return res;
@@ -80,7 +84,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -121,7 +125,7 @@ module.exports = {
     async validar_planoAC(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-       // console.log(objerr.length);
+        // console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -135,7 +139,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -253,7 +257,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -326,7 +330,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016, field_017 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -388,7 +392,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -463,11 +467,11 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
-      //  console.log(objplanoct);
+        //  console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
@@ -525,7 +529,7 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013, field_014, field_015, field_016 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
@@ -583,11 +587,11 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
-      //  console.log(objplanoct);
+        //  console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
@@ -631,10 +635,11 @@ module.exports = {
 
     },
 
-    async validar_planoUS(nombre_archivo) {
+
+    async validar_planoAN(nombre_archivo) {
         var objplanoct = [];
         var objerr = [];
-      //  console.log(objerr.length);
+        //console.log(objerr.length);
 
         var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
         var rl = readline.createInterface({
@@ -648,11 +653,69 @@ module.exports = {
             objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013 };
 
             let genregistro = 1;
-            objplanoct.forEach(function(dato) {
+            objplanoct.forEach(function (dato) {
                 dato.linea = genregistro++;
             });
         }
-      //  console.log(objplanoct);
+        //  console.log(objplanoct);
+        Object.values(objplanoct).forEach(val => {
+
+            let vf1 = val["field_001"];
+            let vf3 = val["field_003"];
+            let vf4 = val["field_004"];
+            let vf6 = val["field_006"];
+            let vf12 = val["field_012"];
+            let vflinea = val["linea"];
+
+            if (isNaN(vf1)) {
+                let err = "Valor númerico esperado para el campo field_001:" + vf1 + " en la linea " + vflinea;
+                if (vf1 != '') { objerr.push(err); }
+            }
+            if (isNaN(vf3)) {
+                let err = "Valor númerico esperado para el campo field_003:" + vf3 + " en la linea " + vflinea;
+                if (vf3 != '') { objerr.push(err); }
+            }
+            if (!moment(vf4, 'DD/MM/YYYY', true).isValid()) {
+                let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_004:" + vf4 + " en la linea " + vflinea;
+                if (vf4 != '') { objerr.push(err); }
+            }
+            if (isNaN(vf6)) {
+                let err = "Valor númerico esperado para el campo field_006:" + vf6 + " en la linea " + vflinea;
+                if (vf6 != '') { objerr.push(err); }
+            }
+            if (!moment(vf12, 'DD/MM/YYYY', true).isValid()) {
+                let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_012:" + vf12 + " en la linea " + vflinea;
+                if (vf12 != '') { objerr.push(err); }
+            }
+
+
+        });
+        return objerr;
+
+    },
+
+    async validar_planoUS(nombre_archivo) {
+        var objplanoct = [];
+        var objerr = [];
+        //  console.log(objerr.length);
+
+        var fileStream = fs.createReadStream('./filesBipsUploads/' + nombre_archivo);
+        var rl = readline.createInterface({
+            input: fileStream,
+            crlfDelay: Infinity
+        });
+
+        for await (var line of rl) {
+
+            let [field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013] = line.split(',');
+            objplanoct[Object.values(objplanoct).length] = { field_000, field_001, field_002, field_003, field_004, field_005, field_006, field_007, field_008, field_009, field_010, field_011, field_012, field_013 };
+
+            let genregistro = 1;
+            objplanoct.forEach(function (dato) {
+                dato.linea = genregistro++;
+            });
+        }
+        //  console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
             let vf1 = val["field_001"];
