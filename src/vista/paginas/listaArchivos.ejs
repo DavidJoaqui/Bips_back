@@ -10,17 +10,17 @@
         </span>
 
                     <% if(habilitar_eliminar==true ){ %>
-                        <span style="float: right;">
 
-                                <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()">
+
+                        <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()" style="float: right;">
                                 <i class="fas fa-trash"></i> Eliminar todos.
                                 </button>
-                            </span>
+                        </span>
                         <% }else{ %>
-                            <span style="float: right;">
+
                             <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()" disabled="disabled"><i class="fas fa-trash"></i> Eliminar todos.
                         </button>
-                        </span>
+
                             <% } %>
 
                 </h2>
