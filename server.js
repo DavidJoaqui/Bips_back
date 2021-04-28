@@ -58,16 +58,7 @@ const storage = multer.diskStorage({
         var numcarga = req.files.length;
         
         console.log("numero de archivos a cargar" + numcarga);
-        modelplanos_.consultar_RegistrosPlanos_tmp().then(rsta => {
-            
-            rsta.forEach(plano => {
-                console.log("nombre2"+plano['nombre_original']);
-                if (plano['nombre_original'] == file.originalname) {
-                    return cb("Error: Archivo "+file.originalname+" esta cargado");
-                }
-            });
-
-        });
+    
 
         //console.log("planos 10 - planos bd:"+num_archivos-numplanos);
         
@@ -95,6 +86,17 @@ const storage = multer.diskStorage({
             }
             
             else {
+
+                modelplanos_.consultar_RegistrosPlanos_tmp().then(rsta => {
+            
+                    rsta.forEach(plano => {
+                        console.log("nombre2"+plano['nombre_original']);
+                        if (plano['nombre_original'] == file.originalname) {
+                            return cb("Error: Archivo "+file.originalname+" esta cargado");
+                        }
+                    });
+        
+                });
                 //console.log("prueba plano");
                 let fech_now = Date.now();
 
