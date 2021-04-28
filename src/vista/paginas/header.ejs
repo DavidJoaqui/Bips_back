@@ -6,40 +6,44 @@
     <main>
         <div>
 
+            <div class="container">
+
+                <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top" id="myTab" role="tablist">
+
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" src="recursos_marca">
+                    </a>
+
+                    <ul>
+                        <a class="nav-link" href="/obtenerRegistrosPlanos">Registros Archivos Planos</a>
+                    </ul>
+
+                    <ul>
+                        <a class="nav-link" href="/cargar-plano">Cargar plano</a>
+                    </ul>
+                    <ul>
+
+                        <a class="nav-link" href="/reportes">Generador de Reportes</a>
+                    </ul>
 
 
-            <nav class="navbar navbar-expand-md navbar-light bg-light " id="myTab" role="tablist">
-
-
-                <a class="navbar-brand" href="#">
-                    <img alt="Brand" src="recursos_marca">
-                </a>
-
-                <div class="navbar-default">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item ">
-                            <a class="nav-link" href="/obtenerRegistrosPlanos">Registros Archivos Planos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/cargar-plano">Cargar plano</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/reportes">Generador de Reportes</a>
-                        </li>
-                        <li class="navbar navbar-light bg-light justify-content-between">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-user"></i> XXXXX.xxx
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">  LOGOUT</a>
-                                </div>
-                            </li>
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user"></i> test
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Salir</a>
+                            </div>
+
                         </li>
 
                     </ul>
-                </div>
-            </nav>
+
+                </nav>
+            </div>
 
             <script>
                 $('li a').click(function(e) {

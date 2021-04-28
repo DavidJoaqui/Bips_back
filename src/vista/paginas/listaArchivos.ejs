@@ -1,24 +1,26 @@
 <%- include("head"); %>
     <%- include("styles_gral"); %>
         <div class="col-md-12">
-            <h2>
-                <span class="titulo-tabla" style="font-weight: bold;text-align: left;">Lista de Archivos Planos
-        </span>
-                <span style="float: right;">
-            <% if(habilitar_eliminar==true ){ %> 
 
-        <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()">
-        <i class="fas fa-trash"></i> Eliminar todos.
-        </button>
-            <% }else{ %>
-                <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()" disabled="disabled"><i class="fas fa-trash"></i> Eliminar todos.
-        </button>
-                <% } %> 
-        </span>
-            </h2>
-        </div>
 
-        <div class="col-md-12" id="lista_archivos" name="lista_archivos">
+            <div class="col-md-12" id="lista_archivos" name="lista_archivos">
+
+                <h2>
+                    <span class="titulo-tabla" style="font-weight: bold;text-align: left;">Lista de Archivos Planos
+        </span>
+                    <span style="float: right;">
+                    <% if(habilitar_eliminar==true ){ %> 
+
+                        <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()">
+                        <i class="fas fa-trash"></i> Eliminar todos.
+                        </button>
+                    <% }else{ %>
+                        <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all" onclick="eliminar_all()" disabled="disabled"><i class="fas fa-trash"></i> Eliminar todos.
+                        </button>
+                        <% } %> 
+        </span>
+                </h2>
+            </div>
 
             <% const m=getMessages() %>
 
