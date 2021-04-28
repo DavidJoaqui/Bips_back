@@ -331,7 +331,7 @@
                     beforeSend: function() {
 
                         //console.log(data.status + ':' + data.statusText,data.responseText);
-                        $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b> ...</strong></div>');
+                        $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b><br>Esto puede tomar algun tiempo ...  ...</strong></div>');
 
                     },
 
@@ -382,7 +382,8 @@
 
                     beforeSend: function() {
 
-                        $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando plano<b> ' + nombre_plano + '</b> para la ips <b>' + nombre_ips + '</b> ...</strong></div>');
+                        $('#loading').html(
+                            '<div class="text-center"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando plano<b> ' + nombre_plano + '</b> para la ips <b>' + nombre_ips + '</b> ... <br>Esto puede tomar algun tiempo ... </strong></div>');
                     },
                     /* error: function () {
                          $('#datos_val').html('<p>Error intente de nuevo...</p>');
