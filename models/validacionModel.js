@@ -338,7 +338,7 @@ module.exports = {
             let vf4 = val["field_004"];
             let vf5 = val["field_005"];
             let vf15 = val["field_015"];
-            let vf17 = val["field_017"];
+            let vf16 = val["field_016"];
             let vflinea = val["linea"];
 
             if (isNaN(vf1)) {
@@ -346,11 +346,11 @@ module.exports = {
                 if (vf1 != '') { objerr.push(err); }
             }
             if (isNaN(vf3)) {
-                let err = "Valor númerico esperado para el campo field_001:" + vf3 + " en la linea " + vflinea;
+                let err = "Valor númerico esperado para el campo field_003:" + vf3 + " en la linea " + vflinea;
                 if (vf3 != '') { objerr.push(err); }
             }
             if (isNaN(vf4)) {
-                let err = "Valor númerico esperado para el campo field_001:" + vf4 + " en la linea " + vflinea;
+                let err = "Valor númerico esperado para el campo field_004:" + vf4 + " en la linea " + vflinea;
                 if (vf4 != '') { objerr.push(err); }
             }
             if (!moment(vf5, 'DD/MM/YYYY', true).isValid()) {
@@ -361,9 +361,9 @@ module.exports = {
                 let err = "Valor númerico esperado para el campo field_015:" + vf15 + " en la linea " + vflinea;
                 if (vf15 != '') { objerr.push(err); }
             }
-            if (!moment(vf17, 'DD/MM/YYYY', true).isValid()) {
-                let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_005:" + vf17 + " en la linea " + vflinea;
-                if (vf17 != '') { objerr.push(err); }
+            if (!moment(vf16, 'DD/MM/YYYY', true).isValid()) {
+                let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_016:" + vf16 + " en la linea " + vflinea;
+                if (vf16 != '') { objerr.push(err); }
             }
 
         });
