@@ -40,7 +40,15 @@ module.exports = {
         return resultados;
     },
 
+    async contar_Planos_Cargados() {
+        const resultados = await conexion.query("select count(cargado) as total_cargados from schema_planos.registros_planos_tmp where cargado = true");
+        return resultados;
+    },
 
+    async contar_Planos_Validados() {
+        const resultados = await conexion.query("select count(validado) as total_validados from schema_planos.registros_planos_tmp where validado = true");
+        return resultados;
+    },
 
 
     async ObtenerPlanos_validos() {
@@ -65,22 +73,22 @@ module.exports = {
         var cont = 0;
         planos.forEach(plano => {
 
-            if(plano["validado"] == true){
+            if (plano["validado"] == true) {
                 cont_validados++;
             }
 
-            if(plano["cargado"] == true && plano["validado"] == true){
+            if (plano["cargado"] == true && plano["validado"] == true) {
                 cont++;
             }
 
         });
 
-        if (cont == cont_validados){
-            return "1";
-        }else{
-            return "0";
+        if (cont == cont_validados) {
+            return 1;
+        } else {
+            return 0;
         }
-        
+
 
 
     },
@@ -109,12 +117,12 @@ module.exports = {
 
             if (cont_obligatorios == 6) {
                 // 1: cumple, estan los archivos necesarios 
-                return "1";
+                return 1;
             }
 
         } else {
             // 0 : no cumple
-            return "0";
+            return 0;
         }
     },
 
