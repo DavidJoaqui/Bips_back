@@ -7,22 +7,23 @@
 
                 <div class="row">
 
-                    <div id="panel_carga">
 
-                        <% const m=getMessages() %>
+                    <% const m=getMessages() %>
 
-                            <% if (m.notify) { %>
-                                <div class="container">
-                                    <div class="alert alert-success alert-dismissible fade in" id="alertas">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                        <% m.notify.forEach((element)=> { %>
-                                            <strong>OK!</strong>
-                                            <%= element %>
-                                                <% }) %>
-                                    </div>
+                        <% if (m.notify) { %>
+                            <div class="container">
+                                <div class="alert alert-success alert-dismissible fade in" id="alertas">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <% m.notify.forEach((element)=> { %>
+                                        <strong>OK!</strong>
+                                        <%= element %>
+                                            <% }) %>
                                 </div>
+                            </div>
 
-                                <% } %>
+                            <% } %>
+
+                                <div id="panel_carga">
 
                                     <div class="form-group row">
 
@@ -109,212 +110,212 @@
 
 
                                     </div>
-                    </div>
+                                </div>
 
 
-                    <div class="col-md-8" id="lista_archivos" name="lista_archivos">
+                                <div class="col-md-8" id="lista_archivos" name="lista_archivos">
 
-                        <iframe src="/listadoArchivos" title="Archivos cargados" class="" scrolling="" width="100%" height="700" frameborder="0" name="iframe_arch" id="iframe_arch">
+                                    <iframe src="/listadoArchivos" title="Archivos cargados" class="" scrolling="" width="100%" height="700" frameborder="0" name="iframe_arch" id="iframe_arch">
                                     </iframe>
 
 
 
 
 
-                    </div>
+                                </div>
 
-                    <script>
-                        $(document).ready(function() {
+                                <script>
+                                    $(document).ready(function() { 
+                                        
 
+                                        $('#btn-validar').click(function() {
+                                            
 
-                            $('#btn-validar').click(function() {
+                                            event.preventDefault();
 
-
-                                event.preventDefault();
-
-                                if (($('#cbxips').val() == "")) {
-                                    setTimeout(function() {
-
-
-                                        $('#cbxips').focus();
+                                            if (($('#cbxips').val() == "")) {
+                                                setTimeout(function() {
 
 
+                                                    $('#cbxips').focus();
+                                                    
+                                                    
 
 
-                                    })
-                                } else if ($('#txtfecha_inicial').val() == "") {
+                                                })
+                                            } else if ($('#txtfecha_inicial').val() == "") {
 
-                                    $('#txtfecha_inicial').focus();
-                                    $('#txtfecha_inicial').tooltip;
+                                                $('#txtfecha_inicial').focus();
+                                                $('#txtfecha_inicial').tooltip;
 
-                                } else if (($('#txtfecha_fin').val()) == "") {
+                                            } else if (($('#txtfecha_fin').val()) == "") {
 
-                                    $('#txtfecha_fin').focus();
+                                                $('#txtfecha_fin').focus();
 
-                                } else if (new Date($('#txtfecha_fin').val()) < new Date($('#txtfecha_inicial').val())) {
-                                    $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> La fecha final no puede ser menor a la fecha inicial</p>');
+                                            } else if (new Date($('#txtfecha_fin').val()) < new Date($('#txtfecha_inicial').val())) {
+                                                $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> La fecha final no puede ser menor a la fecha inicial</p>');
 
-                                    setTimeout(function() {
-                                        $('#datos').fadeOut('fast');
-                                    }, 5000);
+                                                setTimeout(function() {
+                                                    $('#datos').fadeOut('fast');
+                                                }, 5000);
 
 
-                                    $('#datos').show();
+                                                $('#datos').show();
 
-                                } else {
-
-                                    const peticion = "/validar-registros-ap/" + $('#cbxips').val() + "?fecha_inicial='" + $('#txtfecha_inicial').val() + "'&fecha_fin='" + $('#txtfecha_fin').val() + "'";
-
-                                    $.ajax({
-                                        type: 'get',
-                                        url: peticion,
-                                        data: [],
-                                        contentType: false,
-                                        cache: false,
-                                        processData: false,
-
-                                        /* beforeSend: function () {
-                                             $('#datos_val').html('<p>Procesando...</p>');
-                                         },
-                                         error: function () {
-                                             $('#datos_val').html('<p>Error intente de nuevo...</p>');
-                                         },*/
-
-                                        success: function(result) {
-                                            //$('#formulario_validacion')[0].reset();
-                                            //$('#datos').html('');
-                                            //$('#btn-subir').attr("disabled", true);
-
-                                            //$('#datos_val').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>' + JSON.stringify(result['respuesta'][0]) + '</p>');
-                                            console.log(result);
-                                            if (result > 0) {
-                                                //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
-                                                alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
-                                                $('#btn-subir').attr("disabled", true);
                                             } else {
-                                                $('#files').attr("disabled", false);
-                                                //$('#div_carga').attr("hidden", false);
-                                                alert("No Tiene registros, puede proceder a cargar los planos");
 
+                                                const peticion = "/validar-registros-ap/" + $('#cbxips').val() + "?fecha_inicial='" + $('#txtfecha_inicial').val() + "'&fecha_fin='" + $('#txtfecha_fin').val() + "'";
+
+                                                $.ajax({
+                                                    type: 'get',
+                                                    url: peticion,
+                                                    data: [],
+                                                    contentType: false,
+                                                    cache: false,
+                                                    processData: false,
+
+                                                    /* beforeSend: function () {
+                                                         $('#datos_val').html('<p>Procesando...</p>');
+                                                     },
+                                                     error: function () {
+                                                         $('#datos_val').html('<p>Error intente de nuevo...</p>');
+                                                     },*/
+
+                                                    success: function(result) {
+                                                        //$('#formulario_validacion')[0].reset();
+                                                        //$('#datos').html('');
+                                                        //$('#btn-subir').attr("disabled", true);
+
+                                                        //$('#datos_val').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>' + JSON.stringify(result['respuesta'][0]) + '</p>');
+                                                        console.log(result);
+                                                        if (result> 0) {
+                                                            //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
+                                                            alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
+                                                            $('#btn-subir').attr("disabled", true);
+                                                        } else {
+                                                            $('#files').attr("disabled", false);
+                                                            //$('#div_carga').attr("hidden", false);
+                                                            alert("No Tiene registros, puede proceder a cargar los planos");
+
+                                                        }
+
+                                                    }
+
+                                                });
                                             }
 
-                                        }
+
+
+
+
+
+                                        });
+
+
+                                        const $form = document.querySelector('#formulario');
+                                        //const $form_val = document.querySelector('#formulario_validacion');
+
+                                        $("#files").change(function() {
+                                            $("#btn-subir").prop("disabled", this.files.length == 0);
+                                        });
+
+                                        $("#cbxips").change(function() {
+                                            $("#btn-subir").prop("disabled", true);
+                                            $('#files').attr("disabled", true);
+                                            $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                                            $('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                                        });
+
+                                        $form.addEventListener('submit', (event) => {
+
+                                            event.preventDefault();
+
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '/files',
+                                                data: new FormData($form),
+                                                contentType: false,
+                                                cache: false,
+                                                processData: false,
+
+                                                beforeSend: function(data) {
+                                                    //console.log(data.status + ':' + data.statusText,data.responseText);
+                                                    $('#datos').html('<p>Procesando...</p>');
+                                                },
+                                                error: function(data) {
+                                                    console.log(data.responseText);
+                                                    $('#datos').html(data.responseText);
+
+
+                                                    /*if(data['readyState']== 4){
+                                                        $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>maximo 10 archivos</p>');
+                                                        console.log("error function"+JSON.stringify(data));
+
+                                                    }else if(data['status']== 'ERR_EXT'){
+                                                        $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>Solo se permiten archivos .txt</p>');
+
+
+                                                    }*/
+
+
+
+                                                    setTimeout(function() {
+                                                        $('#datos').fadeOut('fast');
+                                                    }, 5000);
+
+                                                    $('#datos').show();
+
+                                                    //$('#formulario')[0].reset();
+
+                                                },
+                                                success: function(result) {
+
+
+                                                    //$('#datos').html('');
+                                                    //$('#btn-subir').attr("disabled", true);
+                                                    if (result['estado'] == '200') {
+                                                        $('#datos').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>La operacion se ejecuto con exito...</p>');
+                                                        console.log(JSON.stringify(result['respuesta']));
+                                                        var iframe = document.getElementById('iframe_arch')
+
+                                                        //$("#btn-subir").prop("disabled", true);
+                                                        //$('#files').attr("disabled", true);
+                                                        //$('#div_carga').hide();
+                                                        //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
+                                                        console.log("Se debe persistir en BD: id_ips " + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
+                                                        alert("Los archivos se cargaron correctamente!");
+                                                        // $('#formulario')[0].reset();
+                                                        $('#iframe_arch').attr("src", iframe.src);
+                                                        $("#iframe_arch").show();
+
+                                                        setTimeout(function() {
+                                                            $('#datos').fadeOut('fast');
+                                                        }, 5000);
+                                                        $('#datos').show();
+
+
+                                                    } else {
+                                                        alert("ocurrio un error...");
+                                                    }
+
+                                                }
+
+                                            });
+
+                                        });
+
+
+
+
+
 
                                     });
-                                }
+
+                                    function validar_registros() {
 
 
-
-
-
-
-                            });
-
-
-                            const $form = document.querySelector('#formulario');
-                            //const $form_val = document.querySelector('#formulario_validacion');
-
-                            $("#files").change(function() {
-                                $("#btn-subir").prop("disabled", this.files.length == 0);
-                            });
-
-                            $("#cbxips").change(function() {
-                                $("#btn-subir").prop("disabled", true);
-                                $('#files').attr("disabled", true);
-                                $('#nombre_ips').text($("#cbxips option:selected").text().trim());
-                                $('#nombre_ips').val($("#cbxips option:selected").text().trim());
-                            });
-
-                            $form.addEventListener('submit', (event) => {
-
-                                event.preventDefault();
-
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '/files',
-                                    data: new FormData($form),
-                                    contentType: false,
-                                    cache: false,
-                                    processData: false,
-
-                                    beforeSend: function(data) {
-                                        //console.log(data.status + ':' + data.statusText,data.responseText);
-                                        $('#datos').html('<p>Procesando...</p>');
-                                    },
-                                    error: function(data) {
-                                        console.log(data.responseText);
-                                        $('#datos').html(data.responseText);
-
-
-                                        /*if(data['readyState']== 4){
-                                            $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>maximo 10 archivos</p>');
-                                            console.log("error function"+JSON.stringify(data));
-
-                                        }else if(data['status']== 'ERR_EXT'){
-                                            $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>Solo se permiten archivos .txt</p>');
-
-
-                                        }*/
-
-
-
-                                        setTimeout(function() {
-                                            $('#datos').fadeOut('fast');
-                                        }, 5000);
-
-                                        $('#datos').show();
-
-                                        //$('#formulario')[0].reset();
-
-                                    },
-                                    success: function(result) {
-
-
-                                        //$('#datos').html('');
-                                        //$('#btn-subir').attr("disabled", true);
-                                        if (result['estado'] == '200') {
-                                            $('#datos').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>La operacion se ejecuto con exito...</p>');
-                                            console.log(JSON.stringify(result['respuesta']));
-                                            var iframe = document.getElementById('iframe_arch')
-
-                                            //$("#btn-subir").prop("disabled", true);
-                                            //$('#files').attr("disabled", true);
-                                            //$('#div_carga').hide();
-                                            //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
-                                            console.log("Se debe persistir en BD: id_ips " + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
-                                            alert("Los archivos se cargaron correctamente!");
-                                            // $('#formulario')[0].reset();
-                                            $('#iframe_arch').attr("src", iframe.src);
-                                            $("#iframe_arch").show();
-
-                                            setTimeout(function() {
-                                                $('#datos').fadeOut('fast');
-                                            }, 5000);
-                                            $('#datos').show();
-
-
-                                        } else {
-                                            alert("ocurrio un error...");
-                                        }
-
-                                    }
-
-                                });
-
-                            });
-
-
-
-
-
-
-                        });
-
-                        function validar_registros() {
-
-
-                        };
-                    </script>
+                                    };
+                                </script>
 
                 </div>
 

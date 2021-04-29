@@ -51,20 +51,20 @@ const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
 
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
 
         var numcarga = req.files.length;
-        
+
         console.log("numero de archivos a cargar" + numcarga);
-    
+
 
         //console.log("planos 10 - planos bd:"+num_archivos-numplanos);
-        
+
 
         modelplanos.cantidad_RegistrosPlanos_tmp().then(rescount => {
             //count_temp=JSON.stringify(rescount);
-            
+
             var ext = path.extname(file.originalname);
 
             var numplanos = Number(Object.values(rescount[0]));
@@ -79,18 +79,18 @@ const storage = multer.diskStorage({
             } else if (numplanos > 10) {
                 return cb("Error: Maximo 10 Archivos planos");
             }
-            
+
             else {
 
                 modelplanos_.consultar_RegistrosPlanos_tmp().then(rsta => {
-            
+
                     rsta.forEach(plano => {
-                        console.log("nombre2"+plano['nombre_original']);
+                        console.log("nombre2" + plano['nombre_original']);
                         if (plano['nombre_original'] == file.originalname) {
-                            return cb("Error: Archivo "+file.originalname+" esta cargado");
+                            return cb("Error: Archivo " + file.originalname + " esta cargado");
                         }
                     });
-        
+
                 });
                 //console.log("prueba plano");
                 let fech_now = Date.now();
@@ -146,19 +146,19 @@ const { send } = require('process');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.redirect('/obtenerRegistrosPlanos');
 })
 
-app.get('/obtenerRegistrosPlanos', function(req, res) {
+app.get('/obtenerRegistrosPlanos', function (req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
 
-            console.log(registroplanos);
+        console.log(registroplanos);
 
-            res.render("paginas/RegistrosPlanos", {
-                registroplanos: registroplanos,
-            });
-        })
+        res.render("paginas/RegistrosPlanos", {
+            registroplanos: registroplanos,
+        });
+    })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -166,23 +166,23 @@ app.get('/obtenerRegistrosPlanos', function(req, res) {
 });
 
 
-app.get('/cargar-plano', function(req, res) {
+app.get('/cargar-plano', function (req, res) {
 
     modelbips.obtenerIps().then(listaIps => {
 
-            res.render("paginas/FormularioCarga", {
-                listaIps: listaIps,
+        res.render("paginas/FormularioCarga", {
+            listaIps: listaIps,
 
-            });
+        });
 
-        })
+    })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
         });
 });
 
-app.get('/validar-registros-ap/:ips', async function(req, res, next) {
+app.get('/validar-registros-ap/:ips', async function (req, res, next) {
 
 
     modelbips.validarRegistrosAP(req.params.ips, req.query.fecha_inicial, req.query.fecha_fin).then(validaregistros => {
@@ -193,14 +193,14 @@ app.get('/validar-registros-ap/:ips', async function(req, res, next) {
     });
 });
 
-app.get('/cargar', function(req, res) {
+app.get('/cargar', function (req, res) {
     //console.log(req);
     res.render("paginas/FormularioCarga");
 });
 
 
 
-app.post("/files", upload.array('files' ), (req, res, err) => {
+app.post("/files", upload.array('files'), (req, res, err) => {
 
 
 
@@ -262,7 +262,7 @@ app.post("/files", upload.array('files' ), (req, res, err) => {
 
         } catch (error) {
             console.log("err " + error);
-          
+
         }
 
     }
@@ -313,16 +313,16 @@ app.get("/listadoArchivos", (req, res) => {
 
 
     modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-            //console.log(listaArchivos);    
-            res.setHeader('Content-type', 'text/html');
-            res.render("paginas/listaArchivos", {
-                arr_files: listaArchivos,
-                habilitar_envio_la: bandera_envio,
-                habilitar_carga: habilitar_carga_bandera,
-                habilitar_eliminar: habilitar_eliminar_all,
-            });
+        //console.log(listaArchivos);    
+        res.setHeader('Content-type', 'text/html');
+        res.render("paginas/listaArchivos", {
+            arr_files: listaArchivos,
+            habilitar_envio_la: bandera_envio,
+            habilitar_carga: habilitar_carga_bandera,
+            habilitar_eliminar: habilitar_eliminar_all,
+        });
 
-        })
+    })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -331,14 +331,14 @@ app.get("/listadoArchivos", (req, res) => {
 
 });
 
-app.get('/recursos_marca', function(req, res) {
+app.get('/recursos_marca', function (req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final.png");
 
 });
 
 
-app.post('/file/delete/:name/archivo-bips', function(req, res) {
+app.post('/file/delete/:name/archivo-bips', function (req, res) {
     let name = req.params.name;
     console.log(req.query);
     //console.log(name);
@@ -361,10 +361,10 @@ app.post('/file/delete/:name/archivo-bips', function(req, res) {
 
                 modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
 
-                        req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
-                        res.redirect("/listadoArchivos");
+                    req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
+                    res.redirect("/listadoArchivos");
 
-                    })
+                })
                     .catch(err => {
                         console.log(err);
                         return res.status(500).send("Error obteniendo registros");
@@ -375,7 +375,7 @@ app.post('/file/delete/:name/archivo-bips', function(req, res) {
 });
 
 
-app.post('/file/validar/:name/archivo-bips', function(req, res) {
+app.post('/file/validar/:name/archivo-bips', function (req, res) {
 
     let name_tmp = req.params.name;
     var array_nombre = name_tmp.split('_');
@@ -485,8 +485,12 @@ app.post('/file/validar/:name/archivo-bips', function(req, res) {
 
 });
 
-app.get("/reportes", (req, res) => {
+app.get("/reportes-2193", (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
+});
+
+app.get("/dashboard-2193", (req, res) => {
+    res.render(path.join(__dirname + "/src/vista/paginas/Dashboard_2193"));
 });
 
 app.post("/eliminar-popup/:name/archivo-bips", (req, res) => {
@@ -530,11 +534,11 @@ app.post("/delete-all/archivo-bips", (req, res) => {
 
             modelplanos.eliminar_all_RegistrosPlanos_tmp().then(respuesta => {
 
-                    if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
-                        console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
-                    }
+                if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                    console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
+                }
 
-                })
+            })
                 .catch(err => {
                     console.log(err);
                 });
@@ -616,7 +620,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
 
                     try {
                         //var ruta = path.join(__dirname, 'filesBipsUploads') + '/' + file;
-                        fs.unlinkSync(ruta, function(err) {
+                        fs.unlinkSync(ruta, function (err) {
                             if (err) {
                                 bandera = true;
                                 return console.error(err);
@@ -679,174 +683,69 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
 
     //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
     //se debe verficar que el plano este validado
+    var path_plano_AF = "";
+    var path_plano_AN = "";
+    var path_plano_AM = "";
+    var path_plano_AT = "";
+    var path_plano_AC = "";
+    var path_plano_AU = "";
+    var path_plano_US = "";
+    var path_plano_AH = "";
+    var path_plano_CT = "";
+    var path_plano_AP = "";
 
+    var cont = 0;
 
+    var spawn = require('child_process').spawn;
 
     modelplanos_.ObtenerPlanos_validos().then(rsta => {
         //console.log(rsta);        
-        var num_planos = rsta.length;
-        console.log("numero incial de planos validados: " + num_planos);
+        //var num_planos = rsta.length;
+        //console.log("numero incial de planos validados: " + num_planos);
         rsta.forEach(plano => {
 
-            var spawn = require('child_process').spawn;
+            
             if (plano['validado'] == true) {
 
-                var path_plano = plano['path_plano'];
-                modelktr.selecionaKtr(plano['nombre_original'].slice(0, 2)).then(nombre_transformacion => {
-                    // console.log(rsta_seleccionKtr);
-                    //console.log(path_plano);
+                //var path_plano = plano['path_plano'];
+                //modelktr.selecionaKtr(plano['nombre_original'].slice(0, 2)).then(nombre_ruta => {
+                // console.log(rsta_seleccionKtr);
+                //console.log(path_plano);
 
-
-
-                    //var prueba_3 = spawn('cd /var/lib/data-integration/; sh pan.sh -file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr" -level=Error >> /archivos_bips/trans.log;', {encoding: 'utf8', stdio: 'ignore'});
-                    //const spawn_trs = spawn('sh pan.sh',['-file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr']);
-                    //console.log(__dirname);.
-                    //console.log(rsta[0]['validado']);
-                    //console.log(rsta[0]['path_plano']);
-                    //var str=JSON.stringify(rsta,['path_plano']);
-                    //console.log(str);
-                    //console.log(Object.entries(str));
-
-                    //console.log(`value=${path_plano}`);
-
-                    //console.log(path);
-
-
-                    //console.log(JSON.stringify(rsta));
-                    //console.log(JSON.parse(JSON.stringify(rsta)));
-                    //console.log(JSON.stringify(rsta,['path_plano']));
-                    console.log("===========================================================================");
-                    console.log("================Inicia ejecucion de la transformacion      =================");
-                    console.log("fecha/hora de inicio de la ejecucion : ");
-                    //obtener_fecha_hora().then(rt=>{
-                    //  console.log(rt);
-
-                    //            });
-                    console.log("===========================================================================");
-
-
-                    /*
-                    La función spawn lanza un comando en un nuevo proceso y podemos usarlo para pasarle cualquier argumento a ese comando
-                    
-                    */
-                    let spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo=" + path_plano, '-logfile=/tmp/trans.log']);
-
-
-                    //const spawn_trs = spawn('ls',['-ltr','/var/lib/data-integration']);
-
-                    //const spawn_trs = spawn('ls', ['-ltr']);
-
-                    //la opcion pipe canaliza spawn_trs.stdout directamente a process.stdout
-                    spawn_trs.stdout.pipe(process.stdout);
-
-                    spawn_trs.stdout.setEncoding('utf8');
-
-                    spawn_trs.stderr.setEncoding('utf8');
-
-                    //Con los flujos legibles, podemos escuchar el evento de datos, que tendrá la 
-                    //salida del comando o cualquier error encontrado al ejecutar el comando
-                    spawn_trs.stdout.on('data', data => {
-                        console.log(`stdout:\n${data}`)
-                    });
-                    spawn_trs.stderr.on('data', (data) => {
-                        // console.error(`stderr: ${data}`);
-                    });
-
-
-
-                    spawn_trs.on('close', (code) => {
-
-                        console.log("===========================================================================");
-                        console.log("================   FIN ejecucion de la transforacion      =================");
-                        console.log("fecha/hora fin de la ejecucion: ");
-                        //console.log(obtener_fecha_hora());
-                        console.log("===========================================================================");
-                        console.log("resultado de la ejecucion: ");
-                        console.log(code)
-                            //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
-                            //OK : 0
-
-                        if (code == 0) {
-
-                            console.log("El comando/transformacion se ejecuto con exito... estado: " + code);
-
-
-                            modelplanos_.actualizar_carga_temp(plano['id_ips'], plano['nombre_tmp']).then(respuesta => {
-                                if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
-                                    console.log("actualizo CARGA TEMP OK para el plano ... " + plano['nombre_original']);
-
-
-
-                                }
-
-                            });
-                            num_planos--;
-                            //return 0;      
-                            console.log("numero de planos decrementando: " + num_planos);
-                            if (num_planos == 0) {
-
-
-
-                                modelplanos_.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-                                        //console.log(listaArchivos);    
-                                        req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                                        //res.setHeader('Content-type', 'text/html');
-                                        res.render("paginas/listaArchivos", {
-                                            arr_files: listaArchivos,
-                                            habilitar_envio_la: true,
-                                            habilitar_carga: false,
-                                            status: 200,
-                                            code: 0,
-                                            retorno: "0",
-                                        });
-
-
-                                    })
-                                    .catch(err => {
-                                        console.log(err);
-                                        return res.status(500).send("Error obteniendo registros");
-                                    });
-
-                                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                                /*res.json({
-                                    status: 200,
-                                    code: 0,
-                                    retorno: "0",
-                                    descripcion: 'La operacion de carga multiple se ejecuto con exito',
-
-                                });*/
-
-
-                            }
-
-
-                        } else {
-                            console.error('Ocurrio un problema con la ejecucion del comando/transformacion ' + code);
-                            //se retorna el codigo de estado de errro
-                            //return 1;
-                            req.flash('error', 'Ocurrio un error en la carga del plano ' + plano['nombre_original'] + ' Contacte con el administrador...');
-                            res.json({
-                                status: 500,
-                                retorno: code,
-                            });
-
-
-                        }
-
-
-
-                    });
-
-                    spawn_trs.on('exit', (code) => {
-                        console.log(`exit child process exited with code ${code}`);
-                        //return code;
-                    });
-
-
-
-
-                });
-
+                if (plano["nombre_original"].slice(0, 2) == "AF") {
+                    path_plano_AF = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AP") {
+                    path_plano_AP = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AC") {
+                    path_plano_AC = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AT") {
+                    path_plano_AT = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AH") {
+                    path_plano_AH = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "CT") {
+                    path_plano_CT = plano["path_plano"];
+                    cont++;
+                }
+                else if (plano["nombre_original"].slice(0, 2) == "US") {
+                    path_plano_US = plano["path_plano"];
+                    cont++;
+                }
+                else if (plano["nombre_original"].slice(0, 2) == "AM") {
+                    path_plano_AM = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AN") {
+                    path_plano_AN = plano["path_plano"];
+                    cont++;
+                }
+                else if (plano["nombre_original"].slice(0, 2) == "AU") {
+                    path_plano_AU = plano["path_plano"];
+                    cont++;
+                }
 
             } else {
                 console.log("----------------------------------------------------------------------------------------------------");
@@ -854,7 +753,174 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
                 console.log("----------------------------------------------------------------------------------------------------");
                 return 1;
             }
+
         });
+
+
+
+        if (cont == 10) {
+            //var prueba_3 = spawn('cd /var/lib/data-integration/; sh pan.sh -file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr" -level=Error >> /archivos_bips/trans.log;', {encoding: 'utf8', stdio: 'ignore'});
+            //const spawn_trs = spawn('sh pan.sh',['-file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr']);
+            //console.log(__dirname);.
+            //console.log(rsta[0]['validado']);
+            //console.log(rsta[0]['path_plano']);
+            //var str=JSON.stringify(rsta,['path_plano']);
+            //console.log(str);
+            //console.log(Object.entries(str));
+
+            //console.log(`value=${path_plano}`);
+
+            //console.log(path);
+
+
+            //console.log(JSON.stringify(rsta));
+            //console.log(JSON.parse(JSON.stringify(rsta)));
+            //console.log(JSON.stringify(rsta,['path_plano']));
+            console.log("===========================================================================");
+            console.log("================Inicia ejecucion de la transformacion      =================");
+            console.log("fecha/hora de inicio de la ejecucion : ");
+            //obtener_fecha_hora().then(rt=>{
+            //  console.log(rt);
+
+            //            });
+            console.log("===========================================================================");
+
+
+            /*
+            La función spawn lanza un comando en un nuevo proceso y podemos usarlo para pasarle cualquier argumento a ese comando
+            
+            */
+            //let spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo_af=" + path_plano_AF, '-logfile=/tmp/trans.log']);
+            var spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/tras-all-Planos.ktr", '-level=Basic',
+             "-param:ruta_archivo_af=" + path_plano_AF, 
+             "-param:ruta_archivo_ac=" + path_plano_AC, 
+             "-param:ruta_archivo_at=" + path_plano_AT, 
+             "-param:ruta_archivo_an=" + path_plano_AN, 
+             "-param:ruta_archivo_am=" + path_plano_AM, 
+             "-param:ruta_archivo_ap=" + path_plano_AP, 
+             "-param:ruta_archivo_ct=" + path_plano_CT, 
+             "-param:ruta_archivo_us=" + path_plano_US, 
+             "-param:ruta_archivo_au=" + path_plano_AU, 
+             "-param:ruta_archivo_ah=" + path_plano_AH, 
+             
+             '-logfile=/tmp/trans.log']);
+
+            //const spawn_trs = spawn('ls',['-ltr','/var/lib/data-integration']);
+
+            //const spawn_trs = spawn('ls', ['-ltr']);
+
+            //la opcion pipe canaliza spawn_trs.stdout directamente a process.stdout
+            spawn_trs.stdout.pipe(process.stdout);
+
+            spawn_trs.stdout.setEncoding('utf8');
+
+            spawn_trs.stderr.setEncoding('utf8');
+
+            //Con los flujos legibles, podemos escuchar el evento de datos, que tendrá la 
+            //salida del comando o cualquier error encontrado al ejecutar el comando
+            spawn_trs.stdout.on('data', data => {
+                console.log(`stdout:\n${data}`)
+            });
+            spawn_trs.stderr.on('data', (data) => {
+                // console.error(`stderr: ${data}`);
+            });
+
+
+
+            spawn_trs.on('close', (code) => {
+
+                console.log("===========================================================================");
+                console.log("================   FIN ejecucion de la transforacion      =================");
+                console.log("fecha/hora fin de la ejecucion: ");
+                //console.log(obtener_fecha_hora());
+                console.log("===========================================================================");
+                console.log("resultado de la ejecucion: ");
+                console.log(code)
+                //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
+                //OK : 0
+
+                if (code == 0) {
+
+                    console.log("El comando/transformacion se ejecuto con exito... estado: " + code);
+
+
+                    modelplanos_.actualizar_carga_temp().then(respuesta => {
+                        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+                           // console.log("actualizo CARGA TEMP OK para el plano ... " + plano['nombre_original']);
+                             console.log("actualizo CARGA TEMP OK para todos los planos ... ");
+
+
+                        }
+
+                    });
+                    //num_planos--;
+                    //return 0;      
+                    //console.log("numero de planos decrementando: " + num_planos);
+
+                        modelplanos_.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                            //console.log(listaArchivos);    
+                            req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                            //res.setHeader('Content-type', 'text/html');
+                            res.render("paginas/listaArchivos", {
+                                arr_files: listaArchivos,
+                                habilitar_envio_la: true,
+                                habilitar_carga: false,
+                                habilitar_eliminar: false,
+                                status: 200,
+                                code: 0,
+                                retorno: "0",
+                            });
+
+
+                        })
+                            .catch(err => {
+                                console.log(err);
+                                return res.status(500).send("Error obteniendo registros");
+                            });
+
+                        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                        /*res.json({
+                            status: 200,
+                            code: 0,
+                            retorno: "0",
+                            descripcion: 'La operacion de carga multiple se ejecuto con exito',
+
+                        });*/
+
+
+                    
+
+
+                } else {
+                    console.error('Ocurrio un problema con la ejecucion del comando/transformacion ' + code);
+                    //se retorna el codigo de estado de errro
+                    //return 1;
+                    req.flash('error', 'Ocurrio un error en la carga del plano ' + plano['nombre_original'] + ' Contacte con el administrador...');
+                    res.json({
+                        status: 500,
+                        retorno: code,
+                    });
+
+
+                }
+
+
+
+            });
+
+            spawn_trs.on('exit', (code) => {
+                console.log(`exit child process exited with code ${code}`);
+                //return code;
+            });
+
+        }
+
+
+        //});
+
+
+
+
 
 
 
