@@ -278,7 +278,7 @@ app.get("/listadoArchivos", (req, res) => {
 
     var bandera_envio = false;
     var habilitar_carga_bandera = false;
-    var habilitar_eliminar_all = false;
+    var habilitar_eliminar_all = true;
     modelplanos.ObtenerPlanos_validos().then(planos_val => {
 
         modelplanos.validarPlanosNecesarios(planos_val).then(rsta => {
@@ -305,8 +305,8 @@ app.get("/listadoArchivos", (req, res) => {
 
     modelplanos.contar_Planos_Validados().then(conteo_planos => {
         console.log(conteo_planos);
-        if (conteo_planos.rows[0].total_validados == 0) {
-            habilitar_eliminar_all = true;
+        if (conteo_planos.rows[0].total_validados >= 1) {
+            habilitar_eliminar_all = false;
         }
 
     });

@@ -3,7 +3,7 @@ body::-webkit-scrollbar {
 }
 
 body {
-    background-color: #eaedee;
+    /*background-color: #eaedee;*/
 }
 
 #panel_carga {
@@ -11,7 +11,7 @@ body {
     padding-left: 5px;
     margin-top: 75px;
     padding-top: 10px;
-    background-color: #eaedee;
+    /*background-color: #eaedee;*/
 }
 
 #lista_archivos {
@@ -36,10 +36,29 @@ body {
     font-weight: bold;
 }
 
+nav.navbar {
+    background-color: #20488f;
+    
+    
+}
+.nav-link{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #fff;    
+}
+
+.dropdown-toggle{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #fff;
+}
+
+
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>.active>a:focus {
-    color: #50A0FF;
+    color: #ff5350;
     background-color: #ebebeb !important;
     display: block;
 }
+
+
+
