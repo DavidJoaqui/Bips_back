@@ -3,7 +3,7 @@ const fs = require('fs');
 const spawn = require('child_process').spawn;
 const modelplanos_ = require(path.join(__dirname + '/archivosPlanosModel'));
 
-const tras_AF = "tras-AF.ktr";
+/*const tras_AF = "tras-AF.ktr";
 const tras_CT = "tras-CT.ktr";
 const tras_US = "tras-US.ktr";
 const tras_AC = "tras-AC.ktr";
@@ -12,7 +12,19 @@ const tras_AU = "tras-AU.ktr";
 const tras_AH = "tras-AH.ktr";
 const tras_AT = "tras-AT.ktr";
 const tras_AM = "tras-AM.ktr";
-const tras_AN = "tras-AN.ktr";
+const tras_AN = "tras-AN.ktr";*/
+
+const tras_AF = "ruta-AF";
+const tras_CT = "ruta-CT";
+const tras_US = "ruta-US";
+const tras_AC = "ruta-AC";
+const tras_AP = "ruta-AP";
+const tras_AU = "ruta-AU";
+const tras_AH = "ruta-AH";
+const tras_AT = "ruta-AT";
+const tras_AM = "ruta-AM";
+const tras_AN = "ruta-AN";
+
 
 module.exports = {
 

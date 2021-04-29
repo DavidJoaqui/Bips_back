@@ -35,8 +35,8 @@ module.exports = {
         return resultados;
     },
 
-    async actualizar_carga_temp(id_ips, nombre_archivo) {
-        const resultados = await conexion.query("UPDATE schema_planos.registros_planos_tmp SET cargado=true where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo]);
+    async actualizar_carga_temp() {
+        const resultados = await conexion.query("UPDATE schema_planos.registros_planos_tmp SET cargado=true where validado= true and id_ips is not null");
         return resultados;
     },
 
