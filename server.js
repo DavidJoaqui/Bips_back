@@ -276,15 +276,111 @@ app.post("/files", upload.array('files'), (req, res, err) => {
 
 app.get("/listadoArchivos", (req, res) => {
 
-    var bandera_envio = false;
+    var bandera_panel_envio = false;
     var habilitar_carga_bandera = false;
     var habilitar_eliminar_all = true;
+    var bandera_btn_enviar = false;
     modelplanos.ObtenerPlanos_validos().then(planos_val => {
 
+        console.log(planos_val);
         modelplanos.validarPlanosNecesarios(planos_val).then(rsta => {
-
+            //console.log(rsta);
             if (rsta == 1) {
-                bandera_envio = true;
+                bandera_panel_envio = true;
+
+                modelplanos.consultar_RegistrosPlanos_tmp().then(planos_all => {
+
+                    modelplanos.contar_Planos_Validados().then(conteo_planos => {
+                        //console.log(conteo_planos);
+                        if (conteo_planos[0]['total_validados'] >= 10) {
+
+                            bandera_btn_enviar = false;
+                            habilitar_carga_bandera = true;
+                            habilitar_eliminar_all = false;
+
+
+
+                            modelplanos.validarPlanosCargados(planos_all).then(rsta_cargados => {
+                                //console.log(rsta_cargados);
+                                if (rsta_cargados == 0) {
+
+                                    habilitar_carga_bandera = false;
+
+                                    bandera_btn_enviar = true;
+
+                                    habilitar_eliminar_all = false;
+
+
+
+                                    res.setHeader('Content-type', 'text/html');
+                                    res.render("paginas/listaArchivos", {
+                                        arr_files: planos_all,
+                                        habilitar_envio_la: bandera_panel_envio,
+                                        habilitar_carga: habilitar_carga_bandera,
+                                        habilitar_eliminar: habilitar_eliminar_all,
+                                        habilitar_btn_envio: bandera_btn_enviar,
+                                    });
+
+                                } else {
+
+                                    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                                        res.render("paginas/listaArchivos", {
+                                            arr_files: listaArchivos,
+                                            habilitar_envio_la: bandera_panel_envio,
+                                            habilitar_carga: habilitar_carga_bandera,
+                                            habilitar_eliminar: habilitar_eliminar_all,
+                                            habilitar_btn_envio: bandera_btn_enviar,
+                                        });
+
+                                    });
+
+
+                                }
+
+
+                            });
+
+
+                        } else {
+                            
+                            bandera_panel_envio = false;
+
+                            //console.log(listaArchivos);    
+                            res.setHeader('Content-type', 'text/html');
+                            res.render("paginas/listaArchivos", {
+                                arr_files: planos_all,
+                                habilitar_envio_la: bandera_panel_envio,
+                                habilitar_carga: habilitar_carga_bandera,
+                                habilitar_eliminar: habilitar_eliminar_all,
+                                habilitar_btn_envio: bandera_btn_enviar,
+                            });
+
+                        }
+
+
+
+                    }).catch(err => {
+                        console.log(err);
+                        return res.status(500).send("Error obteniendo registros");
+                    });
+
+
+                });
+
+
+
+            } else {
+
+                modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                    res.render("paginas/listaArchivos", {
+                        arr_files: listaArchivos,
+                        habilitar_envio_la: bandera_panel_envio,
+                        habilitar_carga: habilitar_carga_bandera,
+                        habilitar_eliminar: habilitar_eliminar_all,
+                        habilitar_btn_envio: bandera_btn_enviar,
+                    });
+
+                });
 
 
             }
@@ -292,41 +388,7 @@ app.get("/listadoArchivos", (req, res) => {
 
     });
 
-    modelplanos.consultar_RegistrosPlanos_tmp().then(planos_all => {
-        modelplanos.validarPlanosCargados(planos_all).then(rsta_cargados => {
-            //console.log(rsta_cargados);
-            if (rsta_cargados == 0) {
-                habilitar_carga_bandera = true;
-            }
 
-        });
-
-    });
-
-    modelplanos.contar_Planos_Validados().then(conteo_planos => {
-        console.log(conteo_planos);
-        if (conteo_planos.rows[0].total_validados >= 1) {
-            habilitar_eliminar_all = false;
-        }
-
-    });
-
-
-    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-        //console.log(listaArchivos);    
-        res.setHeader('Content-type', 'text/html');
-        res.render("paginas/listaArchivos", {
-            arr_files: listaArchivos,
-            habilitar_envio_la: bandera_envio,
-            habilitar_carga: habilitar_carga_bandera,
-            habilitar_eliminar: habilitar_eliminar_all,
-        });
-
-    })
-        .catch(err => {
-            console.log(err);
-            return res.status(500).send("Error obteniendo registros");
-        });
 
 
 });
@@ -704,7 +766,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
         //console.log("numero incial de planos validados: " + num_planos);
         rsta.forEach(plano => {
 
-            
+
             if (plano['validado'] == true) {
 
                 //var path_plano = plano['path_plano'];
@@ -791,19 +853,19 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
             
             */
             //let spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo_af=" + path_plano_AF, '-logfile=/tmp/trans.log']);
-            var spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/tras-all-Planos.ktr", '-level=Basic',
-             "-param:ruta_archivo_af=" + path_plano_AF, 
-             "-param:ruta_archivo_ac=" + path_plano_AC, 
-             "-param:ruta_archivo_at=" + path_plano_AT, 
-             "-param:ruta_archivo_an=" + path_plano_AN, 
-             "-param:ruta_archivo_am=" + path_plano_AM, 
-             "-param:ruta_archivo_ap=" + path_plano_AP, 
-             "-param:ruta_archivo_ct=" + path_plano_CT, 
-             "-param:ruta_archivo_us=" + path_plano_US, 
-             "-param:ruta_archivo_au=" + path_plano_AU, 
-             "-param:ruta_archivo_ah=" + path_plano_AH, 
-             
-             '-logfile=/tmp/trans.log']);
+            var spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/InegracionKtr/tras-all-Planos.ktr", '-level=Basic',
+                "-param:ruta_archivo_af=" + path_plano_AF,
+                "-param:ruta_archivo_ac=" + path_plano_AC,
+                "-param:ruta_archivo_at=" + path_plano_AT,
+                "-param:ruta_archivo_an=" + path_plano_AN,
+                "-param:ruta_archivo_am=" + path_plano_AM,
+                "-param:ruta_archivo_ap=" + path_plano_AP,
+                "-param:ruta_archivo_ct=" + path_plano_CT,
+                "-param:ruta_archivo_us=" + path_plano_US,
+                "-param:ruta_archivo_au=" + path_plano_AU,
+                "-param:ruta_archivo_ah=" + path_plano_AH,
+
+                '-logfile=/tmp/trans.log']);
 
             //const spawn_trs = spawn('ls',['-ltr','/var/lib/data-integration']);
 
@@ -830,7 +892,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
             spawn_trs.on('close', (code) => {
 
                 console.log("===========================================================================");
-                console.log("================   FIN ejecucion de la transforacion      =================");
+                console.log("================   FIN ejecucion de la transformacion      =================");
                 console.log("fecha/hora fin de la ejecucion: ");
                 //console.log(obtener_fecha_hora());
                 console.log("===========================================================================");
@@ -839,6 +901,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
                 //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
                 //OK : 0
 
+                       
                 if (code == 0) {
 
                     console.log("El comando/transformacion se ejecuto con exito... estado: " + code);
@@ -846,8 +909,8 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
 
                     modelplanos_.actualizar_carga_temp().then(respuesta => {
                         if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
-                           // console.log("actualizo CARGA TEMP OK para el plano ... " + plano['nombre_original']);
-                             console.log("actualizo CARGA TEMP OK para todos los planos ... ");
+                            // console.log("actualizo CARGA TEMP OK para el plano ... " + plano['nombre_original']);
+                            console.log("actualizo CARGA TEMP OK para todos los planos ... ");
 
 
                         }
@@ -857,49 +920,60 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
                     //return 0;      
                     //console.log("numero de planos decrementando: " + num_planos);
 
-                        modelplanos_.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-                            //console.log(listaArchivos);    
-                            req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                            //res.setHeader('Content-type', 'text/html');
-                            res.render("paginas/listaArchivos", {
-                                arr_files: listaArchivos,
-                                habilitar_envio_la: true,
-                                habilitar_carga: false,
-                                habilitar_eliminar: false,
-                                status: 200,
-                                code: 0,
-                                retorno: "0",
-                            });
-
-
-                        })
-                            .catch(err => {
-                                console.log(err);
-                                return res.status(500).send("Error obteniendo registros");
-                            });
-
-                        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                        /*res.json({
+                    modelplanos_.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                        //console.log(listaArchivos);    
+                        req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                        //res.setHeader('Content-type', 'text/html');
+                        res.render("paginas/listaArchivos", {
+                            arr_files: listaArchivos,
+                            habilitar_envio_la: true,
+                            habilitar_carga: false,
+                            habilitar_eliminar: false,
+                            habilitar_btn_envio: false,
                             status: 200,
                             code: 0,
                             retorno: "0",
-                            descripcion: 'La operacion de carga multiple se ejecuto con exito',
-
-                        });*/
+                        });
 
 
-                    
+                    })
+                        .catch(err => {
+                            console.log(err);
+                            return res.status(500).send("Error obteniendo registros");
+                        });
+
+                    //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                    /*res.json({
+                        status: 200,
+                        code: 0,
+                        retorno: "0",
+                        descripcion: 'La operacion de carga multiple se ejecuto con exito',
+
+                    });*/
+
+
+
 
 
                 } else {
                     console.error('Ocurrio un problema con la ejecucion del comando/transformacion ' + code);
                     //se retorna el codigo de estado de errro
                     //return 1;
-                    req.flash('error', 'Ocurrio un error en la carga del plano ' + plano['nombre_original'] + ' Contacte con el administrador...');
-                    res.json({
-                        status: 500,
-                        retorno: code,
+                    req.flash('error', 'Ocurrio un error en la carga de los planos, Contacte con el administrador... Cod.Transformacion: '+code);
+                    modelplanos_.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+
+                    
+                    res.render("paginas/listaArchivos", {
+                        arr_files: listaArchivos,
+                        habilitar_envio_la: true,
+                        habilitar_carga: true,
+                        habilitar_eliminar: false,
+                        habilitar_btn_envio: false,
+                        status: 200,
+                        code: code,
+                        retorno: "0",
                     });
+                });
 
 
                 }

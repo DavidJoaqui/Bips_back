@@ -47,7 +47,7 @@ module.exports = {
 
     async contar_Planos_Validados() {
         const resultados = await conexion.query("select count(validado) as total_validados from schema_planos.registros_planos_tmp where validado = true");
-        return resultados;
+        return resultados.rows;
     },
 
 
@@ -67,26 +67,21 @@ module.exports = {
     },
 
 
-    async validarPlanosCargados(planos) {
-        var num_reg = planos.length;
-        var cont_validados = 0;
+    async validarPlanosCargados(planos) {            
         var cont = 0;
+        console.log(planos);
         planos.forEach(plano => {
 
-            if (plano["validado"] == true) {
-                cont_validados++;
-            }
-
-            if (plano["cargado"] == true && plano["validado"] == true) {
+            if (plano["cargado"] == true) {
                 cont++;
             }
 
         });
 
-        if (cont == cont_validados) {
-            return 1;
-        } else {
+        if (cont == 10) {
             return 0;
+        } else {
+            return 1;
         }
 
 
@@ -94,11 +89,17 @@ module.exports = {
     },
 
     async validarPlanosNecesarios(planos_val) {
-        //console.log(planos_val);
+        //console.log("planos val"+Object.values(planos_val));
+
+     
+
+        //console.log("planos.lengtth"+planos_val.length);
         var cont_obligatorios = 0;
-        if (planos_val.length >= 6) {
+        if (planos_val.length = 10) {
             // son necesarios AP, AC, AT, AH, AU, AF, no entra US, AN,CT,AM
             planos_val.forEach(plano => {
+
+
                 if (plano["nombre_original"].slice(0, 2) == "AF") {
                     cont_obligatorios++;
                 } else if (plano["nombre_original"].slice(0, 2) == "AP") {
@@ -111,18 +112,29 @@ module.exports = {
                     cont_obligatorios++;
                 } else if (plano["nombre_original"].slice(0, 2) == "AU") {
                     cont_obligatorios++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AN") {
+                    cont_obligatorios++;
+                } else if (plano["nombre_original"].slice(0, 2) == "US") {
+                    cont_obligatorios++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AH") {
+                    cont_obligatorios++;
+                }
+                else if (plano["nombre_original"].slice(0, 2) == "AM") {
+                    cont_obligatorios++;
                 }
 
             });
 
-            if (cont_obligatorios == 6) {
+            if (cont_obligatorios = 10) {
                 // 1: cumple, estan los archivos necesarios 
                 return 1;
             }
 
         } else {
             // 0 : no cumple
+           // console.log("entra  a return");
             return 0;
+            
         }
     },
 

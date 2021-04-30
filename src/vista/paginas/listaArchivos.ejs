@@ -1,32 +1,46 @@
 <%- include("head"); %>
     <%- include("styles_gral"); %>
+
+
+
+        <!--<em>habilitar_eliminar: <%= typeof habilitar_eliminar !='undefined' ? habilitar_eliminar : "0" %></em>-->
+
         <div class="col-md-12">
 
 
             <div class="col-md-12" id="lista_archivos" name="lista_archivos">
 
-                
-                    <span class="titulo-tabla" style="font-weight: bold;text-align: left;">Lista de Archivos Planos
+                <div>
+                    <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
+                        <h2> Lista de Archivos Planos
+
+                            <%if(habilitar_eliminar==true ){ %>
+
+
+                                <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all"
+                                    onclick="eliminar_all()" style="float: right;">
+                                    <i class="fas fa-trash"></i> Eliminar todos.
+                                </button>
+                        </h2>
                     </span>
+                </div>
 
-                    <% if(habilitar_eliminar==true ){ %>
+                <% }else{ %>
+
+                    <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all"
+                        onclick="eliminar_all()" style="float: right;" disabled><i class="fas fa-trash"></i> Eliminar
+                        todos.
+                    </button>
+                    </h2>
+                    </span>
+            </div>
+
+            <% } %>
 
 
-                        <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all"
-                            onclick="eliminar_all()" style="float: right;">
-                            <i class="fas fa-trash"></i> Eliminar todos.
-                        </button>
-                        </span>
-                        <% }else{ %>
 
-                            <button type="button" class="btn btn-danger" id="btn-elim-all" name="btn-elim-all"
-                                onclick="eliminar_all()" style="float: right;" disabled><i
-                                    class="fas fa-trash"></i> Eliminar todos.
-                            </button>
 
-                            <% } %>
 
-                
 
 
                 <% const m=getMessages() %>
@@ -78,8 +92,10 @@
                                     <% if (habilitar_envio_la==true ){ %>
                                         <div class=" form-group" id="div_envio" name="div_envio">
                                             <div class="card">
-                                                <div class="card-header text-white bg-success mb-3 container-fluid"><b>
-                                                        ENVIAR</b></div>
+                                                <div class="card-header text-white bg-success mb-3 container-fluid">
+                                                    <b>
+                                                        ENVIAR</b>
+                                                </div>
                                                 <div class="panel-body">
                                                     <div class="text-center" style="margin: 20px;">
 
@@ -99,10 +115,17 @@
 
 
 
-                                                                    <button style="width:45%;font-weight: bold;"
-                                                                        class="btn btn-primary "
-                                                                        onclick="enviar_trabajo()">Enviar</button>
+                                                                    <% if (habilitar_btn_envio==true) { %>
+                                                                        <button style="width:45%;font-weight: bold;"
+                                                                            class="btn btn-primary "
+                                                                            onclick="enviar_trabajo()">Enviar</button>
+                                                                        <% }else{ %>
+                                                                            <button style="width:45%;font-weight: bold;"
+                                                                                class="btn btn-primary "
+                                                                                onclick="enviar_trabajo()" disabled>Enviar</button>
 
+
+                                                                            <% } %>                                                                            
 
 
                                                     </div>
@@ -236,10 +259,10 @@
                                                 </table>
 
                                             </div>
-            </div>
-            <div id="planos">
+        </div>
+        <div id="planos">
 
-            </div>
+        </div>
 
 
 
