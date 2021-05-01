@@ -1,19 +1,13 @@
 body::-webkit-scrollbar {
     display: none;
-    
-}
-
-
-body {
-    
-    /*background-color: #eaedee;*/
 }
 
 #panel_carga {
-    margin-left: 20px;
+    margin-left: 40px;
     padding-left: 15px;
     margin-top: 75px;
     padding-top: 10px;
+    height: 100%;
     /*background-color: #eaedee;*/
 }
 
@@ -21,7 +15,6 @@ body {
     margin-top: 32px;
     padding-top: 10px;
     font-family: 'Montserrat', sans-serif;
-    
 }
 
 #head-carga {
@@ -42,19 +35,17 @@ body {
 
 nav.navbar {
     background-color: #20488f;
-    
-    
-}
-.nav-link{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #fff;    
 }
 
-.dropdown-toggle{
+.nav-link {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #fff;
 }
 
+.dropdown-toggle {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #fff;
+}
 
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:hover,
@@ -63,6 +54,3 @@ nav.navbar {
     background-color: #ebebeb !important;
     display: block;
 }
-
-
-
