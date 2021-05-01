@@ -122,10 +122,11 @@
                                                                         <% }else{ %>
                                                                             <button style="width:45%;font-weight: bold;"
                                                                                 class="btn btn-primary "
-                                                                                onclick="enviar_trabajo()" disabled>Enviar</button>
+                                                                                onclick="enviar_trabajo()"
+                                                                                disabled>Enviar</button>
 
 
-                                                                            <% } %>                                                                            
+                                                                            <% } %>
 
 
                                                     </div>
@@ -461,7 +462,12 @@
                         console.log(result["habilitar_envio"]);
 
                         if (result["habilitar_envio"] == true) {
-                            alert("se puede enviar la transformacion");
+
+                            $('html, body').animate({
+                                scrollTop: 0
+                            }, 'slow');
+                            //alert("se puede enviar la transformacion");
+
                         }
 
 

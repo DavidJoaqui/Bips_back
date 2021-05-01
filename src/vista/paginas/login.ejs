@@ -1,0 +1,93 @@
+<%- include("head"); %>
+<%- include("styles_gral"); %>
+
+<body>
+
+ 
+  <div class="container">
+    <div class="form-wrapper">
+      <form class="form-signin"  action="http://localhost:8080/pentaho/j_spring_security_check?j_username=admin&j_password=password" method="post">
+        <!-- action="j_spring_security_check" method="post"-->
+        <h3><span class="glyphicon glyphicon-lock"></span> Iniciar Sesion</h3>
+        <hr>
+        
+        <br />
+        <input name="j_username" id="j_username" type="text" class="form-control" placeholder="igresar usuario" required="" autofocus="" />
+        <input name="j_password" id="j_password" type="password" class="form-control" placeholder="ingresar contraseña" required="" />
+        <button class="btn btn-lg btn-primary btn-block" type="submit"> 
+          Iniciar
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="footer gradient">
+    <div class="pull-left">
+      
+    </div>
+    <div class="text-center">
+      @BIPS
+    </div>
+    <hr>
+    <div class="clearfix"></div>
+    <div class="company-logo pull-left logo-pentaho"></div>
+    <div class="company-logo pull-right logo-oncase"></div>
+  </div>
+  <input type="hidden" name="${_csrf.parameterName}"
+            value="${_csrf.token}" />
+</body>
+
+<script>
+  $(document).ready(function() { 
+
+  
+  $('#btn-iniciar').click(function() {
+                                            
+    event.preventDefault();
+                                            
+
+                                            if ($('#j_username').val() == "" || $('#j_password').val() == "") {
+                                                alert("campos requeridos");
+                                             
+
+                                            } else {
+
+                                                //const peticion = "/iniciar-sesion/" + $('#j_password').val()  + "/bips?user_pucpentaho='" + $('#j_username').val() + "'";
+                                                const peticion = "http://localhost:8080/pentaho/j_spring_security_check?j_username=admin&j_password=password";
+
+                                                var passwd= $('#j_password').val();
+                                                var user =  $('#j_username').val();
+
+                                                $.ajax({
+                                                    type: 'post',
+                                                    url: peticion,
+                                                    data: [],
+                                                    contentType: "text/html;charset=utf-8",
+                                                    cache: false,
+                                                    processData: false,
+
+                                                    /* beforeSend: function () {
+                                                         $('#datos_val').html('<p>Procesando...</p>');
+                                                     },
+                                                     error: function () {
+                                                         $('#datos_val').html('<p>Error intente de nuevo...</p>');
+                                                     },*/
+
+                                                    success: function(result) {
+                                                        //$('#formulario_validacion')[0].reset();
+                                                       console.log(result);
+                                                      alert("OK...");
+
+                                                    }
+
+                                                });
+                                            }
+
+
+
+
+
+
+                                        });
+                                      });
+  
+  </script>

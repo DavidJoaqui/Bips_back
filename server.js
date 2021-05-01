@@ -42,6 +42,8 @@ const modelktr = require("./models/ejecucion_KtrModel");
 const modelplanos_ = require('./models/archivosPlanosModel');
 
 
+
+
 //var num_archivos = 11;
 
 const storage = multer.diskStorage({
@@ -72,12 +74,12 @@ const storage = multer.diskStorage({
 
             console.log("suma bd + archivos de carga" + numplanos);
             if (numcarga > 10) {
-                return cb("Error: Maximo 10 Archivos planos");
+                return cb("Solo se permite Maximo 10 Archivos planos");
             } else if (ext !== '.txt' && ext !== '.Txt') {
-                return cb("Error: Solo Archivos Formato .txt");
+                return cb("Solo se permite Archivos Formato .txt");
 
             } else if (numplanos > 10) {
-                return cb("Error: Maximo 10 Archivos planos");
+                return cb("Solo se permite Maximo 10 Archivos planos");
             }
 
             else {
@@ -147,7 +149,8 @@ const { send } = require('process');
 
 
 app.get('/', function (req, res) {
-    res.redirect('/obtenerRegistrosPlanos');
+    //res.redirect('/obtenerRegistrosPlanos');
+    res.render("paginas/login");
 })
 
 app.get('/obtenerRegistrosPlanos', function (req, res) {
@@ -282,7 +285,7 @@ app.get("/listadoArchivos", (req, res) => {
     var bandera_btn_enviar = false;
     modelplanos.ObtenerPlanos_validos().then(planos_val => {
 
-        console.log(planos_val);
+        //console.log(planos_val);
         modelplanos.validarPlanosNecesarios(planos_val).then(rsta => {
             //console.log(rsta);
             if (rsta == 1) {
@@ -452,7 +455,7 @@ app.post('/file/validar/:name/archivo-bips', function (req, res) {
     //console.log(name);
 
     modelplanos.contar_Planos_Validados().then(cont_planos_val => {
-        if (cont_planos_val.rows[0].total_validados >= 1) {
+        if (cont_planos_val.total_validados >= 1) {
             habilita_eliminar_todos = true;
         }
 
@@ -524,12 +527,16 @@ app.post('/file/validar/:name/archivo-bips', function (req, res) {
 
         } else { //si la respuesta de validacion NO esta vacia, se retornan los errores encontrados
 
+            
             Object.entries(rsta_validacion).forEach(([key, value]) => {
 
-                console.log(`${value}`);
+                //console.log(`${value}`);
                 //console.log(`${value}`); // "a 5", "b 7", "c 9"
+                //console.log(`${key}`);
 
             });
+
+           
 
             req.flash('error', 'El Archivo Plano ' + nombre_plano + ' tiene los siguientes errores:' + rsta_validacion);
             res.json({ error: 500, respuesta: 'El Archivo Plano ' + nombre_plano + ' tiene los siguientes errores:' + rsta_validacion });
@@ -548,6 +555,7 @@ app.post('/file/validar/:name/archivo-bips', function (req, res) {
 });
 
 app.get("/reportes-2193", (req, res) => {
+
     res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
 });
 
@@ -1005,6 +1013,20 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
 
 
 
+
+});
+
+
+
+
+app.post("/test" ,(req, res) => {
+
+   /* var password = req.params.passwd;
+    var user = req.query.user_pucpentaho;
+    console.log("las credenciales son: user "+user+ "   pwd: " + password);
+    
+    res.send("LOG OK");*/
+    
 
 });
 

@@ -3,306 +3,224 @@
 
         <%- include("styles_gral"); %>
 
-            <div class="container-fluid" id="cont-gral">
 
-                <div class="row">
+            <div class="row">
 
 
-                    <% const m=getMessages() %>
+                <% const m=getMessages() %>
 
-                        <% if (m.notify) { %>
-                            <div class="container">
-                                <div class="alert alert-success alert-dismissible fade in" id="alertas">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <% m.notify.forEach((element)=> { %>
-                                        <strong>OK!</strong>
-                                        <%= element %>
-                                            <% }) %>
-                                </div>
+                    <% if (m.notify) { %>
+                        <div class="container">
+                            <div class="alert alert-success alert-dismissible fade in" id="alertas">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <% m.notify.forEach((element)=> { %>
+                                    <strong>OK!</strong>
+                                    <%= element %>
+                                        <% }) %>
                             </div>
+                        </div>
 
-                            <% } %>
+                        <% } %>
 
-                                <div id="panel_carga">
+                            <div id="panel_carga">
 
-                                    <div class="form-group row">
-
-
-                                        <div class="card border-dark mb-3" style="max-width: 25rem; background-color: #eaedee;">
-
-                                            <div class="card-heading" id="head-carga">
-
-                                            </div>
-
-                                            <div class="card-body">
-
-                                                <div class="preview">
-                                                    <div id="datos"></div>
-                                                </div>
-
-                                                <form id="formulario" enctype="multipart/form-data" method="POST">
+                                <div class="form-group row">
 
 
-                                                    <div class="well">
-                                                        <div class="form-group">
-                                                            <div class="text-center"><label style="font-weight: bold;">Seleccionar IPS</label>
-                                                            </div>
+                                    <div class="card border-dark mb-3"
+                                        style="max-width: 25rem; background-color: #eaedee;">
 
-                                                            <input type="text" name="nombre_ips" id="nombre_ips" value="" hidden>
-
-                                                            <select class="form-select form-group form-control input-sm" name="cbxips" id="cbxips" data-toggle="tooltip" title="Seleccionar IPS!" data-placement="right" required>
-                                                                <option selected="selected" value="">Seleccionar Ips
-                                                                </option>
-                                                                <% listaIps.forEach(lista=> { %>
-                                                                    <option value="<%= lista.codigo_ips %>">
-                                                                        <%= lista.codigo_ips + " (" +
-                                                                            lista.descripcion_ips +")" %>
-                                                                    </option>
-                                                                    <% }); %>
-                                                            </select>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="form-group col-sm-5 col-md-6 col-xs-6">
-                                                                <label for="fecha_ini" style="font-weight: bold;">Fecha
-                                                                    inicial</label>
-                                                                <div>
-                                                                    <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" required>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="form-group col-sm-5 col-md-6 col-xs-6">
-                                                                <label for="fecha_ini" style="font-weight: bold;">Fecha
-                                                                    Final</label>
-                                                                <div>
-                                                                    <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <div>
-                                                                <button style="font-weight: bold;" class="btn btn-success btn-sm btn-block" id="btn-validar" name="btn-validar">Consultar Registros</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="card" id="div_carga" name="div_carga">
-                                                        <div class="card-header text-white bg-info mb-3 container-fluid"><b> Selecciona los planos a
-                                                                cargar</b></div>
-                                                        <div class="panel-body">
-
-                                                            <div class="form-group">
-                                                                <input type="file" class="input-file-input" name="files" id="files" multiple>
-
-                                                            </div>
-
-
-                                                            <button class="btn btn btn-primary btn-sm" id="btn-subir" name="btn-subir">Subir</button>
-                                                        </div>
-                                                    </div>
-
-                                                </form>
-
-                                            </div>
+                                        <div class="card-heading" id="head-carga">
 
                                         </div>
 
+                                        <div class="card-body">
 
+                                            <div class="preview">
+                                                <div id="datos"></div>
+                                            </div>
+
+                                            <form id="formulario" enctype="multipart/form-data" method="POST">
+
+
+                                                <div class="well">
+                                                    <div class="form-group">
+                                                        <div class="text-center"><label
+                                                                style="font-weight: bold;">Seleccionar IPS</label>
+                                                        </div>
+
+                                                        <input type="text" name="nombre_ips" id="nombre_ips" value=""
+                                                            hidden>
+
+                                                        <select class="form-select form-group form-control input-sm"
+                                                            name="cbxips" id="cbxips" data-toggle="tooltip"
+                                                            title="Seleccionar IPS!" data-placement="right" required>
+                                                            <option selected="selected" value="">Seleccionar Ips
+                                                            </option>
+                                                            <% listaIps.forEach(lista=> { %>
+                                                                <option value="<%= lista.codigo_ips %>">
+                                                                    <%= lista.codigo_ips + " (" + lista.descripcion_ips
+                                                                        +")" %>
+                                                                </option>
+                                                                <% }); %>
+                                                        </select>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-sm-5 col-md-6 col-xs-6">
+                                                            <label for="fecha_ini" style="font-weight: bold;">Fecha
+                                                                inicial</label>
+                                                            <div>
+                                                                <input type="date" name="txtfecha_inicial"
+                                                                    id="txtfecha_inicial" value="" min="2018-01-01"
+                                                                    max="2099-12-31" data-toggle="tooltip"
+                                                                    title="fecha inicial" data-placement="top" required>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-sm-5 col-md-6 col-xs-6">
+                                                            <label for="fecha_ini" style="font-weight: bold;">Fecha
+                                                                Final</label>
+                                                            <div>
+                                                                <input type="date" name="txtfecha_fin" id="txtfecha_fin"
+                                                                    value="" min="2018-01-01" max="2099-12-31"
+                                                                    data-toggle="tooltip" title="fecha final"
+                                                                    data-placement="top" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <button style="font-weight: bold;"
+                                                                class="btn btn-success btn-sm btn-block"
+                                                                id="btn-validar" name="btn-validar">Consultar
+                                                                Registros</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card" id="div_carga" name="div_carga">
+                                                    <div class="card-header text-white bg-info mb-3 container-fluid"><b>
+                                                            Selecciona los planos a
+                                                            cargar</b></div>
+                                                    <div class="panel-body">
+
+                                                        <div class="form-group">
+                                                            <input type="file" class="input-file-input" name="files"
+                                                                id="files" multiple>
+
+                                                        </div>
+
+
+                                                        <button class="btn btn btn-primary btn-sm" id="btn-subir"
+                                                            name="btn-subir">Subir</button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
+                                        </div>
 
                                     </div>
-                                </div>
-
-
-                                <div class="col-md-8" id="lista_archivos" name="lista_archivos">
-
-                                    <iframe src="/listadoArchivos" title="Archivos cargados" class="" scrolling="" width="100%" height="700" frameborder="0" name="iframe_arch" id="iframe_arch">
-                                    </iframe>
-
-
 
 
 
                                 </div>
-
-                                <script>
-                                    $(document).ready(function() { 
-                                        
-
-                                        $('#btn-validar').click(function() {
-                                            
-
-                                            event.preventDefault();
-
-                                            if (($('#cbxips').val() == "")) {
-                                                setTimeout(function() {
+                            </div>
 
 
-                                                    $('#cbxips').focus();
-                                                    
-                                                    
+                            <div class="col-md-8" id="lista_archivos" name="lista_archivos">
 
-
-                                                })
-                                            } else if ($('#txtfecha_inicial').val() == "") {
-
-                                                $('#txtfecha_inicial').focus();
-                                                $('#txtfecha_inicial').tooltip;
-
-                                            } else if (($('#txtfecha_fin').val()) == "") {
-
-                                                $('#txtfecha_fin').focus();
-
-                                            } else if (new Date($('#txtfecha_fin').val()) < new Date($('#txtfecha_inicial').val())) {
-                                                $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> La fecha final no puede ser menor a la fecha inicial</p>');
-
-                                                setTimeout(function() {
-                                                    $('#datos').fadeOut('fast');
-                                                }, 5000);
-
-
-                                                $('#datos').show();
-
-                                            } else {
-
-                                                const peticion = "/validar-registros-ap/" + $('#cbxips').val() + "?fecha_inicial='" + $('#txtfecha_inicial').val() + "'&fecha_fin='" + $('#txtfecha_fin').val() + "'";
-
-                                                $.ajax({
-                                                    type: 'get',
-                                                    url: peticion,
-                                                    data: [],
-                                                    contentType: false,
-                                                    cache: false,
-                                                    processData: false,
-
-                                                    /* beforeSend: function () {
-                                                         $('#datos_val').html('<p>Procesando...</p>');
-                                                     },
-                                                     error: function () {
-                                                         $('#datos_val').html('<p>Error intente de nuevo...</p>');
-                                                     },*/
-
-                                                    success: function(result) {
-                                                        //$('#formulario_validacion')[0].reset();
-                                                        //$('#datos').html('');
-                                                        //$('#btn-subir').attr("disabled", true);
-
-                                                        //$('#datos_val').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>' + JSON.stringify(result['respuesta'][0]) + '</p>');
-                                                        console.log(result);
-                                                        if (result> 0) {
-                                                            //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
-                                                            alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
-                                                            $('#btn-subir').attr("disabled", true);
-                                                        } else {
-                                                            $('#files').attr("disabled", false);
-                                                            //$('#div_carga').attr("hidden", false);
-                                                            alert("No Tiene registros, puede proceder a cargar los planos");
-
-                                                        }
-
-                                                    }
-
-                                                });
-                                            }
+                                <iframe src="/listadoArchivos" title="Archivos cargados" scrolling="si" onload=''
+                                    frameBorder="0" width="100%" class="" height="900" frameborder="0"
+                                    name="iframe_arch" id="iframe_arch">
+                                </iframe>
 
 
 
 
 
+                            </div>
 
-                                        });
+                            <script>
+                                $(document).ready(function () {
 
 
-                                        const $form = document.querySelector('#formulario');
-                                        //const $form_val = document.querySelector('#formulario_validacion');
+                                    $('#btn-validar').click(function () {
 
-                                        $("#files").change(function() {
-                                            $("#btn-subir").prop("disabled", this.files.length == 0);
-                                        });
 
-                                        $("#cbxips").change(function() {
-                                            $("#btn-subir").prop("disabled", true);
-                                            $('#files').attr("disabled", true);
-                                            $('#nombre_ips').text($("#cbxips option:selected").text().trim());
-                                            $('#nombre_ips').val($("#cbxips option:selected").text().trim());
-                                        });
+                                        event.preventDefault();
 
-                                        $form.addEventListener('submit', (event) => {
+                                        if (($('#cbxips').val() == "")) {
+                                            setTimeout(function () {
 
-                                            event.preventDefault();
+
+                                                $('#cbxips').focus();
+
+
+
+
+                                            })
+                                        } else if ($('#txtfecha_inicial').val() == "") {
+
+                                            $('#txtfecha_inicial').focus();
+                                            $('#txtfecha_inicial').tooltip;
+
+                                        } else if (($('#txtfecha_fin').val()) == "") {
+
+                                            $('#txtfecha_fin').focus();
+
+                                        } else if (new Date($('#txtfecha_fin').val()) < new Date($('#txtfecha_inicial').val())) {
+                                            $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span> La fecha final no puede ser menor a la fecha inicial</p>');
+
+                                            setTimeout(function () {
+                                                $('#datos').fadeOut('fast');
+                                            }, 5000);
+
+
+                                            $('#datos').show();
+
+                                        } else {
+
+                                            const peticion = "/validar-registros-ap/" + $('#cbxips').val() + "?fecha_inicial='" + $('#txtfecha_inicial').val() + "'&fecha_fin='" + $('#txtfecha_fin').val() + "'";
 
                                             $.ajax({
-                                                type: 'POST',
-                                                url: '/files',
-                                                data: new FormData($form),
+                                                type: 'get',
+                                                url: peticion,
+                                                data: [],
                                                 contentType: false,
                                                 cache: false,
                                                 processData: false,
 
-                                                beforeSend: function(data) {
-                                                    //console.log(data.status + ':' + data.statusText,data.responseText);
-                                                    $('#datos').html('<p>Procesando...</p>');
-                                                },
-                                                error: function(data) {
-                                                    console.log(data.responseText);
-                                                    $('#datos').html(data.responseText);
+                                                /* beforeSend: function () {
+                                                     $('#datos_val').html('<p>Procesando...</p>');
+                                                 },
+                                                 error: function () {
+                                                     $('#datos_val').html('<p>Error intente de nuevo...</p>');
+                                                 },*/
 
-
-                                                    /*if(data['readyState']== 4){
-                                                        $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>maximo 10 archivos</p>');
-                                                        console.log("error function"+JSON.stringify(data));
-
-                                                    }else if(data['status']== 'ERR_EXT'){
-                                                        $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>Solo se permiten archivos .txt</p>');
-
-
-                                                    }*/
-
-
-
-                                                    setTimeout(function() {
-                                                        $('#datos').fadeOut('fast');
-                                                    }, 5000);
-
-                                                    $('#datos').show();
-
-                                                    //$('#formulario')[0].reset();
-
-                                                },
-                                                success: function(result) {
-
-
+                                                success: function (result) {
+                                                    //$('#formulario_validacion')[0].reset();
                                                     //$('#datos').html('');
                                                     //$('#btn-subir').attr("disabled", true);
-                                                    if (result['estado'] == '200') {
-                                                        $('#datos').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>La operacion se ejecuto con exito...</p>');
-                                                        console.log(JSON.stringify(result['respuesta']));
-                                                        var iframe = document.getElementById('iframe_arch')
 
-                                                        //$("#btn-subir").prop("disabled", true);
-                                                        //$('#files').attr("disabled", true);
-                                                        //$('#div_carga').hide();
-                                                        //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
-                                                        console.log("Se debe persistir en BD: id_ips " + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
-                                                        alert("Los archivos se cargaron correctamente!");
-                                                        // $('#formulario')[0].reset();
-                                                        $('#iframe_arch').attr("src", iframe.src);
-                                                        $("#iframe_arch").show();
-
-                                                        setTimeout(function() {
-                                                            $('#datos').fadeOut('fast');
-                                                        }, 5000);
-                                                        $('#datos').show();
-
-
+                                                    //$('#datos_val').html('<p><span class="glyphicon glyphicon-ok" style="color:green"></span>' + JSON.stringify(result['respuesta'][0]) + '</p>');
+                                                    console.log(result);
+                                                    if (result > 0) {
+                                                        //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
+                                                        alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
+                                                        $('#btn-subir').attr("disabled", true);
                                                     } else {
-                                                        alert("ocurrio un error...");
+                                                        $('#files').attr("disabled", false);
+                                                        //$('#div_carga').attr("hidden", false);
+                                                        alert("No Tiene registros, puede proceder a cargar los planos");
+
                                                     }
 
                                                 }
 
                                             });
-
-                                        });
+                                        }
 
 
 
@@ -311,12 +229,116 @@
 
                                     });
 
-                                    function validar_registros() {
+
+                                    const $form = document.querySelector('#formulario');
+                                    //const $form_val = document.querySelector('#formulario_validacion');
+
+                                    $("#files").change(function () {
+                                        $("#btn-subir").prop("disabled", this.files.length == 0);
+                                    });
+
+                                    $("#cbxips").change(function () {
+                                        $("#btn-subir").prop("disabled", true);
+                                        $('#files').attr("disabled", true);
+                                        $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                                        $('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                                    });
+
+                                    $form.addEventListener('submit', (event) => {
+
+                                        event.preventDefault();
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/files',
+                                            data: new FormData($form),
+                                            contentType: false,
+                                            cache: false,
+                                            processData: false,
+
+                                            beforeSend: function (data) {
+                                                //console.log(data.status + ':' + data.statusText,data.responseText);
+                                                $('#datos').html('<p>Procesando...</p>');
+                                            },
+                                            error: function (data) {
+                                                
+                                                console.log(data.responseText);
+                                                //var err = data.responseText.slice(0, 9);
+                                                
+                                                $('#datos').html("<div style='float:center;' class='text-center'><i class='fa fa-exclamation-circle' aria-hidden='true' style='color:red;'> Ocurrio un Error! </i></div>"+data.responseText);
 
 
-                                    };
-                                </script>
 
-                </div>
+                                                /*if(data['readyState']== 4){
+                                                    $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>maximo 10 archivos</p>');
+                                                    console.log("error function"+JSON.stringify(data));
 
-                <%- include("footer"); %>
+                                                }else if(data['status']== 'ERR_EXT'){
+                                                    $('#datos').html('<p><span class="glyphicon glyphicon-warning-sign" style="color:red"></span>Solo se permiten archivos .txt</p>');
+
+
+                                                }*/
+
+
+
+                                                setTimeout(function () {
+                                                    $('#datos').fadeOut('fast');
+                                                }, 5000);
+
+                                                $('#datos').show();
+
+                                                //$('#formulario')[0].reset();
+
+                                            },
+                                            success: function (result) {
+
+
+                                                //$('#datos').html('');
+                                                //$('#btn-subir').attr("disabled", true);
+                                                if (result['estado'] == '200') {
+                                                    $('#datos').html('<p><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:green">La operacion se ejecuto con exito...</i></p>');
+                                                    console.log(JSON.stringify(result['respuesta']));
+                                                    var iframe = document.getElementById('iframe_arch')
+
+                                                    //$("#btn-subir").prop("disabled", true);
+                                                    //$('#files').attr("disabled", true);
+                                                    //$('#div_carga').hide();
+                                                    //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
+                                                    console.log("Se debe persistir en BD: id_ips " + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
+                                                    alert("Los archivos se cargaron correctamente!");
+                                                    // $('#formulario')[0].reset();
+                                                    $('#iframe_arch').attr("src", iframe.src);
+                                                    $("#iframe_arch").show();
+
+                                                    setTimeout(function () {
+                                                        $('#datos').fadeOut('fast');
+                                                    }, 5000);
+                                                    $('#datos').show();
+
+
+                                                } else {
+                                                    alert("ocurrio un error...");
+                                                }
+
+                                            }
+
+                                        });
+
+                                    });
+
+
+
+
+
+
+                                });
+
+                                function validar_registros() {
+
+
+                                };
+                            </script>
+
+            </div>
+
+            <%- include("footer"); %>
