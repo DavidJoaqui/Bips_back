@@ -10,7 +10,7 @@ module.exports = {
         return resultados;
     },*/
     async obtenerRegistrosPlanos() {
-        const resultados = await conexion.query("select * from schema_planos.registroplanos");
+        const resultados = await conexion.query("select * from schema_planos.registroplanos inner join schema_bips.ips on(schema_bips.ips.codigo_ips =schema_planos.registroplanos.ips)");
         return resultados.rows;
     },
     async obtenerIps() {

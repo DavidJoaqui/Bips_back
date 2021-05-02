@@ -402,6 +402,12 @@ app.get('/recursos_marca', function (req, res) {
 
 });
 
+app.get('/recursos_it', function (req, res) {
+
+    res.sendFile(__dirname + "/src/vista/paginas/recursos/it.png");
+
+});
+
 
 app.post('/file/delete/:name/archivo-bips', function (req, res) {
     let name = req.params.name;

@@ -1,14 +1,17 @@
 <%- include("head"); %>
     <%- include("styles_gral"); %>
-        <style>
-            body {
-                /*background-color: #eaedee;*/
-                overflow-y: scroll;
-            }
-        </style>
+        
+    <style>
+        body {
+            /*background-color: #eaedee;*/
+         
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+    </style>
 
         <!--<em>habilitar_eliminar: <%= typeof habilitar_eliminar !='undefined' ? habilitar_eliminar : "0" %></em>-->
-
+        
         <div class="col-md-12" id="lista_archivos" name="lista_archivos">
 
 
@@ -269,13 +272,7 @@
 
                                             </div>
         </div>
-        <div id="planos">
-
-        </div>
-
-
-
-        </div>
+        
 
         <style>
             #tbl_planos {
@@ -290,13 +287,13 @@
             }
 
             #tbl_planos th {
-                padding: 15px;
+                padding: 7px;
             }
 
             #tbl_planos td {
 
-                padding: 1px;
-                height: 1px;
+                padding: 0;
+               
 
 
             }
@@ -327,7 +324,7 @@
             }
 
             .titulo-tabla {
-                color: cadetblue;
+                color: #20488f;
             }
         </style>
 
