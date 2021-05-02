@@ -1,12 +1,23 @@
 body::-webkit-scrollbar {
     display: none;
 }
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height:75px ;
+    width: 100%;
+    background-color: #20488f;
+    color: white;
+    text-align: center;
+ }
 
 #panel_carga {
     margin-left: 40px;
-    padding-left: 15px;
+    padding-left: 10px;
     margin-top: 45px;
-    padding-top: 45px;
+    padding-top: 60px;
+    width:auto;
     height: 100%;
     /*background-color: #eaedee;*/
 }
@@ -54,3 +65,4 @@ nav.navbar {
     background-color: #ebebeb !important;
     display: block;
 }
+
