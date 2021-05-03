@@ -691,10 +691,11 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
             modelplanos_.ObtenerPlanos_validos().then(rsta => {
 
                 var cont = rsta.length;
+                var bandera = false;
 
                 rsta.forEach(plano => {
                     ruta = plano["path_plano"];
-                    var bandera = false;
+                    
 
                     try {
                         //var ruta = path.join(__dirname, 'filesBipsUploads') + '/' + file;
@@ -705,18 +706,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
                             }
 
                         });
-
-                        if (!bandera) {
-
-                            modelplanos_.eliminar_all_RegistrosPlanos_tmp_validos().then(rsta_elim => {
-                                if (rsta_elim['command'] == "DELETE" && rsta_elim['rowCount'] > 0) {
-                                    console.log("respuesta de eliminacion: 1, todos los planos fueron eliminados en bd y proyecto");
-                                    req.flash('notify', 'informacion fue cargada exitosamente...');
-                                    res.json({ respuesta: "OK", status: 200, retorno: code.toString(), descripcion: 'El trabajo se ejecuto con exito... ' });
-
-                                }
-                            });
-                        }
+                       
 
                     } catch (error) {
                         console.error('Something wrong happened removing the file', error)
@@ -724,7 +714,17 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
 
                 })
 
+                if (!bandera) {
 
+                    modelplanos_.eliminar_all_RegistrosPlanos_tmp_validos().then(rsta_elim => {
+                        if (rsta_elim['command'] == "DELETE" && rsta_elim['rowCount'] > 0) {
+                            console.log("respuesta de eliminacion: 1, todos los planos fueron eliminados en bd y proyecto");
+                            req.flash('notify', 'informacion fue cargada exitosamente...');
+                            res.json({ respuesta: "OK", status: 200, retorno: code.toString(), descripcion: 'El trabajo se ejecuto con exito... ' });
+
+                        }
+                    });
+                }
 
 
             });
@@ -869,7 +869,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
             
             */
             //let spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo_af=" + path_plano_AF, '-logfile=/tmp/trans.log']);
-            var spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/InegracionKtr/tras-all-Planos.ktr", '-level=Basic',
+            var spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/tras-all-Planos.ktr", '-level=Detailed',
                 "-param:ruta_archivo_af=" + path_plano_AF,
                 "-param:ruta_archivo_ac=" + path_plano_AC,
                 "-param:ruta_archivo_at=" + path_plano_AT,
@@ -945,7 +945,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
                             habilitar_envio_la: true,
                             habilitar_carga: false,
                             habilitar_eliminar: false,
-                            habilitar_btn_envio: false,
+                            habilitar_btn_envio: true,
                             status: 200,
                             code: 0,
                             retorno: "0",
