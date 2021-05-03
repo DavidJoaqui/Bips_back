@@ -2,6 +2,14 @@
     <%- include("header"); %>
 
     <%- include("styles_gral"); %>
+    <style>
+        body::-webkit-scrollbar {
+                    display: none;
+                    overflow-y: hidden;
+                }
+        
+        
+    </style>
         
     <div id="panel_registro">
         <div class="container-fluid" id="lista_reg-planos" name="lista_reg-planos">
@@ -53,15 +61,6 @@
             </div>
         </div>
     </div>
-    <style>
-        body {
-            /*background-color: #eaedee;*/
-         
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-    </style>
-
 
 
         <script type="text/javascript">

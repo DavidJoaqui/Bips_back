@@ -238,6 +238,8 @@ app.post("/files", upload.array('files'), (req, res, err) => {
         let path_ins = path.join(__dirname + "/" + 'filesBipsUploads/' + req.body.cbxips + "_" + fecha_completa_sinSeparador + req.files[i].originalname);
         let nombre_temp = req.body.cbxips + "_" + fecha_completa_sinSeparador + req.files[i].originalname;
 
+        console.log("cbxips"+req.body.cbxips);
+
         try {
 
 
