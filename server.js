@@ -39,7 +39,7 @@ const modelplanos = require("./models/archivosPlanosModel");
 const modelbips = require("./models/modelModel");
 const modelvalidaciones = require("./models/validacionModel");
 const modelktr = require("./models/ejecucion_KtrModel");
-const modelplanos_ = require('./models/archivosPlanosModel');
+
 
 
 
@@ -67,55 +67,105 @@ const storage = multer.diskStorage({
         modelplanos.cantidad_RegistrosPlanos_tmp().then(rescount => {
             //count_temp=JSON.stringify(rescount);
 
+
             var ext = path.extname(file.originalname);
 
             var numplanos = Number(Object.values(rescount[0]));
             numplanos = numplanos + numcarga;
 
-            console.log("suma bd + archivos de carga" + numplanos);
-            if (numcarga > 10) {
-                return cb("Solo se permite Maximo 10 Archivos planos");
-            } else if (ext !== '.txt' && ext !== '.Txt') {
-                return cb("Solo se permite Archivos Formato .txt");
+            modelplanos.consultar_RegistrosPlanos_tmp().then(rsta => {
+                console.log(rsta);
+                
+                if(rsta == ""){
 
-            } else if (numplanos > 10) {
-                return cb("Solo se permite Maximo 10 Archivos planos");
-            }
+                    if (ext !== '.txt' && ext !== '.Txt') {
+                        return cb("Solo se permite Archivos Formato .txt");
+        
+                    } else if (numplanos > 10) {
+                        return cb("Solo se permite Maximo 10 Archivos planos");
+                    }
+                    else {
+            
+                       
+                        //console.log("prueba plano");
+                        let fech_now = Date.now();
+        
+                        let date_ = new Date(fech_now);
+        
+                        let fecha_completa = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear();
+                        //let hora = date_.getHours() + "" + date_.getMinutes() ;
+        
+                        //let fecha_hora = fecha_completa + "_" + hora;
+        
+                        //console.log(req.body);
+        
+                        /*if (num_archivos < 0) {
+                            cb("","max numero 10");
+                        }*/
+        
+        
+        
+                        cb("", req.body.cbxips + "_" + fecha_completa + "_" + file.originalname);
+        
+        
+                    }
 
-            else {
+                }else{
 
-                modelplanos_.consultar_RegistrosPlanos_tmp().then(rsta => {
 
                     rsta.forEach(plano => {
                         console.log("nombre2" + plano['nombre_original']);
                         if (plano['nombre_original'] == file.originalname) {
                             return cb("Error: Archivo " + file.originalname + " esta cargado");
                         }
+                        console.log("suma bd + archivos de carga" + numplanos);
+                        if (numcarga > 10) {
+                            return cb("Solo se permite Maximo 10 Archivos planos");
+                        } else if (ext !== '.txt' && ext !== '.Txt') {
+                            return cb("Solo se permite Archivos Formato .txt");
+            
+                        } else if (numplanos > 10) {
+                            return cb("Solo se permite Maximo 10 Archivos planos");
+                        }
+            
+                        else {
+            
+                       
+                            //console.log("prueba plano");
+                            let fech_now = Date.now();
+            
+                            let date_ = new Date(fech_now);
+            
+                            let fecha_completa = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear();
+                            //let hora = date_.getHours() + "" + date_.getMinutes() ;
+            
+                            //let fecha_hora = fecha_completa + "_" + hora;
+            
+                            //console.log(req.body);
+            
+                            /*if (num_archivos < 0) {
+                                cb("","max numero 10");
+                            }*/
+            
+            
+            
+                            cb("", req.body.cbxips + "_" + fecha_completa + "_" + file.originalname);
+            
+            
+                        }
+    
                     });
 
-                });
-                //console.log("prueba plano");
-                let fech_now = Date.now();
+                }
 
-                let date_ = new Date(fech_now);
+                
 
-                let fecha_completa = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear();
-                //let hora = date_.getHours() + "" + date_.getMinutes() ;
-
-                //let fecha_hora = fecha_completa + "_" + hora;
-
-                //console.log(req.body);
-
-                /*if (num_archivos < 0) {
-                    cb("","max numero 10");
-                }*/
+            });
 
 
+      
 
-                cb("", req.body.cbxips + "_" + fecha_completa + "_" + file.originalname);
-
-
-            }
+           
 
 
         })
@@ -567,7 +617,7 @@ app.get("/reportes-2193", (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
 });
 
-app.get("/dashboard-2193", (req, res) => {
+app.get("/olap-2193", (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/Dashboard_2193"));
 });
 
@@ -688,7 +738,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
             console.log("El comando/job se ejecuto con exito... estado: " + code);
 
             //res.status(200).send(code.toString());
-            modelplanos_.ObtenerPlanos_validos().then(rsta => {
+            modelplanos.ObtenerPlanos_validos().then(rsta => {
 
                 var cont = rsta.length;
                 var bandera = false;
@@ -716,7 +766,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", (req, res) => {
 
                 if (!bandera) {
 
-                    modelplanos_.eliminar_all_RegistrosPlanos_tmp_validos().then(rsta_elim => {
+                    modelplanos.eliminar_all_RegistrosPlanos_tmp_validos().then(rsta_elim => {
                         if (rsta_elim['command'] == "DELETE" && rsta_elim['rowCount'] > 0) {
                             console.log("respuesta de eliminacion: 1, todos los planos fueron eliminados en bd y proyecto");
                             req.flash('notify', 'informacion fue cargada exitosamente...');
@@ -776,7 +826,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
 
     var spawn = require('child_process').spawn;
 
-    modelplanos_.ObtenerPlanos_validos().then(rsta => {
+    modelplanos.ObtenerPlanos_validos().then(rsta => {
         //console.log(rsta);        
         //var num_planos = rsta.length;
         //console.log("numero incial de planos validados: " + num_planos);
@@ -923,7 +973,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
                     console.log("El comando/transformacion se ejecuto con exito... estado: " + code);
 
 
-                    modelplanos_.actualizar_carga_temp().then(respuesta => {
+                    modelplanos.actualizar_carga_temp().then(respuesta => {
                         if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
                             // console.log("actualizo CARGA TEMP OK para el plano ... " + plano['nombre_original']);
                             console.log("actualizo CARGA TEMP OK para todos los planos ... ");
@@ -936,7 +986,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
                     //return 0;      
                     //console.log("numero de planos decrementando: " + num_planos);
 
-                    modelplanos_.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
                         //console.log(listaArchivos);    
                         req.flash('notify', 'La carga de los Planos se realizo con exito...');
                         //res.setHeader('Content-type', 'text/html');
@@ -976,7 +1026,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", (req, res) => {
                     //se retorna el codigo de estado de errro
                     //return 1;
                     req.flash('error', 'Ocurrio un error en la carga de los planos, Contacte con el administrador... Cod.Transformacion: '+code);
-                    modelplanos_.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
 
                     
                     res.render("paginas/listaArchivos", {

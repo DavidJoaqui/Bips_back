@@ -51,7 +51,7 @@
                                             <form id="formulario" enctype="multipart/form-data" method="POST">
 
 
-                                                <div class="well">
+                                                <div class="well" id="div_carga" name="div_carga">
                                                     <div class="form-group">
                                                         <div class="text-center"><label
                                                                 style="font-weight: bold;">Seleccionar IPS</label>
@@ -107,7 +107,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="card" id="div_carga" name="div_carga">
+                                                <div class="card" >
                                                     <div class="card-header text-white bg-info mb-3 container-fluid"><b>
                                                             Selecciona los planos a
                                                             cargar</b></div>
@@ -215,10 +215,21 @@
                                                         $('#btn-subir').attr("disabled", true);
                                                     } else {
                                                         $('#files').attr("disabled", false);
-                                                        //$('#div_carga').attr("hidden", false);
+                                                        //$('#div_carga').attr("readonly", true);
 
                                                         $('#datos').show();
+                                                        
+                                                        $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                                                        $('#nombre_ips').val($("#cbxips option:selected").text().trim());
+
+                                                        $("#cbxips").attr('readonly', true);
+                                                        $('#btn-validar').attr("disabled", true);
+
+                                                        $('#txtfecha_inicial').attr("readonly", true);
+                                                        $('#txtfecha_fin').attr("readonly", true);
+
                                                         alert("No Tiene registros, puede proceder a cargar los planos");
+                                                        
 
                                                     }
 
@@ -266,6 +277,7 @@
                                             beforeSend: function (data) {
                                                 //console.log(data.status + ':' + data.statusText,data.responseText);
                                                 $('#datos').html('<p>Procesando...</p>');
+
                                             },
                                             error: function (data) {
 
@@ -291,21 +303,32 @@
                                                 if (result['estado'] == '200') {
                                                     $('#datos').html('<p><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:green">La operacion se ejecuto con exito...</i></p>');
                                                     console.log(JSON.stringify(result['respuesta']));
-                                                    var iframe = document.getElementById('iframe_arch')
+                                                    var iframe = document.getElementById('iframe_arch');
 
                                                     //$("#btn-subir").prop("disabled", true);
                                                     //$('#files').attr("disabled", true);
                                                     //$('#div_carga').hide();
                                                     //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
-                                                    //console.log("Se debe persistir en BD: id_ips " + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
+                                                    //console.log("Se debe persistir en BD: id_ips " // $("#cbxips").attr("disabled", true);
+                                                   // $('#txtfecha_inicial').attr("disabled", true);
+                                                   // $('#txtfecha_fin').attr("disabled", true);
+                                                    
+                                                   //$('#btn-validar').attr("disabled", true); + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
+
+                                                   //$("#cbxips").attr("disabled", true);
+                                                     //$("#cbxips").attr("readonly", true);
+                                                    //$('#txtfecha_inicial').attr("readonly", true);
+                                                    //$('#txtfecha_fin').attr("readonly", true);
+                                                    
+                                                    
+                                                    const $file_ = document.querySelector('#files');
+                                                    $file_.value = '';
+
                                                     alert("Los archivos se cargaron correctamente!");
                                                     // $('#formulario')[0].reset();
 
                                                    
-                                                   // $("#cbxips").attr("disabled", true);
-                                                   // $('#txtfecha_inicial').attr("disabled", true);
-                                                   // $('#txtfecha_fin').attr("disabled", true);
-                                                    //$('#btn-validar').attr("disabled", true);
+                                                  
 
                                                     $('#iframe_arch').attr("src", iframe.src);
                                                     $("#iframe_arch").show();
