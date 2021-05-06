@@ -1091,7 +1091,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
 app.get('/login-data', function (req, res) {
     if (!req.query.username || !req.query.password) {
         res.send('login failed');
-    } else if (req.query.username === "admin" && req.query.password === "password") {
+    } else if (req.query.username === "admin" && req.query.password === "passwd") {
         req.session.user = "admin";
         req.session.admin = true;
         req.session.web = "http://192.168.10.51:3000";
