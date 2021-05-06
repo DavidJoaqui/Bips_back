@@ -3,6 +3,10 @@ body {
     width: 100%;
 }
 
+nav.navbar {
+    background-color: #20488f;
+}
+
 .card0 {
     border-radius: 0px
 }
