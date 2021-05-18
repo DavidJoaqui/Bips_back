@@ -132,6 +132,18 @@ a {
     }
 }
 
+.btn-cerrar-err {
+    font-size: 16px;
+    line-height: 16px;
+    text-align: left;
+    transition: .3s ease all;
+    color: #BBBBBB;
+}
+
+.btn-cerrar-err:hover {
+    color: #fff;
+}
+
 .footer {
     position: fixed;
     left: 0;
