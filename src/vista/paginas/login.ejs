@@ -45,16 +45,16 @@
                                     <% const m=getMessages() %>
 
                                         <% if (m.error) { %>
-                                            <div class="card-header text-white bg-danger btn-cerrar-err" id="btn-cerrar-err">
-                                                <strong>Error!</strong>
-                                                <button type="button" class="close" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                            <div id="notificacion_login">
+                                                <button class="btn-cerrar-err close" id="btn-cerrar-noti-login" data-dismiss="alert" aria-label="close">&times;</button>
+                                                <div class="card-header text-white text-center bg-danger">
+                                                    <strong>Error!</strong>
 
-                                                <% m.error.forEach((element)=> { %>
+                                                    <% m.error.forEach((element)=> { %>
 
-                                                    <%= element %>
-                                                        <% }) %> %>
+                                                        <%= element %>
+                                                            <% }) %> %>
+                                                </div>
                                             </div>
 
 
@@ -95,8 +95,15 @@
                         $(document).ready(function() {
 
                             setTimeout(function() {
-                                $('#btn-cerrar-err').fadeOut('fast');
+                                $('#notificacion_login').fadeOut('fast');
                             }, 5000);
+
+
+
+                            $('#btn-cerrar-noti-login').click(function() {
+                                $('#notificacion_login').attr("style", "display:none");
+
+                            });
 
                         })
                     </script>
