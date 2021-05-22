@@ -1116,14 +1116,25 @@ app.get('/content', auth, function(req, res) {
 
 
 
-app.post("/test", (req, res) => {
+app.get("/config-entidades", (req, res) => {
 
-    /* var password = req.params.passwd;
-     var user = req.query.user_pucpentaho;
-     console.log("las credenciales son: user "+user+ "   pwd: " + password);
-     
-     res.send("LOG OK");*/
+    modelplanos.consultar_registro_entidades().then(listaentidades => {
+        //console.log(listaArchivos);    
+        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+        //res.setHeader('Content-type', 'text/html');
+        res.render("paginas/entidades", {
+            registroEntidades: listaentidades,            
+            status: 200,
+            code: 0,
+            retorno: "0",
+        });
 
+
+    })
+    .catch(err => {
+        console.log(err);
+        return res.status(500).send("Error obteniendo registros");
+    });
 
 });
 

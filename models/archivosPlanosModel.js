@@ -15,6 +15,11 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_registro_entidades() {
+        const resultados = await conexion.query("select e.cod_entidad , e.nombre_entidad ,r.des_regimen from schema_bips.entidades e inner join schema_bips.regimen r on (e.tipo_reg=r.tipo_regimen)");
+        return resultados.rows;
+    },
+
     async eliminar_RegistrosPlanos_tmp(id_ips, nombre_archivo) {
         const resultados = await conexion.query("delete from schema_planos.registros_planos_tmp where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo]);
         return resultados;
