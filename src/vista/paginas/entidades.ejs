@@ -1,0 +1,110 @@
+<%- include("head"); %>
+    <%- include("header"); %>
+
+    <%- include("styles_gral"); %>
+    <style>
+        body::-webkit-scrollbar {
+                    display: none;
+                    overflow-y: hidden;
+                }                     
+        
+        
+    </style>
+        
+    <div class="panel_registro">
+        <div class="container-fluid" id="lista_reg-planos" name="lista_reg-planos">
+
+            <div class="container" style="margin-top:75px;padding-top: 10px; margin-bottom: 70px;">
+
+                <div class="col-12">
+                    <h1 style="color: #20488f;">Registro de Entidades y Regimen</h1>
+
+
+                    <table class="table table-bordered table-striped" id="tbl_registros">
+                        <thead style="background-color: #007bff;
+                        color: #fff;">
+                            <tr>
+                                <th>Codigo Entidad</th>
+                                <th>Nombre Entidad</th>
+                                <th>Regimen</th>                                
+                                <!--<th>Acciones</th>-->
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% registroEntidades.forEach(registro => { %>
+                                <tr>
+                                    <td>
+                                        <%= registro.cod_entidad %>
+                                    </td>
+                                    <td>
+                                        <% if (registro.nombre_entidad == null) { %>
+                                            
+                                            <%= "vacio" %>
+                                        <% }else{%>
+                                            <%= registro.nombre_entidad %>
+                                            <%}%>
+                                        
+                                    </td>
+                                    <td>
+                                        <%= registro.des_regimen %>
+                                    </td>                                    
+                                    <!--<td>
+
+
+                                        <a href="#" class="btn btn-primary">
+                        Eliminar
+                    </a>
+                                    </td>-->
+                                </tr>
+                                <% })%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <script type="text/javascript">
+              $(document).ready(function () {
+            $('#tbl_registros').DataTable({
+
+                //Actualizo las etiquetas de mi tabla para mostrarlas en español
+                language: {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    //"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                }
+
+            });
+
+
+        });
+
+        </script>
+            
+     
+      
+
+           
+        <%- include("footer"); %>
