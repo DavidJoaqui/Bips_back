@@ -443,7 +443,7 @@
     <database>bips_bd</database>
     <port>5432</port>
     <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce10dc9bbfc9</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ac79ce81adde</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -488,18 +488,13 @@
   </connection>
   <order>
     <hop>
-      <from>Input Archivos_Planos</from>
-      <to>If field value is null</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>If field value is null</from>
       <to>Select values 3</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 3</from>
-      <to>Replace in string</to>
+      <from>Input Archivos_Planos</from>
+      <to>If field value is null</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -508,8 +503,8 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>seQ_Id_produccion</from>
-      <to>DW_TblProduccion</to>
+      <from>Select values 3</from>
+      <to>Replace in string</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -518,19 +513,9 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Entrada Tabla</from>
-      <to>Selecciona/Renombra valores</to>
-      <enabled>N</enabled>
-    </hop>
-    <hop>
-      <from>Selecciona/Renombra valores</from>
-      <to>Ejecutar script SQL</to>
-      <enabled>N</enabled>
-    </hop>
-    <hop>
-      <from>Ejecutar script SQL</from>
-      <to>If field value is null</to>
-      <enabled>N</enabled>
+      <from>seQ_Id_produccion</from>
+      <to>DW_TblProduccion</to>
+      <enabled>Y</enabled>
     </hop>
   </order>
   <step>
@@ -599,6 +584,18 @@
         <stream_name>cod_diagnostico</stream_name>
       </field>
       <field>
+        <column_name>tipo_plano</column_name>
+        <stream_name>tipo_plano</stream_name>
+      </field>
+      <field>
+        <column_name>vr_unitario</column_name>
+        <stream_name>vr_unitario</stream_name>
+      </field>
+      <field>
+        <column_name>vr_total</column_name>
+        <stream_name>vr_total</stream_name>
+      </field>
+      <field>
         <column_name>id_finalidad</column_name>
         <stream_name>finalidad</stream_name>
       </field>
@@ -616,195 +613,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Ejecutar script SQL</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>PostgreSql-Archivos Planos</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>Y</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>SELECT
-  af.field_000 as id_ips
-, af.field_004 as nro_factura
-, af.field_005 as fecha
-, af.field_008 as cod_entidad
-, af.field_010 as nro_contrato
-, af.field_011 as tipo_regimen
-, ac.field_006 as cod_actividad
-, 1 cantidad 
-, ac.field_007 as finalidad
-, ac.field_009 as cod_diagnostico
-FROM schema_planos.plano_af af
-inner join schema_planos.plano_ac ac on (af.field_004 = ac.field_000)
-WHERE af.field_000= (select distinct ips from schema_planos.validar where ips = @ips)
-				  
-union all 
-
-SELECT
-  af.field_000 as id_ips
-, af.field_004 as nro_factura
-, af.field_005 as fecha
-, af.field_008 as cod_entidad
-, af.field_010 as nro_contrato
-, af.field_011 as tipo_regimen
-, at.field_006 as cod_actividad
-, at.field_008 as cantidad 
-, '10' as finalidad
-, ah.field_009 as cod_diagnostico
-FROM schema_planos.plano_af af
-inner join schema_planos.plano_at at on (af.field_004 = at.field_000)
-inner join schema_planos.plano_ah ah on (at.field_000 = ah.field_000)
-WHERE af.field_000=(select distinct ips from schema_planos.validar where ips = @ips)
-
-union all 
-
-SELECT
-  af.field_000 as id_ips
-, af.field_004 as nro_factura
-, af.field_005 as fecha
-, af.field_008 as cod_entidad
-, af.field_010 as nro_contrato
-, af.field_011 as tipo_regimen
-, at.field_006 as cod_actividad
-, at.field_008 as cantidad 
-, '10' as finalidad
-, au.field_008 as cod_diagnostico
-FROM schema_planos.plano_af af
-inner join schema_planos.plano_at at on (af.field_004 = at.field_000)
-inner join schema_planos.plano_au au on (at.field_000 = au.field_000)
-WHERE af.field_000=(select distinct ips from schema_planos.validar where ips = @ips)
-
-union all 
-
-
-SELECT
-  af.field_000 as id_ips
-, af.field_004 as nro_factura
-, af.field_005 as fecha
-, af.field_008 as cod_entidad
-, af.field_010 as nro_contrato
-, af.field_011 as tipo_regimen
-, ap.field_006 as cod_actividad
-, 1 cantidad 
-, ap.field_008 as finalidad
-, ap.field_010 as cod_diagnostico
-FROM schema_planos.plano_af af
-inner join schema_planos.plano_ap ap on (af.field_004 = ap.field_000)
-WHERE af.field_000=(select distinct ips from schema_planos.validar where ips = @ips)
-
-union all 
-
-
-SELECT
-  af.field_000 as id_ips
-, af.field_004 as nro_factura
-, af.field_005 as fecha
-, af.field_008 as cod_entidad
-, af.field_010 as nro_contrato
-, af.field_011 as tipo_regimen
-, am.field_005 as cod_actividad
-, am.field_011 cantidad 
-, '10' as finalidad
-, 'NA' as cod_diagnostico
-FROM schema_planos.plano_af af
-inner join schema_planos.plano_am am on (af.field_004 = am.field_000)
-WHERE af.field_000=(select distinct ips from schema_planos.validar where ips = @ips)
-
-
-</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-      <argument>
-        <name>ips</name>
-      </argument>
-    </arguments>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>176</xloc>
-      <yloc>32</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Entrada Tabla</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>PostgreSql-Archivos Planos</connection>
-    <sql>select distinct ips from schema_planos.validar</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ips</name>
-        <length>2147483647</length>
-        <precision>-1</precision>
-        <origin>Entrada Tabla</origin>
-        <comments>ips</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>48</xloc>
-      <yloc>128</yloc>
+      <xloc>464</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -887,6 +697,24 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar where ips = @
         <mask/>
         <set_empty_string>N</set_empty_string>
       </field>
+      <field>
+        <name>tipo_plano</name>
+        <value/>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>vr_unitario</name>
+        <value/>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>vr_total</name>
+        <value/>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -897,8 +725,8 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar where ips = @
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>32</yloc>
+      <xloc>304</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -914,7 +742,8 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar where ips = @
       <schema_name/>
     </partitioning>
     <connection>PostgreSql-Archivos Planos</connection>
-    <sql>SELECT
+    <sql>
+SELECT
   af.field_000 as id_ips
 , af.field_004 as nro_factura
 , af.field_005 as fecha
@@ -925,9 +754,13 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar where ips = @
 , 1 cantidad 
 , ac.field_007 as finalidad
 , ac.field_009 as cod_diagnostico
+, 'AC' tipo_plano
+,ac.field_014 as vr_unitario
+,ac.field_014 as vr_total
 FROM schema_planos.plano_af af
 inner join schema_planos.plano_ac ac on (af.field_004 = ac.field_000)
 WHERE af.field_000= (select distinct ips from schema_planos.validar)
+
 				  
 union all 
 
@@ -942,10 +775,14 @@ SELECT
 , at.field_008 as cantidad 
 , '10' as finalidad
 , ah.field_009 as cod_diagnostico
+, 'AH' tipo_plano
+,at.field_009 as vr_unitario
+,at.field_010 as vr_total
+
 FROM schema_planos.plano_af af
 inner join schema_planos.plano_at at on (af.field_004 = at.field_000)
 inner join schema_planos.plano_ah ah on (at.field_000 = ah.field_000)
-WHERE af.field_000=(select distinct ips from schema_planos.validar)
+WHERE af.field_000= (select distinct ips from schema_planos.validar)
 
 union all 
 
@@ -960,10 +797,13 @@ SELECT
 , at.field_008 as cantidad 
 , '10' as finalidad
 , au.field_008 as cod_diagnostico
+, 'AU' tipo_plano
+,at.field_009 as vr_unitario
+,at.field_010 as vr_total
 FROM schema_planos.plano_af af
 inner join schema_planos.plano_at at on (af.field_004 = at.field_000)
 inner join schema_planos.plano_au au on (at.field_000 = au.field_000)
-WHERE af.field_000=(select distinct ips from schema_planos.validar)
+WHERE af.field_000= (select distinct ips from schema_planos.validar)
 
 union all 
 
@@ -979,9 +819,12 @@ SELECT
 , 1 cantidad 
 , ap.field_008 as finalidad
 , ap.field_010 as cod_diagnostico
+, 'AP' tipo_plano
+,ap.field_014 as vr_unitario
+,ap.field_014 as vr_total
 FROM schema_planos.plano_af af
 inner join schema_planos.plano_ap ap on (af.field_004 = ap.field_000)
-WHERE af.field_000=(select distinct ips from schema_planos.validar)
+WHERE af.field_000= (select distinct ips from schema_planos.validar)
 
 union all 
 
@@ -997,11 +840,12 @@ SELECT
 , am.field_011 cantidad 
 , '10' as finalidad
 , 'NA' as cod_diagnostico
+, 'AM' tipo_plano
+, am.field_012 vr_unitario 
+, am.field_013 vr_total 
 FROM schema_planos.plano_af af
 inner join schema_planos.plano_am am on (af.field_004 = am.field_000)
-WHERE af.field_000=(select distinct ips from schema_planos.validar)
-
-
+WHERE af.field_000= (select distinct ips from schema_planos.validar)
 </sql>
     <limit/>
     <lookup/>
@@ -1029,7 +873,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1052,7 +896,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1075,7 +919,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1098,7 +942,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1121,7 +965,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1144,7 +988,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1167,7 +1011,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1190,7 +1034,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1213,7 +1057,7 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1236,7 +1080,76 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>tipo_plano</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Input Archivos_Planos</origin>
+        <comments>tipo_plano</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Number</type>
+        <storagetype>normal</storagetype>
+        <name>vr_unitario</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>Input Archivos_Planos</origin>
+        <comments>vr_unitario</comments>
+        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Number</type>
+        <storagetype>normal</storagetype>
+        <name>vr_total</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>Input Archivos_Planos</origin>
+        <comments>vr_total</comments>
+        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1250,8 +1163,8 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>160</yloc>
+      <xloc>144</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1373,39 +1286,8 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>32</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Selecciona/Renombra valores</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>ips</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>48</xloc>
-      <yloc>32</yloc>
+      <xloc>592</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1450,6 +1332,15 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
       </field>
       <field>
         <name>cod_diagnostico</name>
+      </field>
+      <field>
+        <name>tipo_plano</name>
+      </field>
+      <field>
+        <name>vr_unitario</name>
+      </field>
+      <field>
+        <name>vr_total</name>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1496,8 +1387,8 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>32</yloc>
+      <xloc>448</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1515,39 +1406,61 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
     <fields>
       <field>
         <name>id_ips</name>
+        <rename/>
       </field>
       <field>
         <name>nro_factura</name>
+        <rename/>
       </field>
       <field>
         <name>fecha</name>
+        <rename/>
       </field>
       <field>
         <name>cod_entidad</name>
+        <rename/>
       </field>
       <field>
         <name>nro_contrato</name>
+        <rename/>
       </field>
       <field>
         <name>tipo_regimen</name>
+        <rename/>
       </field>
       <field>
         <name>cod_actividad</name>
+        <rename/>
       </field>
       <field>
         <name>cantidad</name>
+        <rename/>
       </field>
       <field>
         <name>finalidad</name>
+        <rename/>
       </field>
       <field>
         <name>cod_diagnostico</name>
+        <rename/>
+      </field>
+      <field>
+        <name>tipo_plano</name>
+        <rename/>
+      </field>
+      <field>
+        <name>vr_unitario</name>
+        <rename/>
+      </field>
+      <field>
+        <name>vr_total</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
         <name>id_ips</name>
         <rename>id_ips</rename>
-        <type>BigNumber</type>
+        <type>Integer</type>
         <length>-2</length>
         <precision>-2</precision>
         <conversion_mask/>
@@ -1571,8 +1484,8 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>128</yloc>
+      <xloc>592</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1606,8 +1519,8 @@ WHERE af.field_000=(select distinct ips from schema_planos.validar)
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>128</yloc>
+      <xloc>336</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
