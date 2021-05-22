@@ -31,7 +31,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     cookie: {
-        maxAge: 60000,
+        maxAge: 600000,
     }
 
 }))
@@ -710,7 +710,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", auth, (req, res) => {
     //modelktr.obtener_fecha_hora().then(fh => console.log(fh));
     console.log("===========================================================================");
 
-    const spawn_job = spawn('sh', ['/var/lib/data-integration/kitchen.sh', "-file=/home/bips/Documentos/node-postgresql/src/integracionKjb/Job_reporte2193.kjb", '-level=Basic', '-logfile=/tmp/trans.log']);
+    const spawn_job = spawn('sh', ['/var/lib/data-integration/kitchen.sh', "-file=src/integracionKjb/Job_reporte2193.kjb", '-level=Basic', '-logfile=/tmp/trans.log']);
 
     spawn_job.stdout.pipe(process.stdout);
 
@@ -1094,7 +1094,7 @@ app.get('/login-data', function (req, res) {
     } else if (req.query.username === "admin" && req.query.password === "passwd") {
         req.session.user = "admin";
         req.session.admin = true;
-        req.session.web = "http://192.168.10.51:3000";
+        req.session.web = "http://192.168.1.83:3000";
 
         console.log(req);
         res.redirect("/content");
