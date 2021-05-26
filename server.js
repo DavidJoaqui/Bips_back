@@ -57,7 +57,7 @@ const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
 
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
 
         var numcarga = req.files.length;
@@ -183,7 +183,7 @@ const upload = multer({
 });
 
 
-var auth = function (req, res, next) {
+var auth = function(req, res, next) {
     if (req.session && req.session.user === "admin" && req.session.admin)
         return next();
     else
@@ -205,30 +205,30 @@ const { parse } = require('querystring');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.redirect("/login");
 })
 
-app.post('/login', function (req, res) {
+app.post('/login', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.render("paginas/login");
 })
-app.get('/login', function (req, res) {
+app.get('/login', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.render("paginas/login");
 })
 
 
-app.get('/obtenerRegistrosPlanos', auth, function (req, res) {
+app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
 
-        console.log(registroplanos);
+            console.log(registroplanos);
 
-        res.render("paginas/RegistrosPlanos", {
-            registroplanos: registroplanos,
-        });
-    })
+            res.render("paginas/RegistrosPlanos", {
+                registroplanos: registroplanos,
+            });
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -236,23 +236,23 @@ app.get('/obtenerRegistrosPlanos', auth, function (req, res) {
 });
 
 
-app.get('/cargar-plano', auth, function (req, res) {
+app.get('/cargar-plano', auth, function(req, res) {
 
     modelbips.obtenerIps().then(listaIps => {
 
-        res.render("paginas/FormularioCarga", {
-            listaIps: listaIps,
+            res.render("paginas/FormularioCarga", {
+                listaIps: listaIps,
 
-        });
+            });
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
         });
 });
 
-app.get('/validar-registros-ap/:ips', auth, async function (req, res, next) {
+app.get('/validar-registros-ap/:ips', auth, async function(req, res, next) {
 
 
     modelbips.validarRegistrosAP(req.params.ips, req.query.fecha_inicial, req.query.fecha_fin).then(validaregistros => {
@@ -263,7 +263,7 @@ app.get('/validar-registros-ap/:ips', auth, async function (req, res, next) {
     });
 });
 
-app.get('/cargar', auth, function (req, res) {
+app.get('/cargar', auth, function(req, res) {
     //console.log(req);
     res.render("paginas/FormularioCarga");
 });
@@ -465,20 +465,20 @@ app.get("/listadoArchivos", auth, (req, res) => {
 
 });
 
-app.get('/recursos_marca', function (req, res) {
+app.get('/recursos_marca', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final.png");
 
 });
 
-app.get('/recursos_it', function (req, res) {
+app.get('/recursos_it', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/it.png");
 
 });
 
 
-app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/delete/:name/archivo-bips', auth, function(req, res) {
     let name = req.params.name;
     console.log(req.query);
     //console.log(name);
@@ -501,10 +501,10 @@ app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
 
                 modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
 
-                    req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
-                    res.redirect("/listadoArchivos");
+                        req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
+                        res.redirect("/listadoArchivos");
 
-                })
+                    })
                     .catch(err => {
                         console.log(err);
                         return res.status(500).send("Error obteniendo registros");
@@ -515,7 +515,7 @@ app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
 });
 
 
-app.post('/file/validar/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/validar/:name/archivo-bips', auth, function(req, res) {
 
     let name_tmp = req.params.name;
     var array_nombre = name_tmp.split('_');
@@ -679,11 +679,11 @@ app.post("/delete-all/archivo-bips", auth, (req, res) => {
 
             modelplanos.eliminar_all_RegistrosPlanos_tmp().then(respuesta => {
 
-                if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
-                    console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
-                }
+                    if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                        console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
+                    }
 
-            })
+                })
                 .catch(err => {
                     console.log(err);
                 });
@@ -766,7 +766,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", auth, (req, res) => {
 
                     try {
                         //var ruta = path.join(__dirname, 'filesBipsUploads') + '/' + file;
-                        fs.unlinkSync(ruta, function (err) {
+                        fs.unlinkSync(ruta, function(err) {
                             if (err) {
                                 bandera = true;
                                 return console.error(err);
@@ -979,8 +979,8 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
                 console.log("===========================================================================");
                 console.log("resultado de la ejecucion: ");
                 console.log(code)
-                //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
-                //OK : 0
+                    //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
+                    //OK : 0
 
 
                 if (code == 0) {
@@ -1002,22 +1002,22 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
                     //console.log("numero de planos decrementando: " + num_planos);
 
                     modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-                        //console.log(listaArchivos);    
-                        req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                        //res.setHeader('Content-type', 'text/html');
-                        res.render("paginas/listaArchivos", {
-                            arr_files: listaArchivos,
-                            habilitar_envio_la: true,
-                            habilitar_carga: false,
-                            habilitar_eliminar: false,
-                            habilitar_btn_envio: true,
-                            status: 200,
-                            code: 0,
-                            retorno: "0",
-                        });
+                            //console.log(listaArchivos);    
+                            req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                            //res.setHeader('Content-type', 'text/html');
+                            res.render("paginas/listaArchivos", {
+                                arr_files: listaArchivos,
+                                habilitar_envio_la: true,
+                                habilitar_carga: false,
+                                habilitar_eliminar: false,
+                                habilitar_btn_envio: true,
+                                status: 200,
+                                code: 0,
+                                retorno: "0",
+                            });
 
 
-                    })
+                        })
                         .catch(err => {
                             console.log(err);
                             return res.status(500).send("Error obteniendo registros");
@@ -1090,9 +1090,11 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
 });
 
 
-app.post('/login-data', function (req, res) {
+app.post('/login-data', function(req, res) {
 
-    //console.log(req.body);
+    //console.log(req.body.username);
+    //console.log(req.query);
+    //console.log(req.params);
 
     //var username="'"+req.body.username+"'";
     //var password ="'"+req.body.password+"'";
@@ -1116,8 +1118,24 @@ app.post('/login-data', function (req, res) {
             //console.log(listaArchivos);    
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
-            res.redirect("/config-entidades");
+            //res.redirect("/config-entidades");
+            modelplanos.consultar_registro_entidades().then(listaentidades => {
+                    //console.log(listaArchivos);    
+                    req.flash('notify', 'Inicio de sesion con exito...');
+                    //res.setHeader('Content-type', 'text/html');
+                    res.render("paginas/entidades", {
+                        registroEntidades: listaentidades,
+                        status: 200,
+                        code: 0,
+                        retorno: "0",
+                    });
 
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    return res.status(500).send("Error obteniendo registros");
+                });
 
 
 
@@ -1132,7 +1150,7 @@ app.post('/login-data', function (req, res) {
 
 
 // Logout endpoint
-app.get('/logout', auth, function (req, res) {
+app.get('/logout', auth, function(req, res) {
     req.session.destroy();
     res.redirect("/login");
 });
@@ -1142,18 +1160,18 @@ app.get('/logout', auth, function (req, res) {
 app.get("/config-entidades", auth, (req, res) => {
 
     modelplanos.consultar_registro_entidades().then(listaentidades => {
-        //console.log(listaArchivos);    
-        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-        //res.setHeader('Content-type', 'text/html');
-        res.render("paginas/entidades", {
-            registroEntidades: listaentidades,
-            status: 200,
-            code: 0,
-            retorno: "0",
-        });
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            res.render("paginas/entidades", {
+                registroEntidades: listaentidades,
+                status: 200,
+                code: 0,
+                retorno: "0",
+            });
 
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -1170,53 +1188,21 @@ app.get("/form-crear-entidad", auth, (req, res) => {
 
 app.post("/persistir-entidad", auth, (req, res) => {
     //res.send("OK");
-    console.log(req.query);
-    console.log(req.params);
+    //console.log(req.query);
+    //console.log(req.params);
     modelplanos.insertar_registro_entidades(req.query.cod_entidad, req.query.nombre_entidad, req.query.tipo_reg).then(respuesta => {
 
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW entidad");
-            
-                
-                modelplanos.consultar_registro_entidades().then(listaentidades => {
-                    //console.log(listaArchivos);    
-                    //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                    //res.setHeader('Content-type', 'text/html');
-                    req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-                    res.render("paginas/entidades", {
-                        registroEntidades: listaentidades,
-                        status: 200,
-                        code: 0,
-                        retorno: "0",
-                    });
-            
-            
-                })
-                    .catch(err => {
-                        console.log(err);
-                        return res.status(500).send("Error obteniendo registros");
-                    });
-
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.redirect("/config-entidades");
         } else {
-            
+
             req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            modelplanos.consultar_registro_entidades().then(listaentidades => {
-                //console.log(listaArchivos);    
-                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                //res.setHeader('Content-type', 'text/html');
-                res.render("paginas/entidades", {
-                    registroEntidades: listaentidades,
-                    status: 200,
-                    code: 0,
-                    retorno: "0",
-                });
-        
-        
-            })
-                .catch(err => {
-                    console.log(err);
-                    return res.status(500).send("Error obteniendo registros");
-                });
+            res.redirect("/config-entidades");
         }
 
     }).catch(err => {
@@ -1229,18 +1215,18 @@ app.post("/persistir-entidad", auth, (req, res) => {
 app.post("/config-entidades", auth, (req, res) => {
 
     modelplanos.consultar_registro_entidades().then(listaentidades => {
-        //console.log(listaArchivos);    
-        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-        //res.setHeader('Content-type', 'text/html');
-        res.render("paginas/entidades", {
-            registroEntidades: listaentidades,
-            status: 200,
-            code: 0,
-            retorno: "0",
-        });
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            res.render("paginas/entidades", {
+                registroEntidades: listaentidades,
+                status: 200,
+                code: 0,
+                retorno: "0",
+            });
 
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -1257,7 +1243,7 @@ app.post("/eliminar-popup-entidad/:name/archivo-bips", auth, (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-entidad"), { datos_entidad: req.params.name, regimen_: req.query.regimen });
 });
 
-app.post('/file/delete-entidad/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/delete-entidad/:name/archivo-bips', auth, function(req, res) {
 
     if (req.query.regimen == "CONTRIBUTIVO") {
         var regimen = "C"

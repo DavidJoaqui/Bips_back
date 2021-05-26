@@ -2,45 +2,90 @@
     <%- include("header"); %>
         <%- include("styles_gral"); %>
 
-            <body id="body_ent">
+
+            <% const m=getMessages() %>
+
+                <% if (m.notify) { %>
+
+                    <div class="card" style="margin-top: 20px;" id="card-success">
+                        <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
+                            <strong>OK!</strong>
+                            <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                        </div>
+
+                        <div class="card-body">
+
+                            <% m.notify.forEach((element)=> { %>
+
+                                <%= element %>
+                                    <% }) %> %>
+                        </div>
+
+
+                    </div>
+
+                    <% } %>
+                        <% if (m.error) { %>
+
+                            <div class="card " style="margin-top: 20px;" id="">
+                                <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
+                                    <strong>Error!</strong>
+                                    <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <% m.error.forEach((element)=> { %>
+
+                                        <%= element %>
+                                            <% }) %> %>
+                                </div>
+
+                            </div>
+
+                            <% } %>
+
+                                <body id="body_ent">
 
 
 
-                <div class="card col-md-5 mb-3 border-dark" style="margin-top:100px;margin-left: 30px;">
+                                    <div class="card col-md-5 mb-3 border-dark" style="margin-top:100px;margin-left: 30px;">
 
 
-                    <form id="formulario" enctype="multipart/form-data" method="POST">
+                                        <form id="formulario" enctype="multipart/form-data" method="POST">
 
 
-                        <div class="well container">
-                            <div class="form-group">
+                                            <div class="well container">
+                                                <div class="form-group">
 
-                                <div class="row col-md-12">
+                                                    <div class="row col-md-12">
 
-                                    <div class="col-md-12" style="text-align: center;">
-                                        <h2 style="color: #20488f;font-size: 20px">Registro de nueva Entidad.</h2>
-                                    </div>
-                                    <div class="form-group col-sm-5 col-md-12">
-                                        <label for="" style="font-weight: bold;">Codigo de entidad</label><br>
+                                                        <div class="col-md-12" style="text-align: center;">
+                                                            <h2 style="color: #20488f;font-size: 20px">Registro de nueva Entidad.</h2>
+                                                        </div>
 
-                                        <input type="text" name="cod_entidad" id="cod_entidad" value="">
+                                                        <div class="form-group col-sm-5 col-md-12">
+                                                            <label for="" style="font-weight: bold;">Codigo de entidad</label><br>
 
-                                    </div>
+                                                            <input type="text" name="cod_entidad" id="cod_entidad" value="">
 
-                                    <div class="form-group col-sm-12 col-md-12 col-xs-12">
-                                        <label class="" style="font-weight: bold;"> Nombre de
+                                                        </div>
+
+                                                        <div class="form-group col-sm-12 col-md-12 col-xs-12">
+                                                            <label class="" style="font-weight: bold;"> Nombre de
                                             entidad</label><br>
 
-                                        <input class="col-sm-12 col-md-12 col-xs-12" type="text" name="nombre_entidad"
-                                            id="nombre_entidad" value="">
+                                                            <input class="col-sm-12 col-md-12 col-xs-12" type="text" name="nombre_entidad" id="nombre_entidad" value="">
 
-                                    </div>
+                                                        </div>
 
-                                    <div class="form-group col-sm-5 col-md-12">
-                                        <label style="font-weight: bold;">Regimen que aplica a la entidad:</label>
-                                        <select class="form-select form-group form-control input-sm" name="tipo_reg"
-                                            id="tipo_reg" data-toggle="tooltip" title="Seleccionar Regimen!"
-                                            data-placement="right" required>
+                                                        <div class="form-group col-sm-5 col-md-12">
+                                                            <label style="font-weight: bold;">Regimen que aplica a la entidad:</label>
+                                                            <select class="form-select form-group form-control input-sm" name="tipo_reg" id="tipo_reg" data-toggle="tooltip" title="Seleccionar Regimen!" data-placement="right" required>
                                             <option selected="selected" value="">Seleccionar Regimen
                                             </option>
 
@@ -51,55 +96,61 @@
                                             <option value="O">Otro</option>
 
                                         </select>
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="text-center">
+                                                        <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Registro</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
                                     </div>
+                                </body>
 
 
+                                <script type="text/javascript">
+                                    function almacenar_registro() {
+
+                                        event.preventDefault();
+                                        var cod_entidad = $('#cod_entidad').val();
+                                        var nombre_entidad = $('#nombre_entidad').val();
+                                        var tipo_reg = $('#tipo_reg').val();
+
+                                        var peticion = "/persistir-entidad/?cod_entidad=" + cod_entidad + "&nombre_entidad=" + nombre_entidad + "&tipo_reg=" + tipo_reg;
+
+                                        $.ajax({
+                                            type: 'post',
+                                            url: peticion,
+                                            data: [],
+                                            contentType: false,
+                                            cache: false,
+                                            processData: false,
+
+                                            success: function(result) {
+
+                                                history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                                                setTimeout(function() {
+                                                    window.location.reload(1);
+                                                }, 5000);
+
+                                                $('#body_ent').html(result);
 
 
-                                </div>
-                            </div>
+                                            }
 
-                            <div class="form-group">
-                                <div class="text-center">
-                                    <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar"
-                                        name="btn-validar" onclick="almacenar_registro()">Guardar Registro</button>
-                                </div>
-                            </div>
-                        </div>
+                                        });
 
-                    </form>
-                </div>
-            </body>
+                                    }
+                                </script>
 
 
-            <script type="text/javascript">
-                function almacenar_registro() {
-                    
-
-                    var cod_entidad = $('#cod_entidad').val();
-                    var nombre_entidad = $('#nombre_entidad').val();
-                    var tipo_reg = $('#tipo_reg').val();
-
-                    var peticion = "/persistir-entidad/?cod_entidad="+cod_entidad+"&nombre_entidad="+nombre_entidad+"&tipo_reg="+tipo_reg;
-
-                    $.ajax({
-                        type: 'post',
-                        url: peticion,
-                        data: [],
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-
-                        success: function (result) {
-
-                            $('#body_ent').html(result);
-
-                        }
-
-                    });
-
-                }
-            </script>
-
-
-            <%- include("footer"); %>
+                                <%- include("footer"); %>

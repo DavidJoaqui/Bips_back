@@ -20,8 +20,7 @@
 
                             <div class="col-12">
                                 <h1 style="color: #20488f;">Registro de Entidades/Regimen
-                                    <button class="btn btn-success" id="btn-nuevo" name="btn-nuevo"
-                                        onclick="nuevo_registro()" style="float: right;" value="">
+                                    <button class="btn btn-success" id="btn-nuevo" name="btn-nuevo" onclick="nuevo_registro()" style="float: right;" value="">
                                         <i class="fas fa-plus"></i> crear Entidad
                                     </button>
 
@@ -36,8 +35,7 @@
                                     <% if (m.notify) { %>
 
                                         <div class="card" style="margin-top: 20px;" id="card-success">
-                                            <div class="card-header text-white bg-success mb-3 container-fluid"
-                                                id="btn-cerrar-ok">
+                                            <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
                                                 <strong>OK!</strong>
                                                 <button type="button" class="close" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -59,8 +57,7 @@
                                             <% if (m.error) { %>
 
                                                 <div class="card " style="margin-top: 20px;" id="">
-                                                    <div class="card-header text-white bg-danger mb-3 container-fluid"
-                                                        id="btn-cerrar-err">
+                                                    <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
                                                         <strong>Error!</strong>
                                                         <button type="button" class="close" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
@@ -79,8 +76,7 @@
 
                                                 <% } %>
 
-                                                    <table class="table table-bordered table-striped"
-                                                        id="tbl_registros">
+                                                    <table class="table table-bordered table-striped" id="tbl_registros">
                                                         <thead style="background-color: #007bff;
                         color: #fff;">
                                                             <tr>
@@ -110,10 +106,8 @@
                                                                         <%= registro.des_regimen %>
                                                                     </td>
                                                                     <td>
-                                                                        <form method="post"
-                                                                            action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>">
-                                                                            <button class="btn btn-danger btn-submit"
-                                                                                value="<%= registro.cod_entidad %>">Eliminar</button>
+                                                                        <form method="post" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>">
+                                                                            <button class="btn btn-danger btn-submit" value="<%= registro.cod_entidad %>">Eliminar</button>
                                                                         </form>
 
                                                                     </td>
@@ -129,8 +123,6 @@
 
 
             <script type="text/javascript">
-
-
                 function nuevo_registro() {
                     $.ajax({
                         type: 'get',
@@ -140,15 +132,22 @@
                         cache: false,
                         processData: false,
 
-                        success: function (result) {
+                        success: function(result) {
+
+
+                            history.replaceState("/form-crear-entidad", "Nueva Entidad Bips", "/form-crear-entidad");
+
+                            setTimeout(function() {
+                                window.location.reload(1);
+                            }, 1000);
+
 
                             $('#body').html(result);
-
                         }
 
                     });
                 }
-                $(document).ready(function () {
+                $(document).ready(function() {
                     $('#tbl_registros').DataTable({
 
                         //Actualizo las etiquetas de mi tabla para mostrarlas en español
@@ -183,7 +182,7 @@
 
 
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('#card-success').hide();
                     }, 5000);
 
@@ -193,7 +192,6 @@
 
 
                 });
-
             </script>
 
 

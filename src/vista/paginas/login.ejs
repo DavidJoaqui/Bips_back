@@ -48,8 +48,7 @@
 
                                     <% if (m.error) { %>
                                         <div id="notificacion_login">
-                                            <button class="btn-cerrar-err close" id="btn-cerrar-noti-login"
-                                                data-dismiss="alert" aria-label="close">&times;</button>
+                                            <button class="btn-cerrar-err close" id="btn-cerrar-noti-login" data-dismiss="alert" aria-label="close">&times;</button>
                                             <div class="card-header text-white text-center bg-danger">
                                                 <strong>Error!</strong>
 
@@ -65,20 +64,17 @@
 
                                                 <div class="row px-3"> <label class="mb-1">
                                                         <h6 class="mb-0 text-sm">Usuario</h6>
-                                                    </label> <input class="mb-4" type="text" name="username"
-                                                        id="username" placeholder="ingresa el nombre de usuario">
+                                                    </label> <input class="mb-4" type="text" name="username" id="username" placeholder="ingresa el nombre de usuario">
                                                 </div>
                                                 <div class="row px-3"> <label class="mb-1">
                                                         <h6 class="mb-0 text-sm">Contraseña</h6>
-                                                    </label> <input type="password" name="password" id="password"
-                                                        placeholder="Ingresa tu contraseña">
+                                                    </label> <input type="password" name="password" id="password" placeholder="Ingresa tu contraseña">
                                                 </div>
                                                 <div class="row px-3 mb-4">
 
                                                 </div>
                                                 <div class="col text-center">
-                                                    <button class="btn btn-blue" id="btn-login"
-                                                        name="btn-login">Iniciar</button>
+                                                    <button class="btn btn-blue" id="btn-login" name="btn-login">Iniciar</button>
                                                 </div>
                                             </form>
                             </div>
@@ -94,15 +90,15 @@
     </div>-->
 
                     <script>
-                        $(document).ready(function () {
+                        $(document).ready(function() {
 
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 $('#notificacion_login').fadeOut('fast');
                             }, 5000);
 
 
 
-                            $('#btn-cerrar-noti-login').click(function () {
+                            $('#btn-cerrar-noti-login').click(function() {
                                 $('#notificacion_login').attr("style", "display:none");
 
                             });
@@ -110,9 +106,9 @@
                         })
 
 
-                        $('#btn-login').click(function (event) {
+                        $('#btn-login').click(function(event) {
 
-                            
+
 
                             if ($('#username').val() == "" || $('#password').val() == "") {
                                 alert("se deben ingresar los campos usuario y contraseña");
@@ -121,7 +117,7 @@
                                 }, 1000);*/
 
                             } else {
-                                
+
 
                                 //const $form = document.querySelector('#form_login');
                                 var user = $('#username').val();
@@ -136,12 +132,17 @@
                                         password: pass,
                                     },
 
-                                    success: function (result) {
+                                    success: function(result) {
 
-                                                                                  
-                                            $('#body').html(result);                                                                        
 
-                                        
+                                        $('#body').html(result);
+
+                                        history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                                        setTimeout(function() {
+                                            window.location.reload(1);
+                                        }, 5000);
+
 
 
                                     }
