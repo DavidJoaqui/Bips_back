@@ -185,7 +185,7 @@ const upload = multer({
 
 
 var auth = function(req, res, next) {
-    if (req.session && req.session.user === "admin" && req.session.admin)
+    if (req.session && req.session.admin)
         return next();
     else
         return res.redirect('/login');
@@ -228,6 +228,7 @@ app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
 
             res.render("paginas/RegistrosPlanos", {
                 registroplanos: registroplanos,
+                user: req.session.user,
             });
         })
         .catch(err => {
@@ -243,6 +244,7 @@ app.get('/cargar-plano', auth, function(req, res) {
 
             res.render("paginas/FormularioCarga", {
                 listaIps: listaIps,
+                user: req.session.user,
 
             });
 
@@ -632,11 +634,11 @@ app.post('/file/validar/:name/archivo-bips', auth, function(req, res) {
 
 app.get("/reportes-2193", auth, (req, res) => {
 
-    res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"));
+    res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"), { user: req.session.user, });
 });
 
 app.get("/olap-2193", auth, (req, res) => {
-    res.render(path.join(__dirname + "/src/vista/paginas/Dashboard_2193"));
+    res.render(path.join(__dirname + "/src/vista/paginas/Dashboard_2193"), { user: req.session.user, });
 });
 
 app.post("/eliminar-popup/:name/archivo-bips", auth, (req, res) => {
@@ -1108,6 +1110,7 @@ app.post('/login-data', function(req, res) {
             res.redirect("/login");
         } else {
 
+            var user = req.body.username;
             modelSecurity.validacion_user_password(req.body.username, req.body.password).then(user_ok => {
                 //modelSecurity.validacion_user_password().then(user_ok => {
 
@@ -1116,10 +1119,10 @@ app.post('/login-data', function(req, res) {
 
                 if (user_ok[0].pwd == true) {
                     //console.log("entro en validacion");
-                    req.session.user = "admin";
+                    req.session.user = user;
                     req.session.admin = true;
                     req.session.web = "http://192.168.1.83:3000";
-
+                    req.session.username = user;
                     //console.log(req);
 
                     //console.log(listaArchivos);    
@@ -1135,6 +1138,7 @@ app.post('/login-data', function(req, res) {
                                 status: 200,
                                 code: 0,
                                 retorno: "0",
+                                user: req.session.user,
                             });
 
 
@@ -1183,6 +1187,7 @@ app.get("/config-entidades", auth, (req, res) => {
                 status: 200,
                 code: 0,
                 retorno: "0",
+                user: req.session.user,
             });
 
 
@@ -1196,7 +1201,7 @@ app.get("/config-entidades", auth, (req, res) => {
 
 app.get("/form-crear-entidad", auth, (req, res) => {
     //res.send("OK");
-    res.render("paginas/new-entidad");
+    res.render("paginas/new-entidad", { user: req.session.user, });
 
 })
 
@@ -1238,6 +1243,7 @@ app.post("/config-entidades", auth, (req, res) => {
                 status: 200,
                 code: 0,
                 retorno: "0",
+                user: req.session.user,
             });
 
 

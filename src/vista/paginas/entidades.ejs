@@ -1,5 +1,5 @@
 <%- include("head"); %>
-    <%- include("header"); %>
+    <%- include("header", {user: user}); %>
 
         <%- include("styles_gral"); %>
             <style>
@@ -105,10 +105,14 @@
                                                                         <%= registro.des_regimen %>
                                                                     </td>
                                                                     <td>
-                                                                        <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>">
-                                                                            <button class="btn btn-danger btn-submit" value="<%= registro.cod_entidad %>">Eliminar</button>
-                                                                        </form>
-
+                                                                        <div class="btn-group">
+                                                                            <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>">
+                                                                                <button class="btn btn-danger btn-submit" value="<%= registro.cod_entidad %>">Eliminar</button>
+                                                                            </form>
+                                                                            <form method="post" class="form" action="/editar-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>">
+                                                                                <button class="btn btn-primary btn-submit" value="<%= registro.cod_entidad %>">Editar</button>
+                                                                            </form>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                                 <% })%>
@@ -231,6 +235,16 @@
                     color: #20488f;
                 }
                 
+                .paginate_button {
+                    font-family: 'Montserrat', sans-serif;
+                    border-radius: 5px;
+                    font-size: 10px;
+                    border: none;
+                    cursor: pointer;
+                    transition: .3s ease all;
+                    font-weight: bold;
+                }
+                
                 .form .btn-submit {
                     font-family: 'Montserrat', sans-serif;
                     border-radius: 5px;
@@ -239,6 +253,15 @@
                     cursor: pointer;
                     transition: .3s ease all;
                     font-weight: bold;
+                }
+                
+                #btn-nuevo {
+                    font-family: 'Montserrat', sans-serif;
+                    border-radius: 5px;
+                    font-size: 10px;
+                    border: none;
+                    cursor: pointer;
+                    transition: .3s ease all;
                 }
             </style>
 

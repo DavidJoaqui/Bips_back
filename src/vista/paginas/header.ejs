@@ -2,58 +2,56 @@
 <html lang="es">
 
 <body>
-  <!-- Definición del menú -->
-  <main>
-    <div style="margin-bottom: 10px;">
+    <!-- Definición del menú -->
+    <main>
+        <div style="margin-bottom: 10px;">
 
-      <nav class="navbar navbar-expand-md fixed-top" id="myTab" role="tablist">
+            <nav class="navbar navbar-expand-md fixed-top" id="myTab" role="tablist">
 
-        <a class="navbar-brand" href="#">
-          <img alt="Brand" src="recursos_marca">
-        </a>
-        <a class="navbar-brand" href="#">
-          <img alt="Brand" src="recursos_it">
-        </a>
-        <ul>
-          <a class="nav-link" href="/config-entidades">Config. Entidades</a>
-        </ul>
-        <ul>
-          <a class="nav-link" href="/obtenerRegistrosPlanos">Registros Archivos Planos</a>
-        </ul>
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="recursos_marca">
+                </a>
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="recursos_it">
+                </a>
+                <ul>
+                    <a class="nav-link" href="/config-entidades">Config. Entidades</a>
+                </ul>
+                <ul>
+                    <a class="nav-link" href="/obtenerRegistrosPlanos">Registros Archivos Planos</a>
+                </ul>
 
-        <ul>
-          <a class="nav-link" href="/cargar-plano">Cargar plano</a>
-        </ul>        
-        <ul class="nav-item dropdown">
+                <ul>
+                    <a class="nav-link" href="/cargar-plano">Cargar plano</a>
+                </ul>
+                <ul class="nav-item dropdown">
 
-          <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Reportes</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="/reportes-2193">Reporte 2193</a>
-            <a class="dropdown-item" href="/olap-2193">Análisis OLAP 2193</a>
-          </div>
-        </ul>
-
-
-        <ul class="navbar-nav ml-auto">
+                    <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reportes</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/reportes-2193">Reporte 2193</a>
+                        <a class="dropdown-item" href="/olap-2193">Análisis OLAP 2193</a>
+                    </div>
+                </ul>
 
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-user"></i> test
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="/logout">Salir</a>
-            </div>
-
-          </li>
+                <ul class="navbar-nav ml-auto">
 
 
-        </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                            <%= user  %>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/logout">Salir</a>
+                        </div>
 
-      </nav>
+                    </li>
 
+
+                </ul>
+
+            </nav>
 
 
 
@@ -62,4 +60,5 @@
 
 
 
-      <!-- Termina la definición del menú -->
+
+            <!-- Termina la definición del menú -->
