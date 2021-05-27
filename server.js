@@ -594,6 +594,9 @@ app.post('/file/validar/:name/archivo-bips', auth, function(req, res) {
                         });
 
                     });
+                } else {
+                    req.flash('error', 'El Archivo Plano ' + nombre_plano + 'No se logro actualizar en BD, error actualizando, validado NO');
+                    res.json({ error: 500, respuesta: 'El Archivo Plano ' + nombre_plano + ' tiene los siguientes errores:' + rsta_validacion });
                 }
 
             }).catch(err => {
