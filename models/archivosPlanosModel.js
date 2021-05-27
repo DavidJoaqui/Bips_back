@@ -15,21 +15,6 @@ module.exports = {
         return resultados.rows;
     },
 
-    async insertar_registro_entidades(cod_entidad, nombre_entidad, tipo_reg) {
-        const resultados = await conexion.query("insert into schema_bips.entidades(cod_entidad,nombre_entidad,tipo_reg) values ($1,$2,$3)",[cod_entidad, nombre_entidad, tipo_reg]);
-        return resultados;
-    },
-
-    async consultar_registro_entidades() {
-        const resultados = await conexion.query("select e.cod_entidad , e.nombre_entidad ,r.des_regimen from schema_bips.entidades e inner join schema_bips.regimen r on (e.tipo_reg=r.tipo_regimen)");
-        return resultados.rows;
-    },
-
-    async eliminar_registro_entidades(cod_entidad,regimen) {
-        const resultados = await conexion.query("delete from schema_bips.entidades where cod_entidad= $1 and tipo_reg= $2 is not null", [cod_entidad,regimen]);
-        return resultados;
-    },
-
     async eliminar_RegistrosPlanos_tmp(id_ips, nombre_archivo) {
         const resultados = await conexion.query("delete from schema_planos.registros_planos_tmp where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo]);
         return resultados;
@@ -82,7 +67,7 @@ module.exports = {
     },
 
 
-    async validarPlanosCargados(planos) {            
+    async validarPlanosCargados(planos) {
         var cont = 0;
         console.log(planos);
         planos.forEach(plano => {
@@ -106,7 +91,7 @@ module.exports = {
     async validarPlanosNecesarios(planos_val) {
         //console.log("planos val"+Object.values(planos_val));
 
-     
+
 
         //console.log("planos.lengtth"+planos_val.length);
         var cont_obligatorios = 0;
@@ -133,8 +118,7 @@ module.exports = {
                     cont_obligatorios++;
                 } else if (plano["nombre_original"].slice(0, 2) == "AH") {
                     cont_obligatorios++;
-                }
-                else if (plano["nombre_original"].slice(0, 2) == "AM") {
+                } else if (plano["nombre_original"].slice(0, 2) == "AM") {
                     cont_obligatorios++;
                 }
 
@@ -147,9 +131,9 @@ module.exports = {
 
         } else {
             // 0 : no cumple
-           // console.log("entra  a return");
+            // console.log("entra  a return");
             return 0;
-            
+
         }
     },
 

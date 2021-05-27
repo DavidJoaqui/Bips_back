@@ -37,7 +37,7 @@
                                         <div class="card" style="margin-top: 20px;" id="card-success">
                                             <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
                                                 <strong>OK!</strong>
-                                                <button type="button" class="close" aria-label="Close">
+                                                <button type="button" id="btn-cerrar-success" class="close" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -56,10 +56,10 @@
                                         <% } %>
                                             <% if (m.error) { %>
 
-                                                <div class="card " style="margin-top: 20px;" id="">
+                                                <div class="card " style="margin-top: 20px;" id="card-error">
                                                     <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
                                                         <strong>Error!</strong>
-                                                        <button type="button" class="close" aria-label="Close">
+                                                        <button type="button" id="btn-cerrar-err" class="close" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
@@ -147,6 +147,18 @@
 
                     });
                 }
+
+                $('#btn-cerrar-success').click(function() {
+                    $('#card-success').attr("style", "display:none");
+
+                });
+
+                $('#btn-cerrar-err').click(function() {
+                    $('#card-error').attr("style", "display:none");
+
+                });
+
+
                 $(document).ready(function() {
                     $('#tbl_registros').DataTable({
 

@@ -43,6 +43,7 @@ const modelbips = require("./models/modelModel");
 const modelvalidaciones = require("./models/validacionModel");
 const modelktr = require("./models/ejecucion_KtrModel");
 const modelSecurity = require("./models/loginModel");
+const modelEntidad = require("./models/entidadesModel");
 
 
 
@@ -1099,52 +1100,66 @@ app.post('/login-data', function(req, res) {
     //var username="'"+req.body.username+"'";
     //var password ="'"+req.body.password+"'";
 
+    modelSecurity.consultar_usuario_registrado(req.body.username).then(user_reg => {
 
+        if (user_reg[0].total_usuarios == 0) {
 
-    modelSecurity.validacion_user_password(req.body.username, req.body.password).then(user_ok => {
-        //modelSecurity.validacion_user_password().then(user_ok => {
-
-        //console.log("resp_user1"+Object.entries(user_ok));
-        console.log(user_ok[0].pwd);
-
-        if (user_ok[0].pwd == true) {
-            //console.log("entro en validacion");
-            req.session.user = "admin";
-            req.session.admin = true;
-            req.session.web = "http://192.168.1.83:3000";
-
-            //console.log(req);
-
-            //console.log(listaArchivos);    
-            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-            //res.setHeader('Content-type', 'text/html');
-            //res.redirect("/config-entidades");
-            modelplanos.consultar_registro_entidades().then(listaentidades => {
-                    //console.log(listaArchivos);    
-                    req.flash('notify', 'Inicio de sesion con exito...');
-                    //res.setHeader('Content-type', 'text/html');
-                    res.render("paginas/entidades", {
-                        registroEntidades: listaentidades,
-                        status: 200,
-                        code: 0,
-                        retorno: "0",
-                    });
-
-
-                })
-                .catch(err => {
-                    console.log(err);
-                    return res.status(500).send("Error obteniendo registros");
-                });
-
-
-
-        } else {
-            req.flash("error", ' Usuario o contraseña incorrectos');
+            req.flash("error", ' Usuario NO registrado en el sistema Bips');
             res.redirect("/login");
+        } else {
+
+            modelSecurity.validacion_user_password(req.body.username, req.body.password).then(user_ok => {
+                //modelSecurity.validacion_user_password().then(user_ok => {
+
+                //console.log("resp_user1"+Object.entries(user_ok));
+                console.log(user_ok[0].pwd);
+
+                if (user_ok[0].pwd == true) {
+                    //console.log("entro en validacion");
+                    req.session.user = "admin";
+                    req.session.admin = true;
+                    req.session.web = "http://192.168.1.83:3000";
+
+                    //console.log(req);
+
+                    //console.log(listaArchivos);    
+                    //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                    //res.setHeader('Content-type', 'text/html');
+                    //res.redirect("/config-entidades");
+                    modelEntidad.consultar_registro_entidades().then(listaentidades => {
+                            //console.log(listaArchivos);    
+                            req.flash('notify', 'Inicio de sesion con exito...');
+                            //res.setHeader('Content-type', 'text/html');
+                            res.render("paginas/entidades", {
+                                registroEntidades: listaentidades,
+                                status: 200,
+                                code: 0,
+                                retorno: "0",
+                            });
+
+
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            return res.status(500).send("Error obteniendo registros");
+                        });
+
+
+
+                } else {
+                    req.flash("error", ' Usuario o contraseña incorrectos');
+                    res.redirect("/login");
+                }
+
+
+            });
+
         }
 
+
     });
+
+
 
 });
 
@@ -1159,7 +1174,7 @@ app.get('/logout', auth, function(req, res) {
 
 app.get("/config-entidades", auth, (req, res) => {
 
-    modelplanos.consultar_registro_entidades().then(listaentidades => {
+    modelEntidad.consultar_registro_entidades().then(listaentidades => {
             //console.log(listaArchivos);    
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
@@ -1190,7 +1205,7 @@ app.post("/persistir-entidad", auth, (req, res) => {
     //res.send("OK");
     //console.log(req.query);
     //console.log(req.params);
-    modelplanos.insertar_registro_entidades(req.query.cod_entidad, req.query.nombre_entidad, req.query.tipo_reg).then(respuesta => {
+    modelEntidad.insertar_registro_entidades(req.query.cod_entidad, req.query.nombre_entidad, req.query.tipo_reg).then(respuesta => {
 
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW entidad");
@@ -1214,7 +1229,7 @@ app.post("/persistir-entidad", auth, (req, res) => {
 
 app.post("/config-entidades", auth, (req, res) => {
 
-    modelplanos.consultar_registro_entidades().then(listaentidades => {
+    modelEntidad.consultar_registro_entidades().then(listaentidades => {
             //console.log(listaArchivos);    
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
@@ -1257,7 +1272,7 @@ app.post('/file/delete-entidad/:name/archivo-bips', auth, function(req, res) {
         var regimen = "E"
     }
 
-    modelplanos.eliminar_registro_entidades(req.params.name, regimen).then(respuesta => {
+    modelEntidad.eliminar_registro_entidades(req.params.name, regimen).then(respuesta => {
         console.log(req.params.name);
         console.log(req.query.regimen);
         if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0)
