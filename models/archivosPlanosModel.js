@@ -11,7 +11,7 @@ module.exports = {
     },
 
     async consultar_RegistrosPlanos_tmp() {
-        const resultados = await conexion.query("select id_ips,nombre_ips,descripcion_ips,periodo_cargado,nombre_original,fecha_carga,validado,nombre_tmp,path_plano,cargado from schema_planos.registros_planos_tmp inner join schema_bips.ips on(schema_bips.ips.codigo_ips =schema_planos.registros_planos_tmp.id_ips)");
+        const resultados = await conexion.query("select id_ips,nombre_ips,descripcion_ips,periodo_cargado,nombre_original,fecha_carga,validado,nombre_tmp,path_plano,cargado from schema_planos.registros_planos_tmp inner join schema_bips.ips on(schema_bips.ips.codigo_ips =schema_planos.registros_planos_tmp.id_ips) order by schema_planos.registros_planos_tmp.nombre_original asc");
         return resultados.rows;
     },
 

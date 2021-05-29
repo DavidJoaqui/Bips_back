@@ -1110,10 +1110,11 @@ app.post('/login-data', function(req, res) {
         if (user_reg[0].total_usuarios == 0) {
 
             req.flash("error", ' Usuario NO registrado en el sistema Bips');
-            res.redirect("/login");
+            res.send({status:500,descripcion:"Error al realizar login, usuario NO registrado"});
+            //res.redirect("/login");
         } else {
 
-            var user = req.body.username;
+            
             modelSecurity.validacion_user_password(req.body.username, req.body.password).then(user_ok => {
                 //modelSecurity.validacion_user_password().then(user_ok => {
 
@@ -1122,10 +1123,10 @@ app.post('/login-data', function(req, res) {
 
                 if (user_ok[0].pwd == true) {
                     //console.log("entro en validacion");
-                    req.session.user = user;
+                    req.session.user = req.body.username;
                     req.session.admin = true;
                     req.session.web = "http://192.168.1.83:3000";
-                    req.session.username = user;
+                    req.session.username = req.body.username;
                     //console.log(req);
 
                     //console.log(listaArchivos);    
@@ -1154,8 +1155,8 @@ app.post('/login-data', function(req, res) {
 
 
                 } else {
-                    req.flash("error", ' Usuario o contraseña incorrectos');
-                    res.redirect("/login");
+                    req.flash("error", ' La contraseña ingresada es incorrecta');
+                    res.send({status:500,descripcion:"Error al realizar login, password incorrecto"});
                 }
 
 
@@ -1220,17 +1221,18 @@ app.post("/persistir-entidad", auth, (req, res) => {
             //console.log(listaArchivos);    
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
-            req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-            res.redirect("/config-entidades");
+            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.json({status: 200,msg:'La Entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> se creó correctamente...'});
         } else {
 
-            req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.redirect("/config-entidades");
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.json({status: 300,msg:'ERROR al crear la entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> intente de nuevo...'});
         }
 
     }).catch(err => {
         console.log(err);
-        return res.status(500).send("Error persistiendo registros");
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({status: 500,msg:'ERROR!! La Entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> YA EXISTE...'});
     });
 
 })
@@ -1245,8 +1247,7 @@ app.post("/config-entidades", auth, (req, res) => {
                 registroEntidades: listaentidades,
                 status: 200,
                 code: 0,
-                retorno: "0",
-                user: req.session.user,
+                retorno: "0",                
             });
 
 
@@ -1263,8 +1264,8 @@ app.post("/eliminar-popup-entidad/:name/archivo-bips", auth, (req, res) => {
 
     /*console.log(req.params.name);        
     console.log(req.query.regimen);
-    console.log(req.session.admin);*/
-    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-entidad"), { datos_entidad: req.params.name, regimen_: req.query.regimen });
+    console.log(req.session.admin);*/    
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-entidad"), { datos_entidad: req.params.name, regimen_: req.query.regimen, nombre_entidad:req.query.nombre_entidad});
 });
 
 app.post('/file/delete-entidad/:name/archivo-bips', auth, function(req, res) {
@@ -1281,6 +1282,11 @@ app.post('/file/delete-entidad/:name/archivo-bips', auth, function(req, res) {
         var regimen = "E"
     }
 
+    if (req.query.nombre_entidad == "") {
+        var nombre_entidad = "de Nombre 'No asignado' ";
+    }else{
+        var nombre_entidad = req.query.nombre_entidad;
+    }
     modelEntidad.eliminar_registro_entidades(req.params.name, regimen).then(respuesta => {
         console.log(req.params.name);
         console.log(req.query.regimen);
@@ -1292,7 +1298,7 @@ app.post('/file/delete-entidad/:name/archivo-bips', auth, function(req, res) {
         //console.log(listaArchivos);    
         //req.flash('notify', 'La carga de los Planos se realizo con exito...');
         //res.setHeader('Content-type', 'text/html');
-        req.flash('notify', 'La entidad ' + req.params.name + ', regimen ' + req.query.regimen + ' se eliminó correctamente...');
+        req.flash('notify', 'La entidad ' + nombre_entidad + ' con codigo '+ req.params.name+' y regimen ' + req.query.regimen + ' se eliminó correctamente...');
         res.redirect("/config-entidades");
 
 

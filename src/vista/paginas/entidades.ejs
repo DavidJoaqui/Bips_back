@@ -93,9 +93,9 @@
                                                                         <%= registro.cod_entidad %>
                                                                     </td>
                                                                     <td>
-                                                                        <% if (registro.nombre_entidad==null) { %>
+                                                                        <% if (registro.nombre_entidad==null || registro.nombre_entidad == "") { %>
 
-                                                                            <%= "vacio" %>
+                                                                            <%= "No Asignado" %> 
                                                                                 <% }else{%>
                                                                                     <%= registro.nombre_entidad %>
                                                                                         <%}%>
@@ -106,7 +106,7 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="btn-group">
-                                                                            <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>">
+                                                                            <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>&nombre_entidad=<%= registro.nombre_entidad %>">
                                                                                 <button class="btn btn-danger btn-submit" value="<%= registro.cod_entidad %>">Eliminar</button>
                                                                             </form>
                                                                             <form method="post" class="form" action="/editar-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>">
@@ -140,9 +140,9 @@
 
                             history.replaceState("/form-crear-entidad", "Nueva Entidad Bips", "/form-crear-entidad");
 
-                            setTimeout(function() {
+                            
                                 window.location.reload(1);
-                            }, 1000);
+                            
 
 
                             $('#body').html(result);
