@@ -25,11 +25,10 @@
                     <div class="container" style="margin-top:75px;padding-top: 10px; margin-bottom: 70px;">
 
                         <div class="col-12">
-                            <h1 style="color: #20488f;">Registros en Bodega de Datos</h1>
+                            <h1 sclass="titulo-tabla">Registros en Bodega de Datos</h1>
 
                             <table class="table table-bordered table-striped" id="tbl_registros">
-                                <thead style="background-color: #007bff;
-                        color: #fff;">
+                                <thead class="head-tabla-reg">
                                     <tr>
                                         <th>Codigo IPS</th>
                                         <th>Nombre IPS</th>
@@ -107,7 +106,41 @@
                 });
             </script>
 
-
+            <style>
+                #tbl_registros {
+                    font-size: small;
+                    font-family: 'Montserrat', sans-serif;
+                    border-spacing: 0px !important;
+                    padding: 0px;
+                }
+                
+                #tbl_registros th {
+                    padding: 7px;
+                }
+                
+                #tbl_registros td {
+                    padding: 0;
+                }
+                
+                .head-tabla-reg {
+                    background-color: #3f78da;
+                    color: #fff;
+                }
+                
+                .titulo-tabla {
+                    color: #20488f;
+                }
+                
+                .paginate_button {
+                    font-family: 'Montserrat', sans-serif;
+                    border-radius: 5px;
+                    font-size: 10px;
+                    border: none;
+                    cursor: pointer;
+                    transition: .3s ease all;
+                    font-weight: bold;
+                }
+            </style>
 
 
 
