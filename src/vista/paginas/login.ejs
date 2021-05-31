@@ -81,6 +81,17 @@
                                                         name="btn-login">Iniciar</button>
                                                 </div>
                                             </form>
+
+                                            <form name="login" id="login" class="form-signin"
+                                                action="j_spring_security_check" method="post" hidden>
+
+                                                <hr>
+                                                <br />
+                                                <input name="j_username" type="text" class="form-control" required=""
+                                                    autofocus="" value="admin" />
+                                                <input name="j_password" type="password" class="form-control"
+                                                    required="" value="password" />
+                                            </form>
                             </div>
 
                         </div>
@@ -148,9 +159,52 @@
                                                 $('#body').html(result);
 
                                                 history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
-                            
-                                                    window.location.reload();
-                                                
+
+                                                window.location.reload();
+
+                                                $.ajax({
+                                                    url: "j_spring_security_check",
+                                                    dataType: "text",
+                                                    data: $("#login").serialize(),
+
+                                                    error: function (xhr, ajaxOptions, thrownError) {
+                                                        if (xhr.status == 404) {
+                                                            // if we get a 404 it means login was successful but intended resource does not exist
+                                                            // just let it go - let the user get the 404
+                                                            bounceToReturnLocation();
+                                                            return;
+                                                        }
+
+                                                        if (xhr.status == 200 && thrownError == 'parsererror') {
+                                                            document.getElementById("j_password").value = "password";
+                                                            bounceToReturnLocation();
+                                                            return;
+                                                        }
+                                                        // fail
+                                                        $("#loginError").show();
+                                                        $("#loginError button").focus();
+                                                    },
+
+
+
+
+
+                                                    success: function (data, textStatus, jqXHR) {
+                                                        if (data.indexOf("j_spring_security_check") != -1) {
+                                                            // fail
+                                                            $("#loginError").show();
+                                                            $("#loginError button").focus();
+                                                            return false;
+                                                        } else {
+                                                            document.getElementById("j_password").value = "password";
+                                                            bounceToReturnLocation();
+                                                        }
+                                                    }
+
+                                                });
+
+
+
 
                                             }
 
@@ -168,6 +222,23 @@
 
 
                         });
+
+                        function bounceToReturnLocation() {
+                            // pass
+                            var locale = document.login.locale.value;
+
+                            var returnLocation = 'Por favor ingresa tus credenciales';
+
+
+                            if (returnLocation != '' && returnLocation != null) {
+                                window.location.href = returnLocation;
+                            } else {
+                                window.location.href = window.location.href.replace("Login", "Home") + "?locale=" + locale;
+                            }
+
+                        }
+
+
                     </script>
 
                     <%- include("footer"); %>
