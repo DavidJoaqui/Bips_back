@@ -51,6 +51,7 @@ module.exports = {
             //console.log("nombre_PLANO:" + nombre_plano);
             var res = this.validar_planoUS(nombre_archivo);
         }
+        
 
         if (nombre_plano == 'AM') {
             //console.log("nombre_PLANO:" + nombre_plano);
@@ -172,7 +173,7 @@ module.exports = {
             }
 
             if (isNaN(vf1)||vf1 == '') {
-                if(vf14 == ''){
+                if(vf1 == ''){
                     let err = "Dato Vacio para el campo field_001 en la linea " + vflinea;
                     objerr.push(err); 
                 }else {
@@ -313,23 +314,43 @@ module.exports = {
         //console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
             let vf0 = val["field_000"];
+            let vf4 = val["field_004"];
             let vf5 = val["field_005"];
             let vf6 = val["field_006"];
             let vf7 = val["field_007"];
+            let vf8 = val["field_008"];
+            let vf10 = val["field_010"];
             let vf13 = val["field_013"];
             let vf14 = val["field_014"];
             let vf15 = val["field_015"];
             let vf16 = val["field_016"];
             let vflinea = val["linea"];
 
-            if (isNaN(vf0)) {
-                let err = "Valor númerico esperado para el campo field_000:" + vf0 + " en la linea " + vflinea;
-                if (vf0 != '') { objerr.push(err); }
+            if (isNaN(vf0)||vf0 == '') {
+                if(vf0 == ''){
+                    let err = "Dato Vacio para el campo field_000 en la linea " + vflinea;
+                    objerr.push(err); 
+                }else {
+                    let err = "Valor númerico esperado para el campo field_000:" + vf0 + " en la linea " + vflinea;
+                    objerr.push(err); 
+                }
             }
-            if (!moment(vf5, 'DD/MM/YYYY', true).isValid()) {
-                let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_005:" + vf5 + " en la linea " + vflinea;
-                if (vf5 != '') { objerr.push(err); }
+            if (vf4 == '') {
+                let err = "Dato Vacio para el campo field_004 en la linea " + vflinea;
+                objerr.push(err); 
             }
+
+            if (!moment(vf5, 'DD/MM/YYYY', true).isValid()||vf5 == '') {
+                if(vf5 == ''){
+                    let err = "Dato Vacio para el campo field_005 en la linea " + vflinea;
+                    objerr.push(err); 
+                }
+                
+                else {  let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_005:" + vf5 + " en la linea " + vflinea;
+                 objerr.push(err); 
+                }
+            }
+
             if (!moment(vf6, 'DD/MM/YYYY', true).isValid()) {
                 let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_006:" + vf6 + " en la linea " + vflinea;
                 if (vf6 != '') { objerr.push(err); }
@@ -338,6 +359,17 @@ module.exports = {
                 let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_007:" + vf7 + " en la linea " + vflinea;
                 if (vf7 != '') { objerr.push(err); }
             }
+
+            if (vf8 == '') {
+                let err = "Dato Vacio para el campo field_008 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+
+            if (vf10 == '') {
+                let err = "Dato Vacio para el campo field_010 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+
             if (isNaN(vf13)) {
                 let err = "Valor númerico esperado para el campo field_013:" + vf13 + " en la linea " + vflinea;
                 if (vf13 != '') { objerr.push(err); }
@@ -386,7 +418,9 @@ module.exports = {
         //console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
+            let vf0 = val["field_000"];
             let vf1 = val["field_001"];
+            let vf2 = val["field_002"];
             let vf3 = val["field_003"];
             let vf4 = val["field_004"];
             let vf5 = val["field_005"];
@@ -394,23 +428,48 @@ module.exports = {
             let vf16 = val["field_016"];
             let vflinea = val["linea"];
 
-            if (isNaN(vf1)) {
-                let err = "Valor númerico esperado para el campo field_001:" + vf1 + " en la linea " + vflinea;
-                if (vf1 != '') { objerr.push(err); }
+            if (vf0 == '') {
+                let err = "Dato Vacio para el campo field_000 en la linea " + vflinea;
+                objerr.push(err); 
             }
-            /*if (isNaN(vf3)) {
-                let err = "Valor númerico esperado para el campo field_003:" + vf3 + " en la linea " + vflinea;
-                if (vf3 != '') { objerr.push(err); }
-            }*/
+
+            if (isNaN(vf1)||vf1 == '') {
+                if(vf1 == ''){
+                    let err = "Dato Vacio para el campo field_001 en la linea " + vflinea;
+                    objerr.push(err); 
+                }else {
+                    let err = "Valor númerico esperado para el campo field_001:" + vf1 + " en la linea " + vflinea;
+                    objerr.push(err); 
+
+                }
+            }
+
+            if (vf2 == '') {
+                let err = "Dato Vacio para el campo field_002 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+
+            if (vf3 == '') {
+                let err = "Dato Vacio para el campo field_003 en la linea " + vflinea;
+                objerr.push(err); 
+            }
 
             if (isNaN(vf4)) {
                 let err = "Valor númerico esperado para el campo field_004:" + vf4 + " en la linea " + vflinea;
                 if (vf4 != '') { objerr.push(err); }
             }
-            if (!moment(vf5, 'DD/MM/YYYY', true).isValid()) {
-                let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_005:" + vf5 + " en la linea " + vflinea;
-                if (vf5 != '') { objerr.push(err); }
+            
+            if (!moment(vf5, 'DD/MM/YYYY', true).isValid()||vf5 == '') {
+                if(vf5 == ''){
+                    let err = "Dato Vacio para el campo field_005 en la linea " + vflinea;
+                    objerr.push(err); 
+                }
+                
+                else {  let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_005:" + vf5 + " en la linea " + vflinea;
+                 objerr.push(err); 
+                }
             }
+
             if (isNaN(vf15)) {
                 let err = "Valor númerico esperado para el campo field_015:" + vf15 + " en la linea " + vflinea;
                 if (vf15 != '') { objerr.push(err); }
@@ -449,9 +508,12 @@ module.exports = {
         //console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
+            let vf0 = val["field_000"];
             let vf1 = val["field_001"];
+            let vf2 = val["field_002"];
             let vf3 = val["field_003"];
             let vf4 = val["field_004"];
+            let vf6 = val["field_006"];
             let vf7 = val["field_007"];
             let vf8 = val["field_008"];
             let vf9 = val["field_009"];
@@ -461,19 +523,51 @@ module.exports = {
 
             let vflinea = val["linea"];
 
-            if (isNaN(vf1)) {
-                let err = "Valor númerico esperado para el campo field_001:" + vf1 + " en la linea " + vflinea;
-                if (vf1 != '') { objerr.push(err); }
+            if (vf0 == '') {
+                let err = "Dato Vacio para el campo field_000 en la linea " + vflinea;
+                objerr.push(err); 
             }
-            /*if (isNaN(vf3)) {
-                let err = "Valor númerico esperado para el campo field_003:" + vf3 + " en la linea " + vflinea;
-                if (vf3 != '') { objerr.push(err); }
-            }*/
 
-            if (!moment(vf4, 'DD/MM/YYYY', true).isValid()) {
-                let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_004:" + vf4 + " en la linea " + vflinea;
-                if (vf4 != '') { objerr.push(err); }
+            if (isNaN(vf1)||vf1 == '') {
+                if(vf1 == ''){
+                    let err = "Dato Vacio para el campo field_001 en la linea " + vflinea;
+                    objerr.push(err); 
+                }else {
+                    let err = "Valor númerico esperado para el campo field_001:" + vf1 + " en la linea " + vflinea;
+                    objerr.push(err); 
+
+                }
             }
+
+            if (vf2 == '') {
+                let err = "Dato Vacio para el campo field_002 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+
+            if (vf3 == '') {
+                let err = "Dato Vacio para el campo field_003 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+            
+
+            if (!moment(vf4, 'DD/MM/YYYY', true).isValid()||vf4 == '') {
+                if(vf4 == ''){
+                    let err = "Dato Vacio para el campo field_004 en la linea " + vflinea;
+                    objerr.push(err); 
+                }
+                
+                else {  let err = "Fecha esperda formato dd/mm/aaaa esperado para el campo field_004:" + vf4 + " en la linea " + vflinea;
+                 objerr.push(err); 
+                }
+            }
+
+            
+            if (vf6 == '') {
+                let err = "Dato Vacio para el campo field_006 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+
+
             if (isNaN(vf7)) {
                 let err = "Valor númerico esperado para el campo field_007:" + vf7 + " en la linea " + vflinea;
                 if (vf7 != '') { objerr.push(err); }
@@ -491,10 +585,17 @@ module.exports = {
                 if (vf13 != '') { objerr.push(err); }
             }
 
-            if (isNaN(vf14)) {
-                let err = "Valor númerico esperado para el campo field_014:" + vf14 + " en la linea " + vflinea;
-                if (vf14 != '') { objerr.push(err); }
+            if (isNaN(vf14)||vf14 == '') {
+                if(vf14 == ''){
+                    let err = "Dato Vacio para el campo field_014 en la linea " + vflinea;
+                    objerr.push(err); 
+                }else {
+                    let err = "Valor númerico esperado para el campo field_014:" + vf14 + " en la linea " + vflinea;
+                    objerr.push(err); 
+
+                }
             }
+            
 
         });
         return objerr;
@@ -646,38 +747,99 @@ module.exports = {
         //  console.log(objplanoct);
         Object.values(objplanoct).forEach(val => {
 
+            let vf0 = val["field_000"];
             let vf1 = val["field_001"];
+            let vf2 = val["field_002"];
             let vf3 = val["field_003"];
+            let vf5 = val["field_005"];
             let vf6 = val["field_006"];
+            let vf7 = val["field_007"];
+            let vf10 = val["field_010"];
             let vf11 = val["field_011"];
             let vf12 = val["field_012"];
             let vf13 = val["field_013"];
             let vflinea = val["linea"];
 
-            if (isNaN(vf1)) {
-                let err = "Valor númerico esperado para el campo field_001:" + vf1 + " en la linea " + vflinea;
-                if (vf1 != '') { objerr.push(err); }
+            if (vf0 == '') {
+                let err = "Dato Vacio para el campo field_000 en la linea " + vflinea;
+                objerr.push(err); 
             }
-            /*if (isNaN(vf3)) {
-                let err = "Valor númerico esperado para el campo field_003:" + vf3 + " en la linea " + vflinea;
-                if (vf3 != '') { objerr.push(err); }
-            }*/
+
+            if (isNaN(vf1)||vf1 == '') {
+                if(vf1 == ''){
+                    let err = "Dato Vacio para el campo field_001 en la linea " + vflinea;
+                    objerr.push(err); 
+                }else {
+                    let err = "Valor númerico esperado para el campo field_001:" + vf1 + " en la linea " + vflinea;
+                    objerr.push(err); 
+
+                }
+            }
+
+            if (vf2 == '') {
+                let err = "Dato Vacio para el campo field_002 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+
+            if (vf3 == '') {
+                let err = "Dato Vacio para el campo field_003 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+
+            if (vf5 == '') {
+                let err = "Dato Vacio para el campo field_005 en la linea " + vflinea;
+                objerr.push(err); 
+            }
+
+
 
             if (isNaN(vf6)) {
                 let err = "Valor númerico esperado para el campo field_006:" + vf6 + " en la linea " + vflinea;
                 if (vf6 != '') { objerr.push(err); }
             }
-            if (isNaN(vf11)) {
-                let err = "Valor númerico esperado para el campo field_011:" + vf11 + " en la linea " + vflinea;
-                if (vf11 != '') { objerr.push(err); }
+
+            if (vf7 == '') {
+                let err = "Dato Vacio para el campo field_007 en la linea " + vflinea;
+                objerr.push(err); 
             }
-            if (isNaN(vf12)) {
-                let err = "Valor númerico esperado para el campo field_012:" + vf12 + " en la linea " + vflinea;
-                if (vf12 != '') { objerr.push(err); }
+
+            if (vf10 == '') {
+                let err = "Dato Vacio para el campo field_010 en la linea " + vflinea;
+                objerr.push(err); 
             }
-            if (isNaN(vf13)) {
-                let err = "Valor númerico esperado para el campo field_013:" + vf13 + " en la linea " + vflinea;
-                if (vf13 != '') { objerr.push(err); }
+
+            if (isNaN(vf11)||vf11 == '') {
+                if(vf11 == ''){
+                    let err = "Dato Vacio para el campo field_011 en la linea " + vflinea;
+                    objerr.push(err); 
+                }else {
+                    let err = "Valor númerico esperado para el campo field_011:" + vf11 + " en la linea " + vflinea;
+                    objerr.push(err); 
+
+                }
+            }
+
+            if (isNaN(vf12)||vf12 == '') {
+                if(vf12 == ''){
+                    let err = "Dato Vacio para el campo field_012 en la linea " + vflinea;
+                    objerr.push(err); 
+                }else {
+                    let err = "Valor númerico esperado para el campo field_012:" + vf12 + " en la linea " + vflinea;
+                    objerr.push(err); 
+
+                }
+            }
+
+
+            if (isNaN(vf13)||vf13 == '') {
+                if(vf13 == ''){
+                    let err = "Dato Vacio para el campo field_013 en la linea " + vflinea;
+                    objerr.push(err); 
+                }else {
+                    let err = "Valor númerico esperado para el campo field_013:" + vf13 + " en la linea " + vflinea;
+                    objerr.push(err); 
+
+                }
             }
 
 
