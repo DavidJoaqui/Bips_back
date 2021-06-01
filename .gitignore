@@ -1,4 +1,4 @@
 node_modules/
 filesBipsUploads/
-models/persistencia/conexion.js
 /package-lock.json
+models/persistencia/conexion.js
