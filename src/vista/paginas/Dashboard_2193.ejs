@@ -1,8 +1,8 @@
 <%- include("head"); %>
-    <%- include("header"); %>
+    <%- include("header", {user: user}); %>
 
         <%- include("styles_gral"); %>
-            <div class="container-fluid" style="margin-top: 70px;padding-top: 20px;">
+            <div class="container-fluid" style="margin-top: 70px;padding-top: 20px;margin-bottom: 70px;padding-bottom: 40px">
 
                 <div class="embed-responsive embed-responsive-16by9">
                     <iframe src="http://192.168.1.83:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku" scrolling="si" onload='' frameBorder="0" width="100%" title="Dashboard 2193"

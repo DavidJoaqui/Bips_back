@@ -4,7 +4,7 @@
 <%- include("head"); %>
     <%- include("style_login"); %>
 
-        <body>
+        <body id="body" name="body">
             <main>
                 <div>
 
@@ -33,52 +33,65 @@
                             </div>
                             <div class="col-lg-4">
 
-                                <form action="/login-data" method="GET">
-                                    <div class="card2 card border-0 px-4 py-5">
 
-                                        <!--<img style="display: block; ;" src="recursos_it">-->
-                                        <!--<img style="display: block; ;" src="recursos_it"> -->
+                                <div class="card2 card border-0 px-4 py-5">
 
-                                    </div>
-                                    <small class="or text-center"><h4> Iniciar Sesion </h4></small>
+                                    <!--<img style="display: block; ;" src="recursos_it">-->
+                                    <!--<img style="display: block; ;" src="recursos_it"> -->
 
-                                    <% const m=getMessages() %>
+                                </div>
+                                <small class="or text-center">
+                                    <h4> Iniciar Sesion </h4>
+                                </small>
 
-                                        <% if (m.error) { %>
-                                            <div id="notificacion_login">
-                                                <button class="btn-cerrar-err close" id="btn-cerrar-noti-login" data-dismiss="alert" aria-label="close">&times;</button>
-                                                <div class="card-header text-white text-center bg-danger">
-                                                    <strong>Error!</strong>
+                                <% const m=getMessages() %>
 
-                                                    <% m.error.forEach((element)=> { %>
+                                    <% if (m.error) { %>
+                                        <div id="notificacion_login">
+                                            <button class="btn-cerrar-err close" id="btn-cerrar-noti-login"
+                                                data-dismiss="alert" aria-label="close">&times;</button>
+                                            <div class="card-header text-white text-center bg-danger">
+                                                <strong>Error!</strong>
 
-                                                        <%= element %>
-                                                            <% }) %> %>
-                                                </div>
+                                                <% m.error.forEach((element)=> { %>
+
+                                                    <%= element %>
+                                                        <% }) %> %>
                                             </div>
+                                        </div>
 
-
-
-
-
-                                            <% } %>
-
+                                        <% } %>
+                                            <form id="form_login" enctype="multipart/form-data" method="post">
 
                                                 <div class="row px-3"> <label class="mb-1">
-                                            <h6 class="mb-0 text-sm">Usuario</h6>
-                                          </label> <input class="mb-4" type="text" name="username" id="username" placeholder="ingresa el nombre de usuario">
+                                                        <h6 class="mb-0 text-sm">Usuario</h6>
+                                                    </label> <input class="mb-4" type="text" name="username"
+                                                        id="username" placeholder="ingresa el nombre de usuario">
                                                 </div>
                                                 <div class="row px-3"> <label class="mb-1">
-                                            <h6 class="mb-0 text-sm">Contraseña</h6>
-                                          </label> <input type="password" name="password" id="password" placeholder="Ingresa tu contraseña">
+                                                        <h6 class="mb-0 text-sm">Contraseña</h6>
+                                                    </label> <input type="password" name="password" id="password"
+                                                        placeholder="Ingresa tu contraseña">
                                                 </div>
                                                 <div class="row px-3 mb-4">
 
                                                 </div>
                                                 <div class="col text-center">
-                                                    <button type="submit" class="btn btn-blue">Iniciar</button>
+                                                    <button class="btn btn-blue" id="btn-login"
+                                                        name="btn-login">Iniciar</button>
                                                 </div>
-                                </form>
+                                            </form>
+
+                                            <form name="login" id="login" class="form-signin"
+                                                action="j_spring_security_check" method="post" hidden>
+
+                                                <hr>
+                                                <br />
+                                                <input name="j_username" type="text" class="form-control" required=""
+                                                    autofocus="" value="admin" />
+                                                <input name="j_password" type="password" class="form-control"
+                                                    required="" value="password" />
+                                            </form>
                             </div>
 
                         </div>
@@ -92,20 +105,140 @@
     </div>-->
 
                     <script>
-                        $(document).ready(function() {
+                        $(document).ready(function () {
 
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $('#notificacion_login').fadeOut('fast');
                             }, 5000);
 
 
 
-                            $('#btn-cerrar-noti-login').click(function() {
+                            $('#btn-cerrar-noti-login').click(function () {
                                 $('#notificacion_login').attr("style", "display:none");
 
                             });
 
                         })
+
+
+                        $('#btn-login').click(function (event) {
+
+
+
+                            if ($('#username').val() == "" || $('#password').val() == "") {
+                                alert("se deben ingresar los campos usuario y contraseña");
+                                /*setTimeout(function () {
+                                    window.location.reload(1);
+                                }, 1000);*/
+
+                            } else {
+
+
+                                //const $form = document.querySelector('#form_login');
+                                var user = $('#username').val();
+                                var pass = $('#password').val();
+
+                                $.ajax({
+                                    type: 'post',
+                                    url: '/login-data',
+                                    async: false,
+                                    data: {
+                                        username: user,
+                                        password: pass,
+                                    },
+
+                                    success: function (result) {
+
+
+                                        if (result) {
+
+                                            if (result["status"] == 500) {
+                                                history.replaceState("/login", "login", "/login");
+
+                                            } else {
+                                                $('#body').html(result);
+
+                                                history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                                                window.location.reload();
+
+                                                $.ajax({
+                                                    url: "j_spring_security_check",
+                                                    dataType: "text",
+                                                    data: $("#login").serialize(),
+
+                                                    error: function (xhr, ajaxOptions, thrownError) {
+                                                        if (xhr.status == 404) {
+                                                            // if we get a 404 it means login was successful but intended resource does not exist
+                                                            // just let it go - let the user get the 404
+                                                            bounceToReturnLocation();
+                                                            return;
+                                                        }
+
+                                                        if (xhr.status == 200 && thrownError == 'parsererror') {
+                                                            document.getElementById("j_password").value = "password";
+                                                            bounceToReturnLocation();
+                                                            return;
+                                                        }
+                                                        // fail
+                                                        $("#loginError").show();
+                                                        $("#loginError button").focus();
+                                                    },
+
+
+
+
+
+                                                    success: function (data, textStatus, jqXHR) {
+                                                        if (data.indexOf("j_spring_security_check") != -1) {
+                                                            // fail
+                                                            $("#loginError").show();
+                                                            $("#loginError button").focus();
+                                                            return false;
+                                                        } else {
+                                                            document.getElementById("j_password").value = "password";
+                                                            bounceToReturnLocation();
+                                                        }
+                                                    }
+
+                                                });
+
+
+
+
+                                            }
+
+                                        }
+                                        /*setTimeout(function() {
+                                            window.location.reload(1);
+                                        }, 5000);*/
+
+
+
+                                    }
+
+                                });
+                            }
+
+
+                        });
+
+                        function bounceToReturnLocation() {
+                            // pass
+                            var locale = document.login.locale.value;
+
+                            var returnLocation = 'Por favor ingresa tus credenciales';
+
+
+                            if (returnLocation != '' && returnLocation != null) {
+                                window.location.href = returnLocation;
+                            } else {
+                                window.location.href = window.location.href.replace("Login", "Home") + "?locale=" + locale;
+                            }
+
+                        }
+
+
                     </script>
 
                     <%- include("footer"); %>

@@ -11,7 +11,7 @@ module.exports = {
     },
 
     async consultar_RegistrosPlanos_tmp() {
-        const resultados = await conexion.query("select id_ips,nombre_ips,descripcion_ips,periodo_cargado,nombre_original,fecha_carga,validado,nombre_tmp,path_plano,cargado from schema_planos.registros_planos_tmp inner join schema_bips.ips on(schema_bips.ips.codigo_ips =schema_planos.registros_planos_tmp.id_ips)");
+        const resultados = await conexion.query("select id_ips,nombre_ips,descripcion_ips,periodo_cargado,nombre_original,fecha_carga,validado,nombre_tmp,path_plano,cargado from schema_planos.registros_planos_tmp inner join schema_bips.ips on(schema_bips.ips.codigo_ips =schema_planos.registros_planos_tmp.id_ips) order by schema_planos.registros_planos_tmp.nombre_original asc");
         return resultados.rows;
     },
 
@@ -67,7 +67,7 @@ module.exports = {
     },
 
 
-    async validarPlanosCargados(planos) {            
+    async validarPlanosCargados(planos) {
         var cont = 0;
         console.log(planos);
         planos.forEach(plano => {
@@ -91,7 +91,7 @@ module.exports = {
     async validarPlanosNecesarios(planos_val) {
         //console.log("planos val"+Object.values(planos_val));
 
-     
+
 
         //console.log("planos.lengtth"+planos_val.length);
         var cont_obligatorios = 0;
@@ -118,8 +118,7 @@ module.exports = {
                     cont_obligatorios++;
                 } else if (plano["nombre_original"].slice(0, 2) == "AH") {
                     cont_obligatorios++;
-                }
-                else if (plano["nombre_original"].slice(0, 2) == "AM") {
+                } else if (plano["nombre_original"].slice(0, 2) == "AM") {
                     cont_obligatorios++;
                 }
 
@@ -132,9 +131,9 @@ module.exports = {
 
         } else {
             // 0 : no cumple
-           // console.log("entra  a return");
+            // console.log("entra  a return");
             return 0;
-            
+
         }
     },
 
