@@ -9,9 +9,7 @@
                 }
             </style>
 
-            <body id="body" name="body">
-
-
+            <body id="body_ent" name="body_ent">
 
                 <div class="panel_registro">
                     <div class="container-fluid" id="lista_reg-planos" name="lista_reg-planos">
@@ -19,14 +17,14 @@
                         <div class="container" style="margin-top:75px;padding-top: 10px; margin-bottom: 70px;">
 
                             <div class="col-12">
-                                <h1 class="titulo-tabla">Registro de Entidades/Regimen
+                                <h3 class="titulo-tabla">Registro de Entidades/Regimen
                                     <button class="btn btn-success" id="btn-nuevo" name="btn-nuevo" onclick="nuevo_registro()" style="float: right;" value="">
                                         <i class="fas fa-plus"></i> crear Entidad
                                     </button>
 
 
 
-                                </h1>
+                                </h3>
 
 
 
@@ -79,6 +77,7 @@
                                                     <table class="table table-bordered table-striped" id="tbl_registros">
                                                         <thead class="head-tabla-reg">
                                                             <tr>
+                                                                <th>#</th>
                                                                 <th>Codigo Entidad</th>
                                                                 <th>Nombre Entidad</th>
                                                                 <th>Regimen</th>
@@ -89,6 +88,7 @@
                                                         <tbody>
                                                             <% registroEntidades.forEach(registro=> { %>
                                                                 <tr>
+                                                                    <td><%= registro.id_entidad %></td>
                                                                     <td>
                                                                         <%= registro.cod_entidad %>
                                                                     </td>
@@ -109,8 +109,9 @@
                                                                             <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>&nombre_entidad=<%= registro.nombre_entidad %>">
                                                                                 <button class="btn btn-danger btn-submit" value="<%= registro.cod_entidad %>">Eliminar</button>
                                                                             </form>
-                                                                            <form method="post" class="form" action="/editar-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>">
-                                                                                <button class="btn btn-primary btn-submit" value="<%= registro.cod_entidad %>">Editar</button>
+                                                                            <form class="form">
+                                                                               <!-- <button class="btn btn-primary btn-submit"  value="<%= registro.cod_entidad %>">Editar</button>-->
+                                                                                <input type="button" id="" name="" onclick="editar_registro('<%= registro.id_entidad %>')" class="btn btn-success btn-submit btn-editar" value="Editar">
                                                                             </form>
                                                                         </div>
                                                                     </td>
@@ -151,6 +152,28 @@
                     });
                 }
 
+                function editar_registro(cod_entidad) {
+
+                    const peticion = "/form-editar-entidad/" + cod_entidad;
+
+                    $.ajax({
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function(result) {
+                            
+                            history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");                            
+                            $('#body_ent').html(result);
+                            
+                        }
+
+                    });
+                }
+
                 $('#btn-cerrar-success').click(function() {
                     $('#card-success').attr("style", "display:none");
 
@@ -163,6 +186,9 @@
 
 
                 $(document).ready(function() {
+
+                    history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
                     $('#tbl_registros').DataTable({
 
                         //Actualizo las etiquetas de mi tabla para mostrarlas en español
@@ -246,6 +272,15 @@
                 }
                 
                 .form .btn-submit {
+                    font-family: 'Montserrat', sans-serif;
+                    border-radius: 5px;
+                    font-size: 10px;
+                    border: none;
+                    cursor: pointer;
+                    transition: .3s ease all;
+                    font-weight: bold;
+                }
+                .form .btn-editar {
                     font-family: 'Montserrat', sans-serif;
                     border-radius: 5px;
                     font-size: 10px;

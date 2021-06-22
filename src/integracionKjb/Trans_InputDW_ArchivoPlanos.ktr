@@ -443,7 +443,7 @@
     <database>bips_bd</database>
     <port>5432</port>
     <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ac79ce81adde</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ce10dc9bbfc9</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -1406,55 +1406,42 @@ WHERE af.field_000= (select distinct ips from schema_planos.validar)
     <fields>
       <field>
         <name>id_ips</name>
-        <rename/>
       </field>
       <field>
         <name>nro_factura</name>
-        <rename/>
       </field>
       <field>
         <name>fecha</name>
-        <rename/>
       </field>
       <field>
         <name>cod_entidad</name>
-        <rename/>
       </field>
       <field>
         <name>nro_contrato</name>
-        <rename/>
       </field>
       <field>
         <name>tipo_regimen</name>
-        <rename/>
       </field>
       <field>
         <name>cod_actividad</name>
-        <rename/>
       </field>
       <field>
         <name>cantidad</name>
-        <rename/>
       </field>
       <field>
         <name>finalidad</name>
-        <rename/>
       </field>
       <field>
         <name>cod_diagnostico</name>
-        <rename/>
       </field>
       <field>
         <name>tipo_plano</name>
-        <rename/>
       </field>
       <field>
         <name>vr_unitario</name>
-        <rename/>
       </field>
       <field>
         <name>vr_total</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
