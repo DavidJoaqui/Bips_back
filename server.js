@@ -473,6 +473,11 @@ app.get('/recursos_marca', function(req, res) {
     res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final.png");
 
 });
+app.get('/recursos_marca_bn', function(req, res) {
+
+    res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final2.png");
+
+});
 
 app.get('/recursos_it', function(req, res) {
 
