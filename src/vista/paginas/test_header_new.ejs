@@ -28,15 +28,13 @@
         <body>
             <!-- Sidenav -->
             <nav class="navbar navbar-expand-lg navbar-light blue fixed-top">
-                <button id="sidebarCollapse" class="btn navbar-btn">
+                <button id="sidebarCollapse" class="navbar" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"  aria-expanded="false" aria-label="Toggle navigation">
                   <i class="fas fa-lg fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="">
                   <h3 id="logo">Navbar</h3>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"   data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"  aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
+               
             
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav ml-auto">
@@ -60,11 +58,7 @@
             <nav id="sidenav" class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" >
                 
                     <!-- Toggler -->
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                    
                     <!-- Brand -->
                     <!-- <a class="navbar-brand pt-0" href="/">
                 <img src="img/brand/blue.png" class="navbar-brand-img" alt="...">
@@ -662,9 +656,9 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#sidebarCollapse').on('click', function () {
-                    $('#sidenav-collapse-main').toggleClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                    $('#sidenav').toggleClass('active');
+                    $('#sidenav').toggleClass('in');
+                    $('#sidebarCollapse').attr('aria-expanded', 'false');
                     document.getElementById("bodyContent").style.width = "100%";
                 });
             });
