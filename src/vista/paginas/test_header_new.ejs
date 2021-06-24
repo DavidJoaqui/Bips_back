@@ -36,31 +36,33 @@
                     z-index: 1;
                     top: 0;
                     left: 0;
-                    background-color: #111;
+                    background-color: #fff;
                     overflow-x: hidden;
                     transition: 0.5s;
-                    padding-top: 60px;
+                    padding-top: 10px;
                 }
 
                 .sidenav a {
                     padding: 8px 8px 8px 32px;
                     text-decoration: none;
-                    font-size: 25px;
+                    font-size: 20px;
                     color: #818181;
                     display: block;
                     transition: 0.3s;
                 }
 
-                .sidenav a:hover {
+                /*.sidenav a:hover {
                     color: #f1f1f1;
-                }
+                }*/
 
                 .sidenav .closebtn {
+                    
                     position: absolute;
                     top: 0;
-                    right: 25px;
-                    font-size: 36px;
-                    margin-left: 50px;
+                    right: 0px;
+                    font-size: 30px;
+                    margin-left: 170px;
+                    
                 }
 
                 #main {
@@ -73,9 +75,7 @@
                         padding-top: 15px;
                     }
 
-                    .sidenav a {
-                        font-size: 18px;
-                    }
+                    
                 }
             </style>
         </head>
@@ -83,14 +83,16 @@
         <body>
 
             <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-                <nav>
+                
+                
                     <div>
                         <div>
                             <div class="brand" style="justify-content: center;">
+                                
+                                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                                
                                 <a href="#" class="text-center">
-                                    <img alt="brand" src="/recursos_marca_bn">
+                                    <img alt="brand" src="/recursos_marca">
                                 </a>
                             </div>
 
@@ -100,15 +102,10 @@
                     <!-- Form -->
 
                     <!-- Navigation -->
-                    <ul class="dropdown" style="justify-content: center;">
+                    
                         <a class="nav-link" href="/reportes-2193">
-                            <i class="fas fa-user "></i> Facturacion</a>
-
-
-
-
-                    </ul>
-                    <ul>
+                            <i class="fas fa-user"></i> Facturacion</a>
+                    
 
                         <a class="nav-link" href="/reportes-2193">
                             <i class="fas fa-list"></i> Gestion
@@ -134,11 +131,11 @@
                             <i class="ni ni-pin-3 text-orange"></i> opcion_x
                         </a>
 
-                    </ul>
+                    
 
 
 
-                </nav>
+                
             </div>
 
             <div id="main">
@@ -589,8 +586,8 @@
 
                             <script>
                                 function openNav() {
-                                    document.getElementById("mySidenav").style.width = "250px";
-                                    document.getElementById("main").style.marginLeft = "250px";
+                                    document.getElementById("mySidenav").style.width = "170px";
+                                    document.getElementById("main").style.marginLeft = "170px";
                                 }
 
                                 function closeNav() {
