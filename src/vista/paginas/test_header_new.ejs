@@ -56,13 +56,13 @@
                 }*/
 
                 .sidenav .closebtn {
-                    
+
                     position: absolute;
                     top: 0;
                     right: 0px;
                     font-size: 30px;
                     margin-left: 170px;
-                    
+
                 }
 
                 #main {
@@ -75,7 +75,7 @@
                         padding-top: 15px;
                     }
 
-                    
+
                 }
             </style>
         </head>
@@ -83,59 +83,76 @@
         <body>
 
             <div id="mySidenav" class="sidenav">
-                
-                
+
+
+                <div>
                     <div>
-                        <div>
-                            <div class="brand" style="justify-content: center;">
-                                
-                                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                                
-                                <a href="#" class="text-center">
-                                    <img alt="brand" src="/recursos_marca">
-                                </a>
-                            </div>
+                        <div class="brand" style="justify-content: center;">
 
+                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+                            <a href="#" class="text-center">
+                                <img alt="brand" src="/recursos_marca">
+                            </a>
                         </div>
+
                     </div>
+                </div>
 
-                    <!-- Form -->
+                <!-- Form -->
 
-                    <!-- Navigation -->
-                    
-                        <a class="nav-link" href="/reportes-2193">
-                            <i class="fas fa-user"></i> Facturacion</a>
-                    
+                <!-- Navigation -->
 
-                        <a class="nav-link" href="/reportes-2193">
-                            <i class="fas fa-list"></i> Gestion
-                        </a>
-
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-chart-line"></i> Estadistica
-                        </a>
-
-                        <a class="nav-link" href="#">
-                            <i class="ni ni-circle-08 text-pink"></i> opcion x
-                        </a>
-
-                        <a class="nav-link" href="#">
-                            <i class="ni ni-single-02 text-yellow"></i> opcion_x
-                        </a>
-
-                        <a class="nav-link" href="#">
-                            <i class="ni ni-planet text-blue"></i> opcion_x
-                        </a>
-
-                        <a class="nav-link" href="#">
-                            <i class="ni ni-pin-3 text-orange"></i> opcion_x
-                        </a>
-
-                    
+              
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                     aria-haspopup="true" aria-expanded="false">
+                     <i class="fas fa-user"></i>Facturacion
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      
+                      <a class="dropdown-item" href="#">Parametrizacion EPS</a>
+                      <a class="dropdown-item" href="#">Registro Archivos Planos</a>
+                      <a class="dropdown-item" href="#">Cargar Planos</a>
+                      <div class="dropdown-divider"></div>
+                      
+                      <a class="dropdown-item" href="/reportes-2193">Informe 2193</a>
+                      <a class="dropdown-item" href="/reportes-2193">Analisis OLAP 2193</a>
+                      <a class="dropdown-item" href="/reportes-2193">Dashboard 2193</a>
+                    </div>
+                  </li>
+                  
 
 
+                <a class="nav-link" href="/reportes-2193">
+                    <i class="fas fa-list"></i> Gestion
+                </a>
 
-                
+                <a class="nav-link" href="#">
+                    <i class="fas fa-chart-line"></i> Estadistica
+                </a>
+
+                <a class="nav-link" href="#">
+                    <i class="ni ni-circle-08 text-pink"></i> opcion x
+                </a>
+
+                <a class="nav-link" href="#">
+                    <i class="ni ni-single-02 text-yellow"></i> opcion_x
+                </a>
+
+                <a class="nav-link" href="#">
+                    <i class="ni ni-planet text-blue"></i> opcion_x
+                </a>
+
+                <a class="nav-link" href="#">
+                    <i class="ni ni-pin-3 text-orange"></i> opcion_x
+                </a>
+
+
+
+
+
+
             </div>
 
             <div id="main">
@@ -586,8 +603,8 @@
 
                             <script>
                                 function openNav() {
-                                    document.getElementById("mySidenav").style.width = "170px";
-                                    document.getElementById("main").style.marginLeft = "170px";
+                                    document.getElementById("mySidenav").style.width = "180px";
+                                    document.getElementById("main").style.marginLeft = "180px";
                                 }
 
                                 function closeNav() {
