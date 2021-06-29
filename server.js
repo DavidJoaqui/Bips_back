@@ -1130,7 +1130,7 @@ app.post('/login-data', function(req, res) {
                     //console.log("entro en validacion");
                     req.session.user = req.body.username;
                     req.session.admin = true;
-                    req.session.web = "http://192.168.1.83:3000";
+                    req.session.web = "http://192.168.1.84:3000";
                     req.session.username = req.body.username;
                     //console.log(req);
 
@@ -1142,13 +1142,14 @@ app.post('/login-data', function(req, res) {
                             //console.log(listaArchivos);    
                             req.flash('notify', 'Inicio de sesion con exito...');
                             //res.setHeader('Content-type', 'text/html');
-                            res.render("paginas/entidades", {
+                            res.redirect("/config-entidades");
+                            /*res.render("paginas/entidades", {
                                 registroEntidades: listaentidades,
                                 status: 200,
                                 code: 0,
                                 retorno: "0",
                                 user: req.session.user,
-                            });
+                            });*/
 
 
                         })
