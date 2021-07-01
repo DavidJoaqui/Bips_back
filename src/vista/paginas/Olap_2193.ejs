@@ -1,15 +1,15 @@
-<%- include("head"); %>
-    <%- include("header", {user: user}); %>
+<%- include("test_header_new"); %>
+    <h1 class="text-center">Analisis OLAP 2193</h1>
+    <div class="container-fluid" style="margin-top: 5px;padding-top: 0px;margin-bottom: 0px;padding-bottom: 40px">
 
-        <%- include("styles_gral"); %>
-            <div class="container-fluid" style="margin-top: 70px;padding-top: 20px;margin-bottom: 70px;padding-bottom: 40px">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe
+                src="http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku"
+                scrolling="si" onload='' frameBorder="0" width="100%" title="Dashboard 2193"
+                class="embed-responsive-item">
+            </iframe>
+        </div>
 
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe src="http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku" scrolling="si" onload='' frameBorder="0" width="100%" title="Dashboard 2193"
-                        class="embed-responsive-item">
-                    </iframe>
-                </div>
+    </div>
 
-            </div>
-
-            <%- include("footer"); %>
+    <%- include("footer"); %>

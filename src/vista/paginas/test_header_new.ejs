@@ -75,8 +75,7 @@
 
         <body>
 
-            <div id="mySidenav" class="sidenav">
-
+            <div id="mySidenav" class="sidenav navbar-dark bg-dark">
 
                 <div>
                     <div>
@@ -109,7 +108,7 @@
                         <div class="dropdown-divider"></div>
 
                         <a class="dropdown-item" href="/reportes-2193">Informe 2193</a>
-                        <a class="dropdown-item" href="/reportes-2193">Analisis OLAP 2193</a>
+                        <a class="dropdown-item" href="/olap-2193">Analisis OLAP 2193</a>
                         <a class="dropdown-item" href="/reportes-2193">Dashboard 2193</a>
                     </div>
                 </li>
@@ -147,9 +146,9 @@
 
             </div>
 
-            <div id="main">
+            <div id="main" class="bg-dark">
 
-                <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Inicio</span>
+                <span style="font-size:30px;cursor:pointer; color: #fff;" onclick="openNav()">&#9776; Inicio</span>
 
                 <div class="main-content">
                     <!-- Top navbar -->
@@ -187,7 +186,7 @@
 
                                 <script>
                                     function openNav() {
-                                        document.getElementById("mySidenav").style.width = "180px";
+                                        document.getElementById("mySidenav").style.width = "250px";
                                         document.getElementById("main").style.marginLeft = "180px";
                                     }
 
