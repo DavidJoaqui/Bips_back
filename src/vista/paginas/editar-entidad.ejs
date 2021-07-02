@@ -1,6 +1,5 @@
-<%- include("head"); %>
-    <%- include("header", {user: user}); %>
-        <%- include("styles_gral"); %>
+<%- include("test_header_new"); %>
+        
 
             <style>
                 body::-webkit-scrollbar {
@@ -10,8 +9,8 @@
             </style>
 
             <body id="body_ent" class="container-fluid">
-                <div class="row">
-                    <div style="float: left; margin-top: 100px; margin-left: 20px;">
+                <div class="row" style=" margin: 5px; padding: 5px;">
+                    <div >
 
                         <form action="/config-entidades" method="GET">
                             <button class="btn btn-submit btn-primary btn-sm" id="btn-edit" name="btn-edit"

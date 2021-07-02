@@ -156,11 +156,24 @@
                                                 history.replaceState("/login", "login", "/login");
 
                                             } else {
-                                                $('#body').html(result);
+                                                
+                                                
 
                                                 history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
 
-                                                window.location.reload();
+//                                                $('#body').html(result);
+
+                                                $.ajax({
+                                                    url: "/config-entidades",                                                  
+                                                    type: 'get',                                                
+
+                                                    success: function (data) {
+                                                        $('#body').html(data);
+                                                    }
+
+                                                });
+                                                
+                                                
 
                                                 $.ajax({
                                                     url: "j_spring_security_check",

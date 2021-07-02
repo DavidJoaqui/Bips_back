@@ -1142,14 +1142,14 @@ app.post('/login-data', function(req, res) {
                             //console.log(listaArchivos);    
                             req.flash('notify', 'Inicio de sesion con exito...');
                             //res.setHeader('Content-type', 'text/html');
-                            res.redirect("/config-entidades");
-                            /*res.render("paginas/entidades", {
+                            //res.redirect("/config-entidades");
+                            res.render("paginas/entidades", {
                                 registroEntidades: listaentidades,
                                 status: 200,
                                 code: 0,
                                 retorno: "0",
                                 user: req.session.user,
-                            });*/
+                            });
 
 
                         })
