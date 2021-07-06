@@ -150,24 +150,23 @@
 
                 <span style="font-size:30px;cursor:pointer; color: #fff;" onclick="openNav()">&#9776; Inicio</span>
                 <div style="float: right;" class="">
+
                     <li class="nav-item dropdown btn-group dropleft">
-                        <a class="nav-link dropdown-toggle dropleft" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user"></i> test
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                            <%= user  %>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/logout">Salir</a>
-                        </div>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Salir2</a>
-                        </div>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Salir</a>
-                        </div>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Salir</a>
-                        </div>
+                            <a class="dropdown-item" href="#">Perfil</a>
+                            <a class="dropdown-item" href="#">Configuracion</a>
+                            <a class="dropdown-item" href="#">otros</a>
+                            <div class="dropdown-divider"></div>
 
-
+                            <a class="dropdown-item" href="/reportes-2193">Informe 2193</a>
+                            <a class="dropdown-item" href="/olap-2193">Analisis OLAP 2193</a>
+                            <a class="dropdown-item" href="/reportes-2193">Dashboard 2193</a>
+                        </div>
                     </li>
                 </div>
 

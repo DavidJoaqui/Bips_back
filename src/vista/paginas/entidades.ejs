@@ -1,4 +1,4 @@
-<%- include("test_header_new"); %>
+<%- include("test_header_new",{user: user}); %>
 
 
 
@@ -8,115 +8,115 @@
         <div class="panel_registro">
             <div id="lista_reg-planos" name="lista_reg-planos">
 
-                <div class="container">
-
-                    <div class="col-12">
-                        <h3 class="titulo-tabla">Registro de Entidades/Regimen
-                            <button class="btn btn-success" id="btn-nuevo" name="btn-nuevo" onclick="nuevo_registro()" style="float: right;" value="">
+                <div class="col-12">
+                    <h3 class="titulo-tabla">Registro de Entidades/Regimen
+                        <button class="btn btn-success" id="btn-nuevo" name="btn-nuevo" onclick="nuevo_registro()" style="float: right;" value="">
                                         <i class="fas fa-plus"></i> crear Entidad
                                     </button>
 
 
 
-                        </h3>
+                    </h3>
 
 
 
-                        <% const m=getMessages() %>
+                    <% const m=getMessages() %>
 
-                            <% if (m.notify) { %>
+                        <% if (m.notify) { %>
 
-                                <div class="card" style="margin-top: 20px;" id="card-success">
-                                    <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
-                                        <strong>OK!</strong>
-                                        <button type="button" id="btn-cerrar-success" class="close" aria-label="Close">
+                            <div class="card" style="margin-top: 20px;" id="card-success">
+                                <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
+                                    <strong>OK!</strong>
+                                    <button type="button" id="btn-cerrar-success" class="close" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
-                                    </div>
-
-                                    <div class="card-body">
-
-                                        <% m.notify.forEach((element)=> { %>
-
-                                            <%= element %>
-                                                <% }) %> %>
-                                    </div>
-
-
                                 </div>
 
-                                <% } %>
-                                    <% if (m.error) { %>
+                                <div class="card-body">
 
-                                        <div class="card " style="margin-top: 20px;" id="card-error">
-                                            <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
-                                                <strong>Error!</strong>
-                                                <button type="button" id="btn-cerrar-err" class="close" aria-label="Close">
+                                    <% m.notify.forEach((element)=> { %>
+
+                                        <%= element %>
+                                            <% }) %> %>
+                                </div>
+
+
+                            </div>
+
+                            <% } %>
+                                <% if (m.error) { %>
+
+                                    <div class="card " style="margin-top: 20px;" id="card-error">
+                                        <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
+                                            <strong>Error!</strong>
+                                            <button type="button" id="btn-cerrar-err" class="close" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
-                                            </div>
-
-                                            <div class="card-body">
-
-                                                <% m.error.forEach((element)=> { %>
-
-                                                    <%= element %>
-                                                        <% }) %> %>
-                                            </div>
-
                                         </div>
 
-                                        <% } %>
+                                        <div class="card-body">
 
-                                            <table class="table table-bordered table-striped" id="tbl_registros">
-                                                <thead class="head-tabla-reg">
+                                            <% m.error.forEach((element)=> { %>
+
+                                                <%= element %>
+                                                    <% }) %> %>
+                                        </div>
+
+                                    </div>
+
+                                    <% } %>
+
+                                        <table class="table table-bordered table-striped" id="tbl_registros">
+                                            <thead class="head-tabla-reg">
+                                                <tr>
+                                                    <th>#
+                                                        <%= user  %>
+                                                    </th>
+                                                    <th>Codigo Entidad</th>
+                                                    <th>Nombre Entidad</th>
+                                                    <th>Regimen</th>
+                                                    <th>Acciones</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% registroEntidades.forEach(registro=> { %>
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>Codigo Entidad</th>
-                                                        <th>Nombre Entidad</th>
-                                                        <th>Regimen</th>
-                                                        <th>Acciones</th>
+                                                        <td>
+                                                            <%= registro.id_entidad %>
+                                                        </td>
+                                                        <td>
+                                                            <%= registro.cod_entidad %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (registro.nombre_entidad==null || registro.nombre_entidad == "") { %>
 
+                                                                <%= "No Asignado" %>
+                                                                    <% }else{%>
+                                                                        <%= registro.nombre_entidad %>
+                                                                            <%}%>
+
+                                                        </td>
+                                                        <td>
+                                                            <%= registro.des_regimen %>
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>&nombre_entidad=<%= registro.nombre_entidad %>">
+                                                                    <button class="btn btn-danger btn-submit" value="<%= registro.cod_entidad %>"> <i class="fas fa-ban"></i> Eliminar</button>
+                                                                </form>
+                                                                <form class="form">
+                                                                    <!-- <button class="btn btn-primary btn-submit"  value="<%= registro.cod_entidad %>">Editar</button>-->
+                                                                    <input type="button" id="" name="" onclick="editar_registro('<%= registro.id_entidad %>')" class="btn btn-success btn-submit btn-editar" value="Editar">
+                                                                </form>
+                                                            </div>
+                                                        </td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% registroEntidades.forEach(registro=> { %>
-                                                        <tr>
-                                                            <td>
-                                                                <%= registro.id_entidad %>
-                                                            </td>
-                                                            <td>
-                                                                <%= registro.cod_entidad %>
-                                                            </td>
-                                                            <td>
-                                                                <% if (registro.nombre_entidad==null || registro.nombre_entidad == "") { %>
-
-                                                                    <%= "No Asignado" %>
-                                                                        <% }else{%>
-                                                                            <%= registro.nombre_entidad %>
-                                                                                <%}%>
-
-                                                            </td>
-                                                            <td>
-                                                                <%= registro.des_regimen %>
-                                                            </td>
-                                                            <td>
-                                                                <div class="btn-group">
-                                                                    <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>&nombre_entidad=<%= registro.nombre_entidad %>">
-                                                                        <button class="btn btn-danger btn-submit" value="<%= registro.cod_entidad %>"> <i class="fas fa-ban"></i> Eliminar</button>
-                                                                    </form>
-                                                                    <form class="form">
-                                                                        <!-- <button class="btn btn-primary btn-submit"  value="<%= registro.cod_entidad %>">Editar</button>-->
-                                                                        <input type="button" id="" name="" onclick="editar_registro('<%= registro.id_entidad %>')" class="btn btn-success btn-submit btn-editar" value="Editar">
-                                                                    </form>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <% })%>
-                                                </tbody>
-                                            </table>
-                    </div>
+                                                    <% })%>
+                                            </tbody>
+                                        </table>
                 </div>
+
             </div>
         </div>
     </body>

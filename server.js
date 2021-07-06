@@ -1104,8 +1104,9 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
 app.post('/login-data', function(req, res) {
 
     //console.log(req.body.username);
-    //console.log(req.query);
-    //console.log(req.params);
+    console.log(req.query);
+    console.log(req.params);
+    console.log(req.body);
 
     //var username="'"+req.body.username+"'";
     //var password ="'"+req.body.password+"'";
@@ -1115,8 +1116,8 @@ app.post('/login-data', function(req, res) {
         if (user_reg[0].total_usuarios == 0) {
 
             req.flash("error", ' Usuario NO registrado en el sistema Bips');
-            res.send({ status: 500, descripcion: "Error al realizar login, usuario NO registrado" });
-            //res.redirect("/login");
+            //res.send({ status: 500, descripcion: "Error al realizar login, usuario NO registrado" });
+            res.render("paginas/login");
         } else {
 
 
@@ -1162,7 +1163,8 @@ app.post('/login-data', function(req, res) {
 
                 } else {
                     req.flash("error", ' La contraseña ingresada es incorrecta');
-                    res.send({ status: 500, descripcion: "Error al realizar login, password incorrecto" });
+                    // res.send({ status: 500, descripcion: "Error al realizar login, password incorrecto" });
+                    res.render("paginas/login");
                 }
 
 
@@ -1189,7 +1191,8 @@ app.get('/logout', auth, function(req, res) {
 app.get("/config-entidades", auth, (req, res) => {
 
     modelEntidad.consultar_registro_entidades().then(listaentidades => {
-            //console.log(listaArchivos);    
+            console.log(req.query);
+
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
             res.render("paginas/entidades", {
@@ -1197,7 +1200,7 @@ app.get("/config-entidades", auth, (req, res) => {
                 status: 200,
                 code: 0,
                 retorno: "0",
-                user: req.session.user,
+                user: req.query.user,
             });
 
 
