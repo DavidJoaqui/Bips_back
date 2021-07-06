@@ -8,7 +8,7 @@ module.exports = {
         //console.log("consul param"+nombre_user+passwd)
 
 
-        const resultados = await conexion.query('select password_ = md5($2)as pwd from schema_seguridad.user where rol_name = $1', [nombre_user, passwd]);
+        const resultados = await conexion.query('select password_ = md5($2)as pwd,nombre_usuario from schema_seguridad.user where rol_name = $1', [nombre_user, passwd]);
         return resultados.rows;
     },
     async consultar_usuario_registrado(nombre_user) {

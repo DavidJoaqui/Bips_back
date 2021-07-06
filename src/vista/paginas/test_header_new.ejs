@@ -147,89 +147,93 @@
             </div>
 
             <div id="main" class="bg-dark">
+                <div class="brand" style="">
+                    <a href="#" class="text-center" onclick="openNav()">
+                        <img alt="brand" src="/recursos_marca">
+                    </a>
+                    <span style="font-size:30px;cursor:pointer; color: #fff;" onclick="openNav()">&#9776; Inicio</span>
+                    <div style="float: right;" class="">
 
-                <span style="font-size:30px;cursor:pointer; color: #fff;" onclick="openNav()">&#9776; Inicio</span>
-                <div style="float: right;" class="">
+                        <li class="nav-item dropdown btn-group dropleft">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                                <%= user  %>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/logout">Salir</a>
+                                <a class="dropdown-item" href="#">Perfil</a>
+                                <a class="dropdown-item" href="#">Configuracion</a>
+                                <a class="dropdown-item" href="#">otros</a>
+                                <div class="dropdown-divider"></div>
 
-                    <li class="nav-item dropdown btn-group dropleft">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user"></i>
-                            <%= user  %>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/logout">Salir</a>
-                            <a class="dropdown-item" href="#">Perfil</a>
-                            <a class="dropdown-item" href="#">Configuracion</a>
-                            <a class="dropdown-item" href="#">otros</a>
-                            <div class="dropdown-divider"></div>
-
-                            <a class="dropdown-item" href="/reportes-2193">Informe 2193</a>
-                            <a class="dropdown-item" href="/olap-2193">Analisis OLAP 2193</a>
-                            <a class="dropdown-item" href="/reportes-2193">Dashboard 2193</a>
-                        </div>
-                    </li>
-                </div>
-
-
-
-
-
-                <div class="main-content">
-                    <!-- Top navbar -->
-
-                    <!-- Header -->
-
-                    <div class="header">
-
-                        <div class="container-fluid">
-
-                            <div class="header-body">
-                                <!-- Card stats -->
-
-                                <div class="row">
-
-
-
-
-                                </div>
+                                <a class="dropdown-item" href="/reportes-2193">Informe 2193</a>
+                                <a class="dropdown-item" href="/olap-2193">Analisis OLAP 2193</a>
+                                <a class="dropdown-item" href="/reportes-2193">Dashboard 2193</a>
                             </div>
-                        </div>
+                        </li>
                     </div>
 
 
-                    <div class="container-fluid mt--7">
-                        <div class="row">
-                            <div class="col-xl-8 mb-5 mb-xl-0">
-                                <div class="">
+
+
+
+                    <div class="main-content">
+                        <!-- Top navbar -->
+
+                        <!-- Header -->
+
+                        <div class="header">
+
+                            <div class="container-fluid">
+
+                                <div class="header-body">
+                                    <!-- Card stats -->
+
+                                    <div class="row">
+
+
+
+
+                                    </div>
                                 </div>
-                                <div class="row mt-5">
+                            </div>
+                        </div>
+
+
+                        <div class="container-fluid mt--7">
+                            <div class="row">
+                                <div class="col-xl-8 mb-5 mb-xl-0">
+                                    <div class="">
+                                    </div>
+                                    <div class="row mt-5">
 
 
 
+                                    </div>
+
+                                    <script>
+                                        function openNav() {
+                                            document.getElementById("mySidenav").style.width = "400px";
+                                            document.getElementById("main").style.marginLeft = "180px";
+                                        }
+
+                                        function closeNav() {
+                                            document.getElementById("mySidenav").style.width = "0";
+                                            document.getElementById("main").style.marginLeft = "0";
+                                        }
+                                    </script>
+                                    <!-- Include scripts -->
+
+                                    <!-- Argon Scripts -->
+                                    <!-- Core -->
+                                    <script src="vendor/jquery/dist/jquery.min.js"></script>
+                                    <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                                    <!-- Optional JS -->
+                                    <script src="vendor/chart.js/dist/Chart.min.js"></script>
+                                    <script src="vendor/chart.js/dist/Chart.extension.js"></script>
+                                    <!-- Argon JS -->
+                                    <script src="js/argon.min.js?v=1.0.0"></script>
                                 </div>
-
-                                <script>
-                                    function openNav() {
-                                        document.getElementById("mySidenav").style.width = "400px";
-                                        document.getElementById("main").style.marginLeft = "180px";
-                                    }
-
-                                    function closeNav() {
-                                        document.getElementById("mySidenav").style.width = "0";
-                                        document.getElementById("main").style.marginLeft = "0";
-                                    }
-                                </script>
-                                <!-- Include scripts -->
-
-                                <!-- Argon Scripts -->
-                                <!-- Core -->
-                                <script src="vendor/jquery/dist/jquery.min.js"></script>
-                                <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                                <!-- Optional JS -->
-                                <script src="vendor/chart.js/dist/Chart.min.js"></script>
-                                <script src="vendor/chart.js/dist/Chart.extension.js"></script>
-                                <!-- Argon JS -->
-                                <script src="js/argon.min.js?v=1.0.0"></script>
                             </div>
                         </div>
                     </div>

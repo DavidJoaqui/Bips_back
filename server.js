@@ -1126,10 +1126,11 @@ app.post('/login-data', function(req, res) {
 
                 //console.log("resp_user1"+Object.entries(user_ok));
                 console.log(user_ok[0].pwd);
+                console.log(user_ok[0].nombre_usuario);
 
                 if (user_ok[0].pwd == true) {
                     //console.log("entro en validacion");
-                    req.session.user = req.body.username;
+                    req.session.user = user_ok[0].nombre_usuario;
                     req.session.admin = true;
                     req.session.web = "http://192.168.1.84:3000";
                     req.session.username = req.body.username;
@@ -1149,7 +1150,7 @@ app.post('/login-data', function(req, res) {
                                 status: 200,
                                 code: 0,
                                 retorno: "0",
-                                user: req.session.user,
+                                user: user_ok[0].nombre_usuario,
                             });
 
 
