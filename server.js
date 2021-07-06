@@ -1200,7 +1200,7 @@ app.get("/config-entidades", auth, (req, res) => {
                 status: 200,
                 code: 0,
                 retorno: "0",
-                user: req.query.user,
+                user: req.session.user,
             });
 
 
