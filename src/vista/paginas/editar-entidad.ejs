@@ -37,7 +37,7 @@
                                 </div>
                             </div>
 
-                            <form id="formulario" enctype="multipart/form-data" method="POST">
+                            <form id="formulario" enctype="multipart/form-data" method="">
 
                                 <div class="col-md-12" style="text-align: center;">
                                     <h3 style="color: #20488f;font-size: 30px;font-weight: bold;" class="">Editar
@@ -47,7 +47,7 @@
 
                                 <div class="well">
                                     <input type="text" id="id_ent" name="id_ent" style="display: none;"
-                                        value="<%= res_id_entidad %>" hidden>
+                                        value="<%= res_id_entidad %>">
 
 
 
@@ -117,7 +117,7 @@
 
                                     <div class="form-group">
                                         <div class="text-center">
-                                            <button style="font-weight: bold;" class="btn btn-success btn-sm"
+                                            <button style="font-weight: bold;" type="submit" class="btn btn-success btn-sm"
                                                 id="btn-validar" name="btn-validar"
                                                 onclick="actualizar_registro()">Actualizar
                                                 Registro</button>
@@ -133,9 +133,7 @@
 
 
             <script type="text/javascript">
-                function actualizar_registro() {
-
-                    event.preventDefault();
+                function actualizar_registro() {                                
                     var cod_entidad = $('#cod_entidad').val();
                     var nombre_entidad = $('#nombre_entidad').val();
                     var tipo_reg = $('#tipo_reg').val();
@@ -147,9 +145,6 @@
                         type: 'post',
                         url: peticion,
                         data: [],
-                        contentType: false,
-                        cache: false,
-                        processData: false,
 
                         success: function (result) {
 
@@ -170,7 +165,7 @@
                                     $('#preview').hide();
                                 }, 5000);                                                                
 
-                                history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
+                                //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
             
 
                             } else {

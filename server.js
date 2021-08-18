@@ -1143,7 +1143,7 @@ app.post('/login-data', function(req, res) {
                     modelEntidad.consultar_registro_entidades().then(listaentidades => {
                             //console.log(listaArchivos);    
                             req.flash('notify', 'Inicio de sesion con exito...');
-                            //res.setHeader('Content-type', 'text/html');
+                            res.setHeader('Content-type', 'text/html');
                             //res.redirect("/config-entidades");
                             res.render("paginas/entidades", {
                                 registroEntidades: listaentidades,
@@ -1229,7 +1229,7 @@ app.get("/form-editar-entidad/:id_ent", auth, (req, res) => {
     // consultar_registro_entidad_x_id(id_entidad) 
     modelEntidad.consultar_registro_entidad_x_id(req.params.id_ent).then(resultado => {
 
-        console.log(resultado);
+        //console.log(resultado);
         res.render("paginas/editar-entidad", { user: req.session.user, res_cod_ent: resultado[0].cod_entidad, res_nombre_ent: resultado[0].nombre_entidad, res_tipo_reg: resultado[0].tipo_reg, res_id_entidad: resultado[0].id_entidad });
 
     }).catch(err => {
@@ -1288,8 +1288,9 @@ app.post("/persistir-entidad", auth, (req, res) => {
 
 app.post("/actualizar-entidad", auth, (req, res) => {
     //res.send("OK");
-    //console.log(req.query);
-    //console.log(req.params);
+    console.log(req.query);
+    console.log(req.params);
+    console.log(req.body);
     modelEntidad.actualizar_registro_entidades(req.query.cod_entidad, req.query.nombre_entidad, req.query.tipo_reg, req.query.id_ent).then(respuesta => {
 
         if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
@@ -1297,12 +1298,14 @@ app.post("/actualizar-entidad", auth, (req, res) => {
             //console.log(listaArchivos);    
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
-            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-            res.json({ status: 200, msg: 'La Entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> fue actualizada correctamente...' });
+            req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se actualizo correctamente...');
+            //res.send({ status: 200, msg: 'La Entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> fue actualizada correctamente...' });
+            res.render("/config-entidades");
+            
         } else {
 
             //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al actualizar la entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> intente de nuevo...' });
+            res.send({ status: 300, msg: 'ERROR al actualizar la entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> intente de nuevo...' });
         }
 
     }).catch(err => {
