@@ -1219,7 +1219,7 @@ app.get("/form-crear-entidad", auth, (req, res) => {
 
 })
 
-app.get("/form-editar-entidad/:id_ent", auth, (req, res) => {
+app.post("/form-editar-entidad/:id_ent", auth, (req, res) => {
     //res.send("OK");
     //console.log(req.query);
     //console.log(req.params);
@@ -1299,9 +1299,9 @@ app.post("/actualizar-entidad", auth, (req, res) => {
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
             req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se actualizo correctamente...');
-            //res.send({ status: 200, msg: 'La Entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> fue actualizada correctamente...' });
-            res.render("/config-entidades");
-            
+            res.send({ status: 200, msg: 'La Entidad <b>' + req.query.nombre_entidad + '</b>, con codigo <b>' + req.query.cod_entidad + '</b> fue actualizada correctamente...' });
+            //res.render("/config-entidades");
+
         } else {
 
             //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');

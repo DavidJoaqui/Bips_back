@@ -102,7 +102,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="btn-group">
-                                                                <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>&nombre_entidad=<%= registro.nombre_entidad %>">
+                                                                <form method="post" class="form" action="/eliminar-popup-entidad/<%= registro.cod_entidad %>/archivo-bips/?regimen=<%= registro.des_regimen %>&nombre_entidad=<%= registro.nombre_entidad %>&user=" user>
                                                                     <button class="btn btn-danger btn-submit" value="<%= registro.cod_entidad %>"> <i class="fas fa-ban"></i> Eliminar</button>
                                                                 </form>
                                                                 <form class="form">
@@ -153,7 +153,7 @@
             const peticion = "/form-editar-entidad/" + cod_entidad;
 
             $.ajax({
-                type: 'get',
+                type: 'post',
                 url: peticion,
                 data: [],
                 contentType: false,

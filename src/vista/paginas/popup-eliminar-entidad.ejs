@@ -1,166 +1,170 @@
-<%- include("test_header_new"); %>
+<div class="row">
 
-    <div class="row">
+    <div class="contenedor">
+        <div class="overlay" id="overlay">
+            <div class="popup" id="popup">
 
-        <div class="contenedor">
-            <div class="overlay" id="overlay">
-                <div class="popup" id="popup">
-
-                    <div class="card card-danger" id="panel" name="panel">
-                        <div class="card-heading" id="panel_heading">
-                            <a href="/config-entidades" id="btn-cerrar-popup" class="btn-cerrar-popup"><i
+                <div class="card card-danger" id="panel" name="panel">
+                    <div class="card-heading" id="panel_heading">
+                        <a href="/config-entidades" id="btn-cerrar-popup" class="btn-cerrar-popup"><i
                                         class="fas fa-times"></i></a>
-                            <p> <b>Confirmación</b></p>
-                        </div>
-                        <div class="card-body">
+                        <p> <b>Confirmación</b></p>
+                    </div>
+                    <div class="card-body">
 
-                            <p>Seguro desea eliminar la entidad<br>
-                                <b>Codigo: </b>
-                                <%= datos_entidad %> <br>
-                                    <% if ( nombre_entidad == "") { %>
-                                        <b>Nombre: </b>
-                                        <%= "No Asignado" %> <br>
+                        <p>Seguro desea eliminar la entidad<br>
+                            <b>Codigo: </b>
+                            <%= datos_entidad %> <br>
+                                <% if ( nombre_entidad == "") { %>
+                                    <b>Nombre: </b>
+                                    <%= "No Asignado" %> <br>
 
-                                            <% }else{ %>
-                                                <b>Nombre: </b>
-                                                <%= nombre_entidad %> <br>
+                                        <% }else{ %>
+                                            <b>Nombre: </b>
+                                            <%= nombre_entidad %> <br>
 
 
-                                                    <% } %>
+                                                <% } %>
 
-                                                        <b>Regimen: </b>
-                                                        <%= regimen_ %>
+                                                    <b>Regimen: </b>
+                                                    <%= regimen_ %>
 
-                                                            ?<br>
+                                                        ?<br>
 
-                            </p>
-                            <form action="/file/delete-entidad/<%= datos_entidad %>/archivo-bips/?regimen=<%= regimen_ %>&nombre_entidad=<%= nombre_entidad %>" method="POST">
-                                <input type="submit" class="btn-submit btn btn-success" value="Aceptar">
-                            </form>
-                            <form action="/config-entidades" method="GET">
-                                <input type="submit" class="btn-submit btn btn-default" value="Cancelar">
-                            </form>
-
-                        </div>
+                        </p>
+                        <form action="/file/delete-entidad/<%= datos_entidad %>/archivo-bips/?regimen=<%= regimen_ %>&nombre_entidad=<%= nombre_entidad %>" method="POST">
+                            <input type="submit" class="btn-submit btn btn-success" value="Aceptar">
+                        </form>
+                        <form action="/config-entidades" method="GET">
+                            <input type="submit" class="btn-submit btn btn-default" value="Cancelar">
+                        </form>
 
                     </div>
 
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 
 
 
-    <style type="text/css">
-        #panel_heading {
-            background-color: red;
-            color: #ffffff;
+<style type="text/css">
+    #panel_heading {
+        background-color: red;
+        color: #ffffff;
+        border: 1px solid #000;
+    }
+    
+    .card-body {
+        border: 1px solid #000;
+        padding: 5px;
+    }
+    
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        z-index: 2;
+        cursor: pointer;
+        border: 1px solid #000;
+    }
+    
+    .overlay.active {
+        visibility: visible;
+    }
+    
+    .popup {
+        border-radius: 3px;
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+    }
+    
+    body::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .popup .btn-cerrar-popup {
+        font-size: 16px;
+        line-height: 16px;
+        display: block;
+        text-align: right;
+        transition: .3s ease all;
+        color: #BBBBBB;
+    }
+    
+    .popup .btn-cerrar-popup:hover {
+        color: #fff;
+    }
+    
+    .contenedor {
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        position: center;
+    }
+    
+    .popup form .btn-submit:hover {
+        background: rgba(156, 173, 231, 0.9);
+    }
+    
+    .popup form .btn-submit {
+        border: none;
+        border-radius: 3px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        cursor: pointer;
+        transition: .3s ease all;
+    }
+    /* ------------------------- */
+    /* ANIMACIONES */
+    /* ------------------------- */
+    
+    .popup.active h3 {
+        animation: entradaTitulo .8s ease .5s forwards;
+    }
+    
+    .popup.active h4 {
+        animation: entradaSubtitulo .8s ease .5s forwards;
+    }
+    
+    .popup.active .contenedor-inputs {
+        animation: entradaInputs 1s linear 1s forwards;
+    }
+    
+    @keyframes entradaTitulo {
+        from {
+            opacity: 0;
+            transform: translateY(-25px);
         }
-        
-        .overlay {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            align-items: center;
-            justify-content: center;
-            display: flex;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 2;
-            cursor: pointer;
+        to {
+            transform: translateY(0);
+            opacity: 1;
         }
-        
-        .overlay.active {
-            visibility: visible;
+    }
+    
+    @keyframes entradaSubtitulo {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
         }
-        
-        .popup {
-            border-radius: 3px;
-            font-family: 'Montserrat', sans-serif;
-            text-align: center;
+        to {
+            transform: translateY(0);
+            opacity: 1;
         }
-        
-        body::-webkit-scrollbar {
-            display: none;
+    }
+    
+    @keyframes entradaInputs {
+        from {
+            opacity: 0;
         }
-        
-        .popup .btn-cerrar-popup {
-            font-size: 16px;
-            line-height: 16px;
-            display: block;
-            text-align: right;
-            transition: .3s ease all;
-            color: #BBBBBB;
+        to {
+            opacity: 1;
         }
-        
-        .popup .btn-cerrar-popup:hover {
-            color: #fff;
-        }
-        
-        .contenedor {
-            background-color: rgba(0, 0, 0, 0.5);
-            align-items: center;
-            position: center;
-        }
-        
-        .popup form .btn-submit:hover {
-            background: rgba(156, 173, 231, 0.9);
-        }
-        
-        .popup form .btn-submit {
-            border: none;
-            border-radius: 3px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 16px;
-            cursor: pointer;
-            transition: .3s ease all;
-        }
-        /* ------------------------- */
-        /* ANIMACIONES */
-        /* ------------------------- */
-        
-        .popup.active h3 {
-            animation: entradaTitulo .8s ease .5s forwards;
-        }
-        
-        .popup.active h4 {
-            animation: entradaSubtitulo .8s ease .5s forwards;
-        }
-        
-        .popup.active .contenedor-inputs {
-            animation: entradaInputs 1s linear 1s forwards;
-        }
-        
-        @keyframes entradaTitulo {
-            from {
-                opacity: 0;
-                transform: translateY(-25px);
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes entradaSubtitulo {
-            from {
-                opacity: 0;
-                transform: translateY(25px);
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes entradaInputs {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-    </style>
+    }
+</style>
