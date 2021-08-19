@@ -220,9 +220,9 @@ app.get('/login', function(req, res) {
     res.render("paginas/login");
 })
 
-app.get('/inicio/bips', function(req, res) {
+app.get('/inicio/bips', auth, function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
-    res.render("paginas/inicio",{user:req.session.username });
+    res.render("paginas/inicio", { user: req.session.user });
 })
 
 app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
@@ -1149,7 +1149,7 @@ app.post('/login-data', function(req, res) {
                             req.flash('notify', 'Inicio de sesion con exito...');
                             res.setHeader('Content-type', 'text/html');
                             //res.redirect("/config-entidades");
-                            res.render("paginas/inicio",{user:req.session.username });
+                            res.render("paginas/inicio", { user: req.session.user });
                             /*res.render("paginas/entidades", {
                                 registroEntidades: listaentidades,
                                 status: 200,
