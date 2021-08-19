@@ -220,6 +220,10 @@ app.get('/login', function(req, res) {
     res.render("paginas/login");
 })
 
+app.get('/inicio/bips', function(req, res) {
+    //res.redirect('/obtenerRegistrosPlanos');
+    res.render("paginas/inicio",{user:req.session.username });
+})
 
 app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
@@ -1145,13 +1149,14 @@ app.post('/login-data', function(req, res) {
                             req.flash('notify', 'Inicio de sesion con exito...');
                             res.setHeader('Content-type', 'text/html');
                             //res.redirect("/config-entidades");
-                            res.render("paginas/entidades", {
+                            res.render("paginas/inicio",{user:req.session.username });
+                            /*res.render("paginas/entidades", {
                                 registroEntidades: listaentidades,
                                 status: 200,
                                 code: 0,
                                 retorno: "0",
                                 user: user_ok[0].nombre_usuario,
-                            });
+                            });*/
 
 
                         })
