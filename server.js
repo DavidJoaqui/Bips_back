@@ -221,8 +221,17 @@ app.get('/login', function(req, res) {
 })
 
 app.get('/inicio/bips', auth, function(req, res) {
-    //res.redirect('/obtenerRegistrosPlanos');
+    res.redirect('/login-data');
+    //res.setHeader('Content-type', 'text/html');
+    //res.render("paginas/inicio", { user: req.session.user });
+    
+})
+
+app.get('/login-data', auth, function(req, res) {
     res.render("paginas/inicio", { user: req.session.user });
+    //res.setHeader('Content-type', 'text/html');
+    //res.render("paginas/inicio", { user: req.session.user });
+    
 })
 
 app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
