@@ -148,9 +148,9 @@ a {
     position: fixed;
     left: 0;
     bottom: 0;
-    height: 50px;
+    height: 90px;
     width: 100%;
     background-color: #20488f;
     color: white;
-    text-align: center;
+    padding-top: 20px;
 }
