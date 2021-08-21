@@ -113,8 +113,8 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                            <a class="dropdown-item" href="#"><b> Estado de Cartera </b></a>
-                            <a class="dropdown-item" href="#"> <b> Estado de Recaudo</b></a>
+                            <a class="dropdown-item" href="/estado-cartera-bips"><b> Estado de Cartera </b></a>
+                            <a class="dropdown-item" href="/estado-recaudo-bips"> <b> Estado de Recaudo</b></a>
                             <a class="dropdown-item" href=""> <b> Clasif. Edades repecto a saldos</b></a>
                         </div>
                     </li>
@@ -160,9 +160,22 @@
                     </li>
                 </div>
 
-                <a class="nav-link" href="/reportes-2193">
-                    <i class="fas fa-list"></i> Gestion
+                <li class="nav-item dropdown btn-group dropright">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i> Control de Mando
                 </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                    <a class="dropdown-item" href="/ctm-planGeneral"><b> Plan General</b></a>
+                    <a class="dropdown-item" href="/obtenerRegistrosPlanos"><b> Registro Archivos Planos</b></a>
+                    <a class="dropdown-item" href="/cargar-plano"><b> Cargar Planos</b></a>
+                    <div class="dropdown-divider"></div>
+
+                    <a class="dropdown-item" href="/reportes-2193"> <b> Informe 2193</b></a>
+                    <a class="dropdown-item" href="/olap-2193"> <b> Analisis OLAP 2193 </b></a>
+                    <a class="dropdown-item" href="/reportes-2193"> <b> Dashboard 2193</b></a>
+                </div>
+            </li>
 
                 <a class="nav-link" href="#">
                     <i class="fas fa-chart-line"></i> Estadistica

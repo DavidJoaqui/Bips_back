@@ -1413,6 +1413,22 @@ app.get("/config-perfil-bips", auth, (req, res) => {
     res.render("paginas/config_perfil", { user: req.session.user, });
 });
 
+app.get("/gestion-bips", auth, (req, res) => {
+    res.render("paginas/gestion", { user: req.session.user, });
+});
+
+app.get("/estado-cartera-bips", auth, (req, res) => {
+    res.render("paginas/estado_cartera", { user: req.session.user, });
+});
+
+app.get("/estado-recaudo-bips", auth, (req, res) => {
+    res.render("paginas/estado_recaudo", { user: req.session.user, });
+});
+
+app.get("/ctm-planGeneral", auth, (req, res) => {
+    res.render("paginas/plan_gral", { user: req.session.user, });
+});
+
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
 module.exports = app;
