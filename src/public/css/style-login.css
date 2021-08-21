@@ -148,9 +148,10 @@ a {
     position: fixed;
     left: 0;
     bottom: 0;
-    height: 90px;
+    height: 70px;
     width: 100%;
     background-color: #fff;
     color: #20488f;
     padding-top: 20px;
+    padding-bottom: 40px;
 }
