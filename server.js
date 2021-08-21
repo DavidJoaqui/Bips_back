@@ -224,14 +224,14 @@ app.get('/inicio/bips', auth, function(req, res) {
     res.redirect('/login-data');
     //res.setHeader('Content-type', 'text/html');
     //res.render("paginas/inicio", { user: req.session.user });
-    
+
 })
 
 app.get('/login-data', auth, function(req, res) {
     res.render("paginas/inicio", { user: req.session.user });
     //res.setHeader('Content-type', 'text/html');
     //res.render("paginas/inicio", { user: req.session.user });
-    
+
 })
 
 app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
@@ -1405,7 +1405,13 @@ app.get("/test-header", (req, res) => {
     res.render("paginas/test_header_new");
 });
 
+app.get("/config-user-bips", auth, (req, res) => {
+    res.render("paginas/config_user", { user: req.session.user, });
+});
 
+app.get("/config-perfil-bips", auth, (req, res) => {
+    res.render("paginas/config_perfil", { user: req.session.user, });
+});
 
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
