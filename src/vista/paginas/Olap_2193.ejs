@@ -1,39 +1,41 @@
 <%- include("test_header_new"); %>
-    <h1 class="text-center" style="color: #233dd2;">Analisis OLAP 2193</h1>
+    
 
-    <div class="container-fluid" style="margin-top: 5px;padding-top: 0px;margin-bottom: 0px;padding-bottom: 40px">
+    <div class="container-fluid" style="margin-top: 80px;padding-top: 10px;margin-bottom: 0px;padding-bottom: 40px">
+
+        <h1 class="text-center" style="color: #233dd2;">Analisis OLAP 2193</h1>
 
         <div class="overlay" id="overlay">
             <b>
                 <p type="text" id="loading" value="" hidden></p>
             </b>
 
+            <div class="embed-responsive embed-responsive-16by9" id="report">
+                <iframe
+                    src="http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku"
+                    scrolling="si" onload='' frameBorder="0" width="100%" title="Dashboard 2193"
+                    class="embed-responsive-item">
+                </iframe>
+            </div>
+
         </div>
 
-        <div class="embed-responsive embed-responsive-16by9" id="report">
-            <iframe
-                src="http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku"
-                scrolling="si" onload='' frameBorder="0" width="100%" title="Dashboard 2193"
-                class="embed-responsive-item">
-            </iframe>
-        </div>
+        
 
     </div>
 
 
     <style>
         .overlay {
-            position: top;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            position: top;            
             align-items: center;
             justify-content: center;
             display: flex;
             z-index: 2;
             cursor: pointer;
             border: 1px solid #233dd2;
+            margin-bottom: 70px;
+            padding-bottom: 20px;
             
         }
 

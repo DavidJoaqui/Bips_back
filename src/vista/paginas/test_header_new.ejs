@@ -25,6 +25,7 @@
                     overflow-x: hidden;
                     transition: 0.5s;
                     padding-top: 10px;
+                    margin-top: 70px;
                 }
                 
                 .sidenav a {
@@ -44,7 +45,7 @@
                     top: 0;
                     right: 0px;
                     font-size: 30px;
-                    margin-left: 170px;
+                    margin-left: 0px;
                 }
                 
                 #main {
@@ -54,7 +55,7 @@
                 
                 @media screen and (max-height: 450px) {
                     .sidenav {
-                        padding-top: 15px;
+                        padding-top: 15px;                        
                     }
                 }
             </style>
@@ -62,7 +63,7 @@
 
         <body>
 
-            <div id="mySidenav" class="sidenav navbar-dark fixed-top bg-dark">
+            <div id="mySidenav" class="sidenav navbar-dark fixed-top bg-dark" >
 
                 <div>
                     <div>
@@ -70,9 +71,9 @@
 
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-                            <a href="#" class="text-center">
+                            <!--<a href="#" class="text-center">
                                 <img alt="brand" src="/recursos_marca">
-                            </a>
+                            </a>-->
                         </div>
 
                     </div>
@@ -190,9 +191,9 @@
 
             </div>
 
-            <div id="main" class=" bg-dark navbar-dark">
+            <div id="main" class=" bg-dark navbar-dark fixed-top">
 
-                <div class="brand" style="">
+                <div class="brand" style="position: fixed-top;">
                     <a href="#" class="text-center" onclick="openNav()">
                         <img alt="brand" src="/recursos_marca">
                     </a>
@@ -260,7 +261,7 @@
                                     <script>
                                         function openNav() {
                                             document.getElementById("mySidenav").style.width = "500px";
-                                            document.getElementById("main").style.marginLeft = "180px";
+                                            //document.getElementById("main").style.marginLeft = "180px";
                                         }
 
                                         function closeNav() {

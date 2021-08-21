@@ -1,26 +1,27 @@
 <%- include("test_header_new"); %>
 
-    <h1 class="text-center" style="color: #233dd2;">Informe de Producción 2193</h1>
+    
 
     <!--<p id="demo"></p>-->
 
 
-    <div class="container-fluid" style="margin-top: 0px;margin-bottom: 10px;padding-bottom: 40px">
+    <div class="container-fluid" style="margin-top: 80px;margin-bottom: 10px;padding-top: 10px;padding-bottom: 40px">
+        <h1 class="text-center" style="color: #233dd2;">Informe de Producción 2193</h1>
 
-        <div class="overlay" id="overlay">
+        <div class="overlay" id="overlay" >
             <b>
-                <p type="text" id="loading" value="" hidden></p>
+                <p type="text" id="loading" value="" style=" align-items: center; justify-content: center;" hidden></p>
             </b>
 
-        </div>
+        
 
-            <div class="embed-responsive embed-responsive-16by9" id="report" hidden>
+            <div class="embed-responsive embed-responsive-16by9" id="report">
                 <iframe
                     src="http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AReportes_PRD_2193%3Areporte_2193_trimestral.prpt/viewer"
                     title="Generador de reportes BIPS" onload="validarCarga()" class="embed-responsive-item">
                 </iframe>
             </div>
-        
+        </div>
         
 
     </div>
@@ -28,14 +29,14 @@
     <script>
         function validarCarga() {
             var text = "";
-
+            
             $("#loading").attr("hidden", false);
             //document.getElementById("demo").innerHTML = text;
             $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Cargando Información<b></b> ...</strong></div>');
 
             setTimeout(function () {
                 $("#loading").attr("hidden", true);
-                $("#report").attr("hidden", false);
+                
             }, 3000);
 
         }
@@ -43,17 +44,13 @@
 
     <style>
         .overlay {
-            position: top;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+           
             align-items: center;
-            justify-content: center;
-            display: flex;
-            z-index: 2;
+            justify-content: center;            
             cursor: pointer;
             border: 1px solid #233dd2;
+            margin-bottom: 70px;
+            padding-bottom: 20px;
             
         }
 
