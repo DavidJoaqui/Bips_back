@@ -17,7 +17,7 @@
         <body id="body_ent">
 
             <div class="col-md-12" style="text-align: center;">
-                <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Lineas de Acción.
+                <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Objetivos.
                 </h2>
             </div>
 
@@ -41,19 +41,19 @@
 
 
                                 <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="" style="font-weight: bold;"> Linea de acción: </label>
+                                    <label class="" style="font-weight: bold;"> Objetivo </label>
 
-                                    <input class="col-sm-12 col-md-4 " type="text" name="linea_accion" id="linea_accion" value="">
+                                    <textarea class="col-sm-12 col-md-4 " type="text" name="linea_accion" id="linea_accion" value=""></textarea>
 
 
-                                    <label style="font-weight: bold;">Plan general: </label>
+                                    <label style="font-weight: bold;">Linea de acción: </label>
 
                                     <select class="form-select form-group form-control input-sm col-md-4" name="select_plan" id="select_plan" data-toggle="tooltip" title="Seleccionar plan General!" data-placement="right" required>
-                                        <option selected="selected" value="">Seleccionar plan General
+                                        <option selected="selected" value="">Seleccionar linea de acción
                                         </option>
-                                        <% listaPlanes_grales.forEach(lista=> { %>
-                                            <option value="<%= lista.id_plangeneral %>">
-                                                <%= lista.plan_general  %>
+                                        <% lista_lineas_accion.forEach(lista=> { %>
+                                            <option value="<%= lista.id_linea %>">
+                                                <%= lista.linea_accion  %>
                                             </option>
                                             <% }); %>
                                     </select>
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                                     <div class="text-center">
-                                        <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Asociar Linea de Acción</button>
+                                        <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Asociar Objetivo</button>
                                     </div>
                                 </div>
 
@@ -82,7 +82,7 @@
 
             <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
-                <iframe src="/listado-ctm-lineas-accion" title="iframe Vistas control de mando" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_plan" id="iframe_plan">
+                <iframe src="/listado-ctm-objetivos" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_plan" id="iframe_plan">
                     </iframe>
             </div>
         </body>

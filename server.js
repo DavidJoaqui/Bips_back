@@ -1506,5 +1506,79 @@ app.get("/menu-ctm", auth, (req, res) => {
 });
 
 
+///listado-ctm-lineas-accion
+app.get("/listado-ctm-lineas-accion", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosLineasAccion().then(lista_lineas_accion => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_lineasAccion", { lista_lineas_accion: lista_lineas_accion });
+    });
+
+
+});
+
+app.post("/persistir-lineaAccion/", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    console.log(req.params);
+
+    modelControlMando.obtener_mayor_id_lineaAccion().then(respuesta__max => {
+        //console.log(respuesta__max);
+        var id = parseInt(respuesta__max[0]['max']) + 1;
+
+        modelControlMando.insertar_lineaAccion(id, req.query.linea_accion, req.query.plan_general).then(respuesta => {
+
+            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                console.log("OK... insert NEW entidad");
+                //console.log(listaArchivos);    
+                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                //res.setHeader('Content-type', 'text/html');
+                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+                res.json({ status: 200, msg: 'La linea de Acción <b>' + req.query.linea_accion + '</b>, se creó correctamente...' });
+            } else {
+
+                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                res.json({ status: 300, msg: 'ERROR al crear la linea de Acción <b>' + req.query.linea_accion + '</b>, intente de nuevo...' });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+            res.json({ status: 500, msg: 'ERROR!! La linea de acción <b>' + req.query.linea_accion + ' </b> YA EXISTE...' });
+        });
+
+
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! la linea de acción <b>' + req.query.linea_accion + '</b>, YA EXISTE...' });
+    });
+
+
+})
+
+app.get("/ctm-objetivos", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosObjetivos__LineasAccion().then(lista_lineas_accion => {
+        //console.log(lista_planes);
+        res.render("paginas/ctm_objetivos", { user: req.session.user, lista_lineas_accion: lista_lineas_accion });
+    });
+
+
+});
+
+app.get("/listado-ctm-objetivos", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosObjetivos().then(lista_objetivos => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_ctm_objetivos", { lista_objetivos: lista_objetivos });
+    });
+
+
+});
+
+
+
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
 module.exports = app;

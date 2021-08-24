@@ -1,20 +1,6 @@
 <%- include("head"); %>
     <%- include("styles_gral"); %>
 
-        <style>
-            body {
-                /*background-color: #eaedee;*/
-                overflow-x: auto;
-                overflow-y: auto;
-            }
-            
-            body::-webkit-scrollbar {
-                display: auto;
-                overflow-y: hidden;
-            }
-        </style>
-
-
         <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
 
@@ -22,7 +8,7 @@
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
-                        <h2> Planes Generales</h2>
+                        <h2> Lineas de Acción</h2>
                     </span>
                 </div>
 
@@ -81,22 +67,28 @@
                                             <thead class="head-tabla-reg">
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Nombre plan</th>
+                                                    <th>Plan General</th>
+                                                    <th>Linea de Acción</th>
                                                     <th>Acciones</th>
 
                                                 </tr>
                                             </thead>
                                             <tbody id="developers">
-                                                <% for(var i=0; i<lista_planes.length; i++) { %>
+                                                <% for(var i=0; i<lista_lineas_accion.length; i++) { %>
 
                                                     <tr class="text-center">
                                                         <td>
-                                                            <%= lista_planes[i].id_plangeneral %>
+                                                            <%= lista_lineas_accion[i].id_linea %>
 
                                                         </td>
                                                         <td>
-                                                            <%= lista_planes[i].plan_general %>
+                                                            <%= lista_lineas_accion[i].plan_general %>
                                                         </td>
+
+                                                        <td>
+                                                            <%= lista_lineas_accion[i].linea_accion %>
+                                                        </td>
+
                                                         <td class="btns-acciones">
                                                             <%= "test" %>
                                                         </td>
@@ -155,5 +147,16 @@
                 
                 .titulo-tabla {
                     color: #20488f;
+                }
+                
+                body {
+                    /*background-color: #eaedee;*/
+                    overflow-x: auto;
+                    overflow-y: auto;
+                }
+                
+                body::-webkit-scrollbar {
+                    display: auto;
+                    overflow-y: hidden;
                 }
             </style>
