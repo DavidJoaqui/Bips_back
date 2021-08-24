@@ -1,0 +1,172 @@
+<%- include("head"); %>
+    <%- include("styles_gral"); %>
+
+
+        <style>
+            body {
+                /*background-color: #eaedee;*/
+                overflow-x: auto;
+                overflow-y: auto;
+            }
+            
+            body::-webkit-scrollbar {
+                display: auto;
+                overflow-y: hidden;
+            }
+        </style>
+
+
+        <body id="body_ent" class="">
+            <div class="col-md-12" style=" margin-top: 0px; padding: 10px;margin-left: 10px;">
+                <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Plan General.
+                </h2>
+            </div>
+
+            <div style="display: flex;justify-content: center;align-items: center;">
+
+
+                <div class="col-md-8" style="">
+
+                    <div class="card container-fluid">
+
+                        <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+                            <div class="card col-md-12" id="card-msg">
+
+
+                            </div>
+                        </div>
+
+
+                        <form id="formulario" enctype="multipart/form-data" method="POST">
+
+                            <div class="well form-inline">
+
+                                <label class="col-sm-12 col-md-4 col-xs-12" for="nombre_plan" style="color:#20488f;font-size: 15px;margin: 0px;">Nombre del plan General</label>
+
+                                <input class="col-md-5" type="text" placeholder="ingresa el nombre del plan General." name="nombre_plan" id="nombre_plan">
+
+                                <button style="font-weight: bold; align-content: center; margin-left: 20px;" class="btn btn-success btn-sm col-sm-12 col-md-2 col-xs-12" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar
+                                        Registro</button>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
+
+                <iframe src="/listado-ctm-planes-generales" title="iframe Vistas control de mando" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_plan" id="iframe_plan">
+                    </iframe>
+            </div>
+        </body>
+
+
+
+
+        <script type="text/javascript">
+            function almacenar_registro() {
+
+                event.preventDefault();
+                var nombre = $('#nombre_plan').val();
+
+                var peticion = "/persistir-plan/?nombre_plan=" + nombre;
+
+                $.ajax({
+                    type: 'post',
+                    url: peticion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function(result) {
+
+                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                        /*setTimeout(function() {
+                            window.location.reload(1);
+                        }, 5000);*/
+                        if (result["status"] == 200) {
+
+                            $('#preview').show();
+
+                            $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                            $('#card-msg').show();
+
+                            $('#formulario')[0].reset();
+
+                            $('#nombre_plan').focus();
+
+                            var iframe = document.getElementById('iframe_plan');
+
+                            $('#iframe_plan').attr("src", iframe.src);
+                            $("#iframe_plan").show();
+
+                            setTimeout(function() {
+                                $('#preview').hide();
+                            }, 4000);
+
+
+                        } else {
+                            $('#preview').show();
+
+                            $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                            $('#card-msg').show();
+
+                            setTimeout(function() {
+                                $('#preview').hide();
+                            }, 5000);
+
+                            //$('#formulario')[0].reset();
+
+                            $('#nombre_plan').focus();
+
+                        }
+
+                        //$('#body_ent').html(result);
+
+
+                    }
+
+                });
+
+
+            }
+
+
+            function actualizar_iframe_lineaAccion() {
+
+
+                //var nombre = $('#tab-linea-accion').val();            
+
+                $('#iframe_plan').attr("src", "/ctm-lineasAccion");
+                $("#iframe_plan").show();
+
+
+
+
+            }
+
+
+
+            $(document).ready(function() {
+
+                $('#preview').hide();
+
+                $('#btn-linea-accion').click(function() {
+
+                    alert("OK");
+
+                    $('#iframe_plan').attr("src", "/ctm-lineasAccion");
+
+                    $("#iframe_plan").show();
+
+                });
+
+            });
+        </script>

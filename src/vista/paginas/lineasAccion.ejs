@@ -1,0 +1,69 @@
+<%- include("head"); %>
+    <%- include("styles_gral"); %>
+
+        <body id="body_ent">
+            <!--
+        <div class="" style=" margin-top: 80px; padding: 10px;margin-left: 10px;">
+            <div style="float: right;">
+                <form action="/inicio/bips" method="GET">
+                    <button class="btn btn-submit btn-primary btn-sm" id="btn-volver" name="btn-volver">
+                    <i class="fas fa-arrow-left"></i> regresar
+                </button>
+
+                </form>
+            </div>-->
+
+
+            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 30px; margin-top: 20px;">
+
+
+                <div class="col-md-9 col-md-offset-3" style="padding-bottom: 30px">
+
+                    <div class="card border-dark container" style=" text-align: center;">
+
+                        <form id="formulario" enctype="multipart/form-data" method="POST">
+
+                            <div class="well form-inline">
+                                <div class="col-md-12" style="text-align: center;">
+                                    <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Lineas de Acción.
+                                    </h2>
+                                </div>
+
+                                <div class="form-group col-sm-12 col-md-12">
+                                    <label class="" style="font-weight: bold;"> Linea de acción: </label>
+
+                                    <input class="col-sm-12 col-md-4 col-xs-12 input-sm" type="text" name="nombre_entidad" id="nombre_entidad" value="">
+
+
+                                    <label style="font-weight: bold;padding-left: 5px;">Plan general: </label>
+
+                                    <select class="form-select form-group form-control input-sm" name="cbxips" id="cbxips" data-toggle="tooltip" title="Seleccionar IPS!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar plan General
+                                        </option>
+                                        <% listaPlanes_grales.forEach(lista=> { %>
+                                            <option value="<%= lista.id_plangeneral %>">
+                                                <%= lista.plan_general  %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+
+                                    <div class="form-group col-sm-12 col-md-2 col-xs-12">
+                                        <div class="text-center">
+                                            <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Asociar Linea de Acción</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </body>

@@ -44,7 +44,7 @@ const modelvalidaciones = require("./models/validacionModel");
 const modelktr = require("./models/ejecucion_KtrModel");
 const modelSecurity = require("./models/loginModel");
 const modelEntidad = require("./models/entidadesModel");
-
+const modelControlMando = require("./models/controlMandoModel");
 
 
 
@@ -1425,8 +1425,84 @@ app.get("/estado-recaudo-bips", auth, (req, res) => {
     res.render("paginas/estado_recaudo", { user: req.session.user, });
 });
 
-app.get("/ctm-planGeneral", auth, (req, res) => {
-    res.render("paginas/plan_gral", { user: req.session.user, });
+app.get("/control-mando", auth, (req, res) => {
+    res.render("paginas/control_mando", { user: req.session.user });
+});
+
+app.get("/ctm-plan-general", auth, (req, res) => {
+    res.render("paginas/plan_general");
+});
+
+app.get("/listado-ctm-planes-generales", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_planGral", { lista_planes: lista_planes });
+    });
+
+
+});
+
+app.post("/persistir-plan", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    console.log(req.params);
+
+    modelControlMando.obtener_mayor_id_planGeneral().then(respuesta__max => {
+        //console.log(respuesta__max);
+        var id = parseInt(respuesta__max[0]['max']) + 1;
+
+        modelControlMando.insertar_PlanGeneral(id, req.query.nombre_plan).then(respuesta => {
+
+            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                console.log("OK... insert NEW entidad");
+                //console.log(listaArchivos);    
+                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                //res.setHeader('Content-type', 'text/html');
+                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+                res.json({ status: 200, msg: 'El plan General <b>' + req.query.nombre_plan + '</b>, se creó correctamente...' });
+            } else {
+
+                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                res.json({ status: 300, msg: 'ERROR al crear el plan General <b>' + req.query.nombre_plan + '</b>, intente de nuevo...' });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+            res.json({ status: 500, msg: 'ERROR!! El plan General <b>' + req.query.nombre_plan + ' </b> YA EXISTE...' });
+        });
+
+
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! el plan <b>' + req.query.nombre_plan + '</b>, YA EXISTE...' });
+    });
+
+
+})
+
+app.get("/ctm-lineasAccion", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
+        //console.log(lista_planes);
+        res.render("paginas/lineasAccion", { user: req.session.user, listaPlanes_grales: lista_planes });
+    });
+
+
+});
+
+
+app.get("/menu-ctm", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
+        //console.log(lista_planes);
+        res.render("paginas/menu_cuadro_mando");
+    });
+
+
 });
 
 

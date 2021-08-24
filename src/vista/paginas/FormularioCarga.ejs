@@ -93,16 +93,13 @@
                                         </div>
 
                                         <div class="card">
-                                            <div class="card-header text-white bg-info mb-3 container-fluid"><b>
+                                            <div class="card-header text-white bg-info"><b>
                                                             Selecciona los planos a
                                                             cargar</b></div>
                                             <div class="panel-body">
 
-                                                <div class="form-group">
-                                                    <input type="file" class="input-file-input" name="files" id="files" multiple>
 
-                                                </div>
-
+                                                <input type="file" class="input-file-input" name="files" id="files" multiple>
 
                                                 <button class="btn btn btn-primary btn-sm" id="btn-subir" name="btn-subir">Subir</button>
                                             </div>
@@ -283,7 +280,7 @@
                                         //$('#btn-subir').attr("disabled", true);
                                         if (result['estado'] == '200') {
                                             $('#datos').html('<p><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:green">La operacion se ejecuto con exito...</i></p>');
-                                            console.log(JSON.stringify(result['respuesta']));
+                                            //console.log(JSON.stringify(result['respuesta']));
                                             var iframe = document.getElementById('iframe_arch');
 
                                             //$("#btn-subir").prop("disabled", true);
