@@ -68,18 +68,18 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-sm-5 col-md-6 col-xs-6">
-                                                    <label for="fecha_ini" style="font-weight: bold;">Fecha
+                                                    <label for="txtfecha_inicial" style="font-weight: bold;">Fecha
                                                                 inicial</label>
                                                     <div>
-                                                        <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" required>
+                                                        <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" placeholder=" " required>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-sm-5 col-md-6 col-xs-6">
-                                                    <label for="fecha_ini" style="font-weight: bold;">Fecha
+                                                    <label for="txtfecha_fin" style="font-weight: bold;">Fecha
                                                                 Final</label>
                                                     <div>
-                                                        <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" required>
+                                                        <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" placeholder=" " required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,11 +117,12 @@
                     </div>
 
 
-                    <div class="col-md-8 col-lg-8" id="lista_archivos" name="lista_archivos">
+                    <div class="col-md-8" id="lista_archivos" name="lista_archivos">
 
-                        <iframe src="/listadoArchivos" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_arch" id="iframe_arch">
+                        <iframe src="/listadoArchivos" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="900px" name="iframe_arch" id="iframe_arch">
                                 </iframe>
                     </div>
+
 
                     <script>
                         $(document).ready(function() {

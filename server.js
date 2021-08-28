@@ -31,7 +31,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     cookie: {
-        maxAge: 600000,
+        maxAge: 6000000,
     }
 
 }))
@@ -662,7 +662,7 @@ app.get("/olap-2193", auth, (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/Olap_2193"), { user: req.session.user, });
 });
 
-app.post("/eliminar-popup/:name/archivo-bips", auth, (req, res) => {
+app.get("/eliminar-popup/:name/archivo-bips", auth, (req, res) => {
     //console.log(req.query);
 
     var name = req.query.nombre_tmp;
@@ -1445,8 +1445,8 @@ app.get("/listado-ctm-planes-generales", auth, (req, res) => {
 
 app.post("/persistir-plan", auth, (req, res) => {
     //res.send("OK");
-    console.log(req.query);
-    console.log(req.params);
+    //console.log(req.query);
+    //console.log(req.params);
 
     modelControlMando.obtener_mayor_id_planGeneral().then(respuesta__max => {
         //console.log(respuesta__max);
@@ -1519,8 +1519,8 @@ app.get("/listado-ctm-lineas-accion", auth, (req, res) => {
 
 app.post("/persistir-lineaAccion/", auth, (req, res) => {
     //res.send("OK");
-    console.log(req.query);
-    console.log(req.params);
+    //console.log(req.query);
+    //console.log(req.params);
 
     modelControlMando.obtener_mayor_id_lineaAccion().then(respuesta__max => {
         //console.log(respuesta__max);
@@ -1577,6 +1577,102 @@ app.get("/listado-ctm-objetivos", auth, (req, res) => {
 
 
 });
+
+app.post("/persistir-objetivo/", auth, (req, res) => {
+    //res.send("OK");
+    //console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.obtener_mayor_id_Objetivos().then(respuesta__max => {
+        //console.log(respuesta__max);
+        var id = parseInt(respuesta__max[0]['max']) + 1;
+
+        modelControlMando.insertar_Objetivo(id, req.query.objetivo, req.query.linea_accion).then(respuesta => {
+
+            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                console.log("OK... insert NEW entidad");
+                //console.log(listaArchivos);    
+                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                //res.setHeader('Content-type', 'text/html');
+                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+                res.json({ status: 200, msg: 'El objetivo <b>' + req.query.objetivo + '</b>, se creó correctamente...' });
+            } else {
+
+                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                res.json({ status: 300, msg: 'ERROR al crear el Objetivo <b>' + req.query.objetivo + '</b>, intente de nuevo...' });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+            res.json({ status: 500, msg: 'ERROR!! El objetivo <b>' + req.query.objetivo + ' </b> YA EXISTE...' });
+        });
+
+
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! la linea de acción <b>' + req.query.linea_accion + '</b>, YA EXISTE...' });
+    });
+
+
+})
+
+//ctm-profesionales
+
+app.get("/ctm-profesionales", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+        //console.log(lista_planes);
+        res.render("paginas/ctm_profesionales", { user: req.session.user, lista_areas: lista_areas });
+    });
+
+
+});
+
+app.get("/listado-ctm-profesionales", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosProfesionales().then(lista_prof => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_ctm_profesionales", { lista_prof: lista_prof });
+    });
+
+
+});
+
+app.post("/persistir-profesional/", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.insertar_Profesional(req.query.id_profesional, req.query.nombres, req.query.apellidos, req.query.area_trabajo).then(respuesta => {
+
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert NEW entidad");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.json({ status: 200, msg: 'El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + '</b>, se creó correctamente...' });
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.json({ status: 300, msg: 'ERROR al crear el Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + '</b>, intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + ' </b> YA EXISTE...' });
+    });
+
+
+
+
+
+
+})
 
 
 

@@ -1,4 +1,4 @@
-<body id="" class="">
+<body id="body_ppal_ctm" class="">
     <div class="col-md-12" style=" margin-top: 80px; padding: 10px;margin-left: 10px;">
 
         <div class="col-md-12">
@@ -24,6 +24,17 @@
     $(document).ready(function() {
 
         $('#preview').hide();
+
+        $('#btn-profesionales').click(function() {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-profesionales");
+
+            $("#iframe_control_mando").show();
+
+
+        });
 
         $('#btn-objetivos').click(function() {
 

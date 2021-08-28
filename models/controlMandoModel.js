@@ -4,6 +4,8 @@ const conexion = require("./persistencia/conexion");
 
 module.exports = {
 
+    //-----------------------Metodos Plan General-----------------------------------//
+    //------------------------------------------------------------------------------//
 
     async insertar_PlanGeneral(id_plangeneral, plan_general) {
         const resultados = await conexion.query('insert into schema_control.plangeneral (id_plangeneral,plan_general) values ($1,$2)', [id_plangeneral, plan_general]);
@@ -54,7 +56,7 @@ module.exports = {
 
 
 
-    //-----------------------Metodos OBJETIVOS--------------------------------//
+    //-----------------------Metodos OBJETIVOS--------------------------------------//
     //------------------------------------------------------------------------------//
     //consultar_RegistrosObjetivos
 
@@ -66,6 +68,40 @@ module.exports = {
     async consultar_RegistrosObjetivos__LineasAccion() {
         const resultados = await conexion.query("select t1.id_linea,concat(t1.linea_accion,' (',t1.plan_general,')') as linea_accion from (select pg.plan_general,la.linea_accion, la.id_linea from schema_control.lineas_acciones la inner join schema_control.plangeneral pg on(la.id_plan_general=id_plangeneral) order by la.id_linea asc)t1");
         return resultados.rows;
+    },
+
+    //obtener_mayor_id_Objetivos
+    async obtener_mayor_id_Objetivos() {
+        const resultados = await conexion.query("select MAX(id_objetivo) max from schema_control.objetivos;");
+        return resultados.rows;
+    },
+
+    async insertar_Objetivo(id_objetivo, objetivo, id_linea_accion) {
+        const resultados = await conexion.query('insert into schema_control.objetivos (id_objetivo,objetivo,id_linea_accion) values ($1,$2,$3)', [id_objetivo, objetivo, id_linea_accion]);
+        return resultados;
+    },
+
+
+
+    //-----------------------Metodos PROFESIONALES--------------------------------------//
+    //------------------------------------------------------------------------------//
+    //consultar_RegistrosProfesionales
+    async consultar_RegistrosProfesionales() {
+        const resultados = await conexion.query("select p.id_profesional,p.nombres, p.apellidos, a.nombre_area from schema_control.profesionales p inner join schema_control.areas a on(p.id_area_trabajo=a.id_area) order by p.id_profesional ASC");
+        return resultados.rows;
+    },
+
+    //consultar_RegistroAreas
+
+    async consultar_RegistroAreas() {
+        const resultados = await conexion.query("select id_area, nombre_area from schema_control.areas");
+        return resultados.rows;
+    },
+
+    //insertar_Profesional
+    async insertar_Profesional(id_prof, nombres, apellidos, id_area) {
+        const resultados = await conexion.query('insert into schema_control.profesionales (id_profesional,nombres,apellidos,id_area_trabajo) values ($1,$2,$3,$4)', [id_prof, nombres, apellidos, id_area]);
+        return resultados;
     },
 
 }

@@ -98,7 +98,8 @@
                                                             <%= lista_planes[i].plan_general %>
                                                         </td>
                                                         <td class="btns-acciones">
-                                                            <%= "test" %>
+                                                            <a href="" title="Editar" onclick="editar_plan()"><i class="fas fa-edit"></i></a>
+                                                            <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                                         </td>
 
                                                     </tr>
@@ -157,3 +158,11 @@
                     color: #20488f;
                 }
             </style>
+
+
+            <script type="text/javascript">
+                function editar_plan() {
+                    alert("ok desde lista plan general");
+
+                }
+            </script>

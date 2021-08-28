@@ -16,9 +16,33 @@
 
         <body id="body_ent">
 
-            <div class="col-md-12" style="text-align: center;">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+                <div class="card col-md-12" id="card-msg">
+
+
+                </div>
+            </div>
+
+            <div class="col-md-12" style="text-align: center;margin-top: 0px;">
                 <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Lineas de Acción.
                 </h2>
+            </div>
+
+            <div class="tabs-to-dropdown">
+
+                <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <div class="form-group" style="padding-left: 30px;margin: 20px;">
+                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="nueva_linea_accion()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Linea Acción</button>
+                        </div>
+                    </li>
+                </ul>
+
+
+
+
+                <div class="dropdown-divider"></div>
+
             </div>
 
             <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
@@ -26,14 +50,9 @@
 
                 <div class="col-md-9 col-md-offset-3" style="padding-bottom: 0px">
 
-                    <div class="card container" style=" text-align: center;">
-
-                        <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
-                            <div class="card col-md-12" id="card-msg">
+                    <div class="card container" id="panel_nueva_linea" style=" text-align: center;" hidden>
 
 
-                            </div>
-                        </div>
 
                         <form id="formulario" enctype="multipart/form-data" method="POST">
 
@@ -41,12 +60,15 @@
 
 
                                 <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="" style="font-weight: bold;"> Linea de acción: </label>
 
-                                    <input class="col-sm-12 col-md-4 " type="text" name="linea_accion" id="linea_accion" value="">
+                                    <label class="col-sm-12 col-md-3" for="linea_accion" style="font-weight: bold;"> Linea de acción: </label>
 
+                                    <input class="col-sm-12 col-md-4" type="text" placeholder="linea de accón" name="linea_accion" id="linea_accion" value="">
 
-                                    <label style="font-weight: bold;">Plan general: </label>
+                                </div>
+
+                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;margin-top: 5px;">
+                                    <label class="col-sm-12 col-md-3" for="select_plan" style="font-weight: bold;">Plan general: </label>
 
                                     <select class="form-select form-group form-control input-sm col-md-4" name="select_plan" id="select_plan" data-toggle="tooltip" title="Seleccionar plan General!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar plan General
@@ -57,24 +79,24 @@
                                             </option>
                                             <% }); %>
                                     </select>
-
-
-
                                 </div>
-                                <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-                                    <div class="text-center">
-                                        <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Asociar Linea de Acción</button>
-                                    </div>
-                                </div>
-
 
 
                             </div>
+                            <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                                <div class="text-center">
+                                    <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Asociar Linea de Acción</button>
+                                </div>
+                            </div>
 
-                        </form>
+
 
                     </div>
+
+                    </form>
+
                 </div>
+            </div>
             </div>
 
             </div>
@@ -173,6 +195,17 @@
                 }
             }
 
+
+
+            function nueva_linea_accion() {
+                //alert("OK");
+
+
+
+                $('#panel_nueva_linea').attr('hidden', false);
+
+
+            }
 
             $(document).ready(function() {
 

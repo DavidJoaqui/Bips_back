@@ -1,0 +1,261 @@
+<%- include("head"); %>
+    <%- include("styles_gral"); %>
+
+        <style>
+            body {
+                /*background-color: #eaedee;*/
+                overflow-x: auto;
+                overflow-y: auto;
+            }
+            
+            body::-webkit-scrollbar {
+                display: none;
+                overflow-y: hidden;
+            }
+        </style>
+
+        <body id="body_ent" style="margin-top: 0px;">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+                <div class="card col-md-12" id="card-msg">
+
+
+                </div>
+            </div>
+
+            <div class="col-md-12" style="text-align: center;">
+                <h2 class="text-center" style="color: #20488f;font-size: 20px">Profesionales.
+                </h2>
+            </div>
+
+            <div class="tabs-to-dropdown">
+
+                <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <div class="form-group" style="padding-left: 30px;margin: 20px;">
+                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof" onclick="nuevo_profesional()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Nuevo Profesional</button>
+                        </div>
+                    </li>
+                </ul>
+
+
+
+
+                <div class="dropdown-divider"></div>
+
+            </div>
+
+
+
+
+            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
+
+
+                <div class="col-md-9 col-md-offset-3" style="padding-bottom: 0px">
+
+                    <div class="card container" style=" text-align: center;" id="panel_nuevo_prof" hidden>
+
+                        <div class="card-heading" id="panel_heading">
+                            <!--<a href="#" id="btn-cerrar-popup" class="btn-cerrar-popup" onclick="cerrar()"><i class="fas fa-times"></i></a>-->
+                            <h3>Nuevo Profesional</h3>
+                        </div>
+
+
+
+
+
+                        <form id="formulario" enctype="multipart/form-data" method="POST">
+
+                            <div class="well form-inline">
+
+
+                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                    <label class="col-sm-12 col-md-3" for="txt_identificacion" style="font-weight: bold;"> Identificacion: <label for="" style="color:red;">*</label> &nbsp;</label>
+
+                                    <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa la identificación" name="txt_identificacion" id="txt_identificacion" value="">
+                                </div>
+
+                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                    <label class="col-sm-12 col-md-3" for="txt_nombre" style="font-weight: bold;"> Nombres:<label for="" style="color:red;">*</label>&nbsp; </label>
+
+                                    <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa los nombres" name="txt_nombre" id="txt_nombre" value="">
+                                </div>
+
+                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                    <label class="col-sm-12 col-md-3" for="txt_apellido" style="font-weight: bold;"> Apellidos:&nbsp; </label>
+
+                                    <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa los apellidos" name="txt_apellido" id="txt_apellido" value="">
+                                </div>
+
+
+
+
+
+
+                                <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+
+                                    <label style="font-weight: bold;" class="col-sm-12 col-md-3">Areá Trabajo:<label for="" style="color:red;">*</label> &nbsp;</label>
+
+                                    <select class="form-select form-group form-control input-sm col-md-4" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar area de Trabajo!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar área de Trabajo
+                                        </option>
+                                        <% lista_areas.forEach(lista=> { %>
+                                            <option value="<%= lista.id_area %>">
+                                                <%= lista.nombre_area  %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+
+
+
+                                </div>
+
+                                <div class="form-group col-sm-12 text-center" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                                    <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar</button>
+                                </div>
+
+
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
+
+                <iframe src="/listado-ctm-profesionales" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_prof" id="iframe_prof">
+                    </iframe>
+            </div>
+        </body>
+
+
+
+
+
+        <script type="text/javascript">
+            function almacenar_registro() {
+
+                event.preventDefault();
+                var txt_identificacion = $('#txt_identificacion').val();
+                var txt_nombre = $('#txt_nombre').val();
+                var txt_apellido = $('#txt_apellido').val();
+                var select_area_trabajo = $('#select_area').val();
+
+                if (txt_identificacion != "") {
+
+                    if (txt_nombre != "") {
+                        if (select_area_trabajo != "") {
+
+
+                            var peticion = "/persistir-profesional/?id_profesional=" + txt_identificacion + "&nombres=" + txt_nombre + "&apellidos=" + txt_apellido + "&area_trabajo=" + select_area_trabajo;
+
+                            $.ajax({
+                                type: 'post',
+                                url: peticion,
+                                data: [],
+                                contentType: false,
+                                cache: false,
+                                processData: false,
+
+                                success: function(result) {
+
+                                    //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                                    /*setTimeout(function() {
+                                        window.location.reload(1);
+                                    }, 5000);*/
+                                    if (result["status"] == 200) {
+
+                                        $('#preview').show();
+
+                                        $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                                        $('#card-msg').show();
+
+                                        $('#formulario')[0].reset();
+
+                                        //$('#select_linea').focus();
+
+                                        var iframe = document.getElementById('iframe_prof');
+
+                                        $('#iframe_prof').attr("src", iframe.src);
+                                        $("#iframe_prof").show();
+
+                                        setTimeout(function() {
+                                            $('#preview').hide();
+                                        }, 4000);
+
+                                        $('#panel_nuevo_prof').attr('hidden', true);
+
+
+                                    } else {
+                                        $('#preview').show();
+
+                                        $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                                        $('#card-msg').show();
+
+                                        setTimeout(function() {
+                                            $('#preview').hide();
+                                        }, 5000);
+
+                                        //$('#formulario')[0].reset();
+
+                                        //$('#select_plan').focus();
+
+                                    }
+
+                                    //$('#body_ent').html(result);
+
+
+                                }
+
+                            });
+
+                        } else {
+                            $('#select_area').focus();
+                        }
+
+                    } else {
+                        $('#txt_nombre').focus();
+                    }
+
+
+                } else {
+                    //alert("debe escoger una plan gral");
+                    $('#txt_identificacion').focus();
+                    //$('#txt_objetivo').focus();
+
+
+                }
+            }
+
+
+            function nuevo_profesional() {
+                //alert("OK");
+
+
+
+                $('#panel_nuevo_prof').attr('hidden', false);
+
+
+            }
+
+            function cerrar() {
+                $('#panel_nuevo_prof').attr('hidden', true);
+                //body_ent
+                //$('#pills-tab').offset().top;
+
+
+            }
+
+            $(document).ready(function() {
+
+                $('#preview').hide();
+
+            });
+        </script>

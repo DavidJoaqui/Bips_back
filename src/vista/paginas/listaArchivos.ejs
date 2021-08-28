@@ -203,25 +203,23 @@
                                                                         <div class="btn-group">
                                                                             <!--<form method="POST" action="/file/delete/<%= arr_files[i].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>">-->
                                                                             <% if (!arr_files[i].validado) { %>
-                                                                                <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
+                                                                                <!--<form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
                                                                                     <button class="btn btn-danger btn-submit" value="<%=arr_files[i].nombre_original %>">Eliminar</button>
-                                                                                </form>
-                                                                                <% }else{ %>
-                                                                                    <form method="post" action="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>">
-                                                                                        <button class="btn btn-danger btn-submit" value="<%=arr_files[i].nombre_original %>" disabled>Eliminar</button>
-                                                                                    </form>
+                                                                                </form>-->
 
-                                                                                    <% } %>
+                                                                                <a href="/eliminar-popup/<%= arr_files[i].nombre_original %>/archivo-bips/?id_ips=<%= arr_files[i].id_ips %>&nombre_tmp=<%= arr_files[i].nombre_tmp %>&nombre_ips=<%= arr_files[i].nombre_ips %>" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>                                                                                &nbsp;
+                                                                                <!--
+                                                                                 <input type="button" id="btn-<%= i %>" name="btn-<%= i %>" onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>','<%= arr_files[i].nombre_ips %>')" class="btn btn-success btn-submit" value="Validar">
+                                                                                            -->
+                                                                                <a href="#" title="Validar" onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>','<%= arr_files[i].nombre_ips %>')"><i class="fas fa-check-circle"  style="color: green;"></i></a>
 
-                                                                                        <form>
-                                                                                            <% if (!arr_files[i].validado) {
+                                                                                <% } %>
+
+                                                                                    <% if (arr_files[i].validado) {
                                                                                             %>
+                                                                                        - -
+                                                                                        <% } %>
 
-                                                                                                <input type="button" id="btn-<%= i %>" name="btn-<%= i %>" onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>','<%= arr_files[i].nombre_ips %>')" class="btn btn-success btn-submit" value="Validar">
-                                                                                                <% }else{ %>
-                                                                                                    <input type="button" id="btn-<%= i %>" name="btn-<%= i %>" onclick="validar_plano('<%= arr_files[i].id_ips %>','<%= arr_files[i].nombre_tmp %>','<%= arr_files[i].nombre_ips %>')" class="btn btn-success btn-submit" value="Validar" disabled>
-                                                                                                    <% } %>
-                                                                                        </form>
 
                                                                         </div>
 
@@ -230,6 +228,8 @@
 
 
                                                                     </td>
+
+
 
                                                                 </tr>
                                                                 <% }%>
@@ -245,18 +245,32 @@
 
             <style>
                 #tbl_planos {
-                    font-size: small;
+                    font-size: 10;
                     font-family: 'Montserrat', sans-serif;
                     border-spacing: 0px !important;
                     padding: 0px;
                 }
                 
                 #tbl_planos th {
-                    padding: 7px;
+                    padding: 5px;
                 }
                 
                 #tbl_planos td {
                     padding: 0;
+                    margin: 0;
+                    border: 0;
+                }
+                
+                #tbl_planos td p {
+                    padding: 0;
+                    margin: 0;
+                    border: 0;
+                }
+                
+                #tbl_planos td p i {
+                    padding: 0;
+                    margin: 0;
+                    border: 0;
                 }
                 
                 .btns-acciones form .btn-submit {

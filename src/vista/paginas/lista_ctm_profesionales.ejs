@@ -7,8 +7,8 @@
             <div class="col-md-12">
 
                 <div>
-                    <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
-                        <h2> Objetivos y Lineas de Acción</h2>
+                    <span class="titulo-tabla" style="font-weight: bold;">
+                        <h2> Profesionales Registrados</h2>
                     </span>
                 </div>
 
@@ -21,27 +21,32 @@
 
                         <thead class="head-tabla-reg">
                             <tr>
-                                <th>#</th>
-                                <th>Objetivo</th>
-                                <th>Linea de Acción</th>
+                                <th>No. Identificación</th>
+                                <th>nombres</th>
+                                <th>Apellidos</th>
+                                <th>Area de trabajo</th>
                                 <th>Acciones</th>
 
                             </tr>
                         </thead>
                         <tbody id="developers">
-                            <% for(var i=0; i<lista_objetivos.length; i++) { %>
+                            <% for(var i=0; i<lista_prof.length; i++) { %>
 
                                 <tr class="text-center">
                                     <td>
-                                        <%= lista_objetivos[i].id_objetivo %>
+                                        <%= lista_prof[i].id_profesional %>
 
                                     </td>
                                     <td>
-                                        <%= lista_objetivos[i].objetivo %>
+                                        <%= lista_prof[i].nombres %>
                                     </td>
 
                                     <td>
-                                        <%= lista_objetivos[i].desc_linea_accion %>
+                                        <%= lista_prof[i].apellidos %>
+                                    </td>
+
+                                    <td>
+                                        <%= lista_prof[i].nombre_area %>
                                     </td>
 
                                     <td class="btns-acciones">
