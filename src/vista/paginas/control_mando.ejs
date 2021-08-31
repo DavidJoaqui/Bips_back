@@ -1,0 +1,75 @@
+<body id="body_ppal_ctm" class="">
+    <div class="col-md-12" style=" margin-top: 80px; padding: 10px;margin-left: 10px;">
+
+        <div class="col-md-12">
+
+            <!--<iframe src="/menu-ctm" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="60px" name="iframe_control_mando" id="iframe_control_mando">
+                        </iframe>-->
+            <%- include("menu_cuadro_mando"); %>
+        </div>
+
+    </div>
+
+
+
+    <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
+
+        <iframe src="/ctm-plan-general" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_control_mando" id="iframe_control_mando">
+                    </iframe>
+    </div>
+</body>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('#preview').hide();
+
+        $('#btn-profesionales').click(function() {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-profesionales");
+
+            $("#iframe_control_mando").show();
+
+
+        });
+
+        $('#btn-objetivos').click(function() {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-objetivos");
+
+            $("#iframe_control_mando").show();
+
+        });
+
+        $('#btn-linea-accion').click(function() {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-lineasAccion");
+
+            $("#iframe_control_mando").show();
+
+        });
+
+
+        $('#btn-planGeneral-accion').click(function() {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-plan-general");
+
+            $("#iframe_control_mando").show();
+
+        });
+
+    });
+</script>
+
+
+
+<%- include("footer"); %>

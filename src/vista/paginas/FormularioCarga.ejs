@@ -68,18 +68,18 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-sm-5 col-md-6 col-xs-6">
-                                                    <label for="fecha_ini" style="font-weight: bold;">Fecha
+                                                    <label for="txtfecha_inicial" style="font-weight: bold;">Fecha
                                                                 inicial</label>
                                                     <div>
-                                                        <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" required>
+                                                        <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" placeholder=" " required>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-sm-5 col-md-6 col-xs-6">
-                                                    <label for="fecha_ini" style="font-weight: bold;">Fecha
+                                                    <label for="txtfecha_fin" style="font-weight: bold;">Fecha
                                                                 Final</label>
                                                     <div>
-                                                        <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" required>
+                                                        <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" placeholder=" " required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -93,16 +93,13 @@
                                         </div>
 
                                         <div class="card">
-                                            <div class="card-header text-white bg-info mb-3 container-fluid"><b>
+                                            <div class="card-header text-white bg-info"><b>
                                                             Selecciona los planos a
                                                             cargar</b></div>
                                             <div class="panel-body">
 
-                                                <div class="form-group">
-                                                    <input type="file" class="input-file-input" name="files" id="files" multiple>
 
-                                                </div>
-
+                                                <input type="file" class="input-file-input" name="files" id="files" multiple>
 
                                                 <button class="btn btn btn-primary btn-sm" id="btn-subir" name="btn-subir">Subir</button>
                                             </div>
@@ -122,9 +119,10 @@
 
                     <div class="col-md-8" id="lista_archivos" name="lista_archivos">
 
-                        <iframe src="/listadoArchivos" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="970px" height="600px" name="iframe_arch" id="iframe_arch">
+                        <iframe src="/listadoArchivos" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="900px" name="iframe_arch" id="iframe_arch">
                                 </iframe>
                     </div>
+
 
                     <script>
                         $(document).ready(function() {
@@ -283,7 +281,7 @@
                                         //$('#btn-subir').attr("disabled", true);
                                         if (result['estado'] == '200') {
                                             $('#datos').html('<p><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:green">La operacion se ejecuto con exito...</i></p>');
-                                            console.log(JSON.stringify(result['respuesta']));
+                                            //console.log(JSON.stringify(result['respuesta']));
                                             var iframe = document.getElementById('iframe_arch');
 
                                             //$("#btn-subir").prop("disabled", true);

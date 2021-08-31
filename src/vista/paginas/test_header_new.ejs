@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html>
-
 <%- include("head"); %>
     <%- include("styles_gral"); %>
 
@@ -11,7 +8,8 @@
             <title>BIPS</title>
             <style>
                 body {
-                    font-family: "Lato", sans-serif;
+                    /*font-family: "Lato", sans-serif;
+                    zoom: 90%;*/
                 }
                 
                 .sidenav {
@@ -63,7 +61,7 @@
 
         <body>
 
-            <div id="mySidenav" class="sidenav navbar-dark fixed-top bg-dark">
+            <div id="mySidenav" class="sidenav navbar-dark fixed-top bg-dark" style="margin-bottom: 30px;">
 
                 <div>
                     <div>
@@ -160,22 +158,9 @@
                     </li>
                 </div>
 
-                <li class="nav-item dropdown btn-group dropright">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user"></i> Control de Mando
+                <a class="nav-link" href="/control-mando">
+                    <i class="fas fa-chart-line"></i> Control de Mando
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-
-                    <a class="dropdown-item" href="/ctm-planGeneral"><b> Plan General</b></a>
-                    <a class="dropdown-item" href="/obtenerRegistrosPlanos"><b> Registro Archivos Planos</b></a>
-                    <a class="dropdown-item" href="/cargar-plano"><b> Cargar Planos</b></a>
-                    <div class="dropdown-divider"></div>
-
-                    <a class="dropdown-item" href="/reportes-2193"> <b> Informe 2193</b></a>
-                    <a class="dropdown-item" href="/olap-2193"> <b> Analisis OLAP 2193 </b></a>
-                    <a class="dropdown-item" href="/reportes-2193"> <b> Dashboard 2193</b></a>
-                </div>
-            </li>
 
                 <a class="nav-link" href="#">
                     <i class="fas fa-chart-line"></i> Estadistica
@@ -197,6 +182,15 @@
                     <i class="ni ni-pin-3 text-orange"></i> opcion_x
                 </a>
 
+                <a class="nav-link" href="#">
+                    <i class="ni ni-pin-3 text-orange"></i> opcion_x
+                </a>
+                <a class="nav-link" href="#">
+                    <i class="ni ni-pin-3 text-orange"></i> opcion_x
+                </a>
+                <a class="nav-link" href="#">
+                    <i class="ni ni-pin-3 text-orange"></i> opcion_x
+                </a>
 
 
 
@@ -301,7 +295,7 @@
                     $('#sidenav').toggleClass('active');
                     $('#sidenav').toggleClass('in');
                     $('#sidebarCollapse').attr('aria-expanded', 'false');
-                    document.getElementById("bodyContent").style.width = "100%";
+                    //document.getElementById("bodyContent").style.width = "100%";
                 });
             });
         </script>

@@ -1,8 +1,10 @@
 #panel_carga {
     margin-left: 40px;
     padding-left: 0px;
-    margin-top: 80px;
+    margin-top: 90px;
     padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 100px;
     /*background-color: #eaedee;*/
 }
 
@@ -15,10 +17,13 @@
 }
 
 #lista_archivos {
-    margin-top: 50px;    
+    margin-top: 50px;
     margin-right: 0px;
     padding-right: 0px;
     font-family: 'Montserrat', sans-serif;
+    padding-top: 10px;
+    margin-bottom: 100px;
+    width: 100%;
 }
 
 #head-carga {

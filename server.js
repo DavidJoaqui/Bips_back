@@ -31,7 +31,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     cookie: {
-        maxAge: 600000,
+        maxAge: 6000000,
     }
 
 }))
@@ -44,7 +44,7 @@ const modelvalidaciones = require("./models/validacionModel");
 const modelktr = require("./models/ejecucion_KtrModel");
 const modelSecurity = require("./models/loginModel");
 const modelEntidad = require("./models/entidadesModel");
-
+const modelControlMando = require("./models/controlMandoModel");
 
 
 
@@ -662,7 +662,7 @@ app.get("/olap-2193", auth, (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/Olap_2193"), { user: req.session.user, });
 });
 
-app.post("/eliminar-popup/:name/archivo-bips", auth, (req, res) => {
+app.get("/eliminar-popup/:name/archivo-bips", auth, (req, res) => {
     //console.log(req.query);
 
     var name = req.query.nombre_tmp;
@@ -1425,9 +1425,255 @@ app.get("/estado-recaudo-bips", auth, (req, res) => {
     res.render("paginas/estado_recaudo", { user: req.session.user, });
 });
 
-app.get("/ctm-planGeneral", auth, (req, res) => {
-    res.render("paginas/plan_gral", { user: req.session.user, });
+app.get("/control-mando", auth, (req, res) => {
+    res.render("paginas/control_mando", { user: req.session.user });
 });
+
+app.get("/ctm-plan-general", auth, (req, res) => {
+    res.render("paginas/plan_general");
+});
+
+app.get("/listado-ctm-planes-generales", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_planGral", { lista_planes: lista_planes });
+    });
+
+
+});
+
+app.post("/persistir-plan", auth, (req, res) => {
+    //res.send("OK");
+    //console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.obtener_mayor_id_planGeneral().then(respuesta__max => {
+        //console.log(respuesta__max);
+        var id = parseInt(respuesta__max[0]['max']) + 1;
+
+        modelControlMando.insertar_PlanGeneral(id, req.query.nombre_plan).then(respuesta => {
+
+            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                console.log("OK... insert NEW entidad");
+                //console.log(listaArchivos);    
+                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                //res.setHeader('Content-type', 'text/html');
+                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+                res.json({ status: 200, msg: 'El plan General <b>' + req.query.nombre_plan + '</b>, se creó correctamente...' });
+            } else {
+
+                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                res.json({ status: 300, msg: 'ERROR al crear el plan General <b>' + req.query.nombre_plan + '</b>, intente de nuevo...' });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+            res.json({ status: 500, msg: 'ERROR!! El plan General <b>' + req.query.nombre_plan + ' </b> YA EXISTE...' });
+        });
+
+
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! el plan <b>' + req.query.nombre_plan + '</b>, YA EXISTE...' });
+    });
+
+
+})
+
+app.get("/ctm-lineasAccion", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
+        //console.log(lista_planes);
+        res.render("paginas/lineasAccion", { user: req.session.user, listaPlanes_grales: lista_planes });
+    });
+
+
+});
+
+
+app.get("/menu-ctm", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
+        //console.log(lista_planes);
+        res.render("paginas/menu_cuadro_mando");
+    });
+
+
+});
+
+
+///listado-ctm-lineas-accion
+app.get("/listado-ctm-lineas-accion", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosLineasAccion().then(lista_lineas_accion => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_lineasAccion", { lista_lineas_accion: lista_lineas_accion });
+    });
+
+
+});
+
+app.post("/persistir-lineaAccion/", auth, (req, res) => {
+    //res.send("OK");
+    //console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.obtener_mayor_id_lineaAccion().then(respuesta__max => {
+        //console.log(respuesta__max);
+        var id = parseInt(respuesta__max[0]['max']) + 1;
+
+        modelControlMando.insertar_lineaAccion(id, req.query.linea_accion, req.query.plan_general).then(respuesta => {
+
+            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                console.log("OK... insert NEW entidad");
+                //console.log(listaArchivos);    
+                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                //res.setHeader('Content-type', 'text/html');
+                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+                res.json({ status: 200, msg: 'La linea de Acción <b>' + req.query.linea_accion + '</b>, se creó correctamente...' });
+            } else {
+
+                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                res.json({ status: 300, msg: 'ERROR al crear la linea de Acción <b>' + req.query.linea_accion + '</b>, intente de nuevo...' });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+            res.json({ status: 500, msg: 'ERROR!! La linea de acción <b>' + req.query.linea_accion + ' </b> YA EXISTE...' });
+        });
+
+
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! la linea de acción <b>' + req.query.linea_accion + '</b>, YA EXISTE...' });
+    });
+
+
+})
+
+app.get("/ctm-objetivos", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosObjetivos__LineasAccion().then(lista_lineas_accion => {
+        //console.log(lista_planes);
+        res.render("paginas/ctm_objetivos", { user: req.session.user, lista_lineas_accion: lista_lineas_accion });
+    });
+
+
+});
+
+app.get("/listado-ctm-objetivos", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosObjetivos().then(lista_objetivos => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_ctm_objetivos", { lista_objetivos: lista_objetivos });
+    });
+
+
+});
+
+app.post("/persistir-objetivo/", auth, (req, res) => {
+    //res.send("OK");
+    //console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.obtener_mayor_id_Objetivos().then(respuesta__max => {
+        //console.log(respuesta__max);
+        var id = parseInt(respuesta__max[0]['max']) + 1;
+
+        modelControlMando.insertar_Objetivo(id, req.query.objetivo, req.query.linea_accion).then(respuesta => {
+
+            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                console.log("OK... insert NEW entidad");
+                //console.log(listaArchivos);    
+                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                //res.setHeader('Content-type', 'text/html');
+                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+                res.json({ status: 200, msg: 'El objetivo <b>' + req.query.objetivo + '</b>, se creó correctamente...' });
+            } else {
+
+                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                res.json({ status: 300, msg: 'ERROR al crear el Objetivo <b>' + req.query.objetivo + '</b>, intente de nuevo...' });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+            res.json({ status: 500, msg: 'ERROR!! El objetivo <b>' + req.query.objetivo + ' </b> YA EXISTE...' });
+        });
+
+
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! la linea de acción <b>' + req.query.linea_accion + '</b>, YA EXISTE...' });
+    });
+
+
+})
+
+//ctm-profesionales
+
+app.get("/ctm-profesionales", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+        //console.log(lista_planes);
+        res.render("paginas/ctm_profesionales", { user: req.session.user, lista_areas: lista_areas });
+    });
+
+
+});
+
+app.get("/listado-ctm-profesionales", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosProfesionales().then(lista_prof => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_ctm_profesionales", { lista_prof: lista_prof });
+    });
+
+
+});
+
+app.post("/persistir-profesional/", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.insertar_Profesional(req.query.id_profesional, req.query.nombres, req.query.apellidos, req.query.area_trabajo).then(respuesta => {
+
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert NEW entidad");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.json({ status: 200, msg: 'El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + '</b>, se creó correctamente...' });
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.json({ status: 300, msg: 'ERROR al crear el Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + '</b>, intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + ' </b> YA EXISTE...' });
+    });
+
+
+
+
+
+
+})
+
 
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
