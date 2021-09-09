@@ -14,18 +14,20 @@
 
     <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
-        <iframe src="/ctm-plan-general" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_control_mando" id="iframe_control_mando">
-                    </iframe>
+        <iframe src="/ctm-plan-general" title="Archivos cargados" scrolling="si" onload='' frameBorder="0"
+            class="embed-responsive-item" width="100%" height="600px" name="iframe_control_mando"
+            id="iframe_control_mando">
+        </iframe>
     </div>
 </body>
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $('#preview').hide();
 
-        $('#btn-profesionales').click(function() {
+        $('#btn-profesionales').click(function () {
 
             //alert("OK");
 
@@ -36,7 +38,7 @@
 
         });
 
-        $('#btn-objetivos').click(function() {
+        $('#btn-objetivos').click(function () {
 
             //alert("OK");
 
@@ -46,7 +48,50 @@
 
         });
 
-        $('#btn-linea-accion').click(function() {
+        $('#btn-estrategias').click(function () {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-estrategias");
+
+            $("#iframe_control_mando").show();
+
+        });
+
+        $('#btn-planes').click(function () {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-planes");
+
+            $("#iframe_control_mando").show();
+
+        });
+
+
+        $('#btn-areas').click(function () {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-areas");
+
+            $("#iframe_control_mando").show();
+
+        });
+
+        $('#btn-indicadores').click(function () {
+
+            //alert("OK");
+
+            $('#iframe_control_mando').attr("src", "/ctm-indicadores");
+            //$('#iframe_control_mando').attr("src", "/ctm-indicadores-planes");
+
+            $("#iframe_control_mando").show();
+
+        });
+
+
+        $('#btn-linea-accion').click(function () {
 
             //alert("OK");
 
@@ -57,7 +102,7 @@
         });
 
 
-        $('#btn-planGeneral-accion').click(function() {
+        $('#btn-planGeneral-accion').click(function () {
 
             //alert("OK");
 

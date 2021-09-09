@@ -65,6 +65,7 @@ module.exports = {
         return resultados.rows;
     },
 
+
     async consultar_RegistrosObjetivos__LineasAccion() {
         const resultados = await conexion.query("select t1.id_linea,concat(t1.linea_accion,' (',t1.plan_general,')') as linea_accion from (select pg.plan_general,la.linea_accion, la.id_linea from schema_control.lineas_acciones la inner join schema_control.plangeneral pg on(la.id_plan_general=id_plangeneral) order by la.id_linea asc)t1");
         return resultados.rows;
@@ -80,6 +81,68 @@ module.exports = {
         const resultados = await conexion.query('insert into schema_control.objetivos (id_objetivo,objetivo,id_linea_accion) values ($1,$2,$3)', [id_objetivo, objetivo, id_linea_accion]);
         return resultados;
     },
+
+
+
+    
+    //-----------------------Metodos ESTRATEGIAS--------------------------------------//
+    //------------------------------------------------------------------------------//
+
+    async consultar_RegistrosObjetivosxlineas() {
+        const resultados = await conexion.query("select * from schema_control.objetivos a inner join schema_control.lineas_acciones b on (a.id_linea_accion=b.id_linea)");
+        return resultados.rows;
+    },
+ 
+    async insertar_estrategia(estrategia, id_objetivo) {
+        const resultados = await conexion.query('insert into schema_control.estrategias (estrategia,id_objetivo) values ($1,$2)', [estrategia,id_objetivo]);
+        return resultados;
+    },
+
+    async consultar_RegistrosEstrategias() {
+        const resultados = await conexion.query("select a.id_estrategia,a.estrategia, b.id_objetivo, b.objetivo from schema_control.estrategias a inner join schema_control.objetivos b on (a.id_objetivo=b.id_objetivo)");
+        return resultados.rows;
+    },
+
+    
+
+    //---------------------------Metodos PLanes--------------------------------------//
+    //------------------------------------------------------------------------------//
+
+    
+    async insertar_plan(plan, id_estrategia) {
+        const resultados = await conexion.query('insert into schema_control.planes (plan,id_estrategia) values ($1,$2)', [plan,id_estrategia]);
+        return resultados;
+    },
+
+    async consultar_RegistroPlanes() {
+        const resultados = await conexion.query("select * from schema_control.planes");
+        return resultados.rows;
+    },
+
+    //-----------------------Metodos Areas--------------------------------------//
+    //------------------------------------------------------------------------------//
+    async insertar_area(nombre_area) {
+        const resultados = await conexion.query('insert into schema_control.areas (nombre_area) values ($1)', [nombre_area]);
+        return resultados;
+    },
+
+    async consultar_RegistroAreas() {
+        const resultados = await conexion.query("select * from schema_control.areas");
+        return resultados.rows;
+    },
+
+      //-----------------------Metodos Indicadores--------------------------------------//
+    //------------------------------------------------------------------------------//
+    async insertar_indicador(nombre_area) {
+        const resultados = await conexion.query('insert into schema_control.areas (nombre_area) values ($1)', [nombre_area]);
+        return resultados;
+    },
+
+    async consultar_Indicadores() {
+        const resultados = await conexion.query("select * from schema_control.indicadores");
+        return resultados.rows;
+    },
+
 
 
 
