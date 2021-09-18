@@ -21,7 +21,8 @@
 
                         <thead class="head-tabla-reg">
                             <tr>
-                                <th>No. Identificación</th>
+                                <th>#</th>
+                                <th>N.Identificacion</th>
                                 <th>nombres</th>
                                 <th>Apellidos</th>
                                 <th>Area de trabajo</th>
@@ -34,8 +35,11 @@
 
                                 <tr class="text-center">
                                     <td>
-                                        <%= lista_prof[i].id_profesional %>
+                                        <%= i+1 %>
 
+                                    </td>
+                                    <td>
+                                        <%= lista_prof[i].num_identificacion %>
                                     </td>
                                     <td>
                                         <%= lista_prof[i].nombres %>

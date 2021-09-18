@@ -1460,14 +1460,9 @@ app.get("/lista-ctm-areas", auth, (req, res) => {
 
 app.post("/persistir-plan", auth, (req, res) => {
     //res.send("OK");
-    //console.log(req.query);
-    //console.log(req.params);
-
-    modelControlMando.obtener_mayor_id_planGeneral().then(respuesta__max => {
-        //console.log(respuesta__max);
-        var id = parseInt(respuesta__max[0]['max']) + 1;
-
-        modelControlMando.insertar_PlanGeneral(id, req.query.nombre_plan).then(respuesta => {
+    console.log(req.query);
+    console.log(req.params);
+       modelControlMando.insertar_PlanGeneral(req.query.nombre_plan).then(respuesta => {
 
             if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
                 console.log("OK... insert NEW entidad");
@@ -1487,15 +1482,6 @@ app.post("/persistir-plan", auth, (req, res) => {
             //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
             res.json({ status: 500, msg: 'ERROR!! El plan General <b>' + req.query.nombre_plan + ' </b> YA EXISTE...' });
         });
-
-
-
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! el plan <b>' + req.query.nombre_plan + '</b>, YA EXISTE...' });
-    });
-
 
 })
 
@@ -1535,13 +1521,9 @@ app.get("/listado-ctm-lineas-accion", auth, (req, res) => {
 app.post("/persistir-lineaAccion/", auth, (req, res) => {
     //res.send("OK");
     //console.log(req.query);
-    //console.log(req.params);
+    //console.log(req.params);    
 
-    modelControlMando.obtener_mayor_id_lineaAccion().then(respuesta__max => {
-        //console.log(respuesta__max);
-        var id = parseInt(respuesta__max[0]['max']) + 1;
-
-        modelControlMando.insertar_lineaAccion(id, req.query.linea_accion, req.query.plan_general).then(respuesta => {
+        modelControlMando.insertar_lineaAccion(req.query.linea_accion, req.query.plan_general).then(respuesta => {
 
             if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
                 console.log("OK... insert NEW entidad");
@@ -1564,11 +1546,7 @@ app.post("/persistir-lineaAccion/", auth, (req, res) => {
 
 
 
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! la linea de acción <b>' + req.query.linea_accion + '</b>, YA EXISTE...' });
-    });
+    
 
 
 })
@@ -1637,18 +1615,11 @@ app.get("/listado-ctm-planes", auth, (req, res) => {
 app.get("/ctm-indicadores", auth, (req, res) => {
 
     modelControlMando.consultar_RegistroPlanes().then(lista_planes => {
-            //console.log(lista_planes);
-            res.render("paginas/ctm_indicadores", { user: req.session.user, lista_planes: lista_planes });
+        modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+            
+            res.render("paginas/ctm_indicadores", { user: req.session.user, lista_planes: lista_planes, lista_areas: lista_areas });
         });
-
-    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
-        //console.log(lista_planes);
-        
-
-
-        res.render("paginas/ctm_indicadores", { user: req.session.user, lista_areas: lista_areas });
-    });
-
+        });    
 });
 
 
@@ -1678,11 +1649,7 @@ app.post("/persistir-objetivo/", auth, (req, res) => {
     //console.log(req.query);
     //console.log(req.params);
 
-    modelControlMando.obtener_mayor_id_Objetivos().then(respuesta__max => {
-        //console.log(respuesta__max);
-        var id = parseInt(respuesta__max[0]['max']) + 1;
-
-        modelControlMando.insertar_Objetivo(id, req.query.objetivo, req.query.linea_accion).then(respuesta => {
+        modelControlMando.insertar_Objetivo(req.query.objetivo, req.query.linea_accion).then(respuesta => {
 
             if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
                 console.log("OK... insert NEW entidad");
@@ -1705,11 +1672,7 @@ app.post("/persistir-objetivo/", auth, (req, res) => {
 
 
 
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! la linea de acción <b>' + req.query.linea_accion + '</b>, YA EXISTE...' });
-    });
+    
 
 
 })
@@ -1815,9 +1778,9 @@ app.get("/listado-ctm-profesionales", auth, (req, res) => {
 app.post("/persistir-profesional/", auth, (req, res) => {
     //res.send("OK");
     console.log(req.query);
-    //console.log(req.params);
+    console.log(req.params);
 
-    modelControlMando.insertar_Profesional(req.query.id_profesional, req.query.nombres, req.query.apellidos, req.query.area_trabajo).then(respuesta => {
+    modelControlMando.insertar_Profesional(req.query.num_identificacion, req.query.nombres, req.query.apellidos, req.query.area_trabajo).then(respuesta => {
 
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW entidad");
