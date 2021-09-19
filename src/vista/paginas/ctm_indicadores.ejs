@@ -7,7 +7,7 @@
                 overflow-x: auto;
                 overflow-y: auto;
             }
-            
+
             body::-webkit-scrollbar {
                 display: none;
                 overflow-y: hidden;
@@ -15,7 +15,8 @@
         </style>
 
         <body id="body_ent">
-            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+            <div class="preview text-center" id="preview"
+                style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
                 <div class="card col-md-12" id="card-msg">
 
 
@@ -32,24 +33,31 @@
                 <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <div class="form-group" style="padding-left: 30px;margin: 20px;">
-                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="nuevo_estrategia()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Indicador</button>
-                            
+                            <button class="nav-link active btn btn-success" type="button"
+                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea"
+                                onclick="nuevo_estrategia()" data-toggle="pill" href="" role="tab" aria-controls=""
+                                aria-selected="true"><i class="fas fa-plus"></i> Indicador</button>
+
                         </div>
                     </li>
                     <li class="nav-item" role="presentation">
                         <div class="form-group" style="padding-left: 0px;margin: 20px;">
-                            
-                            <button class="nav-link active btn btn-info" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-list"></i> Lista</button>
+
+                            <button class="nav-link active btn btn-info" type="button"
+                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick=""
+                                data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i
+                                    class="fas fa-list"></i> Lista</button>
                         </div>
                     </li>
                 </ul>
-                
+
 
                 <div class="dropdown-divider"></div>
 
             </div>
 
-            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
+            <div
+                style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
 
 
                 <div class="col-md col-md-offset-3" style="padding-bottom: 0px">
@@ -60,24 +68,21 @@
 
                         <form id="formulario" enctype="multipart/form-data" method="POST">
 
-                            <div class="well form-inline">
-
-
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label for="txt_onjetivo" style="font-weight: bold;"> Indicador </label>
-
-                                    <textarea class="col-sm-12 col-md-12 " type="text" name="txt_indicador" id="txt_indicador" value=""></textarea>
-
-                                    
+                            <div class="form-group row">
+                                <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
+                                    Indicador: </label>
+                                <div class="col-10">
+                                    <textarea class="form-control" type="text" name="txt_indicador" id="txt_indicador"
+                                        value=""></textarea>
                                 </div>
-                                &nbsp;&nbsp;
-                                
+                            </div>
 
-
-                                
-                                <div class="form-group col-sm-12 col-md-12" style="justify-content: center;"> 
-                                    <label style="font-weight: bold;">Plan: </label>
-                               <select class="form-select form-group form-control input-sm col-md-6" name="select_linea" id="select_linea" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">Plan: </label>
+                                <div class="col-10">
+                                    <select class="form-control"
+                                    name="select_linea" id="select_linea" data-toggle="tooltip"
+                                    title="Seleccionar Objetivo!" data-placement="right" required>
                                     <option selected="selected" value="">Seleccionar plan
                                     </option>
                                     <% lista_planes.forEach(lista=> { %>
@@ -86,13 +91,18 @@
                                         </option>
                                         <% }); %>
                                 </select>
+
+                                </div>
+                                
                             </div>
 
-                                
 
-                                <div class="form-group col-sm-12 col-md-12" style="justify-content: center;"> 
-                                    <label class="" style="font-weight: bold;" for="select_objetivo">Area: </label>
-                               <select class="form-select form-group form-control col-sm-12 col-md-6" name="select_objetivo" id="select_objetivo" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
+
+                            <div class="form-group col-sm-12 col-md-12" style="justify-content: center;">
+                                <label class="" style="font-weight: bold;" for="select_objetivo">Area: </label>
+                                <select class="form-select form-group form-control col-sm-12 col-md-6"
+                                    name="select_objetivo" id="select_objetivo" data-toggle="tooltip"
+                                    title="Seleccionar Objetivo!" data-placement="right" required>
                                     <option selected="selected" value="">Seleccionar area
                                     </option>
                                     <% lista_areas.forEach(lista=> { %>
@@ -102,62 +112,78 @@
                                         <% }); %>
                                 </select>
                             </div>
-                            
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_apellido" style="font-weight: bold;"> Tipo Meta:&nbsp; </label>
 
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="Tipo de meta" name="txt_tipo_meta" id="txt_apellido" value="">
-                                </div>
+                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                <label class="col-sm-12 col-md-3" for="txt_apellido" style="font-weight: bold;">
+                                    Tipo Meta:&nbsp; </label>
 
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_fl_numerador" style="font-weight: bold;"> Formula literal Numerador:&nbsp; </label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="numerador" name="txt_fl_numerador" id="txt_fl_numerador" value="">
-                                </div>
-                                <div class="dropdown-divider" style=""></div>
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_fl_denominador" style="font-weight: bold;"> Formula literal Denominador:&nbsp; </label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="Denominador" name="txt_fl_denominador" id="txt_fl_denominador" value="">
-                                </div>
-
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_meta_descriptiva" style="font-weight: bold;">Meta Descriptiva :&nbsp; </label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="meta Descriptiva" name="txt_meta_descriptiva" id="txt_meta_descriptiva" value="">
-                                </div>
-
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_apellido" style="font-weight: bold;">Formula Literal Descriptiva :&nbsp; </label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="Formula literal Descriptiva" name="txt_fl_descriptiva" id="txt_apellido" value="">
-                                </div>
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_nombre" style="font-weight: bold;"> Nombre Indicador:<label for="" style="color:red;">*</label>&nbsp; </label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa nombre del indicador" name="txt_nombre" id="txt_nombre" value="">
-                                </div>
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_meta_numerica" style="font-weight: bold;"> Meta númerica:<label for="" style="color:red;">*</label>&nbsp; </label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa la meta númerica" name="txt_meta_numerica" id="txt_meta_numerica" value="">
-                                </div>
-
-                            </div>
-                            
-
-                                <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-                                    <div class="text-center">
-                                        <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Estrategia</button>
-                                    </div>
-                                </div>
-
+                                <input class="col-sm-12 col-md-4" type="text" placeholder="Tipo de meta"
+                                    name="txt_tipo_meta" id="txt_apellido" value="">
                             </div>
 
-                        </form>
+                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                <label class="col-sm-12 col-md-3" for="txt_fl_numerador" style="font-weight: bold;">
+                                    Formula literal Numerador:&nbsp; </label>
+
+                                <input class="col-sm-12 col-md-4" type="text" placeholder="numerador"
+                                    name="txt_fl_numerador" id="txt_fl_numerador" value="">
+                            </div>
+                            <div class="dropdown-divider" style=""></div>
+                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                <label class="col-sm-12 col-md-3" for="txt_fl_denominador" style="font-weight: bold;">
+                                    Formula literal Denominador:&nbsp; </label>
+
+                                <input class="col-sm-12 col-md-4" type="text" placeholder="Denominador"
+                                    name="txt_fl_denominador" id="txt_fl_denominador" value="">
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                <label class="col-sm-12 col-md-3" for="txt_meta_descriptiva"
+                                    style="font-weight: bold;">Meta Descriptiva :&nbsp; </label>
+
+                                <input class="col-sm-12 col-md-4" type="text" placeholder="meta Descriptiva"
+                                    name="txt_meta_descriptiva" id="txt_meta_descriptiva" value="">
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                <label class="col-sm-12 col-md-3" for="txt_apellido" style="font-weight: bold;">Formula
+                                    Literal Descriptiva :&nbsp; </label>
+
+                                <input class="col-sm-12 col-md-4" type="text" placeholder="Formula literal Descriptiva"
+                                    name="txt_fl_descriptiva" id="txt_apellido" value="">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                <label class="col-sm-12 col-md-3" for="txt_nombre" style="font-weight: bold;">
+                                    Nombre Indicador:<label for="" style="color:red;">*</label>&nbsp; </label>
+
+                                <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa nombre del indicador"
+                                    name="txt_nombre" id="txt_nombre" value="">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
+                                <label class="col-sm-12 col-md-3" for="txt_meta_numerica" style="font-weight: bold;">
+                                    Meta númerica:<label for="" style="color:red;">*</label>&nbsp; </label>
+
+                                <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa la meta númerica"
+                                    name="txt_meta_numerica" id="txt_meta_numerica" value="">
+                            </div>
+
+
+
+
+                            <div class="form-group col-sm-12"
+                                style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                                <div class="text-center">
+                                    <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar"
+                                        name="btn-validar" onclick="almacenar_registro()">Guardar Estrategia</button>
+                                </div>
+                            </div>
 
                     </div>
+
+                    </form>
+
                 </div>
+            </div>
             </div>
 
             </div>
@@ -165,8 +191,9 @@
 
             <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
-                <iframe src="" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_obj" id="iframe_obj">
-                    </iframe>
+                <iframe src="" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0"
+                    class="embed-responsive-item" width="100%" height="600px" name="iframe_obj" id="iframe_obj">
+                </iframe>
             </div>
         </body>
 
@@ -195,7 +222,7 @@
                             cache: false,
                             processData: false,
 
-                            success: function(result) {
+                            success: function (result) {
 
                                 //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
 
@@ -219,7 +246,7 @@
                                     $('#iframe_obj').attr("src", iframe.src);
                                     $("#iframe_obj").show();
 
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         $('#preview').hide();
                                     }, 4000);
 
@@ -231,7 +258,7 @@
 
                                     $('#card-msg').show();
 
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         $('#preview').hide();
                                     }, 5000);
 
@@ -274,5 +301,5 @@
 
             }
 
-           
+
         </script>

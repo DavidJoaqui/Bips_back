@@ -1462,26 +1462,26 @@ app.post("/persistir-plan", auth, (req, res) => {
     //res.send("OK");
     console.log(req.query);
     console.log(req.params);
-       modelControlMando.insertar_PlanGeneral(req.query.nombre_plan).then(respuesta => {
+    modelControlMando.insertar_PlanGeneral(req.query.nombre_plan).then(respuesta => {
 
-            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                console.log("OK... insert NEW entidad");
-                //console.log(listaArchivos);    
-                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                //res.setHeader('Content-type', 'text/html');
-                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-                res.json({ status: 200, msg: 'El plan General <b>' + req.query.nombre_plan + '</b>, se creó correctamente...' });
-            } else {
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert NEW entidad");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.json({ status: 200, msg: 'El plan General <b>' + req.query.nombre_plan + '</b>, se creó correctamente...' });
+        } else {
 
-                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-                res.json({ status: 300, msg: 'ERROR al crear el plan General <b>' + req.query.nombre_plan + '</b>, intente de nuevo...' });
-            }
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.json({ status: 300, msg: 'ERROR al crear el plan General <b>' + req.query.nombre_plan + '</b>, intente de nuevo...' });
+        }
 
-        }).catch(err => {
-            console.log(err);
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-            res.json({ status: 500, msg: 'ERROR!! El plan General <b>' + req.query.nombre_plan + ' </b> YA EXISTE...' });
-        });
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El plan General <b>' + req.query.nombre_plan + ' </b> YA EXISTE...' });
+    });
 
 })
 
@@ -1523,30 +1523,30 @@ app.post("/persistir-lineaAccion/", auth, (req, res) => {
     //console.log(req.query);
     //console.log(req.params);    
 
-        modelControlMando.insertar_lineaAccion(req.query.linea_accion, req.query.plan_general).then(respuesta => {
+    modelControlMando.insertar_lineaAccion(req.query.linea_accion, req.query.plan_general).then(respuesta => {
 
-            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                console.log("OK... insert NEW entidad");
-                //console.log(listaArchivos);    
-                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                //res.setHeader('Content-type', 'text/html');
-                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-                res.json({ status: 200, msg: 'La linea de Acción <b>' + req.query.linea_accion + '</b>, se creó correctamente...' });
-            } else {
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert NEW entidad");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.json({ status: 200, msg: 'La linea de Acción <b>' + req.query.linea_accion + '</b>, se creó correctamente...' });
+        } else {
 
-                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-                res.json({ status: 300, msg: 'ERROR al crear la linea de Acción <b>' + req.query.linea_accion + '</b>, intente de nuevo...' });
-            }
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.json({ status: 300, msg: 'ERROR al crear la linea de Acción <b>' + req.query.linea_accion + '</b>, intente de nuevo...' });
+        }
 
-        }).catch(err => {
-            console.log(err);
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-            res.json({ status: 500, msg: 'ERROR!! La linea de acción <b>' + req.query.linea_accion + ' </b> YA EXISTE...' });
-        });
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! La linea de acción <b>' + req.query.linea_accion + ' </b> YA EXISTE...' });
+    });
 
 
 
-    
+
 
 
 })
@@ -1575,10 +1575,18 @@ app.get("/listado-ctm-objetivos", auth, (req, res) => {
 });
 
 app.get("/ctm-estrategias", auth, (req, res) => {
+    console.log(req.query.linea_accion);
 
-    modelControlMando.consultar_RegistrosObjetivosxlineas().then(lista_objetivos_lineas => {
-        //console.log(lista_planes);
-        res.render("paginas/ctm_estrategias", { user: req.session.user, lista_objetivos_lineas: lista_objetivos_lineas });
+    modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+        modelControlMando.consultar_RegistrosLineasAccion().then(lista_lineas => {
+            modelControlMando.consultar_ObjetivosXlinea(req.query.linea_accion).then(lista_objetivos => {
+
+                res.render("paginas/ctm_estrategias", {
+                    user: req.session.user,listaPlanes_grales:listaPlanes_grales,
+                    lista_lineas: lista_lineas, lista_objetivos: lista_objetivos
+                });
+            });
+        });
     });
 
 });
@@ -1616,10 +1624,10 @@ app.get("/ctm-indicadores", auth, (req, res) => {
 
     modelControlMando.consultar_RegistroPlanes().then(lista_planes => {
         modelControlMando.consultar_RegistroAreas().then(lista_areas => {
-            
+
             res.render("paginas/ctm_indicadores", { user: req.session.user, lista_planes: lista_planes, lista_areas: lista_areas });
         });
-        });    
+    });
 });
 
 
@@ -1649,30 +1657,30 @@ app.post("/persistir-objetivo/", auth, (req, res) => {
     //console.log(req.query);
     //console.log(req.params);
 
-        modelControlMando.insertar_Objetivo(req.query.objetivo, req.query.linea_accion).then(respuesta => {
+    modelControlMando.insertar_Objetivo(req.query.objetivo, req.query.linea_accion).then(respuesta => {
 
-            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                console.log("OK... insert NEW entidad");
-                //console.log(listaArchivos);    
-                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                //res.setHeader('Content-type', 'text/html');
-                //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-                res.json({ status: 200, msg: 'El objetivo <b>' + req.query.objetivo + '</b>, se creó correctamente...' });
-            } else {
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert NEW entidad");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.json({ status: 200, msg: 'El objetivo <b>' + req.query.objetivo + '</b>, se creó correctamente...' });
+        } else {
 
-                //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-                res.json({ status: 300, msg: 'ERROR al crear el Objetivo <b>' + req.query.objetivo + '</b>, intente de nuevo...' });
-            }
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.json({ status: 300, msg: 'ERROR al crear el Objetivo <b>' + req.query.objetivo + '</b>, intente de nuevo...' });
+        }
 
-        }).catch(err => {
-            console.log(err);
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-            res.json({ status: 500, msg: 'ERROR!! El objetivo <b>' + req.query.objetivo + ' </b> YA EXISTE...' });
-        });
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El objetivo <b>' + req.query.objetivo + ' </b> YA EXISTE...' });
+    });
 
 
 
-    
+
 
 
 })
