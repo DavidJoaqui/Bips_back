@@ -1553,14 +1553,29 @@ app.post("/persistir-lineaAccion/", auth, (req, res) => {
 
 app.get("/ctm-objetivos", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosObjetivos__LineasAccion().then(lista_lineas_accion => {
-        //console.log(lista_planes);
-        res.render("paginas/ctm_objetivos", { user: req.session.user, lista_lineas_accion: lista_lineas_accion });
+    modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+       
+            //console.log(lista_planes);
+            res.render("paginas/ctm_objetivos", { user: req.session.user,listaPlanes_grales: listaPlanes_grales});
+        
     });
-
 
 });
 
+app.get("/consultar-lineas-accion_x_plan_general", auth, (req, res) => {
+
+    console.log(req.query);
+    //console.log(req.params);
+    //console.log(req.body);
+    
+        modelControlMando.consultar_LineasAccionXplangral(req.query.id_plan_gral).then(lista_lineas_accion => {
+            //console.log(lista_planes);
+            //res.render("paginas/ctm_objetivos", { user: req.session.user,listaPlanes_grales: listaPlanes_grales, lista_lineas_accion: lista_lineas_accion });
+            res.send(lista_lineas_accion);
+        
+    });
+
+});
 
 
 app.get("/listado-ctm-objetivos", auth, (req, res) => {
@@ -1582,7 +1597,7 @@ app.get("/ctm-estrategias", auth, (req, res) => {
             modelControlMando.consultar_ObjetivosXlinea(req.query.linea_accion).then(lista_objetivos => {
 
                 res.render("paginas/ctm_estrategias", {
-                    user: req.session.user,listaPlanes_grales:listaPlanes_grales,
+                    user: req.session.user, listaPlanes_grales: listaPlanes_grales,
                     lista_lineas: lista_lineas, lista_objetivos: lista_objetivos
                 });
             });
