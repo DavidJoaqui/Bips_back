@@ -8,7 +8,7 @@
                 overflow-x: auto;
                 overflow-y: auto;
             }
-
+            
             body::-webkit-scrollbar {
                 display: auto;
                 overflow-y: hidden;
@@ -18,8 +18,7 @@
 
         <body id="body_ent" class="" style="margin-top: 0px;">
 
-            <div class="preview text-center" id="preview"
-                style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
                 <div class="card col-md-12" id="card-msg">
 
 
@@ -36,10 +35,7 @@
                 <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <div class="form-group" style="padding-left: 30px;margin: 10px;">
-                            <button class="nav-link active btn btn-success" type="button"
-                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof"
-                                onclick="nuevo_profesional()" data-toggle="pill" href="" role="tab" aria-controls=""
-                                aria-selected="true"><i class="fas fa-plus"></i> Plan general</button>
+                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof" onclick="nuevo_profesional()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Plan general</button>
                         </div>
                     </li>
                 </ul>
@@ -67,9 +63,7 @@
                                 <label class="col-3 col-form-label" for="nombre_plan" style="font-weight: bold;">Nombre
                                     del plan General:</label>
                                 <div class="col-9">
-                                    <input class="form-control" type="text"
-                                        placeholder="ingresa el nombre del plan General." name="nombre_plan"
-                                        id="nombre_plan">
+                                    <input class="form-control" type="text" placeholder="ingresa el nombre del plan General." name="nombre_plan" id="nombre_plan">
 
                                 </div>
 
@@ -83,9 +77,7 @@
                                         inicial </label>
 
 
-                                    <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value=""
-                                        min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial"
-                                        data-placement="top" placeholder=" " required>
+                                    <input type="date" name="txtfecha_inicial" id="txtfecha_inicial" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha inicial" data-placement="top" placeholder=" " required>
 
                                 </div>
 
@@ -93,9 +85,7 @@
                                     <label for="txtfecha_fin" style="font-weight: bold;">Fecha
                                         Final</label>
                                     <div>
-                                        <input type="date" name="txtfecha_fin" id="txtfecha_fin" value=""
-                                            min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final"
-                                            data-placement="top" placeholder=" " required>
+                                        <input type="date" name="txtfecha_fin" id="txtfecha_fin" value="" min="2018-01-01" max="2099-12-31" data-toggle="tooltip" title="fecha final" data-placement="top" placeholder=" " required>
                                     </div>
                                 </div>
 
@@ -142,8 +132,15 @@
                 var nombre = $('#nombre_plan').val();
                 var fecha_ini = $('#txtfecha_inicial').val();
                 var fecha_fin = $('#txtfecha_fin').val();
-                var activo = $('input:checkbox[name=is_active]:checked').val();
+                //var activo = $('input:checkbox[name=is_active]:checked').val();
+                var checkbox = document.getElementById('is_active');
+                var activo= true;
+                if(checkbox.checked) {
+                    alert('esta marcado...');
 
+                }else{
+                    activo = false;
+                }
 
                 var peticion = "/persistir-plan/?nombre_plan=" + nombre + "&fecha_inicial=" + fecha_ini + "&fecha_fin=" + fecha_fin + "&activo=" + activo;
 

@@ -7,13 +7,13 @@ module.exports = {
     //-----------------------Metodos Plan General-----------------------------------//
     //------------------------------------------------------------------------------//
 
-    async insertar_PlanGeneral(plan_general) {
-        const resultados = await conexion.query('insert into schema_control.plangeneral (plan_general) values ($1)', [plan_general]);
+    async insertar_PlanGeneral(plan_general, fecha_inicial, fecha_fin, es_activo) {
+        const resultados = await conexion.query('insert into schema_control.plangeneral (plan_general,fecha_inicial, fecha_final, estado) values ($1,$2,$3,$4)', [plan_general, fecha_inicial, fecha_fin, es_activo]);
         return resultados;
     },
 
     async consultar_RegistrosPlan_General() {
-        const resultados = await conexion.query("select id_plangeneral,plan_general from schema_control.plangeneral");
+        const resultados = await conexion.query("select id_plangeneral,plan_general,fecha_inicial, fecha_final, estado from schema_control.plangeneral");
         return resultados.rows;
     },
 
@@ -43,7 +43,7 @@ module.exports = {
         return resultados.rows;
     },
     async consultar_LineasAccionXplangral(id_plan_general) {
-        const resultados = await conexion.query("select id_linea, linea_accion from schema_control.lineas_acciones where id_plan_general = $1", [id_plan_general] );
+        const resultados = await conexion.query("select id_linea, linea_accion from schema_control.lineas_acciones where id_plan_general = $1", [id_plan_general]);
         return resultados.rows;
     },
 
@@ -86,14 +86,14 @@ module.exports = {
         return resultados.rows;
     },
 
-    async insertar_Objetivo( objetivo, id_linea_accion) {
-        const resultados = await conexion.query('insert into schema_control.objetivos (objetivo,id_linea_accion) values ($1,$2)', [ objetivo, id_linea_accion]);
+    async insertar_Objetivo(objetivo, id_linea_accion) {
+        const resultados = await conexion.query('insert into schema_control.objetivos (objetivo,id_linea_accion) values ($1,$2)', [objetivo, id_linea_accion]);
         return resultados;
     },
 
 
 
-    
+
     //-----------------------Metodos ESTRATEGIAS--------------------------------------//
     //------------------------------------------------------------------------------//
 
@@ -101,9 +101,9 @@ module.exports = {
         const resultados = await conexion.query("select * from schema_control.objetivos a inner join schema_control.lineas_acciones b on (a.id_linea_accion=b.id_linea)");
         return resultados.rows;
     },
- 
+
     async insertar_estrategia(estrategia, id_objetivo) {
-        const resultados = await conexion.query('insert into schema_control.estrategias (estrategia,id_objetivo) values ($1,$2)', [estrategia,id_objetivo]);
+        const resultados = await conexion.query('insert into schema_control.estrategias (estrategia,id_objetivo) values ($1,$2)', [estrategia, id_objetivo]);
         return resultados;
     },
 
@@ -117,14 +117,14 @@ module.exports = {
         return resultados.rows;
     },
 
-    
+
 
     //---------------------------Metodos PLanes--------------------------------------//
     //------------------------------------------------------------------------------//
 
-    
+
     async insertar_plan(plan, id_estrategia) {
-        const resultados = await conexion.query('insert into schema_control.planes (plan,id_estrategia) values ($1,$2)', [plan,id_estrategia]);
+        const resultados = await conexion.query('insert into schema_control.planes (plan,id_estrategia) values ($1,$2)', [plan, id_estrategia]);
         return resultados;
     },
 
@@ -150,7 +150,7 @@ module.exports = {
         return resultados.rows;
     },
 
-      //-----------------------Metodos Indicadores--------------------------------------//
+    //-----------------------Metodos Indicadores--------------------------------------//
     //------------------------------------------------------------------------------//
     async insertar_indicador(nombre_area) {
         const resultados = await conexion.query('insert into schema_control.areas (nombre_area) values ($1)', [nombre_area]);
