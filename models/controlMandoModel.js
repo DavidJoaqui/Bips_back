@@ -65,7 +65,7 @@ module.exports = {
     //consultar_RegistrosObjetivos
 
     async consultar_ObjetivosXlinea(id_linea_accion) {
-        const resultados = await conexion.query("select * from schema_control.objetivos" );
+        const resultados = await conexion.query("select * from schema_control.objetivos where id_linea_accion = $1", [id_linea_accion]);
         return resultados.rows;
     },
 
@@ -112,6 +112,11 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_EstartegiasXobetivo(id_objetivo) {
+        const resultados = await conexion.query("select * from schema_control.estrategias where id_objetivo = $1", [id_objetivo]);
+        return resultados.rows;
+    },
+
     
 
     //---------------------------Metodos PLanes--------------------------------------//
@@ -125,6 +130,11 @@ module.exports = {
 
     async consultar_RegistroPlanes() {
         const resultados = await conexion.query("select * from schema_control.planes");
+        return resultados.rows;
+    },
+
+    async consultar_PlanesXestrategia(id_estrategia) {
+        const resultados = await conexion.query("select * from schema_control.planes where id_estrategia = $1", [id_estrategia]);
         return resultados.rows;
     },
 

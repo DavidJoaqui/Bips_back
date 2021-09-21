@@ -69,6 +69,48 @@
                             </div>
 
                             <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold; ">Plan General: </label>
+                                <div class="col-10">
+                                    <select class="form-control" name="select_plan" id="select_plan"
+                                        data-toggle="tooltip" title="Seleccionar Plan!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar Plan General
+                                        </option>
+                                        <% listaPlanes_grales.forEach(lista=> { %>
+                                            <option value="<%= lista.id_plangeneral %>">
+                                                <%= lista.plan_general %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">Linea de acción: </label>
+                                <div class="col-10">
+                                    <select class="form-control" name="select_linea" id="select_linea"
+                                        data-toggle="tooltip" title="Seleccionar Linea de Acción!"
+                                        data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar linea de acción
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">Objetivo: </label>
+                                <div class="col-10">
+                                    <select class="form-control" name="select_objetivo" id="select_objetivo"
+                                        data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right"
+                                        required>
+                                        <option selected="selected" value="">Seleccionar Objetivo
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label class="col-2 col-form-label" style="font-weight: bold;">Estrategia: </label>
                                 <div class="col-10">
                                     <select class="form-control" name="select_estrategia" id="select_estrategia"
@@ -76,11 +118,7 @@
                                         required>
                                         <option selected="selected" value="">Seleccionar Estrategia
                                         </option>
-                                        <% lista_Estrategias.forEach(lista=> { %>
-                                            <option value="<%= lista.id_estrategia %>">
-                                                <%= lista.estrategia %>
-                                            </option>
-                                            <% }); %>
+                                       
                                     </select>
 
                                 </div>
@@ -217,6 +255,134 @@
 
 
             }
+
+
+            $(document).ready(function () {
+
+                $('#preview').hide();
+                document.getElementById("select_plan").title = 'Debe elegir un plan general'
+
+                $("#select_plan").change(function () {
+                    //$("#btn-subir").prop("disabled", true);
+                    //$('#files').attr("disabled", true);
+                    // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                    //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    //alert("selecciono la opcion --> " +$("#select_plan option:selected").val());
+
+                    var peticion = "/consultar-lineas-accion_x_plan_general/?id_plan_gral=" + $(this).val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+
+                            //select_linea
+                            $("#select_linea").html("");
+
+                            $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+
+                            result.forEach(element => {
+
+                                //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                                $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+
+                            });
+
+                        }
+
+                    });
+
+
+                });
+
+                $("#select_linea").change(function () {
+                    //$("#btn-subir").prop("disabled", true);
+                    //$('#files').attr("disabled", true);
+                    // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                    //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    //alert("selecciono la opcion --> " +$("#select_linea option:selected").val());
+
+                    var peticion = "/consultar-objetivo-x-lineas-accion/?id_linea_accion=" + $(this).val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+
+                            //select_linea
+                            $("#select_objetivo").html("");
+
+                            $("#select_objetivo").append('<option selected="selected">' + 'Seleccionar Objetivo' + '</option>');
+
+                            result.forEach(element => {
+
+                                //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                                $("#select_objetivo").append('<option value=' + element.id_objetivo + '>' + element.objetivo + '</option>');
+
+                            });
+
+                        }
+
+                    });
+
+
+                });
+
+                $("#select_objetivo").change(function () {
+                    //$("#btn-subir").prop("disabled", true);
+                    //$('#files').attr("disabled", true);
+                    // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                    //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    //alert("selecciono la opcion --> " +$("#select_linea option:selected").val());
+
+                    var peticion = "/consultar-estrategia-x-objetivo/?id_objetivo=" + $(this).val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+
+                            //select_linea
+                            $("#select_estrategia").html("");
+
+                            $("#select_estrategia").append('<option selected="selected">' + 'Seleccionar Estrategia' + '</option>');
+
+                            result.forEach(element => {
+
+                                //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                                $("#select_estrategia").append('<option value=' + element.id_estrategia + '>' + element.estrategia + '</option>');
+
+                            });
+
+                        }
+
+                    });
+
+
+                });
+
+            });
 
 
         </script>

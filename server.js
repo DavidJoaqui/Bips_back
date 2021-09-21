@@ -1564,7 +1564,7 @@ app.get("/ctm-objetivos", auth, (req, res) => {
 
 app.get("/consultar-lineas-accion_x_plan_general", auth, (req, res) => {
 
-    console.log(req.query);
+  //  console.log(req.query);
     //console.log(req.params);
     //console.log(req.body);
     
@@ -1577,6 +1577,53 @@ app.get("/consultar-lineas-accion_x_plan_general", auth, (req, res) => {
 
 });
 
+app.get("/consultar-objetivo-x-lineas-accion", auth, (req, res) => {
+
+   //console.log(req.query);
+    //console.log(req.params);
+    //console.log(req.body);
+    
+        modelControlMando.consultar_ObjetivosXlinea(req.query.id_linea_accion).then(lista_objetivos => {
+            //console.log(lista_planes);
+            //res.render("paginas/ctm_objetivos", { user: req.session.user,listaPlanes_grales: listaPlanes_grales, lista_lineas_accion: lista_lineas_accion });
+            res.send(lista_objetivos);
+        
+    });
+
+});
+
+
+app.get("/consultar-estrategia-x-objetivo", auth, (req, res) => {
+
+    //console.log(req.query);
+    //console.log(req.params);
+    //console.log(req.body);
+    
+        modelControlMando.consultar_EstartegiasXobetivo(req.query.id_objetivo).then(lista_Estrategias => {
+            //console.log(lista_planes);
+            //res.render("paginas/ctm_objetivos", { user: req.session.user,listaPlanes_grales: listaPlanes_grales, lista_lineas_accion: lista_lineas_accion });
+            res.send(lista_Estrategias);
+        
+    });
+
+});
+
+
+
+app.get("/consultar-plan-accion-x-estrategia", auth, (req, res) => {
+
+    //console.log(req.query);
+    //console.log(req.params);
+    //console.log(req.body);
+    
+        modelControlMando.consultar_PlanesXestrategia(req.query.id_estrategia).then(lista_Planes => {
+            //console.log(lista_planes);
+            //res.render("paginas/ctm_objetivos", { user: req.session.user,listaPlanes_grales: listaPlanes_grales, lista_lineas_accion: lista_lineas_accion });
+            res.send(lista_Planes);
+        
+    });
+
+});
 
 app.get("/listado-ctm-objetivos", auth, (req, res) => {
 
@@ -1590,19 +1637,14 @@ app.get("/listado-ctm-objetivos", auth, (req, res) => {
 });
 
 app.get("/ctm-estrategias", auth, (req, res) => {
-    console.log(req.query.linea_accion);
-
+    //console.log(req.query.linea_accion);
     modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
-        modelControlMando.consultar_RegistrosLineasAccion().then(lista_lineas => {
-            modelControlMando.consultar_ObjetivosXlinea(req.query.linea_accion).then(lista_objetivos => {
 
-                res.render("paginas/ctm_estrategias", {
-                    user: req.session.user, listaPlanes_grales: listaPlanes_grales,
-                    lista_lineas: lista_lineas, lista_objetivos: lista_objetivos
-                });
-            });
-        });
+        //console.log(lista_planes);
+        res.render("paginas/ctm_estrategias", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
+
     });
+
 
 });
 
@@ -1618,9 +1660,11 @@ app.get("/listado-ctm-estrategias", auth, (req, res) => {
 
 app.get("/ctm-planes", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosEstrategias().then(lista_Estrategias => {
+    modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+
         //console.log(lista_planes);
-        res.render("paginas/ctm_planes", { user: req.session.user, lista_Estrategias: lista_Estrategias });
+        res.render("paginas/ctm_planes", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
+
     });
 
 });
@@ -1637,10 +1681,10 @@ app.get("/listado-ctm-planes", auth, (req, res) => {
 
 app.get("/ctm-indicadores", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistroPlanes().then(lista_planes => {
+    modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
         modelControlMando.consultar_RegistroAreas().then(lista_areas => {
 
-            res.render("paginas/ctm_indicadores", { user: req.session.user, lista_planes: lista_planes, lista_areas: lista_areas });
+            res.render("paginas/ctm_indicadores", { user: req.session.user, listaPlanes_grales: listaPlanes_grales, lista_areas: lista_areas });
         });
     });
 });
@@ -1659,7 +1703,7 @@ app.get("/ctm-indicadores-planes", auth, (req, res) => {
 app.get("/lista-ctm-indicadores", auth, (req, res) => {
 
     modelControlMando.consultar_RegistrosEstrategias().then(lista_Estrategias => {
-        console.log(lista_Estrategias);
+        //console.log(lista_Estrategias);
         res.render("paginas/lista_ctm_indicadores", { lista_Estrategias: lista_Estrategias });
     });
 

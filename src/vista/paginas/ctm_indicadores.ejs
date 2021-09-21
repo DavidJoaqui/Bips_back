@@ -72,109 +72,151 @@
                                 <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
                                     Indicador: </label>
                                 <div class="col-10">
-                                    <textarea class="form-control" type="text" name="txt_indicador" id="txt_indicador"
+                                    <textarea class="form-control" type="text" name="txt_indicador"
+                                        placeholder="ingresa nombre del indicador" id="txt_indicador"
                                         value=""></textarea>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-2 col-form-label" style="font-weight: bold;">Plan: </label>
+                                <label class="col-2 col-form-label" style="font-weight: bold; ">Plan General: </label>
                                 <div class="col-10">
-                                    <select class="form-control"
-                                    name="select_linea" id="select_linea" data-toggle="tooltip"
-                                    title="Seleccionar Objetivo!" data-placement="right" required>
-                                    <option selected="selected" value="">Seleccionar plan
-                                    </option>
-                                    <% lista_planes.forEach(lista=> { %>
-                                        <option value="<%= lista.id_plan %>">
-                                            <%= lista.plan %>
+                                    <select class="form-control" name="select_plan" id="select_plan"
+                                        data-toggle="tooltip" title="Seleccionar Plan!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar Plan General
                                         </option>
-                                        <% }); %>
-                                </select>
+                                        <% listaPlanes_grales.forEach(lista=> { %>
+                                            <option value="<%= lista.id_plangeneral %>">
+                                                <%= lista.plan_general %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">Linea de acción: </label>
+                                <div class="col-10">
+                                    <select class="form-control" name="select_linea" id="select_linea"
+                                        data-toggle="tooltip" title="Seleccionar Linea de Acción!"
+                                        data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar linea de acción
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">Objetivo: </label>
+                                <div class="col-10">
+                                    <select class="form-control" name="select_objetivo" id="select_objetivo"
+                                        data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right"
+                                        required>
+                                        <option selected="selected" value="">Seleccionar Objetivo
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">Estrategia: </label>
+                                <div class="col-10">
+                                    <select class="form-control" name="select_estrategia" id="select_estrategia"
+                                        data-toggle="tooltip" title="Seleccionar Estrategia!" data-placement="right"
+                                        required>
+                                        <option selected="selected" value="">Seleccionar Estrategia
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">Plan de Acción:
+                                </label>
+                                <div class="col-10">
+                                    <select class="form-control" name="select_plan_accion" id="select_plan_accion"
+                                        data-toggle="tooltip" title="Seleccionar Plan de Acción!" data-placement="right"
+                                        required>
+                                        <option selected="selected" value="">Seleccionar plan de Acción
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-2 col-form-label" style="font-weight: bold;"
+                                    for="select_objetivo">Area: </label>
+                                <div class="col-4">
+                                    <select class="form-control" name="select_objetivo" id="select_objetivo"
+                                        data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right"
+                                        required>
+                                        <option selected="selected" value="">Seleccionar area
+                                        </option>
+                                        <% lista_areas.forEach(lista=> { %>
+                                            <option value="<%= lista.id_area %>">
+                                                <%= lista.nombre_area %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
 
                                 </div>
-                                
-                            </div>
 
-
-
-                            <div class="form-group col-sm-12 col-md-12" style="justify-content: center;">
-                                <label class="" style="font-weight: bold;" for="select_objetivo">Area: </label>
-                                <select class="form-select form-group form-control col-sm-12 col-md-6"
-                                    name="select_objetivo" id="select_objetivo" data-toggle="tooltip"
-                                    title="Seleccionar Objetivo!" data-placement="right" required>
-                                    <option selected="selected" value="">Seleccionar area
-                                    </option>
-                                    <% lista_areas.forEach(lista=> { %>
-                                        <option value="<%= lista.id_area %>">
-                                            <%= lista.nombre_area %>
-                                        </option>
-                                        <% }); %>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                <label class="col-sm-12 col-md-3" for="txt_apellido" style="font-weight: bold;">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">
                                     Tipo Meta:&nbsp; </label>
 
-                                <input class="col-sm-12 col-md-4" type="text" placeholder="Tipo de meta"
-                                    name="txt_tipo_meta" id="txt_apellido" value="">
+                                <div class="col-4">
+                                    <select class="form-control" name="select_plan_accion" id="select_plan_accion"
+                                        data-toggle="tooltip" title="Seleccionar Plan de Acción!" data-placement="right"
+                                        required>
+                                        <option selected="selected" value="">Seleccionar Tipo de meta
+                                        </option>
+                                        <option value="Descriptiva">Descriptiva</option>
+                                        <option value="Numerica">Numerica</option>
+
+
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                <label class="col-sm-12 col-md-3" for="txt_fl_numerador" style="font-weight: bold;">
-                                    Formula literal Numerador:&nbsp; </label>
-
-                                <input class="col-sm-12 col-md-4" type="text" placeholder="numerador"
-                                    name="txt_fl_numerador" id="txt_fl_numerador" value="">
-                            </div>
-                            <div class="dropdown-divider" style=""></div>
-                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                <label class="col-sm-12 col-md-3" for="txt_fl_denominador" style="font-weight: bold;">
-                                    Formula literal Denominador:&nbsp; </label>
-
-                                <input class="col-sm-12 col-md-4" type="text" placeholder="Denominador"
-                                    name="txt_fl_denominador" id="txt_fl_denominador" value="">
+                            <div class="form-group row">
+                                <label class="col-3 col-form-label" for="txt_fl_numerador" style="font-weight: bold;">
+                                    Formula literal Numerador: </label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text" placeholder="numerador"
+                                        name="txt_fl_numerador" id="txt_fl_numerador" value="">
+                                </div>
                             </div>
 
-                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                <label class="col-sm-12 col-md-3" for="txt_meta_descriptiva"
-                                    style="font-weight: bold;">Meta Descriptiva :&nbsp; </label>
+                            <div class="form-group row">
+                                <label class="col-3 col-form-label" for="txt_fl_denominador" style="font-weight: bold;">
+                                    Formula literal Denominador: </label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text" placeholder="Denominador"
+                                        name="txt_fl_denominador" id="txt_fl_denominador" value="">
+                                </div>
 
-                                <input class="col-sm-12 col-md-4" type="text" placeholder="meta Descriptiva"
-                                    name="txt_meta_descriptiva" id="txt_meta_descriptiva" value="">
                             </div>
 
-                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                <label class="col-sm-12 col-md-3" for="txt_apellido" style="font-weight: bold;">Formula
-                                    Literal Descriptiva :&nbsp; </label>
+                            <div class="form-group row">
+                                <label class="col-3 col-form-label" for="txt_apellido"
+                                    style="font-weight: bold;">Formula Literal Descriptiva : </label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text"
+                                        placeholder="Formula literal Descriptiva" name="txt_fl_descriptiva"
+                                        id="txt_apellido" value="">
+                                </div>
 
-                                <input class="col-sm-12 col-md-4" type="text" placeholder="Formula literal Descriptiva"
-                                    name="txt_fl_descriptiva" id="txt_apellido" value="">
                             </div>
-                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                <label class="col-sm-12 col-md-3" for="txt_nombre" style="font-weight: bold;">
-                                    Nombre Indicador:<label for="" style="color:red;">*</label>&nbsp; </label>
-
-                                <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa nombre del indicador"
-                                    name="txt_nombre" id="txt_nombre" value="">
-                            </div>
-                            <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                <label class="col-sm-12 col-md-3" for="txt_meta_numerica" style="font-weight: bold;">
-                                    Meta númerica:<label for="" style="color:red;">*</label>&nbsp; </label>
-
-                                <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa la meta númerica"
-                                    name="txt_meta_numerica" id="txt_meta_numerica" value="">
-                            </div>
-
-
-
 
                             <div class="form-group col-sm-12"
                                 style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                                 <div class="text-center">
-                                    <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar"
-                                        name="btn-validar" onclick="almacenar_registro()">Guardar Estrategia</button>
+                                    <button style="font-weight: bold;" class="btn btn-success" id="btn-validar"
+                                        name="btn-validar" onclick="almacenar_registro()">Guardar
+                                        Estrategia</button>
                                 </div>
                             </div>
 
@@ -300,6 +342,179 @@
 
 
             }
+
+            $(document).ready(function () {
+
+                $('#preview').hide();
+                document.getElementById("select_plan").title = 'Debe elegir un plan general'
+
+                $("#select_plan").change(function () {
+                    //$("#btn-subir").prop("disabled", true);
+                    //$('#files').attr("disabled", true);
+                    // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                    //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    //alert("selecciono la opcion --> " +$("#select_plan option:selected").val());
+
+                    var peticion = "/consultar-lineas-accion_x_plan_general/?id_plan_gral=" + $(this).val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+
+                            //select_linea
+                            $("#select_linea").html("");
+
+                            $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+
+                            result.forEach(element => {
+
+                                //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                                $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+
+                            });
+
+                        }
+
+                    });
+
+
+                });
+
+                $("#select_linea").change(function () {
+                    //$("#btn-subir").prop("disabled", true);
+                    //$('#files').attr("disabled", true);
+                    // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                    //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    //alert("selecciono la opcion --> " +$("#select_linea option:selected").val());
+
+                    var peticion = "/consultar-objetivo-x-lineas-accion/?id_linea_accion=" + $(this).val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+
+                            //select_linea
+                            $("#select_objetivo").html("");
+
+                            $("#select_objetivo").append('<option selected="selected">' + 'Seleccionar Objetivo' + '</option>');
+
+                            result.forEach(element => {
+
+                                //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                                $("#select_objetivo").append('<option value=' + element.id_objetivo + '>' + element.objetivo + '</option>');
+
+                            });
+
+                        }
+
+                    });
+
+
+                });
+
+                $("#select_objetivo").change(function () {
+                    //$("#btn-subir").prop("disabled", true);
+                    //$('#files').attr("disabled", true);
+                    // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                    //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    //alert("selecciono la opcion --> " +$("#select_linea option:selected").val());
+
+                    var peticion = "/consultar-estrategia-x-objetivo/?id_objetivo=" + $(this).val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+
+                            //select_linea
+                            $("#select_estrategia").html("");
+
+                            $("#select_estrategia").append('<option selected="selected">' + 'Seleccionar Estrategia' + '</option>');
+
+                            result.forEach(element => {
+
+                                //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                                $("#select_estrategia").append('<option value=' + element.id_estrategia + '>' + element.estrategia + '</option>');
+
+                            });
+
+                        }
+
+                    });
+
+
+                });
+
+                $("#select_estrategia").change(function () {
+                    //$("#btn-subir").prop("disabled", true);
+                    //$('#files').attr("disabled", true);
+                    // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                    //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    //alert("selecciono la opcion --> " +$("#select_linea option:selected").val());
+
+                    var peticion = "/consultar-plan-accion-x-estrategia/?id_estrategia=" + $(this).val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+
+                            //select_linea
+                            $("#select_plan_accion").html("");
+
+                            $("#select_plan_accion").append('<option selected="selected">' + 'Seleccionar Estrategia' + '</option>');
+
+                            result.forEach(element => {
+
+                                //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                                $("#select_plan_accion").append('<option value=' + element.id_plan + '>' + element.plan + '</option>');
+
+                            });
+
+                        }
+
+                    });
+
+
+                });
+
+
+
+
+            });
+
+
+
 
 
         </script>
