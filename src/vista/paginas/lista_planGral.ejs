@@ -82,7 +82,11 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Nombre plan</th>
+                                                    <th>Fecha Inicio</th>
+                                                    <th>Fecha Fin</th>
+                                                    <th>Activo</th>
                                                     <th>Acciones</th>
+
 
                                                 </tr>
                                             </thead>
@@ -97,6 +101,19 @@
                                                         <td>
                                                             <%= lista_planes[i].plan_general %>
                                                         </td>
+
+                                                        <td>
+                                                            <%= lista_planes[i].fecha_inicial %>
+                                                        </td>
+
+                                                        <td>
+                                                            <%= lista_planes[i].fecha_final %>
+                                                        </td>
+
+                                                        <td>
+                                                            <%= lista_planes[i].estado %>
+                                                        </td>
+
                                                         <td class="btns-acciones">
                                                             <a href="" title="Editar" onclick="editar_plan()"><i class="fas fa-edit"></i></a>
                                                             <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
