@@ -17,6 +17,18 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_RegistrosPlan_General_x_id(id_plan) {
+        const resultados = await conexion.query("select id_plangeneral,plan_general,fecha_inicial, fecha_final, estado from schema_control.plangeneral where id_plangeneral=$1", [id_plan]);
+        return resultados.rows;
+    },
+
+    async actualizar_RegistrosPlan_General_x_id(id_plan, nombre_plan, fecha_inicial, fecha_fin, es_activo) {
+        const resultados = await conexion.query("UPDATE schema_control.plangeneral set plan_general=$2, fecha_inicial=$3, fecha_final=$4, estado=$5 where id_plangeneral=$1", [id_plan, nombre_plan, fecha_inicial, fecha_fin, es_activo]);
+        return resultados;
+    },
+
+
+
     async eliminar_RegistroPlan_General(id_ips, nombre_archivo) {
         const resultados = await conexion.query("delete from schema_planos.registros_planos_tmp where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo]);
         return resultados;

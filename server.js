@@ -1442,6 +1442,51 @@ app.get("/listado-ctm-planes-generales", auth, (req, res) => {
 
 
 });
+///form-editar-ctm-plan-general
+app.post("/form-editar-ctm-plan-general", auth, (req, res) => {
+
+    //res.send('OK');
+
+    //consultar_RegistrosPlan_General_x_id
+    modelControlMando.consultar_RegistrosPlan_General_x_id(req.query.id_plan).then(info_plan => {
+        res.render("paginas/editar_planGral", { id_plan: req.query.id_plan, info_plan: info_plan });
+
+    });
+
+
+
+});
+
+//"/actualizar-plan
+app.post("/actualizar-plan-general", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    console.log(req.params);
+    console.log(req.body);
+    modelControlMando.actualizar_RegistrosPlan_General_x_id(req.query.id_plan, req.query.nombre_plan, req.query.fecha_inicial, req.query.fecha_fin, req.query.activo).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update plan general");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            req.flash('notify', 'El plan general ' + req.query.nombre_plan + ',' + ' se actualizo correctamente...');
+            res.send({ status: 200, msg: 'El plan General <b>' + req.query.nombre_plan + '</b> fue actualizado correctamente...' });
+            //res.render("/config-entidades");
+
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.send({ status: 300, msg: 'ERROR al actualizar el plan general <b>' + req.query.nombre_plan + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El plan general  <b>' + req.query.nombre_plan + '</b>, ' + +'NO se pudo actualizar...' });
+    });
+
+})
 
 
 app.get("/ctm-areas", auth, (req, res) => {
@@ -1874,6 +1919,8 @@ app.post("/persistir-profesional/", auth, (req, res) => {
 
 
 })
+
+
 
 
 

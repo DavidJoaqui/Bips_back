@@ -29,9 +29,9 @@
     </div>
 
 
-    <% const m=getMessages() %>
+    <% const a=getMessages() %>
 
-        <% if (m.notify) { %>
+        <% if (a.notify) { %>
 
             <div class="card" style="margin-top: 0px;" id="card-success">
                 <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
@@ -43,7 +43,7 @@
 
                 <div class="card-body">
 
-                    <% m.notify.forEach((element)=> { %>
+                    <% a.notify.forEach((element)=> { %>
 
                         <%= element %>
                             <% }) %> %>
@@ -53,7 +53,7 @@
             </div>
 
             <% } %>
-                <% if (m.error) { %>
+                <% if (a.error) { %>
 
                     <div class="card " style="margin-top: 0px;" id="card-error">
                         <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
@@ -65,7 +65,7 @@
 
                         <div class="card-body">
 
-                            <% m.error.forEach((element)=> { %>
+                            <% a.error.forEach((element)=> { %>
 
                                 <%= element %>
                                     <% }) %> %>

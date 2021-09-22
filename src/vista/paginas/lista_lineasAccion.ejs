@@ -11,98 +11,51 @@
                         <h2> Lineas de Acción</h2>
                     </span>
                 </div>
+                <p type="text" id="loading" value="" hidden>loading...</p>
+                <div class="table-responsive">
 
-                <% const m=getMessages() %>
-
-                    <% if (m.notify) { %>
-
-                        <div class="card" style="margin-top: 20px;" id="card-success">
-                            <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
-                                <strong>OK!</strong>
-                                <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <div class="card-body">
-
-                                <% m.notify.forEach((element)=> { %>
-
-                                    <%= element %>
-                                        <% }) %> %>
-                            </div>
+                    <table class="table table-striped table-bordered" style="width:100%" id="tbl_planos">
 
 
-                        </div>
+                        <thead class="head-tabla-reg">
+                            <tr>
+                                <th>#</th>
+                                <th>Plan General</th>
+                                <th>Linea de Acción</th>
+                                <th>Acciones</th>
 
-                        <% } %>
-                            <% if (m.error) { %>
+                            </tr>
+                        </thead>
+                        <tbody id="developers">
+                            <% for(var i=0; i<lista_lineas_accion.length; i++) { %>
 
-                                <div class="card " style="margin-top: 20px;">
-                                    <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
-                                        <strong>Error!</strong>
-                                        <button type="button" class="close" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
+                                <tr class="text-center">
+                                    <td>
+                                        <%= i+1 %>
 
-                                    <div class="card-body">
+                                    </td>
+                                    <td>
+                                        <%= lista_lineas_accion[i].plan_general %>
+                                    </td>
 
-                                        <% m.error.forEach((element)=> { %>
+                                    <td>
+                                        <%= lista_lineas_accion[i].linea_accion %>
+                                    </td>
 
-                                            <%= element %>
-                                                <% }) %> %>
-                                    </div>
+                                    <td class="btns-acciones">
+                                        <a href="" title="Editar"><i class="fas fa-edit"></i></a>
+                                        <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+                                    </td>
 
-                                </div>
+                                </tr>
+                                <% }%>
+                        </tbody>
+                        <tfoot>
 
-                                <% } %>
+                        </tfoot>
+                    </table>
 
-                                    <p type="text" id="loading" value="" hidden>loading...</p>
-                                    <div class="table-responsive">
-
-                                        <table class="table table-striped table-bordered" style="width:100%" id="tbl_planos">
-
-
-                                            <thead class="head-tabla-reg">
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Plan General</th>
-                                                    <th>Linea de Acción</th>
-                                                    <th>Acciones</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody id="developers">
-                                                <% for(var i=0; i<lista_lineas_accion.length; i++) { %>
-
-                                                    <tr class="text-center">
-                                                        <td>
-                                                            <%= i+1 %>
-
-                                                        </td>
-                                                        <td>
-                                                            <%= lista_lineas_accion[i].plan_general %>
-                                                        </td>
-
-                                                        <td>
-                                                            <%= lista_lineas_accion[i].linea_accion %>
-                                                        </td>
-
-                                                        <td class="btns-acciones">
-                                                            <a href="" title="Editar"><i class="fas fa-edit"></i></a>
-                                                            <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
-                                                        </td>
-
-                                                    </tr>
-                                                    <% }%>
-                                            </tbody>
-                                            <tfoot>
-
-                                            </tfoot>
-                                        </table>
-
-                                    </div>
+                </div>
             </div>
 
 
@@ -161,3 +114,12 @@
                     overflow-y: hidden;
                 }
             </style>
+
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+
+                    $('#preview').hide();
+
+                });
+            </script>
