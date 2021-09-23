@@ -8,7 +8,7 @@
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
-                        <h2> Estrategias</h2>
+                        <h2> Lista de Idicadores</h2>
                     </span>
                 </div>
 
@@ -22,26 +22,81 @@
                         <thead class="head-tabla-reg">
                             <tr>
                                 <th>#</th>
-                                <th>Estrategias</th>
-                                <th>Objetivos</th>
+                                <th>Indicador</th>
+                                <th>Plan Gral</th>
+                                <th>Linea Acción</th>
+                                <th>Objetivo</th>
+                                <th>Estrategia</th>
+                                <th>Plan Accion</th>
+                                <th>Area</th>
+                                <th>Tipo meta</th>
+
+                                <th>Meta Númerica</th>
+                                <th>Formula Literal Numerador</th>                                                                
+                                <th>Formula Literal Denominador</th>
+
+                                <th>Meta Descriptiva</th>                                                                
+                                <th>Formula Literal Descriptiva</th>
+
+                                
+                                
                                 <th>Acciones</th>
 
                             </tr>
                         </thead>
                         <tbody id="developers">
-                            <% for(var i=0; i<lista_Estrategias.length; i++) { %>
+                            <% for(var i=0; i<lista_Indicadores.length; i++) { %>
 
                                 <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
                                     <td>
-                                        <%= lista_Estrategias[i].id_estrategia %>
+                                        <%= i+1 %>
 
                                     </td>
                                     <td>
-                                        <%= lista_Estrategias[i].estrategia %>
+                                        <%= lista_Indicadores[i].nombre_indicador %>
                                     </td>
 
                                     <td>
-                                        <%= lista_Estrategias[i].objetivo %>
+                                        <%= lista_Indicadores[i].plan_general %>
+                                    </td>
+
+                                    <td>
+                                        <%= lista_Indicadores[i].linea_accion %>
+                                    </td>
+
+                                    <td>
+                                        <%= lista_Indicadores[i].objetivo %>
+                                    </td>
+                                    <td>
+                                        <%= lista_Indicadores[i].estrategia %>
+                                    </td>
+                                    <td>
+                                        <%= lista_Indicadores[i].plan %>
+                                    </td>
+                                    <td>
+                                        <%= lista_Indicadores[i].nombre_area %>
+                                    </td>
+                                    <td>
+                                        <%= lista_Indicadores[i].tipo_meta %>
+                                    </td>
+
+                                    <td>
+                                        <%= lista_Indicadores[i].meta_numerica %>
+                                    </td>
+                                    
+                                    <td>
+                                        <%= lista_Indicadores[i].formula_literal_numerador %>
+                                    </td>
+                                    <td>
+                                        <%= lista_Indicadores[i].formula_literal_denominador %>
+                                    </td>
+
+
+                                    <td>
+                                        <%= lista_Indicadores[i].meta_descriptiva %>
+                                    </td>
+                                    <td>
+                                        <%= lista_Indicadores[i].formula_literal_descriptiva %>
                                     </td>
 
                                     <td class="btns-acciones">

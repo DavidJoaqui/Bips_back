@@ -1,0 +1,64 @@
+2021-09-21 21:49:42 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-09-21 21:49:42 - Started 5996
+2021-09-22 07:09:06 - Stopping serviciobips.exe
+2021-09-22 07:09:06 - ProcessKill 5996
+2021-09-22 07:09:06 - Found child process: 3200 Name: conhost.exe
+2021-09-22 07:09:06 - Found child process: 10272 Name: node.exe
+2021-09-22 07:09:06 - Stopping process 3200
+2021-09-22 07:09:06 - Send SIGINT 3200
+2021-09-22 07:09:06 - SIGINT to 3200 failed - Killing as fallback
+2021-09-22 07:09:06 - Stopping process 10272
+2021-09-22 07:09:06 - Send SIGINT 10272
+2021-09-22 07:09:06 - SIGINT to 10272 failed - Killing as fallback
+2021-09-22 07:09:06 - Stopping process 5996
+2021-09-22 07:09:06 - Send SIGINT 5996
+2021-09-22 07:09:06 - SIGINT to 5996 failed - Killing as fallback
+2021-09-22 07:09:06 - Finished serviciobips.exe
+2021-09-22 11:53:29 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-09-22 11:53:30 - Started 3300
+2021-09-22 18:02:26 - Stopping serviciobips.exe
+2021-09-22 18:02:26 - ProcessKill 3300
+2021-09-22 18:02:26 - Found child process: 11300 Name: conhost.exe
+2021-09-22 18:02:26 - Found child process: 3280 Name: node.exe
+2021-09-22 18:02:27 - Stopping process 11300
+2021-09-22 18:02:27 - Send SIGINT 11300
+2021-09-22 18:02:27 - SIGINT to 11300 failed - Killing as fallback
+2021-09-22 18:02:27 - Stopping process 3280
+2021-09-22 18:02:27 - Send SIGINT 3280
+2021-09-22 18:02:27 - SIGINT to 3280 failed - Killing as fallback
+2021-09-22 18:02:27 - Stopping process 3300
+2021-09-22 18:02:27 - Send SIGINT 3300
+2021-09-22 18:02:27 - SIGINT to 3300 failed - Killing as fallback
+2021-09-22 18:02:27 - Finished serviciobips.exe
+2021-09-22 18:02:28 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-09-22 18:02:28 - Started 11968
+2021-09-22 20:24:02 - Stopping serviciobips.exe
+2021-09-22 20:24:02 - ProcessKill 11968
+2021-09-22 20:24:02 - Found child process: 12604 Name: conhost.exe
+2021-09-22 20:24:02 - Found child process: 12124 Name: node.exe
+2021-09-22 20:24:02 - Stopping process 12604
+2021-09-22 20:24:02 - Send SIGINT 12604
+2021-09-22 20:24:02 - SIGINT to 12604 failed - Killing as fallback
+2021-09-22 20:24:02 - Stopping process 12124
+2021-09-22 20:24:02 - Send SIGINT 12124
+2021-09-22 20:24:02 - SIGINT to 12124 failed - Killing as fallback
+2021-09-22 20:24:02 - Stopping process 11968
+2021-09-22 20:24:02 - Send SIGINT 11968
+2021-09-22 20:24:02 - SIGINT to 11968 failed - Killing as fallback
+2021-09-22 20:24:02 - Finished serviciobips.exe
+2021-09-22 20:24:04 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-09-22 20:24:05 - Started 9896
+2021-09-22 20:31:26 - Stopping serviciobips.exe
+2021-09-22 20:31:26 - ProcessKill 9896
+2021-09-22 20:31:27 - Found child process: 7840 Name: conhost.exe
+2021-09-22 20:31:27 - Found child process: 12504 Name: node.exe
+2021-09-22 20:31:27 - Stopping process 7840
+2021-09-22 20:31:27 - Send SIGINT 7840
+2021-09-22 20:31:27 - SIGINT to 7840 failed - Killing as fallback
+2021-09-22 20:31:27 - Stopping process 12504
+2021-09-22 20:31:27 - Send SIGINT 12504
+2021-09-22 20:31:27 - SIGINT to 12504 failed - Killing as fallback
+2021-09-22 20:31:27 - Stopping process 9896
+2021-09-22 20:31:27 - Send SIGINT 9896
+2021-09-22 20:31:27 - SIGINT to 9896 failed - Killing as fallback
+2021-09-22 20:31:27 - Finished serviciobips.exe

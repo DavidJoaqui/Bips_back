@@ -1,0 +1,83 @@
+El servidor se esta ejecutando...
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+true
+usuario pruebas
+El servidor se esta ejecutando...
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+true
+usuario pruebas
+195480508601
+'2021-09-01'
+'2021-09-30'
+0
+El servidor se esta ejecutando...
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+true
+usuario pruebas
+El servidor se esta ejecutando...
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+true
+usuario pruebas
+{
+  nombre_indicador: 'test indicador 1',
+  plan_accion: '5',
+  area: '25',
+  tipo_meta: 'Descriptiva',
+  formula_descriptiva: 'fm lt desc test',
+  meta_descriptiva: 'meta desc test',
+  formula_literal_num: '',
+  form_literal_den: '',
+  meta_numerica: ''
+}
+error: el valor null para la columna «tipo_meta» viola la restricción not null
+    at Parser.parseErrorMessage (E:\Bips_back\node_modules\pg-protocol\dist\parser.js:278:15)
+    at Parser.handlePacket (E:\Bips_back\node_modules\pg-protocol\dist\parser.js:126:29)
+    at Parser.parse (E:\Bips_back\node_modules\pg-protocol\dist\parser.js:39:38)
+    at Socket.<anonymous> (E:\Bips_back\node_modules\pg-protocol\dist\index.js:10:42)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:307:12)
+    at readableAddChunk (_stream_readable.js:282:9)
+    at Socket.Readable.push (_stream_readable.js:221:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  length: 329,
+  severity: 'ERROR',
+  code: '23502',
+  detail: 'La fila que falla contiene (2, null, null, null, null, null, null, null, null, null).',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'schema_control',
+  table: 'indicadores',
+  column: 'tipo_meta',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'd:\\pginstaller_12.auto\\postgres.windows-x64\\src\\backend\\executor\\execmain.c',
+  line: '1953',
+  routine: 'ExecConstraints'
+}

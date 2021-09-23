@@ -1747,13 +1747,47 @@ app.get("/ctm-indicadores-planes", auth, (req, res) => {
 
 app.get("/lista-ctm-indicadores", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosEstrategias().then(lista_Estrategias => {
-        //console.log(lista_Estrategias);
-        res.render("paginas/lista_ctm_indicadores", { lista_Estrategias: lista_Estrategias });
+    modelControlMando.consultar_RegistrosIndicadores().then(lista_Indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        res.render("paginas/lista_ctm_indicadores", { lista_Indicadores: lista_Indicadores });
     });
 
 
 });
+
+// /persistir-indicador
+app.post("/persistir-indicador", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.insertar_indicador(req.query.nombre_indicador,req.query.plan_accion,req.query.area,req.query.tipo_meta,req.query.formula_descriptiva,req.query.meta_descriptiva,req.query.meta_numerica,req.query.formula_literal_num,req.query.form_literal_den).then(respuesta => {
+
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert NEW Indicador");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.json({ status: 200, msg: 'El Indicador <b>' + req.query.nombre_indicador + '</b>, se creó correctamente...' });
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.json({ status: 300, msg: 'ERROR al crear el Indicador <b>' + req.query.nombre_indicador + '</b>, intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El Indicador <b>' + req.query.nombre_indicador + ' </b> YA EXISTE...' });
+    });
+
+
+
+
+
+
+})
 
 
 app.post("/persistir-objetivo/", auth, (req, res) => {

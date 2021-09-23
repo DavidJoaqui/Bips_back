@@ -76,7 +76,7 @@
 
                                     <td class="btns-acciones">
                                         <a href="" title="Editar" onclick="editar_plan('<%= lista_planes[i].id_plangeneral %>')"><i class="fas fa-edit"></i></a>
-                                        <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+                                        <a href="" title="Eliminar" onclick="eliminar_plan('<%= lista_planes[i].id_plangeneral %>')" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                     </td>
 
                                 </tr>
@@ -166,4 +166,9 @@
                 });
 
             }
+        
+            function eliminar_plan(id_plan){
+                alert('accion Eliminar '+id_plan);
+            }
+        
         </script>
