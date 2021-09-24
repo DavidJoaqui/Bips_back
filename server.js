@@ -1488,6 +1488,43 @@ app.post("/actualizar-plan-general", auth, (req, res) => {
 
 })
 
+app.get("/eliminar-popup-plan-general/:id_plan/control-mando-bips", auth, (req, res) => {
+    // console.log(req.query);
+    //console.log(req.params);
+    //var name = req.query.;    
+
+    let params = [req.params.id_plan, req.query.nombre_plan];
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-plangeneral"), { datos_plan: params });
+});
+
+//plan-general/delete/
+
+app.post('/plan-general/delete/:id/control-mando-bips', auth, function(req, res) {
+
+    console.log(req.query);
+    console.log(req.params);
+    var msg = '';
+
+    modelControlMando.eliminar_RegistroPlan_General(req.params.id).then(respuesta => {
+
+        if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+            console.log("respuesta de eliminacion: 1, Se elimino correctamente el plan general...");
+            msg = 'El plan general' + req.query.nombre_plan + ' se eliminó correctamente...';
+        } else {
+            console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el plan general " + req.query.nombre_plan);
+            msg = ' ocurrio un problema al eliminar el plan general... ' + req.query.nombre_plan;
+        }
+
+
+
+        req.flash('notify', msg);
+        res.redirect("/listado-ctm-planes-generales");
+
+
+    })
+
+
+});
 
 app.get("/ctm-areas", auth, (req, res) => {
     res.render("paginas/ctm_areas");
@@ -1761,7 +1798,7 @@ app.post("/persistir-indicador", auth, (req, res) => {
     console.log(req.query);
     //console.log(req.params);
 
-    modelControlMando.insertar_indicador(req.query.nombre_indicador,req.query.plan_accion,req.query.area,req.query.tipo_meta,req.query.formula_descriptiva,req.query.meta_descriptiva,req.query.meta_numerica,req.query.formula_literal_num,req.query.form_literal_den).then(respuesta => {
+    modelControlMando.insertar_indicador(req.query.nombre_indicador, req.query.plan_accion, req.query.area, req.query.tipo_meta, req.query.formula_descriptiva, req.query.meta_descriptiva, req.query.meta_numerica, req.query.formula_literal_num, req.query.form_literal_den).then(respuesta => {
 
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW Indicador");
