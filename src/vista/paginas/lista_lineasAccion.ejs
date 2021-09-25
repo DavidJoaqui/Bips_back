@@ -1,7 +1,7 @@
 <%- include("head"); %>
     <%- include("styles_gral"); %>
 
-        <div class="col-md-12" id="" name="" style="margin-top: 10px;">
+        <div class="col-md-12" id="body_ent" name="body_ent" style="margin-top: 10px;">
 
 
             <div class="col-md-12">
@@ -43,7 +43,7 @@
                                     </td>
 
                                     <td class="btns-acciones">
-                                        <a href="" title="Editar"><i class="fas fa-edit"></i></a>
+                                        <a href="" title="Editar" onclick="editar_linea('<%= lista_lineas_accion[i].id_linea %>')"><i class="fas fa-edit"></i></a>
                                         <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                     </td>
 
@@ -58,68 +58,99 @@
                 </div>
             </div>
 
+        </div>
 
-            <style>
-                #tbl_planos {
-                    font-size: small;
-                    font-family: 'Montserrat', sans-serif;
-                    border-spacing: 0px !important;
-                    padding: 0px;
-                }
-                
-                #tbl_planos th {
-                    padding: 7px;
-                }
-                
-                #tbl_planos td {
-                    padding: 0;
-                }
-                
-                .btns-acciones form .btn-submit {
-                    font-family: 'Montserrat', sans-serif;
-                    border-radius: 5px;
-                    font-size: 10px;
-                    border: none;
-                    cursor: pointer;
-                    transition: .3s ease all;
-                    font-weight: bold;
-                }
-                
-                #btn-elim-all {
-                    font-family: 'Montserrat', sans-serif;
-                    border-radius: 5px;
-                    font-size: 10px;
-                    border: none;
-                    cursor: pointer;
-                    transition: .3s ease all;
-                }
-                
-                .head-tabla-reg {
-                    background-color: #3f78da;
-                    color: #fff;
-                }
-                
-                .titulo-tabla {
-                    color: #20488f;
-                }
-                
-                body {
-                    /*background-color: #eaedee;*/
-                    overflow-x: auto;
-                    overflow-y: auto;
-                }
-                
-                body::-webkit-scrollbar {
-                    display: auto;
-                    overflow-y: hidden;
-                }
-            </style>
+        <style>
+            #tbl_planos {
+                font-size: small;
+                font-family: 'Montserrat', sans-serif;
+                border-spacing: 0px !important;
+                padding: 0px;
+            }
+            
+            #tbl_planos th {
+                padding: 7px;
+            }
+            
+            #tbl_planos td {
+                padding: 0;
+            }
+            
+            .btns-acciones form .btn-submit {
+                font-family: 'Montserrat', sans-serif;
+                border-radius: 5px;
+                font-size: 10px;
+                border: none;
+                cursor: pointer;
+                transition: .3s ease all;
+                font-weight: bold;
+            }
+            
+            #btn-elim-all {
+                font-family: 'Montserrat', sans-serif;
+                border-radius: 5px;
+                font-size: 10px;
+                border: none;
+                cursor: pointer;
+                transition: .3s ease all;
+            }
+            
+            .head-tabla-reg {
+                background-color: #3f78da;
+                color: #fff;
+            }
+            
+            .titulo-tabla {
+                color: #20488f;
+            }
+            
+            body {
+                /*background-color: #eaedee;*/
+                overflow-x: auto;
+                overflow-y: auto;
+            }
+            
+            body::-webkit-scrollbar {
+                display: auto;
+                overflow-y: hidden;
+            }
+        </style>
 
 
-            <script type="text/javascript">
-                $(document).ready(function() {
+        <script type="text/javascript">
+            $(document).ready(function() {
 
-                    $('#preview').hide();
+                $('#preview').hide();
+
+            });
+
+
+            function editar_linea(id_linea) {
+
+                event.preventDefault();
+
+                //alert("ok desde lista plan general");
+
+                const peticion = "/form-editar-ctm-linea-accion/?id_linea=" + id_linea;
+
+                $.ajax({
+                    type: 'post',
+                    url: peticion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function(result) {
+
+                        //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
+                        $('#preview').hide();
+                        $('#body_ent').html(result);
+
+
+                    }
 
                 });
-            </script>
+
+            }
+        </script>

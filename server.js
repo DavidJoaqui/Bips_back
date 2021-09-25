@@ -1633,6 +1633,29 @@ app.post("/persistir-lineaAccion/", auth, (req, res) => {
 
 })
 
+//form-editar-ctm-linea-accion/?id_linea=
+
+app.post("/form-editar-ctm-linea-accion", auth, (req, res) => {
+
+    //res.send('OK');
+
+    //consultar_RegistrosPlan_General_x_id
+    modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+
+        //console.log(lista_planes);
+        modelControlMando.consultar_LineasAccionXId(req.query.id_linea).then(info_linea => {
+            res.render("paginas/editar_lineaAccion", { id_linea: req.query.id_linea, info_linea: info_linea, planes_generales: listaPlanes_grales });
+
+        });
+        //res.render("paginas/ctm_objetivos", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
+
+    });
+
+
+
+
+});
+
 app.get("/ctm-objetivos", auth, (req, res) => {
 
     modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
@@ -1673,6 +1696,8 @@ app.get("/consultar-objetivo-x-lineas-accion", auth, (req, res) => {
     });
 
 });
+
+
 
 
 app.get("/consultar-estrategia-x-objetivo", auth, (req, res) => {

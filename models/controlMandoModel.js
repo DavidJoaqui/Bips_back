@@ -13,12 +13,12 @@ module.exports = {
     },
 
     async consultar_RegistrosPlan_General() {
-        const resultados = await conexion.query("select id_plangeneral,plan_general,fecha_inicial, fecha_final, estado from schema_control.plangeneral");
+        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general, concat(to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD'),'-',to_char(p.fecha_inicial, 'YYYY')) as fecha_inicial ,concat(to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD'),'-',to_char(p.fecha_final , 'YYYY')) as fecha_final, p.estado from schema_control.plangeneral p");
         return resultados.rows;
     },
 
     async consultar_RegistrosPlan_General_x_id(id_plan) {
-        const resultados = await conexion.query("select id_plangeneral,plan_general,fecha_inicial, fecha_final, estado from schema_control.plangeneral where id_plangeneral=$1", [id_plan]);
+        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general,concat(to_char(p.fecha_inicial, 'YYYY'),'-',to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD')) as fecha_inicial ,concat(to_char(p.fecha_final , 'YYYY'),'-',to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD')) as fecha_final, p.estado from schema_control.plangeneral p where id_plangeneral=$1", [id_plan]);
         return resultados.rows;
     },
 
@@ -59,6 +59,10 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_LineasAccionXId(id_linea) {
+        const resultados = await conexion.query("select id_linea,p.id_plangeneral,p.plan_general,p.estado ,linea_accion from schema_control.lineas_acciones la inner join schema_control.plangeneral p on(la.id_plan_general=p.id_plangeneral) where id_linea = $1", [id_linea]);
+        return resultados.rows;
+    },
     async obtener_mayor_id_lineaAccion() {
         const resultados = await conexion.query("select MAX(id_linea) max from schema_control.lineas_acciones;");
         return resultados.rows;
