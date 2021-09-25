@@ -1,0 +1,75 @@
+<%- include("test_header_new"); %>
+
+    
+
+    <!--<p id="demo"></p>-->
+   
+
+    <div class="container-fluid" style="margin-top: 80px;margin-bottom: 10px;padding-top: 10px;padding-bottom: 40px">
+        <h1 class="text-center" style="color: #233dd2;">Informe Financiero</h1>
+        <b>
+            <p type="text" id="loading_" value="" style=" align-items: center; justify-content: center;"></p>
+        </b>
+
+        <div class="overlay" id="overlay" >
+            <b>
+                <p type="text" id="loading" value="" style=" align-items: center; justify-content: center;" hidden></p>
+            </b>
+
+        
+
+            <div class="embed-responsive embed-responsive-16by9" id="report">
+                <iframe
+                    src="http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3ADashboard%3ADash_Financiero%3AReporte_Anexo0319(BCEHORIZ).prpt/viewer"
+                    title="Generador de reportes BIPS" onload="validarCarga()" class="embed-responsive-item" id="iframe_report">
+                </iframe>
+            </div>
+        </div>
+        
+
+    </div>
+
+    <script>
+        function validarCarga() {
+            var text = "";
+            $("#loading_").attr("hidden", true);  
+            $("#loading").attr("hidden", false);
+            //document.getElementById("demo").innerHTML = text;
+            $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Cargando Información<b></b> ...</strong></div>');
+
+            setTimeout(function () {
+                $("#loading").attr("hidden", true);                
+                                                                             
+                
+            }, 3000);
+
+            
+
+        }
+
+        $(document).ready(function(){
+            //$("#loading_").attr("hidden", false);
+            //document.getElementById("demo").innerHTML = text;
+            $('#loading_').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Cargando Información, esto puede tardar algún tiempo...<b></b> </strong></div>');
+
+        });
+    </script>
+
+    <style>
+        .overlay {
+           
+            align-items: center;
+            justify-content: center;            
+            cursor: pointer;
+            border: 1px solid #233dd2;
+            margin-bottom: 70px;
+            padding-bottom: 20px;
+            
+        }
+
+        .overlay.active {
+            visibility: visible;
+        }
+    </style>
+
+<%- include("footer"); %>
