@@ -2018,6 +2018,11 @@ app.post("/persistir-profesional/", auth, (req, res) => {
 
 
 
+///resultados-financieros
+app.get("/resultados-financieros", auth, (req, res) => {
+
+    res.render(path.join(__dirname + "/src/vista/paginas/rpt_financiero_contabilidad"), { user: req.session.user, });
+});
 
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
