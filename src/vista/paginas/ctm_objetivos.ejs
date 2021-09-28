@@ -7,7 +7,7 @@
                 overflow-x: auto;
                 overflow-y: auto;
             }
-
+            
             body::-webkit-scrollbar {
                 display: none;
                 overflow-y: hidden;
@@ -15,8 +15,9 @@
         </style>
 
         <body id="body_ent">
-            <div class="preview text-center" id="preview"
-                style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+
+
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
                 <div class="card col-md-12" id="card-msg">
 
 
@@ -32,11 +33,15 @@
 
                 <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <div class="form-group" style="padding-left: 30px;margin: 20px;">
-                            <button class="nav-link active btn btn-success" type="button"
-                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea"
-                                onclick="nuevo_objetivo()" data-toggle="pill" href="" role="tab" aria-controls=""
-                                aria-selected="true"><i class="fas fa-plus"></i> Objetivo</button>
+                        <div class="form-group" style="padding-left: 0px;margin: 0px;">
+
+                            <button class="nav-link active btn btn-info" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="lista_objetivos()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i
+                                    class="fas fa-list"></i> Lista Objetivos</button>
+                        </div>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <div class="form-group" style="">
+                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="nuevo_objetivo()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Objetivo</button>
                         </div>
                     </li>
                 </ul>
@@ -48,15 +53,14 @@
 
             </div>
 
-            <div
-                style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
+            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
 
 
                 <div class="col-md-9 col-md-offset-3" style="padding-bottom: 0px">
 
                     <div class="card container" id="panel_nuevo_objetivo" style=" text-align: center;" hidden>
 
-
+                        <h3 class="text-center">Nuevo Objetivo.</h3>
 
                         <form id="formulario" enctype="multipart/form-data" method="POST">
 
@@ -67,22 +71,22 @@
                                 <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
                                     Objetivo </label>
                                 <div class="col-10">
-                                    <textarea class="form-control" type="text" name="txt_objetivo" id="txt_objetivo"
-                                        value=""></textarea>
+                                    <textarea class="form-control" type="text" name="txt_objetivo" id="txt_objetivo" value=""></textarea>
 
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-2 col-form-label" style="font-weight: bold; ">Plan General: </label>
                                 <div class="col-10">
-                                    <select class="form-control" name="select_plan" id="select_plan"
-                                        data-toggle="tooltip" title="Seleccionar Plan!" data-placement="right" required>
+                                    <select class="form-control" name="select_plan" id="select_plan" data-toggle="tooltip" title="Seleccionar Plan!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar Plan General
                                         </option>
                                         <% listaPlanes_grales.forEach(lista=> { %>
-                                            <option value="<%= lista.id_plangeneral %>">
-                                                <%= lista.plan_general %>
-                                            </option>
+                                            <% if (lista.estado) { %>
+                                                <option value="<%= lista.id_plangeneral %>">
+                                                    <%= lista.plan_general %>
+                                                </option>
+                                            <% } %>
                                             <% }); %>
                                     </select>
                                 </div>
@@ -91,20 +95,16 @@
                             <div class="form-group row">
                                 <label class="col-2 col-form-label" style="font-weight: bold;">Linea de acción: </label>
                                 <div class="col-10">
-                                    <select class="form-control" name="select_linea" id="select_linea"
-                                        data-toggle="tooltip" title="Seleccionar Linea de Acción!"
-                                        data-placement="right" required>
+                                    <select class="form-control" name="select_linea" id="select_linea" data-toggle="tooltip" title="Seleccionar Linea de Acción!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar linea de acción
                                         </option>                                      
                                         
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row"
-                                style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                            <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                                 <div class="text-center">
-                                    <button style="font-weight: bold;" class="btn btn-success" id="btn-validar"
-                                        name="btn-validar" onclick="almacenar_registro()">Guardar Objetivo</button>
+                                    <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Objetivo</button>
                                 </div>
                             </div>
 
@@ -127,9 +127,7 @@
 
             <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
-                <iframe src="/listado-ctm-objetivos" title="iframe Vistas control de mando" scrolling="no" onload=''
-                    frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_obj"
-                    id="iframe_obj">
+                <iframe src="/listado-ctm-objetivos" id="iframe_objetivos" name="iframe_objetivos" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_obj" id="iframe_obj">
                 </iframe>
             </div>
         </body>
@@ -159,7 +157,7 @@
                             cache: false,
                             processData: false,
 
-                            success: function (result) {
+                            success: function(result) {
 
                                 //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
 
@@ -183,7 +181,7 @@
                                     $('#iframe_obj').attr("src", iframe.src);
                                     $("#iframe_obj").show();
 
-                                    setTimeout(function () {
+                                    setTimeout(function() {
                                         $('#preview').hide();
                                     }, 4000);
 
@@ -195,7 +193,7 @@
 
                                     $('#card-msg').show();
 
-                                    setTimeout(function () {
+                                    setTimeout(function() {
                                         $('#preview').hide();
                                     }, 5000);
 
@@ -234,54 +232,64 @@
 
 
                 $('#panel_nuevo_objetivo').attr('hidden', false);
+                $('#iframe_objetivos').attr("src", '');
+                $('#iframe_objetivos').attr('hidden', true);
 
 
             }
 
-            $(document).ready(function () {
+            function lista_objetivos() {
+                //listado-ctm-objetivos
+                $('#panel_nuevo_objetivo').attr('hidden', true);
+                $('#iframe_objetivos').attr("src", '/listado-ctm-objetivos');
+                $('#iframe_objetivos').attr('hidden', false);
+
+            }
+
+            $(document).ready(function() {
 
                 $('#preview').hide();
                 document.getElementById("select_plan").title = 'Debe elegir un plan general'
 
                 $("#select_plan").change(function() {
-                                //$("#btn-subir").prop("disabled", true);
-                                //$('#files').attr("disabled", true);
-                               // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
-                                //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
-                                //alert("selecciono la opcion --> " +$("#select_plan option:selected").val());
+                    //$("#btn-subir").prop("disabled", true);
+                    //$('#files').attr("disabled", true);
+                    // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+                    //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+                    //alert("selecciono la opcion --> " +$("#select_plan option:selected").val());
 
-                                var peticion = "/consultar-lineas-accion_x_plan_general/?id_plan_gral=" +$(this).val();
+                    var peticion = "/consultar-lineas-accion_x_plan_general/?id_plan_gral=" + $(this).val();
 
-                                $.ajax({
+                    $.ajax({
 
-                            type: 'get',
-                            url: peticion,
-                            data: [],
-                            contentType: false,
-                            cache: false,
-                            processData: false,
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
 
-                            success: function (result) {
+                        success: function(result) {
 
-                                //select_linea
-                                $("#select_linea").html("");
-                                
-                                $("#select_linea").append('<option selected="selected">'+'Seleccionar linea de acción'+'</option>');
+                            //select_linea
+                            $("#select_linea").html("");
 
-                                result.forEach(element => {
-                                    
+                            $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+
+                            result.forEach(element => {
+
                                 //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
 
-                                $("#select_linea").append('<option value='+element.id_linea+'>'+element.linea_accion+'</option>');
-                            
-                                });
-                                
-                            }
-                            
-                                });
-
+                                $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
 
                             });
+
+                        }
+
+                    });
+
+
+                });
 
             });
         </script>

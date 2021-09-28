@@ -13,17 +13,16 @@
             </div>
 
             <div class="col-md-12" style="text-align: center;">
-                <h3 style="color: #20488f;font-size: 30px;font-weight: bold;" class="">Editar Linea de Acción.
+                <h3 style="color: #20488f;font-size: 30px;font-weight: bold;" class="">Editar Objetivo.
                 </h3>
             </div>
 
             <form id="formulario" enctype="multipart/form-data" method="POST">
-                <input class="form-control" type="text" placeholder="linea de accón" name="linea_accion" id="linea_accion" value="<%= id_linea %>" hidden>
+                <input class="form-control" type="text" placeholder="" name="" id="id_objetivo" value="<%= id_objetivo %>" hidden>
                 <div class="form-group row">
-                    <label class="col-2 col-form-label" for="linea_accion" style="font-weight: bold;"> Linea
-                        de acción: </label>
+                    <label class="col-2 col-form-label" for="linea_accion" style="font-weight: bold;"> Objetivo: </label>
                     <div class="col-10">
-                        <input class="form-control" type="text" placeholder="linea de accón" name="linea_accion_nombre" id="linea_accion_nombre" value="<%= info_linea[0].linea_accion %>">
+                        <input class="form-control" type="text" placeholder="objetivo" name="txt_objetivo" id="txt_objetivo" value="<%= objetivo_info[0].objetivo %>">
                     </div>
                 </div>
 
@@ -36,23 +35,27 @@
                                                      
                                                     
                             <% planes_generales.forEach(lista=> { %>
-                                <% if (lista.estado) { %>
-
-                                    <% if (info_linea[0].id_plangeneral == lista.id_plangeneral) { %>
-                                        <option selected="selected" value="<%= info_linea[0].id_plangeneral %>">
-                                            <%= info_linea[0].plan_general %>
-                                        </option>
-                                    <% }else{ %>
-                                     
+                                <% if (lista.estado) { %>                                                                       
                                     <option value="<%= lista.id_plangeneral %>">
                                         <%= lista.plan_general %>
                                     </option>   
-                                <% }} %>
+                                <% } %>
 
                                 
                                 
                                 <% }); %>
                         </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label" style="font-weight: bold;">Linea de acción: </label>
+                    <div class="col-10">
+                        <select class="form-control" name="select_linea" id="select_linea" data-toggle="tooltip" title="Seleccionar Linea de Acción!" data-placement="right" required>
+                                                            
+                                
+                            </select>
                     </div>
                 </div>
 
@@ -71,12 +74,11 @@
 <script type="text/javascript">
     function actualizar_registro() {
         event.preventDefault();
-        var id_linea = $('#linea_accion').val();
-        var nombre_linea = $('#linea_accion_nombre').val();
-        var id_plan_general = $('#select_plan').val();
+        var id_linea = $('#select_linea').val();
+        var objetivo = $('#txt_objetivo').val();
+        var id_objetivo = $('#id_objetivo').val();
 
-
-        var peticion = "/actualizar-linea-accion/?id_linea=" + id_linea + "&linea_accion=" + nombre_linea + "&id_plangeneral=" + id_plan_general;
+        var peticion = "/actualizar-objetivo/?id_objetivo=" + id_objetivo + "&id_linea_accion=" + id_linea + "&objetivo=" + objetivo;
 
         $.ajax({
             type: 'post',
@@ -146,6 +148,46 @@
     $(document).ready(function() {
 
         $('#preview').hide();
+
+        $("#select_plan").change(function() {
+            //$("#btn-subir").prop("disabled", true);
+            //$('#files').attr("disabled", true);
+            // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+            //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+            //alert("selecciono la opcion --> " +$("#select_plan option:selected").val());
+
+            var peticion = "/consultar-lineas-accion_x_plan_general/?id_plan_gral=" + $(this).val();
+
+            $.ajax({
+
+                type: 'get',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function(result) {
+
+                    //select_linea
+                    $("#select_linea").html("");
+
+                    $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+
+                    result.forEach(element => {
+
+                        //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                        $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+
+                    });
+
+                }
+
+            });
+
+
+        });
 
 
 

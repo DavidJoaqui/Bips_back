@@ -4,7 +4,56 @@
         <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
 
-            <div class="col-md-12">
+            <div class="col-md-12" id="body_ent" name="body_ent">
+
+                <div id="preview" name="preview">
+
+                    <% const m=getMessages() %>
+
+                        <% if (m.notify) { %>
+
+                            <div class="card" style="margin-top: 20px;" id="card-success">
+                                <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
+                                    <strong>OK!</strong>
+                                    <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <% m.notify.forEach((element)=> { %>
+
+                                        <%= element %>
+                                            <% }) %> %>
+                                </div>
+
+
+                            </div>
+
+                            <% } %>
+                                <% if (m.error) { %>
+
+                                    <div class="card " style="margin-top: 20px;" id="card-err" name="card-err">
+                                        <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
+                                            <strong>Error!</strong>
+                                            <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                        </div>
+
+                                        <div class="card-body">
+
+                                            <% m.error.forEach((element)=> { %>
+
+                                                <%= element %>
+                                                    <% }) %> %>
+                                        </div>
+
+                                    </div>
+
+                                    <% } %>
+                </div>
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
@@ -45,7 +94,7 @@
                                     </td>
 
                                     <td class="btns-acciones">
-                                        <a href="" title="Editar"><i class="fas fa-edit"></i></a>
+                                        <a href="" title="Editar" onclick="editar_objetivo('<%= lista_objetivos[i].id_objetivo %>')"><i class="fas fa-edit"></i></a>
                                         <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                     </td>
 
@@ -59,6 +108,51 @@
 
                 </div>
             </div>
+
+
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+
+
+
+                    setTimeout(function() {
+                        $('#preview').hide();
+                    }, 5000);
+
+
+                });
+
+
+                function editar_objetivo(id_objetivo) {
+
+                    event.preventDefault();
+
+                    //alert("ok desde lista plan general");
+
+                    const peticion = "/form-editar-ctm-objetivo/?id_objetivo=" + id_objetivo;
+
+                    $.ajax({
+                        type: 'post',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function(result) {
+
+                            //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
+                            $('#preview').hide();
+                            $('#body_ent').html(result);
+
+
+                        }
+
+                    });
+
+                }
+            </script>
 
 
             <style>

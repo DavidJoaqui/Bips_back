@@ -73,6 +73,16 @@ module.exports = {
         return resultados;
     },
 
+    //actualizar_RegistroLineaAccion_x_id
+    async actualizar_RegistroLineaAccion_x_id(id_linea_accion, linea_accion, id_plangeneral) {
+        const resultados = await conexion.query('update schema_control.lineas_acciones set id_plan_general=$3, linea_accion=$2 where id_linea=$1 ', [id_linea_accion, linea_accion, id_plangeneral]);
+        return resultados;
+    },
+
+    async eliminar_RegistroLineaAccion(id) {
+        const resultados = await conexion.query("delete from schema_control.lineas_acciones where id_linea= $1", [id]);
+        return resultados;
+    },
 
 
 
@@ -107,6 +117,15 @@ module.exports = {
         return resultados;
     },
 
+    async consultar_RegistroObjetivos_x_id(id_obj) {
+        const resultados = await conexion.query("select id_objetivo,objetivo,id_linea_accion from schema_control.objetivos where id_objetivo = $1", [id_obj]);
+        return resultados.rows;
+    },
+
+    async actualizar_RegistroObjetivo_x_id(id_obj, id_linea_accion, objetivo) {
+        const resultados = await conexion.query('update schema_control.objetivos set objetivo=$3, id_linea_accion=$2 where id_objetivo=$1 ', [id_obj, id_linea_accion, objetivo]);
+        return resultados;
+    },
 
 
 

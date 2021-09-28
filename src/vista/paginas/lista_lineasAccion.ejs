@@ -5,6 +5,54 @@
 
 
             <div class="col-md-12">
+                <div id="preview" name="preview">
+
+                    <% const m=getMessages() %>
+
+                        <% if (m.notify) { %>
+
+                            <div class="card" style="margin-top: 20px;" id="card-success">
+                                <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
+                                    <strong>OK!</strong>
+                                    <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <% m.notify.forEach((element)=> { %>
+
+                                        <%= element %>
+                                            <% }) %> %>
+                                </div>
+
+
+                            </div>
+
+                            <% } %>
+                                <% if (m.error) { %>
+
+                                    <div class="card " style="margin-top: 20px;" id="card-err" name="card-err">
+                                        <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
+                                            <strong>Error!</strong>
+                                            <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                        </div>
+
+                                        <div class="card-body">
+
+                                            <% m.error.forEach((element)=> { %>
+
+                                                <%= element %>
+                                                    <% }) %> %>
+                                        </div>
+
+                                    </div>
+
+                                    <% } %>
+                </div>
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
@@ -44,7 +92,7 @@
 
                                     <td class="btns-acciones">
                                         <a href="" title="Editar" onclick="editar_linea('<%= lista_lineas_accion[i].id_linea %>')"><i class="fas fa-edit"></i></a>
-                                        <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+                                        <a href="/eliminar-popup-linea-accion/<%= lista_lineas_accion[i].id_linea %>/control-mando-bips/?nombre_linea=<%= lista_lineas_accion[i].linea_accion %>" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                     </td>
 
                                 </tr>
@@ -120,7 +168,12 @@
         <script type="text/javascript">
             $(document).ready(function() {
 
-                $('#preview').hide();
+
+
+                setTimeout(function() {
+                    $('#preview').hide();
+                }, 5000);
+
 
             });
 

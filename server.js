@@ -1429,6 +1429,16 @@ app.get("/control-mando", auth, (req, res) => {
     res.render("paginas/control_mando", { user: req.session.user });
 });
 
+app.get("/menu-ctm", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
+        //console.log(lista_planes);
+        res.render("paginas/menu_cuadro_mando");
+    });
+
+
+});
+
 app.get("/ctm-plan-general", auth, (req, res) => {
     res.render("paginas/plan_general");
 });
@@ -1578,16 +1588,38 @@ app.get("/ctm-lineasAccion", auth, (req, res) => {
 });
 
 
-app.get("/menu-ctm", auth, (req, res) => {
+app.get("/eliminar-popup-linea-accion/:id_linea/control-mando-bips", auth, (req, res) => {
+    // console.log(req.query);
+    //console.log(req.params);
+    //var name = req.query.;    
 
-    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
-        //console.log(lista_planes);
-        res.render("paginas/menu_cuadro_mando");
-    });
+    let params = [req.params.id_linea, req.query.nombre_linea];
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-linea-accion"), { datos_linea: params });
+});
+
+app.post('/linea-accion/delete/:id/control-mando-bips', auth, function(req, res) {
+
+    console.log(req.query);
+    console.log(req.params);
+    var msg = '';
+
+    modelControlMando.eliminar_RegistroLineaAccion(req.params.id).then(respuesta => {
+
+        if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+            console.log("respuesta de eliminacion: 1, Se elimino correctamente linea de accion...");
+            msg = 'La linea de acción ' + req.query.nombre_linea + ' se eliminó correctamente...';
+        } else {
+            console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar la linea de acción " + req.query.nombre_linea);
+            msg = ' ocurrio un problema al eliminar la linea de acción... ' + req.query.nombre_linea;
+        }
+        req.flash('notify', msg);
+        res.redirect("/listado-ctm-lineas-accion");
+
+
+    })
 
 
 });
-
 
 ///listado-ctm-lineas-accion
 app.get("/listado-ctm-lineas-accion", auth, (req, res) => {
@@ -1656,6 +1688,39 @@ app.post("/form-editar-ctm-linea-accion", auth, (req, res) => {
 
 });
 
+app.post("/actualizar-linea-accion", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    console.log(req.params);
+    console.log(req.body);
+    modelControlMando.actualizar_RegistroLineaAccion_x_id(req.query.id_linea, req.query.linea_accion, req.query.id_plangeneral).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update plan general");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
+
+            res.send({ status: 200, msg: 'La lina de acción <b>' + req.query.linea_accion + '</b> fue actualizado correctamente...' });
+            //res.render("/config-entidades");
+
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.send({ status: 300, msg: 'ERROR al actualizar ela linea de acción <b>' + req.query.linea_accion + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! La linea de acción  <b>' + req.query.linea_accion + '</b>, ' + +'NO se pudo actualizar...' });
+    });
+
+})
+
+
+
 app.get("/ctm-objetivos", auth, (req, res) => {
 
     modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
@@ -1697,9 +1762,6 @@ app.get("/consultar-objetivo-x-lineas-accion", auth, (req, res) => {
 
 });
 
-
-
-
 app.get("/consultar-estrategia-x-objetivo", auth, (req, res) => {
 
     //console.log(req.query);
@@ -1739,9 +1801,68 @@ app.get("/listado-ctm-objetivos", auth, (req, res) => {
         res.render("paginas/lista_ctm_objetivos", { lista_objetivos: lista_objetivos });
     });
 
+});
+
+app.post("/form-editar-ctm-objetivo", auth, (req, res) => {
+
+    //res.send('OK');
+
+    //consultar_RegistrosPlan_General_x_id
+
+    modelControlMando.consultar_RegistroObjetivos_x_id(req.query.id_objetivo).then(objetivo_info => {
+
+        modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+
+            //console.log(lista_planes);
+
+            modelControlMando.consultar_RegistrosLineasAccion().then(lineas_accion => {
+
+
+                res.render("paginas/editar_objetivo", { id_objetivo: req.query.id_objetivo, planes_generales: listaPlanes_grales, objetivo_info: objetivo_info, lineas_accion: lineas_accion });
+                //res.render("paginas/ctm_objetivos", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
+
+            });
+        });
+
+    });
+
+
 
 
 });
+
+app.post("/actualizar-objetivo", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    console.log(req.params);
+    console.log(req.body);
+    modelControlMando.actualizar_RegistroObjetivo_x_id(req.query.id_objetivo, req.query.id_linea_accion, req.query.objetivo).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update plan general");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
+
+            res.send({ status: 200, msg: 'El objetivo ' + req.query.objetivo + ' fue actualizado correctamente...' });
+            //res.render("/config-entidades");
+
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.send({ status: 300, msg: 'ERROR al actualizar el objetivo <b>' + req.query.objetivo + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El objetivo  <b>' + req.query.objetivo + '</b>, ' + +'NO se pudo actualizar...' });
+    });
+
+})
+
+
 
 app.get("/ctm-estrategias", auth, (req, res) => {
     //console.log(req.query.linea_accion);
@@ -1886,7 +2007,6 @@ app.post("/persistir-objetivo/", auth, (req, res) => {
 })
 
 
-
 app.post("/persistir-estrategia/", auth, (req, res) => {
 
 
@@ -1958,8 +2078,6 @@ app.post("/persistir-plan-accion/", auth, (req, res) => {
 
 
 })
-
-
 
 //ctm-profesionales
 
