@@ -118,7 +118,7 @@ module.exports = {
     },
 
     async consultar_RegistroObjetivos_x_id(id_obj) {
-        const resultados = await conexion.query("select id_objetivo,objetivo,id_linea_accion from schema_control.objetivos where id_objetivo = $1", [id_obj]);
+        const resultados = await conexion.query("select obj.id_objetivo,obj.objetivo,obj.id_linea_accion,la.id_plan_general from schema_control.objetivos obj inner join schema_control.lineas_acciones la on(obj.id_linea_accion=la.id_linea) where obj.id_objetivo = $1", [id_obj]);
         return resultados.rows;
     },
 

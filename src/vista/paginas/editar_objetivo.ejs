@@ -35,11 +35,18 @@
                                                      
                                                     
                             <% planes_generales.forEach(lista=> { %>
-                                <% if (lista.estado) { %>                                                                       
+                                <% if (lista.estado) { %>           
+                                    <% if (lista.id_plangeneral == objetivo_info[0].id_plan_general) { %>           
+                                      
+                                    <option selected="selected" value="<%= lista.id_plangeneral %>">
+                                        <%= lista.plan_general %>
+                                    </option> 
+                                    <% }else{ %>           
+                                        
                                     <option value="<%= lista.id_plangeneral %>">
                                         <%= lista.plan_general %>
-                                    </option>   
-                                <% } %>
+                                    </option> 
+                                <% }} %>
 
                                 
                                 
@@ -149,6 +156,38 @@
 
         $('#preview').hide();
 
+        var peticion = "/consultar-lineas-accion_x_plan_general/?id_plan_gral=" + '<%= objetivo_info[0].id_plan_general %>';
+
+        $.ajax({
+
+            type: 'get',
+            url: peticion,
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+
+            success: function(result) {
+
+                //select_linea
+                $("#select_linea").html("");
+
+                $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+
+                result.forEach(element => {
+
+                    //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                    $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+
+                });
+
+            }
+
+        });
+
+
+
         $("#select_plan").change(function() {
             //$("#btn-subir").prop("disabled", true);
             //$('#files').attr("disabled", true);
@@ -188,7 +227,6 @@
 
 
         });
-
 
 
     });
