@@ -35,15 +35,11 @@
                         </div>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <div class="form-group" style="">
+                        <div class="form-group" style="padding-left: 0px;margin: 0px;">
                             <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="nuevo_objetivo()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Objetivo</button>
                         </div>
                     </li>
                 </ul>
-
-
-
-
                 <div class="dropdown-divider"></div>
 
             </div>
@@ -58,13 +54,6 @@
 
 
                         <h3 class="text-center">Nuevo Objetivo.</h3>
-
-                        <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
-                            <div class="card col-md-12" id="card-msg">
-
-
-                            </div>
-                        </div>
 
                         <form id="formulario" enctype="multipart/form-data" method="POST">
 
@@ -194,7 +183,8 @@
 
 
                         } else {
-                            $('#preview').show();
+                            alert(result["msg"]);
+                            /*$('#preview').show();
 
                             $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
@@ -202,7 +192,7 @@
 
                             setTimeout(function() {
                                 $('#preview').hide();
-                            }, 5000);
+                            }, 5000);*/
 
                             //$('#formulario')[0].reset();
 
@@ -242,9 +232,9 @@
 
             $(document).ready(function() {
 
-                setTimeout(function() {
+                /*setTimeout(function() {
                     $('#preview').hide();
-                }, 5000);
+                }, 5000);*/
 
                 document.getElementById("select_plan").title = 'Debe elegir un plan general'
 
