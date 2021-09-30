@@ -134,15 +134,17 @@
 
                     console.log("actualizado correctamente...");
                     //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
-                    $('#preview').show();
+                    //$('#preview').show();
 
-                    $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>OK!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+                    //$('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>OK!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
-                    $('#card-msg').show();
+                    //$('#card-msg').show();
 
-                    setTimeout(function() {
+                    alert(result["msg"]);
+
+                    /*setTimeout(function() {
                         $('#preview').hide();
-                    }, 5000);
+                    }, 5000);*/
 
                 } else {
                     $('#preview').show();

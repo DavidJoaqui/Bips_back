@@ -96,11 +96,11 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-                                <div class="text-center">
-                                    <button style="font-weight: bold;" class="btn btn-success " id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Linea de
+                            <div class="form-group " style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+
+                                <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Linea de
                                         Acción</button>
-                                </div>
+                                <button style="font-weight: bold;" type="submit" class="btn btn-default btn-sm" id="btn-validar" name="btn-validar" onclick="lista_lineas_accion()">Volver</button>
                             </div>
                     </div>
 
@@ -154,11 +154,12 @@
                             }, 5000);*/
                             if (result["status"] == 200) {
 
-                                $('#preview').show();
+                                //$('#preview').show();
 
-                                $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+                                //$('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
-                                $('#card-msg').show();
+                                //$('#card-msg').show();
+                                alert(result["msg"]);
 
                                 $('#formulario')[0].reset();
 
@@ -175,15 +176,18 @@
 
 
                             } else {
-                                $('#preview').show();
 
-                                $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                                alert(result["msg"]);
+                                //$('#preview').show();
+
+                                /*$('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
                                 $('#card-msg').show();
 
                                 setTimeout(function() {
                                     $('#preview').hide();
-                                }, 5000);
+                                }, 5000);*/
 
                                 //$('#formulario')[0].reset();
 

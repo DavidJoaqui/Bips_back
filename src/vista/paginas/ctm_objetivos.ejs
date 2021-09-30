@@ -17,12 +17,7 @@
         <body id="body_ent">
 
 
-            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
-                <div class="card col-md-12" id="card-msg">
 
-
-                </div>
-            </div>
 
             <div class="col-md-12" style="text-align: center; margin-top: 0px;">
                 <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Objetivos.
@@ -58,12 +53,20 @@
 
                 <div class="col-md-9 col-md-offset-3" style="padding-bottom: 0px">
 
-                    <div class="card container" id="panel_nuevo_objetivo" style=" text-align: center;" hidden>
+                    <div class="card container-fluid" id="panel_nuevo_objetivo" style=" text-align: center;" hidden>
+
+
 
                         <h3 class="text-center">Nuevo Objetivo.</h3>
 
-                        <form id="formulario" enctype="multipart/form-data" method="POST">
+                        <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+                            <div class="card col-md-12" id="card-msg">
 
+
+                            </div>
+                        </div>
+
+                        <form id="formulario" enctype="multipart/form-data" method="POST">
 
 
 
@@ -104,8 +107,10 @@
                             </div>
                             <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                                 <div class="text-center">
-                                    <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Objetivo</button>
+                                    <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Objetivo</button>
+                                    <button style="font-weight: bold;" type="submit" class="btn btn-default btn-sm" id="btn-validar" name="btn-validar" onclick="lista_objetivos()">Volver</button>
                                 </div>
+
                             </div>
 
 
@@ -143,85 +148,74 @@
                 var txt_objetivo = $('#txt_objetivo').val();
                 var select_linea = $('#select_linea').val();
 
-                if (select_linea != "") {
-
-                    if (txt_objetivo != "") {
-
-                        var peticion = "/persistir-objetivo/?objetivo=" + txt_objetivo + "&linea_accion=" + select_linea;
-
-                        $.ajax({
-                            type: 'post',
-                            url: peticion,
-                            data: [],
-                            contentType: false,
-                            cache: false,
-                            processData: false,
-
-                            success: function(result) {
-
-                                //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
-
-                                /*setTimeout(function() {
-                                    window.location.reload(1);
-                                }, 5000);*/
-                                if (result["status"] == 200) {
-
-                                    $('#preview').show();
-
-                                    $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
-
-                                    $('#card-msg').show();
-
-                                    $('#formulario')[0].reset();
-
-                                    //$('#select_linea').focus();
-
-                                    var iframe = document.getElementById('iframe_obj');
-
-                                    $('#iframe_obj').attr("src", iframe.src);
-                                    $("#iframe_obj").show();
-
-                                    setTimeout(function() {
-                                        $('#preview').hide();
-                                    }, 4000);
 
 
-                                } else {
-                                    $('#preview').show();
-
-                                    $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
-
-                                    $('#card-msg').show();
-
-                                    setTimeout(function() {
-                                        $('#preview').hide();
-                                    }, 5000);
-
-                                    //$('#formulario')[0].reset();
-
-                                    //$('#select_plan').focus();
-
-                                }
-
-                                //$('#body_ent').html(result);
 
 
-                            }
+                var peticion = "/persistir-objetivo/?objetivo=" + txt_objetivo + "&linea_accion=" + select_linea;
 
-                        });
+                $.ajax({
+                    type: 'post',
+                    url: peticion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
 
-                    } else {
-                        $('#txt_objetivo').focus();
+                    success: function(result) {
+
+                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                        /*setTimeout(function() {
+                            window.location.reload(1);
+                        }, 5000);*/
+                        if (result["status"] == 200) {
+
+                            //$('#preview').show();
+
+                            //$('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                            //$('#card-msg').show();
+                            alert(result["msg"]);
+
+                            $('#formulario')[0].reset();
+
+                            $('#txt_objetivo').focus();
+
+
+                            var iframe = document.getElementById('iframe_obj');
+
+                            $('#iframe_obj').attr("src", iframe.src);
+                            $("#iframe_obj").show();
+
+                            /*setTimeout(function() {
+                                $('#preview').hide();
+                            }, 4000);*/
+
+
+                        } else {
+                            $('#preview').show();
+
+                            $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                            $('#card-msg').show();
+
+                            setTimeout(function() {
+                                $('#preview').hide();
+                            }, 5000);
+
+                            //$('#formulario')[0].reset();
+
+                            //$('#select_plan').focus();
+
+                        }
+
+                        //$('#body_ent').html(result);
+
+
                     }
 
-
-                } else {
-                    //alert("debe escoger una plan gral");
-                    $('#select_linea').focus();
-                    //$('#txt_objetivo').focus();
-
-
-                }
+                });
             }
 
 
@@ -248,7 +242,10 @@
 
             $(document).ready(function() {
 
-                $('#preview').hide();
+                setTimeout(function() {
+                    $('#preview').hide();
+                }, 5000);
+
                 document.getElementById("select_plan").title = 'Debe elegir un plan general'
 
                 $("#select_plan").change(function() {

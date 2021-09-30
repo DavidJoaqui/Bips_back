@@ -58,7 +58,7 @@ const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
 
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
 
         var numcarga = req.files.length;
@@ -184,7 +184,7 @@ const upload = multer({
 });
 
 
-var auth = function (req, res, next) {
+var auth = function(req, res, next) {
     if (req.session && req.session.admin)
         return next();
     else
@@ -206,44 +206,44 @@ const { parse } = require('querystring');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.redirect("/login");
 })
 
-app.post('/login', function (req, res) {
+app.post('/login', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.render("paginas/login");
 })
-app.get('/login', function (req, res) {
+app.get('/login', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.render("paginas/login");
 })
 
-app.get('/inicio/bips', auth, function (req, res) {
+app.get('/inicio/bips', auth, function(req, res) {
     res.redirect('/login-data');
     //res.setHeader('Content-type', 'text/html');
     //res.render("paginas/inicio", { user: req.session.user });
 
 })
 
-app.get('/login-data', auth, function (req, res) {
+app.get('/login-data', auth, function(req, res) {
     res.render("paginas/inicio", { user: req.session.user });
     //res.setHeader('Content-type', 'text/html');
     //res.render("paginas/inicio", { user: req.session.user });
 
 })
 
-app.get('/obtenerRegistrosPlanos', auth, function (req, res) {
+app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
 
-        console.log(registroplanos);
+            console.log(registroplanos);
 
-        res.render("paginas/RegistrosPlanos", {
-            registroplanos: registroplanos,
-            user: req.session.user,
-        });
-    })
+            res.render("paginas/RegistrosPlanos", {
+                registroplanos: registroplanos,
+                user: req.session.user,
+            });
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -251,24 +251,24 @@ app.get('/obtenerRegistrosPlanos', auth, function (req, res) {
 });
 
 
-app.get('/cargar-plano', auth, function (req, res) {
+app.get('/cargar-plano', auth, function(req, res) {
 
     modelbips.obtenerIps().then(listaIps => {
 
-        res.render("paginas/FormularioCarga", {
-            listaIps: listaIps,
-            user: req.session.user,
+            res.render("paginas/FormularioCarga", {
+                listaIps: listaIps,
+                user: req.session.user,
 
-        });
+            });
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
         });
 });
 
-app.get('/validar-registros-ap/:ips', auth, async function (req, res, next) {
+app.get('/validar-registros-ap/:ips', auth, async function(req, res, next) {
 
 
     modelbips.validarRegistrosAP(req.params.ips, req.query.fecha_inicial, req.query.fecha_fin).then(validaregistros => {
@@ -279,7 +279,7 @@ app.get('/validar-registros-ap/:ips', auth, async function (req, res, next) {
     });
 });
 
-app.get('/cargar', auth, function (req, res) {
+app.get('/cargar', auth, function(req, res) {
     //console.log(req);
     res.render("paginas/FormularioCarga");
 });
@@ -481,25 +481,25 @@ app.get("/listadoArchivos", auth, (req, res) => {
 
 });
 
-app.get('/recursos_marca', function (req, res) {
+app.get('/recursos_marca', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final.png");
 
 });
-app.get('/recursos_marca_bn', function (req, res) {
+app.get('/recursos_marca_bn', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final2.png");
 
 });
 
-app.get('/recursos_it', function (req, res) {
+app.get('/recursos_it', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/it.png");
 
 });
 
 
-app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/delete/:name/archivo-bips', auth, function(req, res) {
     let name = req.params.name;
     console.log(req.query);
     //console.log(name);
@@ -522,10 +522,10 @@ app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
 
                 modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
 
-                    req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
-                    res.redirect("/listadoArchivos");
+                        req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
+                        res.redirect("/listadoArchivos");
 
-                })
+                    })
                     .catch(err => {
                         console.log(err);
                         return res.status(500).send("Error obteniendo registros");
@@ -536,7 +536,7 @@ app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
 });
 
 
-app.post('/file/validar/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/validar/:name/archivo-bips', auth, function(req, res) {
 
     let name_tmp = req.params.name;
     var array_nombre = name_tmp.split('_');
@@ -703,11 +703,11 @@ app.post("/delete-all/archivo-bips", auth, (req, res) => {
 
             modelplanos.eliminar_all_RegistrosPlanos_tmp().then(respuesta => {
 
-                if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
-                    console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
-                }
+                    if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                        console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
+                    }
 
-            })
+                })
                 .catch(err => {
                     console.log(err);
                 });
@@ -790,7 +790,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", auth, (req, res) => {
 
                     try {
                         //var ruta = path.join(__dirname, 'filesBipsUploads') + '/' + file;
-                        fs.unlinkSync(ruta, function (err) {
+                        fs.unlinkSync(ruta, function(err) {
                             if (err) {
                                 bandera = true;
                                 return console.error(err);
@@ -1003,8 +1003,8 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
                 console.log("===========================================================================");
                 console.log("resultado de la ejecucion: ");
                 console.log(code)
-                //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
-                //OK : 0
+                    //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
+                    //OK : 0
 
 
                 if (code == 0) {
@@ -1026,22 +1026,22 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
                     //console.log("numero de planos decrementando: " + num_planos);
 
                     modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-                        //console.log(listaArchivos);    
-                        req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                        //res.setHeader('Content-type', 'text/html');
-                        res.render("paginas/listaArchivos", {
-                            arr_files: listaArchivos,
-                            habilitar_envio_la: true,
-                            habilitar_carga: false,
-                            habilitar_eliminar: false,
-                            habilitar_btn_envio: true,
-                            status: 200,
-                            code: 0,
-                            retorno: "0",
-                        });
+                            //console.log(listaArchivos);    
+                            req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                            //res.setHeader('Content-type', 'text/html');
+                            res.render("paginas/listaArchivos", {
+                                arr_files: listaArchivos,
+                                habilitar_envio_la: true,
+                                habilitar_carga: false,
+                                habilitar_eliminar: false,
+                                habilitar_btn_envio: true,
+                                status: 200,
+                                code: 0,
+                                retorno: "0",
+                            });
 
 
-                    })
+                        })
                         .catch(err => {
                             console.log(err);
                             return res.status(500).send("Error obteniendo registros");
@@ -1114,7 +1114,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
 });
 
 
-app.post('/login-data', function (req, res) {
+app.post('/login-data', function(req, res) {
 
     //console.log(req.body.username);
     console.log(req.query);
@@ -1154,21 +1154,21 @@ app.post('/login-data', function (req, res) {
                     //res.setHeader('Content-type', 'text/html');
                     //res.redirect("/config-entidades");
                     modelEntidad.consultar_registro_entidades().then(listaentidades => {
-                        //console.log(listaArchivos);    
-                        req.flash('notify', 'Inicio de sesion con exito...');
-                        res.setHeader('Content-type', 'text/html');
-                        //res.redirect("/config-entidades");
-                        res.render("paginas/inicio", { user: req.session.user });
-                        /*res.render("paginas/entidades", {
-                            registroEntidades: listaentidades,
-                            status: 200,
-                            code: 0,
-                            retorno: "0",
-                            user: user_ok[0].nombre_usuario,
-                        });*/
+                            //console.log(listaArchivos);    
+                            req.flash('notify', 'Inicio de sesion con exito...');
+                            res.setHeader('Content-type', 'text/html');
+                            //res.redirect("/config-entidades");
+                            res.render("paginas/inicio", { user: req.session.user });
+                            /*res.render("paginas/entidades", {
+                                registroEntidades: listaentidades,
+                                status: 200,
+                                code: 0,
+                                retorno: "0",
+                                user: user_ok[0].nombre_usuario,
+                            });*/
 
 
-                    })
+                        })
                         .catch(err => {
                             console.log(err);
                             return res.status(500).send("Error obteniendo registros");
@@ -1196,7 +1196,7 @@ app.post('/login-data', function (req, res) {
 
 
 // Logout endpoint
-app.get('/logout', auth, function (req, res) {
+app.get('/logout', auth, function(req, res) {
     req.session.destroy();
     res.redirect("/login");
 });
@@ -1206,20 +1206,20 @@ app.get('/logout', auth, function (req, res) {
 app.get("/config-entidades", auth, (req, res) => {
 
     modelEntidad.consultar_registro_entidades().then(listaentidades => {
-        console.log(req.query);
+            console.log(req.query);
 
-        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-        //res.setHeader('Content-type', 'text/html');
-        res.render("paginas/entidades", {
-            registroEntidades: listaentidades,
-            status: 200,
-            code: 0,
-            retorno: "0",
-            user: req.session.user,
-        });
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            res.render("paginas/entidades", {
+                registroEntidades: listaentidades,
+                status: 200,
+                code: 0,
+                retorno: "0",
+                user: req.session.user,
+            });
 
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -1333,18 +1333,18 @@ app.post("/actualizar-entidad", auth, (req, res) => {
 app.post("/config-entidades", auth, (req, res) => {
 
     modelEntidad.consultar_registro_entidades().then(listaentidades => {
-        //console.log(listaArchivos);    
-        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-        //res.setHeader('Content-type', 'text/html');
-        res.render("paginas/entidades", {
-            registroEntidades: listaentidades,
-            status: 200,
-            code: 0,
-            retorno: "0",
-        });
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            res.render("paginas/entidades", {
+                registroEntidades: listaentidades,
+                status: 200,
+                code: 0,
+                retorno: "0",
+            });
 
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -1361,7 +1361,7 @@ app.post("/eliminar-popup-entidad/:name/archivo-bips", auth, (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-entidad"), { datos_entidad: req.params.name, regimen_: req.query.regimen, nombre_entidad: req.query.nombre_entidad });
 });
 
-app.post('/file/delete-entidad/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/delete-entidad/:name/archivo-bips', auth, function(req, res) {
 
     if (req.query.regimen == "CONTRIBUTIVO") {
         var regimen = "C"
@@ -1480,20 +1480,20 @@ app.post("/actualizar-plan-general", auth, (req, res) => {
             //console.log(listaArchivos);    
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
-            req.flash('notify', 'El plan general ' + req.query.nombre_plan + ',' + ' se actualizo correctamente...');
-            res.send({ status: 200, msg: 'El plan General <b>' + req.query.nombre_plan + '</b> fue actualizado correctamente...' });
+            //req.flash('notify_up_plangral', 'El plan general ' + req.query.nombre_plan + ',' + ' se actualizo correctamente...');
+            res.send({ status: 200, msg: 'El plan General ' + req.query.nombre_plan + ' fue actualizado correctamente...' });
             //res.render("/config-entidades");
 
         } else {
 
             //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.send({ status: 300, msg: 'ERROR al actualizar el plan general <b>' + req.query.nombre_plan + '</b> ' + ' intente de nuevo...' });
+            res.send({ status: 300, msg: 'ERROR al actualizar el plan general ' + req.query.nombre_plan + ' ' + ' intente de nuevo...' });
         }
 
     }).catch(err => {
         console.log(err);
         //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! El plan general  <b>' + req.query.nombre_plan + '</b>, ' + +'NO se pudo actualizar...' });
+        res.json({ status: 500, msg: 'ERROR!! El plan general  ' + req.query.nombre_plan + ', ' + +'NO se pudo actualizar...' });
     });
 
 })
@@ -1519,7 +1519,7 @@ app.post('/plan-general/delete/:id/control-mando-bips', auth, function(req, res)
 
         if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
             console.log("respuesta de eliminacion: 1, Se elimino correctamente el plan general...");
-            msg = 'El plan general' + req.query.nombre_plan + ' se eliminó correctamente...';
+            msg = 'El plan general ' + req.query.nombre_plan + ' se eliminó correctamente...';
         } else {
             console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el plan general " + req.query.nombre_plan);
             msg = ' ocurrio un problema al eliminar el plan general... ' + req.query.nombre_plan;
@@ -1527,7 +1527,8 @@ app.post('/plan-general/delete/:id/control-mando-bips', auth, function(req, res)
 
 
 
-        req.flash('notify', msg);
+        req.flash('notify_del_plangral', msg);
+        //res.json({ status: 200, msg });        
         res.redirect("/listado-ctm-planes-generales");
 
 
@@ -1562,17 +1563,17 @@ app.post("/persistir-plan", auth, (req, res) => {
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
             //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-            res.json({ status: 200, msg: 'El plan General <b>' + req.query.nombre_plan + '</b>, se creó correctamente...' });
+            res.json({ status: 200, msg: 'El plan General ' + req.query.nombre_plan + ', se creó correctamente...' });
         } else {
 
             //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al crear el plan General <b>' + req.query.nombre_plan + '</b>, intente de nuevo...' });
+            res.json({ status: 300, msg: 'ERROR al crear el plan General' + req.query.nombre_plan + ', intente de nuevo...' });
         }
 
     }).catch(err => {
         console.log(err);
         //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! El plan General <b>' + req.query.nombre_plan + ' </b> YA EXISTE...' });
+        res.json({ status: 500, msg: 'ERROR!! al almacenar el plan General ' + req.query.nombre_plan + 'Ocurrio un problema' });
     });
 
 })
@@ -1612,7 +1613,7 @@ app.post('/linea-accion/delete/:id/control-mando-bips', auth, function(req, res)
             console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar la linea de acción " + req.query.nombre_linea);
             msg = ' ocurrio un problema al eliminar la linea de acción... ' + req.query.nombre_linea;
         }
-        req.flash('notify', msg);
+        req.flash('notify_del_lineaAccion', msg);
         res.redirect("/listado-ctm-lineas-accion");
 
 
@@ -1645,17 +1646,17 @@ app.post("/persistir-lineaAccion/", auth, (req, res) => {
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
             //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-            res.json({ status: 200, msg: 'La linea de Acción <b>' + req.query.linea_accion + '</b>, se creó correctamente...' });
+            res.json({ status: 200, msg: 'La linea de Acción ' + req.query.linea_accion + ', se creó correctamente...' });
         } else {
 
             //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al crear la linea de Acción <b>' + req.query.linea_accion + '</b>, intente de nuevo...' });
+            res.json({ status: 300, msg: 'ERROR al crear la linea de Acción' + req.query.linea_accion + ', intente de nuevo...' });
         }
 
     }).catch(err => {
         console.log(err);
         //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! La linea de acción <b>' + req.query.linea_accion + ' </b> YA EXISTE...' });
+        res.json({ status: 500, msg: 'ERROR!! Ocurrio un problema al crear la linea de acción, contacte con el soporte...' });
     });
 
 
@@ -1696,30 +1697,62 @@ app.post("/actualizar-linea-accion", auth, (req, res) => {
     modelControlMando.actualizar_RegistroLineaAccion_x_id(req.query.id_linea, req.query.linea_accion, req.query.id_plangeneral).then(respuesta => {
         console.log(respuesta);
         if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
-            console.log("OK... update plan general");
+            console.log("OK... update linea accion");
             //console.log(listaArchivos);    
             //req.flash('notify', 'La carga de los Planos se realizo con exito...');
             //res.setHeader('Content-type', 'text/html');
             //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
 
-            res.send({ status: 200, msg: 'La lina de acción <b>' + req.query.linea_accion + '</b> fue actualizado correctamente...' });
+            res.send({ status: 200, msg: 'La linea de acción ' + req.query.linea_accion + ', fue actualizada correctamente...' });
             //res.render("/config-entidades");
 
         } else {
 
             //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.send({ status: 300, msg: 'ERROR al actualizar ela linea de acción <b>' + req.query.linea_accion + '</b> ' + ' intente de nuevo...' });
+            res.send({ status: 300, msg: 'ERROR al actualizar la linea de acción ' + req.query.linea_accion + ' intente de nuevo...' });
         }
 
     }).catch(err => {
         console.log(err);
         //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! La linea de acción  <b>' + req.query.linea_accion + '</b>, ' + +'NO se pudo actualizar...' });
+        res.json({ status: 500, msg: 'ERROR!! La linea de acción ' + req.query.linea_accion + ', ' + +'NO se pudo actualizar, consulte a soporte...' });
     });
 
 })
 
 
+app.post("/persistir-objetivo/", auth, (req, res) => {
+    //res.send("OK");
+    //console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.insertar_Objetivo(req.query.objetivo, req.query.linea_accion).then(respuesta => {
+
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert NEW entidad");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+            res.json({ status: 200, msg: 'El objetivo ' + req.query.objetivo + ', se creó correctamente...' });
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.json({ status: 300, msg: 'ERROR al crear el Objetivo ' + req.query.objetivo + ', intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! Al crear el objetivo ' + req.query.objetivo + 'consulte con el administrador ...' });
+    });
+
+
+
+
+
+
+})
 
 app.get("/ctm-objetivos", auth, (req, res) => {
 
@@ -1731,6 +1764,51 @@ app.get("/ctm-objetivos", auth, (req, res) => {
     });
 
 });
+
+app.get("/eliminar-popup-objetivo/:id_objetivo/control-mando-bips", auth, (req, res) => {
+    // console.log(req.query);
+    //console.log(req.params);
+    //var name = req.query.;    
+
+    let params = [req.params.id_objetivo, req.query.nombre_objetivo];
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-objetivo"), { datos_objetivo: params });
+});
+
+
+app.post('/objetivo/delete/:id/control-mando-bips', auth, function(req, res) {
+
+    console.log(req.query);
+    console.log(req.params);
+    var msg = '';
+
+    modelControlMando.eliminar_RegistroObjetivo(req.params.id).then(respuesta => {
+
+        if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+            console.log("respuesta de eliminacion: 1, Se elimino correctamenteel objetivo...");
+            msg = 'El objetivo ' + req.query.nombre_objetivo + ' se eliminó correctamente...';
+        } else {
+            console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar El objetivo " + req.query.nombre_objetivo);
+            msg = ' ocurrio un problema al eliminar El objetivo... ' + req.query.nombre_objetivo;
+        }
+        req.flash('notify_del_objetivo', msg);
+        res.redirect("/listado-ctm-objetivos");
+
+
+    })
+
+
+});
+
+app.get("/listado-ctm-objetivos", auth, (req, res) => {
+
+    modelControlMando.consultar_RegistrosObjetivos().then(lista_objetivos => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_ctm_objetivos", { lista_objetivos: lista_objetivos });
+    });
+
+});
+
+
 
 app.get("/consultar-lineas-accion_x_plan_general", auth, (req, res) => {
 
@@ -1794,14 +1872,7 @@ app.get("/consultar-plan-accion-x-estrategia", auth, (req, res) => {
 
 });
 
-app.get("/listado-ctm-objetivos", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosObjetivos().then(lista_objetivos => {
-        //console.log(lista_planes);
-        res.render("paginas/lista_ctm_objetivos", { lista_objetivos: lista_objetivos });
-    });
-
-});
 
 app.post("/form-editar-ctm-objetivo", auth, (req, res) => {
 
@@ -1931,11 +2002,11 @@ app.get("/ctm-reg-indicadores", auth, (req, res) => {
 app.get("/ctm-calificacion-indicadores", auth, (req, res) => {
 
     modelControlMando.consultar_vigenciaxreg_indicadores().then(lista_años => {
-        
 
-            res.render("paginas/ctm_calificacion_indicadores", { user: req.session.user, lista_años: lista_años });
-        });
-    
+
+        res.render("paginas/ctm_calificacion_indicadores", { user: req.session.user, lista_años: lista_años });
+    });
+
 
 });
 
@@ -1957,11 +2028,11 @@ app.get("/consultar-periodo-x-anio-calificacion", auth, (req, res) => {
 app.get("/consultar-area-x-periodo-calificacion", auth, (req, res) => {
     //console.log('periodo'+req.query.periodo);
     //console.log('vigencia'+req.query.vigencia);
-    
-    modelControlMando.consultar_areaxperiodo_calificacion(req.query.periodo,req.query.vigencia).then(lista_area => {
+
+    modelControlMando.consultar_areaxperiodo_calificacion(req.query.periodo, req.query.vigencia).then(lista_area => {
         //console.log('lista_area'+lista_area);
         res.send(lista_area);
-        
+
     });
 
 });
@@ -1984,16 +2055,16 @@ app.get("/consultar-indicador-x-area", auth, (req, res) => {
 });
 
 app.get("/consultar-indicador-x-periodo-area", auth, (req, res) => {
-    
-    modelControlMando.consultar_indicadorxperiodo_area(req.query.vigencia, req.query.periodo,req.query.area ).then(lista_indicadores => {
-        
+
+    modelControlMando.consultar_indicadorxperiodo_area(req.query.vigencia, req.query.periodo, req.query.area).then(lista_indicadores => {
+
         res.send(lista_indicadores);
     });
 });
 
 app.get("/consultar-detalle-indicador-x-indicador", auth, (req, res) => {
     //console.log('id_area:' + req.query.area);
-    modelControlMando.consultar_det_indicador(req.query.vigencia, req.query.periodo,req.query.area,req.query.indicador).then(lista_detalle_indicador => {
+    modelControlMando.consultar_det_indicador(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_detalle_indicador => {
         res.send(lista_detalle_indicador);
     });
 });
@@ -2087,40 +2158,6 @@ app.post("/persistir-registro-indicador", auth, (req, res) => {
 
 })
 
-
-
-app.post("/persistir-objetivo/", auth, (req, res) => {
-    //res.send("OK");
-    //console.log(req.query);
-    //console.log(req.params);
-
-    modelControlMando.insertar_Objetivo(req.query.objetivo, req.query.linea_accion).then(respuesta => {
-
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW entidad");
-            //console.log(listaArchivos);    
-            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-            //res.setHeader('Content-type', 'text/html');
-            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-            res.json({ status: 200, msg: 'El objetivo <b>' + req.query.objetivo + '</b>, se creó correctamente...' });
-        } else {
-
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al crear el Objetivo <b>' + req.query.objetivo + '</b>, intente de nuevo...' });
-        }
-
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! El objetivo <b>' + req.query.objetivo + ' </b> YA EXISTE...' });
-    });
-
-
-
-
-
-
-})
 
 
 app.post("/persistir-estrategia/", auth, (req, res) => {

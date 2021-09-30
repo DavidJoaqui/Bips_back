@@ -10,49 +10,21 @@
 
                     <% const m=getMessages() %>
 
-                        <% if (m.notify) { %>
-
-                            <div class="card" style="margin-top: 20px;" id="card-success">
-                                <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
-                                    <strong>OK!</strong>
-                                    <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                                </div>
-
-                                <div class="card-body">
-
-                                    <% m.notify.forEach((element)=> { %>
-
-                                        <%= element %>
-                                            <% }) %> %>
-                                </div>
+                        <% if (m.notify_del_objetivo) { %>
 
 
-                            </div>
+                            <% m.notify_del_objetivo.forEach((element)=> { %>
 
-                            <% } %>
-                                <% if (m.error) { %>
+                                <script type="text/javascript">
+                                    alert('<%= element %>');
+                                </script>
 
-                                    <div class="card " style="margin-top: 20px;" id="card-err" name="card-err">
-                                        <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
-                                            <strong>Error!</strong>
-                                            <button type="button" class="close" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                        </div>
-
-                                        <div class="card-body">
-
-                                            <% m.error.forEach((element)=> { %>
-
-                                                <%= element %>
-                                                    <% }) %> %>
-                                        </div>
-
-                                    </div>
+                                <% }) %> %>
 
                                     <% } %>
+                                        <% if (m.error) { %>
+
+                                            <% } %>
                 </div>
 
                 <div>
@@ -73,6 +45,7 @@
                                 <th>#</th>
                                 <th>Objetivo</th>
                                 <th>Linea de Acción</th>
+                                <th>Plan General</th>
                                 <th>Acciones</th>
 
                             </tr>
@@ -91,11 +64,16 @@
 
                                     <td>
                                         <%= lista_objetivos[i].desc_linea_accion %>
+
+                                    </td>
+                                    <td>
+                                        <%= lista_objetivos[i].plan_general %>
+
                                     </td>
 
                                     <td class="btns-acciones">
                                         <a href="" title="Editar" onclick="editar_objetivo('<%= lista_objetivos[i].id_objetivo %>')"><i class="fas fa-edit"></i></a>
-                                        <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+                                        <a href="/eliminar-popup-objetivo/<%= lista_objetivos[i].id_objetivo %>/control-mando-bips/?nombre_objetivo=<%= lista_objetivos[i].objetivo %>" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                     </td>
 
                                 </tr>

@@ -17,7 +17,7 @@
                 </h3>
             </div>
 
-            <form id="formulario" enctype="multipart/form-data" method="POST">
+            <form id="formulario" enctype="multipart/form-data">
                 <input class="form-control" type="text" placeholder="linea de accón" name="linea_accion" id="linea_accion" value="<%= id_linea %>" hidden>
                 <div class="form-group row">
                     <label class="col-2 col-form-label" for="linea_accion" style="font-weight: bold;"> Linea
@@ -58,12 +58,16 @@
 
                 <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                     <div class="text-center">
-                        <button style="font-weight: bold;" class="btn btn-success " id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar</button>
+                        <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar</button>
+                        <form action="/listado-ctm-lineas-accion" method="GET">
+                            <button style="font-weight: bold;" type="submit" class="btn btn-default btn-sm" id="btn-validar" name="btn-validar" onclick="">Volver</button>
+                        </form>
                     </div>
                 </div>
-        </div>
 
-        </form>
+
+            </form>
+        </div>
     </div>
 </div>
 </div>
@@ -106,7 +110,6 @@
 
                     alert(result["msg"]);
 
-                    alert();
 
                     //<div class="alert alert-success"> <strong>Success!</strong> This alert box could indicate a successful or positive action.</div>
 
@@ -123,9 +126,9 @@
 
                     //$('#card-msg').show();
 
-                    setTimeout(function() {
+                    /*setTimeout(function() {
                         $('#preview').hide();
-                    }, 5000);
+                    }, 5000);*/
 
                     //$('#formulario')[0].reset();
 
