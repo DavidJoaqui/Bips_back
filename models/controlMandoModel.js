@@ -13,7 +13,7 @@ module.exports = {
     },
 
     async consultar_RegistrosPlan_General() {
-        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general, concat(to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD'),'-',to_char(p.fecha_inicial, 'YYYY')) as fecha_inicial ,concat(to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD'),'-',to_char(p.fecha_final , 'YYYY')) as fecha_final, p.estado from schema_control.plangeneral p");
+        const resultados = await conexion.query("select id_plangeneral,plan_general, to_char(fecha_inicial, 'DD/MM/YYYY') fecha_inicial, to_char(fecha_final, 'DD/MM/YYYY') fecha_final, estado from schema_control.plangeneral");
         return resultados.rows;
     },
 
@@ -282,6 +282,16 @@ module.exports = {
 
     async consultar_areaxperiodo_calificacion(periodo,vigencia) {
         const resultados = await conexion.query("select c.id_area, c.nombre_area from schema_control.registroindicadores a inner join schema_control.profesionales b on (a.id_profesional=b.id_profesional) inner join schema_control.areas c on(b.id_area_trabajo=c.id_area) where a.periodoevaluado = $1 and a.vigencia =$2 group by c.id_area, c.nombre_area order by c.nombre_area asc", [periodo,vigencia]);
+        return resultados.rows;
+    },
+
+    async insertar_calificacion_indicador(reg_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario,estado) {
+        const resultados = await conexion.query('INSERT INTO schema_control.calificacion_registro_indicadores (id_registro_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario, estado, fecha_calificacion) values ($1, $2,$3,$4, $5, $6, $7, $8,current_date)', [reg_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario,estado]);
+        return resultados;
+    },
+
+    async consultar_calificacion_indicadores() {
+        const resultados = await conexion.query("select f.id_calificacion_indicador ,to_char(f.fecha_calificacion, 'DD/MM/YYYY') as fecha_calificacion, a.vigencia, e.nombre_mes,b.nombre_indicador,b.tipo_meta , f.comentario ,f.estado, d.nombre_area ,concat(c.nombres, ' ', c.apellidos, ' ', c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_control.areas d on(b.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes)  inner join schema_control.calificacion_registro_indicadores f on (a.id_registroindicador=f.id_registro_indicador) order by f.id_calificacion_indicador");
         return resultados.rows;
     },
 
