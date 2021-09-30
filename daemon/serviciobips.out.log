@@ -81,3 +81,60 @@ error: el valor null para la columna «tipo_meta» viola la restricción not nul
   line: '1953',
   routine: 'ExecConstraints'
 }
+El servidor se esta ejecutando...
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+true
+usuario pruebas
+[
+  {
+    ips: '197430508608',
+    fecha_inicio: 2021-01-02T05:00:00.000Z,
+    fecha_final: 2021-03-31T05:00:00.000Z,
+    idips: '4',
+    codigo_ips: '197430508608',
+    descripcion_ips: 'E.S.E. CENTRO 1 SILVIA'
+  },
+  {
+    ips: '197430508608',
+    fecha_inicio: 2021-01-02T05:00:00.000Z,
+    fecha_final: 2021-03-31T05:00:00.000Z,
+    idips: '4',
+    codigo_ips: '197430508608',
+    descripcion_ips: 'E.S.E. CENTRO 1 SILVIA'
+  },
+  {
+    ips: '191300508603',
+    fecha_inicio: 2020-01-01T05:00:00.000Z,
+    fecha_final: 2020-03-31T05:00:00.000Z,
+    idips: '3',
+    codigo_ips: '191300508603',
+    descripcion_ips: 'E.S.E CENTRO 1 CAJIBIO'
+  }
+]
+{}
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+true
+usuario pruebas
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+true
+usuario pruebas
+4
+OK... insert NEW Indicador

@@ -2,3 +2,4 @@ node_modules/
 filesBipsUploads/
 /package-lock.json
 models/persistencia/*
+daemon/*
