@@ -8,7 +8,7 @@
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
-                        <h2> Lista de Idicadores</h2>
+                        <h2> Lista Calificacion de Idicadores</h2>
                     </span>
                 </div>
 
@@ -27,18 +27,15 @@
                                 <th>Periodo</th>
                                 <th>Indicador</th>
                                 <th>Tipo Meta</th>
-                                <th>Numerador</th>
-                                <th>Denominador</th>
-                                <th>Soportes</th>
-                                <th>Observaciones</th>
+                                <th>Comentario</th>
+                                <th>Aprobado</th>
                                 <th>Area</th>
                                 <th>Profesional</th>
-                                <th>Acciones</th>
-
+                               
                             </tr>
                         </thead>
                         <tbody id="developers">
-                            <% for(var i=0; i<lista_registro_indicadores.length; i++) { %>
+                            <% for(var i=0; i<lista_calificacion_indicadores.length; i++) { %>
 
                                 <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
                                     <td>
@@ -46,41 +43,36 @@
 
                                     </td>
                                     <td>
-                                        <%= lista_registro_indicadores[i].fecharegistro %>
+                                        <%= lista_calificacion_indicadores[i].fecha_calificacion %>
                                     </td>
                                     <td>
-                                        <%= lista_registro_indicadores[i].vigencia %>
+                                        <%= lista_calificacion_indicadores[i].vigencia %>
                                     </td>
 
                                     <td>
-                                        <%= lista_registro_indicadores[i].nombre_mes %>
+                                        <%= lista_calificacion_indicadores[i].nombre_mes %>
                                     </td>
 
                                     <td>
-                                        <%= lista_registro_indicadores[i].nombre_indicador %>
+                                        <%= lista_calificacion_indicadores[i].nombre_indicador %>
                                     </td>
                                     <td>
-                                        <%= lista_registro_indicadores[i].tipo_meta %>
+                                        <%= lista_calificacion_indicadores[i].tipo_meta %>
                                     </td>
 
                                     <td>
-                                        <%= lista_registro_indicadores[i].formula_cifras_numerador %>
+                                        <%= lista_calificacion_indicadores[i].comentario %>
                                     </td>
                                     <td>
-                                        <%= lista_registro_indicadores[i].formula_cifras_denominador %>
+                                        <%= lista_calificacion_indicadores[i].estado %>
                                     </td>
                                     <td>
-                                        <%= lista_registro_indicadores[i].soportes %>
+                                        <%= lista_calificacion_indicadores[i].nombre_area %>
                                     </td>
                                     <td>
-                                        <%= lista_registro_indicadores[i].observaciones %>
+                                        <%= lista_calificacion_indicadores[i].nombre_profesional %>
                                     </td>
-                                    <td>
-                                        <%= lista_registro_indicadores[i].nombre_area %>
-                                    </td>
-                                    <td>
-                                        <%= lista_registro_indicadores[i].nombre_profesional %>
-                                    </td>
+                                  
 
                                     <td class="btns-acciones">
                                         <a href="" title="Editar"><i class="fas fa-edit"></i></a>

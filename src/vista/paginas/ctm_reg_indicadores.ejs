@@ -488,7 +488,8 @@
 
                 $("#select_indicador").change(function () {
 
-                    var peticion = "/consultar-detalle-indicador-x-indicador/?indicador=" + $(this).val();
+                    var peticion = "/consultar-detalle-indicador-x-indicador/?indicador=" + $(this).val()+
+                    "&vigencia=" + $('#select_vigencia').val() + "&periodo=" + $('#select_periodo').val() + "&area=" + $('#select_area').val();
 
                     $.ajax({
 

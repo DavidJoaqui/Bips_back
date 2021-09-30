@@ -13,11 +13,7 @@ module.exports = {
     },
 
     async consultar_RegistrosPlan_General() {
-<<<<<<< HEAD
-        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general, concat(to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD'),'-',to_char(p.fecha_inicial, 'YYYY')) as fecha_inicial ,concat(to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD'),'-',to_char(p.fecha_final , 'YYYY')) as fecha_final, p.estado from schema_control.plangeneral p");
-=======
         const resultados = await conexion.query("select id_plangeneral,plan_general, to_char(fecha_inicial, 'DD/MM/YYYY') fecha_inicial, to_char(fecha_final, 'DD/MM/YYYY') fecha_final, estado from schema_control.plangeneral");
->>>>>>> rdarwin
         return resultados.rows;
     },
 
@@ -198,8 +194,6 @@ module.exports = {
 
     async consultar_RegistrosIndicadores() {
         const resultados = await conexion.query("select ind.tipo_meta,ind.formula_literal_numerador,ind.formula_literal_denominador, ind.meta_descriptiva, ind.formula_literal_descriptiva, ind.nombre_indicador,ind.meta_numerica,a.nombre_area, pa.plan, e.estrategia,o.objetivo,la.linea_accion, pg.plan_general from schema_control.indicadores ind  inner join schema_control.areas a on(ind.id_area=a.id_area) inner join schema_control.planes pa on(ind.id_plan=pa.id_plan) inner join schema_control.estrategias e on(pa.id_estrategia=e.id_estrategia) inner join schema_control.objetivos o on(e.id_objetivo=o.id_objetivo) inner join schema_control.lineas_acciones la on(o.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on(la.id_plan_general=pg.id_plangeneral)");
-<<<<<<< HEAD
-=======
         return resultados.rows;
     },
 
@@ -247,7 +241,6 @@ module.exports = {
 
     async consultar_det_indicador(vigencia,periodo,area,indicador) {
         const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.id_indicador, b.nombre_indicador, b.tipo_meta , b.formula_literal_numerador, b.formula_literal_denominador,b.formula_literal_descriptiva,b.meta_descriptiva,b.meta_numerica, a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones, d.nombre_area ,concat(c.nombres,' ',c.apellidos,' ',c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a  inner join schema_control.indicadores b on (a.id_indicador=b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional=c.id_profesional) inner join schema_control.areas d on (b.id_area=d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado=e.id_mes) where a.vigencia =$1 and e.id_mes = $2 and d.id_area =$3 and b.id_indicador =$4 order by a.id_registroindicador", [vigencia,periodo,area,indicador]);
->>>>>>> rdarwin
         return resultados.rows;
     },
 
@@ -289,6 +282,16 @@ module.exports = {
 
     async consultar_areaxperiodo_calificacion(periodo,vigencia) {
         const resultados = await conexion.query("select c.id_area, c.nombre_area from schema_control.registroindicadores a inner join schema_control.profesionales b on (a.id_profesional=b.id_profesional) inner join schema_control.areas c on(b.id_area_trabajo=c.id_area) where a.periodoevaluado = $1 and a.vigencia =$2 group by c.id_area, c.nombre_area order by c.nombre_area asc", [periodo,vigencia]);
+        return resultados.rows;
+    },
+
+    async insertar_calificacion_indicador(reg_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario,estado) {
+        const resultados = await conexion.query('INSERT INTO schema_control.calificacion_registro_indicadores (id_registro_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario, estado, fecha_calificacion) values ($1, $2,$3,$4, $5, $6, $7, $8,current_date)', [reg_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario,estado]);
+        return resultados;
+    },
+
+    async consultar_calificacion_indicadores() {
+        const resultados = await conexion.query("select f.id_calificacion_indicador ,to_char(f.fecha_calificacion, 'DD/MM/YYYY') as fecha_calificacion, a.vigencia, e.nombre_mes,b.nombre_indicador,b.tipo_meta , f.comentario ,f.estado, d.nombre_area ,concat(c.nombres, ' ', c.apellidos, ' ', c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_control.areas d on(b.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes)  inner join schema_control.calificacion_registro_indicadores f on (a.id_registroindicador=f.id_registro_indicador) order by f.id_calificacion_indicador");
         return resultados.rows;
     },
 

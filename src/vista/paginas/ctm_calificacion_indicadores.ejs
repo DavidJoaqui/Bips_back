@@ -122,7 +122,7 @@
 
 
                             <div class="form-group row">
-                                <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">
                                     Nombre Indicador: </label>
                                 <div class="col-10">
                                     <select class="form-control" name="select_indicador" id="select_indicador"
@@ -154,6 +154,7 @@
                                 </div>
 
                             </div>
+
 
                             <div class="card container" id="panel_descriptiva" style=" text-align: center;" hidden>
                                 <div class="form-group row">
@@ -190,24 +191,9 @@
                                             <option value="0">No Cumple</option>
                                         </select>
                                     </div>
-
-                                    <label class="col-2 col-form-label" style="font-weight: bold;">
-                                        Aprobado: </label>
-                                    <div class="col-4">
-                                        <select class="form-control" name="select_aprobar" id="select_aprobar"
-                                            data-toggle="tooltip" title="Seleccionar Aprobar!" data-placement="right"
-                                            required value="1">
-                                            <option selected="selected" value="">Seleccionar</option>
-                                            <option value="1">Si</option>
-                                            <option value="0">No</option>
-                                        </select>
-                                    </div>
-
-
-
                                 </div>
-
                             </div>
+
 
                             <div class="card container" id="panel_numerica" style=" text-align: center;" hidden>
                                 <div class="form-group row">
@@ -264,35 +250,22 @@
                                     </label>
 
                                     <div class="col-1">
-                                        <input class="form-control" type="text" name="txt_resultado_numerico"
+                                        <output class="form-control" type="text" name="txt_resultado_numerico"
                                             id="txt_resultado_numerico" value="">
                                     </div>
                                     <label class="col-form-label" style="font-weight: bold;"> Desviación:
                                     </label>
 
                                     <div class="col-1">
-                                        <input class="form-control" type="text" name="txt_desviacion"
+                                        <output class="form-control" type="text" name="txt_desviacion"
                                             id="txt_desviacion" value="">
                                     </div>
 
-                                    <label class="col-form-label" style="font-weight: bold;">
-                                        Aprobado: 
-                                    </label>
-                                    <div class="col-1.99">
-                                        <select class="form-control" name="select_aprobar2" id="select_aprobar2"
-                                            data-toggle="tooltip" title="Seleccionar Aprobar!" data-placement="right"
-                                            required >
-                                            <option selected="selected" value="">Seleccionar</option>
-                                            <option value="1">Si</option>
-                                            <option value="0">No</option>
-                                        </select>
+                                    <div class="col-1">
+                                        <output class="form-control" type="text" name="txt_id_reg_indicador"
+                                            id="txt_id_reg_indicador" value="">
                                     </div>
-
-
-
                                 </div>
-
-
                                 <div class="form-group row">
                                     <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
                                         Observaciones: </label>
@@ -301,32 +274,56 @@
                                             id="txt_observacion">
                                     </div>
                                 </div>
-
-
-                                <div class="form-group row">
-                                    <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
-                                        Comentario: </label>
-                                    <div class="col-10">
-                                        <textarea class="form-control" type="text" name="txt_comentario"
-                                            id="txt_comentario" value=""></textarea>
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
+                                    Comentario: </label>
+                                <div class="col-10">
+                                    <textarea class="form-control" type="text" name="txt_comentario" id="txt_comentario"
+                                        value=""></textarea>
                                 </div>
+                            </div>
+                            <div class="form-group row">
 
-                                <div class="form-group col-sm-12"
-                                    style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-                                    <div class="text-center">
-                                        <button style="font-weight: bold;" class="btn btn-success" id="btn-validar"
-                                            name="btn-validar" onclick="almacenar_registro()">Guardar
-                                            Calificación Indicador</button>
-                                    </div>
+                                <label class="col-2 col-form-label" style="font-weight: bold;">
+                                    Aprobado:
+                                </label>
+                                <div class="col-2">
+                                    <select class="form-control" name="select_aprobar" id="select_aprobar"
+                                        data-toggle="tooltip" title="Seleccionar Aprobar!" data-placement="right"
+                                        required>
+                                        <option selected="selected" value="">Seleccionar</option>
+                                        <option value="1">Si</option>
+                                        <option value="0">No</option>
+                                    </select>
                                 </div>
-
                             </div>
 
-                        </form>
+                            <div class="form-group col-sm-12"
+                                style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                                <div class="text-center">
+                                    <button style="font-weight: bold;" class="btn btn-success" id="btn-validar"
+                                        name="btn-validar" onclick="almacenar_registro()">Guardar
+                                        Calificación Indicador</button>
+                                </div>
+                            </div>
+
+
+
 
                     </div>
+
+
+
+
+
+
+
+
+                    </form>
+
                 </div>
+            </div>
             </div>
 
             </div>
@@ -349,35 +346,42 @@
             function almacenar_registro() {
 
                 event.preventDefault();
-                var vigencia = $('#select_vigencia').val();
-                var periodo = $('#select_periodo').val();
-                var area = $('#select_area').val();
-                var profesional = $('#select_profesional').val();
-                var indicador = $('#select_indicador').val();
+
+
+                var reg_indicador = $('#txt_id_reg_indicador').val();
+                // var indicador = $('#select_indicador').val();
                 var vr_numerador = $('#txt_vr_numerador').val();
                 var vr_denominador = $('#txt_vr_denominador').val();
-                var observacion = $('#txt_observacion').val();
-
+                var resultado_numerico = $('#txt_resultado_numerico').val();
+                var resultado_descriptivo = $('#select_resultado_descriptivo').val();
+                var desviacion = $('#txt_desviacion').val();
+                var comentario = $('#txt_comentario').val();
+                var estado = $('#select_aprobar').val();
 
                 if (vr_numerador == '') {
                     vr_numerador = 0;
+                    desviacion = 0;
+                    resultado_numerico = 0;
                 }
                 if (vr_denominador == '') {
                     vr_denominador = 0;
                 }
+                
+                
 
-                var peticion = "/persistir-registro-indicador/" +
-                    "?vigencia=" + vigencia +
-                    "&periodo=" + periodo +
-                    "&area=" + area +
-                    "&profesional=" + profesional +
-                    "&indicador=" + indicador +
+                if (resultado_descriptivo == '') {
+                    resultado_descriptivo = 0;
+                }
+
+                var peticion = "/persistir-calificacion-indicador/" +
+                    "?reg_indicador=" + reg_indicador +
                     "&vr_numerador=" + vr_numerador +
                     "&vr_denominador=" + vr_denominador +
-                    "&observacion=" + observacion;
-
-
-
+                    "&resultado_numerico=" + resultado_numerico +
+                    "&resultado_descriptivo=" + resultado_descriptivo +
+                    "&desviacion=" + desviacion +
+                    "&comentario=" + comentario +
+                    "&estado=" + estado;
 
                 $.ajax({
                     type: 'post',
@@ -388,12 +392,6 @@
                     processData: false,
 
                     success: function (result) {
-
-                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
-
-                        /*setTimeout(function() {
-                            window.location.reload(1);
-                        }, 5000);*/
                         if (result["status"] == 200) {
 
                             alert(result["msg"]);
@@ -405,14 +403,9 @@
                             $('#card-msg').show();
 
                             $('#formulario')[0].reset();
-
-                            //$('#select_linea').focus();
-
-
                             setTimeout(function () {
                                 $('#preview').hide();
                             }, 4000);
-
 
                         } else {
                             $('#preview').show();
@@ -424,16 +417,7 @@
                             setTimeout(function () {
                                 $('#preview').hide();
                             }, 5000);
-
-                            //$('#formulario')[0].reset();
-
-                            //$('#select_plan').focus();
-
                         }
-
-                        //$('#body_ent').html(result);
-
-
                     }
 
                 });
@@ -458,7 +442,7 @@
                 ///lista-ctm-indicadores
 
                 $('#iframe_indicador').attr('hidden', false);
-                $('#iframe_indicador').attr("src", '/lista-ctm-reg-indicadores');
+                $('#iframe_indicador').attr("src", '/lista-ctm-cal-indicadores');
                 $("#iframe_indicador").show();
 
 
@@ -513,9 +497,6 @@
                     });
                 });
 
-
-
-
                 $("#select_area").change(function () {
 
                     //var peticion = "/consultar-profesional-x-area/?area=" + $(this).val();
@@ -545,6 +526,13 @@
                     var peticion = "/consultar-detalle-indicador-x-indicador/?indicador=" + $(this).val() +
                         "&vigencia=" + $('#select_vigencia').val() + "&periodo=" + $('#select_periodo').val() + "&area=" + $('#select_area').val();
 
+
+
+
+
+
+
+
                     $.ajax({
 
                         type: 'get',
@@ -563,22 +551,27 @@
                             $("#txt_fl_denominador").html("");
                             $("#txt_vr_denominador").html("");
                             $("#txt_vr_numerador").html("");
+                            $("#txt_id_reg_indicador").html("");
+
                             $("#txt_observacion").html("");
 
                             //$("#txt_tipo_meta").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
                             result.forEach(element => {
                                 $("#txt_tipo_meta").append('<output value=' + element.tipo_meta + '>' + element.tipo_meta);
-                                $("#txt_meta_numerica").append('<output value=' + element.meta_numerica + '>' + 'Superior al ' + element.meta_numerica + '%');
+                                $("#txt_meta_numerica").append('<output value=' + element.meta_numerica + '>' + element.meta_numerica);
                                 $("#txt_meta_descriptiva").append('<output value=' + element.meta_descriptiva + '>' + element.meta_descriptiva);
                                 $("#txt_fl_descriptiva").append('<output value=' + element.formula_literal_descriptiva + '>' + element.formula_literal_descriptiva);
                                 $("#txt_fl_numerador").append('<output value=' + element.formula_literal_numerador + '>' + element.formula_literal_numerador);
                                 $("#txt_fl_denominador").append('<output value=' + element.formula_literal_denominador + '>' + element.formula_literal_denominador);
                                 $("#txt_vr_denominador").append('<output value=' + element.formula_cifras_denominador + '>' + element.formula_cifras_denominador);
                                 $("#txt_vr_numerador").append('<output value=' + element.formula_cifras_numerador + '>' + element.formula_cifras_numerador);
+                                $("#txt_id_reg_indicador").append('<output value=' + element.id_registroindicador + '>' + element.id_registroindicador);
                                 $("#txt_observacion").append('<output value=' + element.observaciones + '>' + element.observaciones);
 
 
                             });
+
+
 
                             if ($('#txt_tipo_meta').val() == "Descriptiva") {
                                 $('#panel_numerica').attr('hidden', true);
@@ -589,6 +582,48 @@
                             } else {
                                 $('#panel_numerica').attr('hidden', false);
                                 $('#panel_descriptiva').attr('hidden', true);
+                                var peticion2 = "/calcular-resultado-numerico/?numerador=" + $('#txt_vr_numerador').val()
+                                    + "&denominador=" + $('#txt_vr_denominador').val();
+
+                                $.ajax({
+                                    type: 'get',
+                                    url: peticion2,
+                                    data: [],
+                                    contentType: false,
+                                    cache: false,
+                                    processData: false,
+                                    success: function (result) {
+                                        $("#txt_resultado_numerico").html("");
+                                        //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                                        $("#txt_resultado_numerico").append('<option value=' + result + '>' + result + ' </option>');
+
+                                        var peticion3 = "/calcular-desviacion/?meta_numerica=" + $('#txt_meta_numerica').val()
+                                            + "&resultado_numerico=" + $('#txt_resultado_numerico').val();
+
+                                        $.ajax({
+                                            type: 'get',
+                                            url: peticion3,
+                                            data: [],
+                                            contentType: false,
+                                            cache: false,
+                                            processData: false,
+                                            success: function (result2) {
+                                                $("#txt_desviacion").html("");
+                                                //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                                                $("#txt_desviacion").append('<option value=' + result2 + '>' + result2 + ' </option>');
+
+
+                                            }
+                                        });
+
+                                    }
+                                });
+
+
+
+
+
+
 
 
                             }

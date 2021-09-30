@@ -1509,7 +1509,7 @@ app.get("/eliminar-popup-plan-general/:id_plan/control-mando-bips", auth, (req, 
 
 //plan-general/delete/
 
-app.post('/plan-general/delete/:id/control-mando-bips', auth, function(req, res) {
+app.post('/plan-general/delete/:id/control-mando-bips', auth, function (req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -1597,7 +1597,7 @@ app.get("/eliminar-popup-linea-accion/:id_linea/control-mando-bips", auth, (req,
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-linea-accion"), { datos_linea: params });
 });
 
-app.post('/linea-accion/delete/:id/control-mando-bips', auth, function(req, res) {
+app.post('/linea-accion/delete/:id/control-mando-bips', auth, function (req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -1931,11 +1931,11 @@ app.get("/ctm-reg-indicadores", auth, (req, res) => {
 app.get("/ctm-calificacion-indicadores", auth, (req, res) => {
 
     modelControlMando.consultar_vigenciaxreg_indicadores().then(lista_años => {
-        
 
-            res.render("paginas/ctm_calificacion_indicadores", { user: req.session.user, lista_años: lista_años });
-        });
-    
+
+        res.render("paginas/ctm_calificacion_indicadores", { user: req.session.user, lista_años: lista_años });
+    });
+
 
 });
 
@@ -1957,11 +1957,11 @@ app.get("/consultar-periodo-x-anio-calificacion", auth, (req, res) => {
 app.get("/consultar-area-x-periodo-calificacion", auth, (req, res) => {
     //console.log('periodo'+req.query.periodo);
     //console.log('vigencia'+req.query.vigencia);
-    
-    modelControlMando.consultar_areaxperiodo_calificacion(req.query.periodo,req.query.vigencia).then(lista_area => {
+
+    modelControlMando.consultar_areaxperiodo_calificacion(req.query.periodo, req.query.vigencia).then(lista_area => {
         //console.log('lista_area'+lista_area);
         res.send(lista_area);
-        
+
     });
 
 });
@@ -1984,19 +1984,24 @@ app.get("/consultar-indicador-x-area", auth, (req, res) => {
 });
 
 app.get("/consultar-indicador-x-periodo-area", auth, (req, res) => {
-    
-    modelControlMando.consultar_indicadorxperiodo_area(req.query.vigencia, req.query.periodo,req.query.area ).then(lista_indicadores => {
-        
+
+    modelControlMando.consultar_indicadorxperiodo_area(req.query.vigencia, req.query.periodo, req.query.area).then(lista_indicadores => {
+
         res.send(lista_indicadores);
     });
 });
 
 app.get("/consultar-detalle-indicador-x-indicador", auth, (req, res) => {
     //console.log('id_area:' + req.query.area);
-    modelControlMando.consultar_det_indicador(req.query.vigencia, req.query.periodo,req.query.area,req.query.indicador).then(lista_detalle_indicador => {
+    modelControlMando.consultar_det_indicador(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_detalle_indicador => {
         res.send(lista_detalle_indicador);
     });
 });
+
+
+
+
+
 
 
 
@@ -2025,6 +2030,16 @@ app.get("/lista-ctm-reg-indicadores", auth, (req, res) => {
     modelControlMando.consultar_reg_indicadores().then(lista_registro_indicadores => {
         //console.log(lista_Estrategias);lista_Estrategias
         res.render("paginas/lista_ctm_reg_indicadores", { lista_registro_indicadores: lista_registro_indicadores });
+    });
+
+
+});
+
+app.get("/lista-ctm-cal-indicadores", auth, (req, res) => {
+
+    modelControlMando.consultar_calificacion_indicadores().then(lista_calificacion_indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        res.render("paginas/lista_ctm_calificacion_indicadores", { lista_calificacion_indicadores: lista_calificacion_indicadores });
     });
 
 
@@ -2060,31 +2075,46 @@ app.post("/persistir-indicador", auth, (req, res) => {
 })
 
 app.post("/persistir-registro-indicador", auth, (req, res) => {
-    //res.send("OK");
+
     console.log(req.query.profesional);
-    //console.log(req.params);
-
     modelControlMando.insertar_registro_indicador(req.query.indicador, req.query.profesional, req.query.vigencia, req.query.periodo, req.query.vr_numerador, req.query.vr_denominador, req.query.observacion).then(respuesta => {
-
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW Indicador");
-            //console.log(listaArchivos);    
-            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-            //res.setHeader('Content-type', 'text/html');
-            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
             res.json({ status: 200, msg: 'El Registro Indicador <b>' + req.query.nombre_indicador + '</b>, se creó correctamente...' });
         } else {
-
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
             res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador <b>' + req.query.nombre_indicador + '</b>, intente de nuevo...' });
         }
-
     }).catch(err => {
         console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
         res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador <b>' + req.query.nombre_indicador + ' </b> YA EXISTE...' });
     });
+})
 
+app.post("/persistir-calificacion-indicador", auth, (req, res) => {
+
+    console.log('reg_indicador:'+req.query.reg_indicador);
+    
+    console.log('numerador:'+req.query.vr_numerador);
+    console.log('denominador:'+req.query.vr_denominador);
+    console.log('res_num:'+req.query.resultado_numerico);
+    console.log('res_descr:'+req.query.resultado_descriptivo);
+    console.log('desviacion:'+req.query.desviacion);
+
+    console.log('comentario:'+req.query.comentario);
+    console.log('estado:'+req.query.estado);
+
+
+    modelControlMando.insertar_calificacion_indicador(req.query.reg_indicador, req.query.vr_numerador, req.query.vr_denominador, req.query.resultado_numerico, req.query.resultado_descriptivo, req.query.desviacion, req.query.comentario, req.query.estado).then(respuesta => {
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert NEW Indicador");
+            res.json({ status: 200, msg: 'Calificación Indicador <b></b>, se creó correctamente...' });
+        } else {
+            res.json({ status: 300, msg: 'ERROR al crear al calificar el Indicador <b></b>, intente de nuevo...' });
+        }
+    }).catch(err => {
+        console.log(err);
+        res.json({ status: 500, msg: 'ERROR!! Calificación Indicador <b> </b> YA EXISTE...' });
+    });
 })
 
 
@@ -2242,13 +2272,30 @@ app.post("/persistir-profesional/", auth, (req, res) => {
         //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
         res.json({ status: 500, msg: 'ERROR!! El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + ' </b> YA EXISTE...' });
     });
-
-
-
-
-
-
 })
+
+app.get("/calcular-resultado-numerico", auth, (req, res) => {
+   
+    //console.log('A:'+req.query.numerador);
+    //console.log('B:'+req.query.denominador);
+
+     var valor_resultado_numerico= (req.query.numerador/req.query.denominador)*100;
+     // console.log('resultado_num:'+valor_resultado_numerico);
+      res.send(valor_resultado_numerico.toString());
+  
+});
+
+app.get("/calcular-desviacion", auth, (req, res) => {
+   
+    console.log('A:'+req.query.resultado_numerico);
+    console.log('B:'+req.query.meta_numerica);
+
+     var valor_desviacion= (req.query.meta_numerica-req.query.resultado_numerico);
+      console.log('desviacion:'+valor_desviacion);
+      res.send(valor_desviacion.toString());
+  
+});
+
 
 
 
