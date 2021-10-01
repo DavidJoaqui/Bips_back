@@ -250,8 +250,12 @@
                     result.forEach(element => {
 
                         //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+                        if (element.id_objetivo == '<%= estrategia_info[0].id_objetivo %>') {
+                            $("#select_objetivo").append('<option value=' + element.id_objetivo + ' selected="selected">' + element.objetivo + '</option>');
+                        } else {
 
-                        $("#select_objetivo").append('<option value=' + element.id_objetivo + '>' + element.objetivo + '</option>');
+                            $("#select_objetivo").append('<option value=' + element.id_objetivo + '>' + element.objetivo + '</option>');
+                        }
 
                     });
                 }
