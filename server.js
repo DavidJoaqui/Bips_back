@@ -1856,7 +1856,6 @@ app.get("/consultar-estrategia-x-objetivo", auth, (req, res) => {
 });
 
 
-
 app.get("/consultar-plan-accion-x-estrategia", auth, (req, res) => {
 
     //console.log(req.query);
@@ -1956,6 +1955,74 @@ app.get("/listado-ctm-estrategias", auth, (req, res) => {
 
 
 });
+
+
+app.post("/form-editar-ctm-estrategia", auth, (req, res) => {
+
+    //res.send('OK');
+
+    //consultar_RegistrosPlan_General_x_id
+
+    modelControlMando.consultar_RegistroEstrategia_x_id(req.query.id_estrategia).then(estrategia_info => {
+
+        modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+
+            modelControlMando.consultar_RegistrosLineasAccion().then(lineas_accion => {
+
+                modelControlMando.consultar_RegistrosObjetivos().then(lista_objetivos => {
+                    //console.log(lista_planes);                    
+                    res.render("paginas/editar_estrategia", {
+                        id_estrategia: req.query.id_estrategia,
+                        planes_generales: listaPlanes_grales,
+                        estrategia_info: estrategia_info,
+                        lineas_accion: lineas_accion,
+                        lista_objetivos: lista_objetivos
+                    });
+                    //res.render("paginas/ctm_objetivos", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
+                });
+
+            });
+        });
+
+    });
+
+
+
+
+});
+
+
+app.post("/actualizar-estrategia", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    console.log(req.params);
+    console.log(req.body);
+    modelControlMando.actualizar_RegistroEstrategia_x_id(req.query.id_estrategia, req.query.id_objetivo, req.query.estrategia).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update Estrategia OK");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
+
+            res.send({ status: 200, msg: 'La Estrategia ' + req.query.estrategia + ' fue actualizada correctamente...' });
+            //res.render("/config-entidades");
+
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.send({ status: 300, msg: 'ERROR al actualizar La Estrategia ' + req.query.estrategia + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! La Estrategia ' + req.query.estrategia + ' NO se pudo actualizar...' });
+    });
+
+})
+
 
 app.get("/ctm-planes", auth, (req, res) => {
 

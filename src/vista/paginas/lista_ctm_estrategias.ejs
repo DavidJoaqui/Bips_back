@@ -4,7 +4,7 @@
         <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
 
-            <div class="col-md-12">
+            <div class="col-md-12" id="body_ent" name="body_ent">
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
@@ -22,8 +22,10 @@
                         <thead class="head-tabla-reg">
                             <tr>
                                 <th>#</th>
-                                <th>Estrategias</th>
-                                <th>Objetivos</th>
+                                <th>Estrategia</th>
+                                <th>Objetivo</th>
+                                <th>Linea Acción</th>
+                                <th>Plan General</th>
                                 <th>Acciones</th>
 
                             </tr>
@@ -43,9 +45,15 @@
                                     <td>
                                         <%= lista_Estrategias[i].objetivo %>
                                     </td>
+                                    <td>
+                                        <%= lista_Estrategias[i].linea_accion %>
+                                    </td>
+                                    <td>
+                                        <%= lista_Estrategias[i].plan_general %>
+                                    </td>
 
                                     <td class="btns-acciones">
-                                        <a href="" title="Editar"><i class="fas fa-edit"></i></a>
+                                        <a href="" onclick="editar_estrategia('<%= lista_Estrategias[i].id_estrategia %>')" title="Editar"><i class="fas fa-edit"></i></a>
                                         <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                     </td>
 
@@ -61,19 +69,53 @@
             </div>
 
 
+            <script type="text/javascript">
+                $(document).ready(function() {
+
+                });
+
+
+                function editar_estrategia(id_estrategia) {
+
+                    event.preventDefault();
+
+                    //alert("ok desde lista plan general");
+
+                    const peticion = "/form-editar-ctm-estrategia/?id_estrategia=" + id_estrategia;
+
+                    $.ajax({
+                        type: 'post',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function(result) {
+
+                            //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
+                            $('#preview').hide();
+                            $('#body_ent').html(result);
+
+
+                        }
+
+                    });
+
+                }
+            </script>
+
+
             <style>
                 body {
                     /*background-color: #eaedee;*/
                     overflow-x: auto;
                     overflow-y: auto;
-                    
                 }
-
                 
                 body::-webkit-scrollbar {
                     display: auto;
                     overflow-y: hidden;
-                    
                 }
                 
                 #tbl_planos {
@@ -81,7 +123,6 @@
                     font-family: 'Montserrat', sans-serif;
                     border-spacing: 0px !important;
                     padding: 0px;
-                   
                 }
                 
                 #tbl_planos th {
@@ -91,7 +132,6 @@
                 #tbl_planos td {
                     padding: 0;
                 }
-                
                 
                 .btns-acciones form .btn-submit {
                     font-family: 'Montserrat', sans-serif;
@@ -115,7 +155,6 @@
                 .head-tabla-reg {
                     background-color: #3f78da;
                     color: #fff;
-                    
                 }
                 
                 .titulo-tabla {

@@ -147,7 +147,7 @@ module.exports = {
     },
 
     async consultar_RegistrosEstrategias() {
-        const resultados = await conexion.query("select a.id_estrategia,a.estrategia, b.id_objetivo, b.objetivo from schema_control.estrategias a inner join schema_control.objetivos b on (a.id_objetivo=b.id_objetivo)");
+        const resultados = await conexion.query("select a.id_estrategia,a.estrategia, obj.id_objetivo, obj.objetivo, la.linea_accion, pg.plan_general from schema_control.estrategias a inner join schema_control.objetivos obj on (a.id_objetivo=obj.id_objetivo) inner join schema_control.lineas_acciones la on (obj.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on (la.id_plan_general=pg.id_plangeneral)");
         return resultados.rows;
     },
 
@@ -156,6 +156,16 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_RegistroEstrategia_x_id(id_est) {
+        const resultados = await conexion.query("select est.*,obj.id_objetivo, obj.objetivo,la.id_linea,la.linea_accion,pg.id_plangeneral,pg.plan_general from schema_control.estrategias est inner join schema_control.objetivos obj on (est.id_objetivo=obj.id_objetivo) inner join schema_control.lineas_acciones la on (obj.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on (la.id_plan_general=pg.id_plangeneral) where est.id_estrategia = $1", [id_est]);
+        return resultados.rows;
+
+    },
+
+    async actualizar_RegistroEstrategia_x_id(id_est, id_objetivo, estrategia) {
+        const resultados = await conexion.query('update schema_control.estrategias set estrategia=$3, id_objetivo=$2 where id_estrategia=$1 ', [id_est, id_objetivo, estrategia]);
+        return resultados;
+    },
 
 
     //---------------------------Metodos PLanes--------------------------------------//
