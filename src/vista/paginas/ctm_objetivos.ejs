@@ -63,7 +63,7 @@
                                 <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
                                     Objetivo </label>
                                 <div class="col-10">
-                                    <textarea class="form-control" type="text" name="txt_objetivo" id="txt_objetivo" value=""></textarea>
+                                    <textarea class="form-control" type="text" placeholder="Ingresa el Objetivo" name="txt_objetivo" id="txt_objetivo" value=""></textarea>
 
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                 <label class="col-2 col-form-label" style="font-weight: bold; ">Plan General: </label>
                                 <div class="col-10">
                                     <select class="form-control" name="select_plan" id="select_plan" data-toggle="tooltip" title="Seleccionar Plan!" data-placement="right" required>
-                                        <option selected="selected" value="">Seleccionar Plan General
+                                        <option selected="selected" value="0">Seleccionar Plan General
                                         </option>
                                         <% listaPlanes_grales.forEach(lista=> { %>
                                             <% if (lista.estado) { %>
@@ -97,7 +97,7 @@
                             <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                                 <div class="text-center">
                                     <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Objetivo</button>
-                                    <button style="font-weight: bold;" type="submit" class="btn btn-default btn-sm" id="btn-validar" name="btn-validar" onclick="lista_objetivos()">Volver</button>
+                                    <a href="/ctm-objetivos" class="btn btn-default btn-sm">volver</a>
                                 </div>
 
                             </div>
@@ -138,74 +138,87 @@
                 var select_linea = $('#select_linea').val();
 
 
+                if ($('#select_plan').val() != 0) {
+
+                    if (select_linea != 0) {
 
 
+                        var peticion = "/persistir-objetivo/?objetivo=" + txt_objetivo + "&linea_accion=" + select_linea;
 
-                var peticion = "/persistir-objetivo/?objetivo=" + txt_objetivo + "&linea_accion=" + select_linea;
+                        $.ajax({
+                            type: 'post',
+                            url: peticion,
+                            data: [],
+                            contentType: false,
+                            cache: false,
+                            processData: false,
 
-                $.ajax({
-                    type: 'post',
-                    url: peticion,
-                    data: [],
-                    contentType: false,
-                    cache: false,
-                    processData: false,
+                            success: function(result) {
 
-                    success: function(result) {
+                                //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
 
-                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+                                /*setTimeout(function() {
+                                    window.location.reload(1);
+                                }, 5000);*/
+                                if (result["status"] == 200) {
 
-                        /*setTimeout(function() {
-                            window.location.reload(1);
-                        }, 5000);*/
-                        if (result["status"] == 200) {
+                                    //$('#preview').show();
 
-                            //$('#preview').show();
+                                    //$('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
-                            //$('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+                                    //$('#card-msg').show();
+                                    alert(result["msg"]);
 
-                            //$('#card-msg').show();
-                            alert(result["msg"]);
+                                    $('#formulario')[0].reset();
 
-                            $('#formulario')[0].reset();
-
-                            $('#txt_objetivo').focus();
-
-
-                            var iframe = document.getElementById('iframe_obj');
-
-                            $('#iframe_obj').attr("src", iframe.src);
-                            $("#iframe_obj").show();
-
-                            /*setTimeout(function() {
-                                $('#preview').hide();
-                            }, 4000);*/
+                                    $('#txt_objetivo').focus();
 
 
-                        } else {
-                            alert(result["msg"]);
-                            /*$('#preview').show();
+                                    var iframe = document.getElementById('iframe_obj');
 
-                            $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+                                    $('#iframe_obj').attr("src", iframe.src);
+                                    $("#iframe_obj").show();
 
-                            $('#card-msg').show();
-
-                            setTimeout(function() {
-                                $('#preview').hide();
-                            }, 5000);*/
-
-                            //$('#formulario')[0].reset();
-
-                            //$('#select_plan').focus();
-
-                        }
-
-                        //$('#body_ent').html(result);
+                                    /*setTimeout(function() {
+                                        $('#preview').hide();
+                                    }, 4000);*/
 
 
+                                } else {
+                                    alert(result["msg"]);
+                                    /*$('#preview').show();
+
+                                    $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                                    $('#card-msg').show();
+
+                                    setTimeout(function() {
+                                        $('#preview').hide();
+                                    }, 5000);*/
+
+                                    //$('#formulario')[0].reset();
+
+                                    //$('#select_plan').focus();
+
+                                }
+
+                                //$('#body_ent').html(result);
+
+
+                            }
+
+                        });
+                    } else {
+                        alert("Debe seleccionar una linea de Acción");
+                        $('#select_linea').focus();
                     }
 
-                });
+                } else {
+                    alert("Debe seleccionar un Plan general");
+                    $('#select_plan').focus();
+
+                }
+
             }
 
 
@@ -261,15 +274,20 @@
                             //select_linea
                             $("#select_linea").html("");
 
-                            $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+                            if (result.length == 0) {
 
-                            result.forEach(element => {
+                                $("#select_linea").html("");
+                                $("#select_linea").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
 
-                                //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+                            } else {
 
-                                $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                                result.forEach(element => {
 
-                            });
+                                    $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+
+
+                                });
+                            }
 
                         }
 

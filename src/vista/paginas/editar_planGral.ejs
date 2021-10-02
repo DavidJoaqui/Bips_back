@@ -88,9 +88,7 @@
                             <button style="font-weight: bold;" type="submit" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar
                                         Registro</button>
 
-                            <form action="/listado-ctm-planes-generales" method="GET">
-                                <button style="font-weight: bold;" type="submit" class="btn btn-default btn-sm" id="btn-validar" name="btn-validar" onclick="">Volver</button>
-                            </form>
+                            <a href="/listado-ctm-planes-generales" class="btn btn-default btn-sm">volver</a>
                         </div>
 
                     </div>
@@ -147,19 +145,9 @@
                     }, 5000);*/
 
                 } else {
-                    $('#preview').show();
 
-                    $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+                    alert(result["msg"]);
 
-                    $('#card-msg').show();
-
-                    setTimeout(function() {
-                        $('#preview').hide();
-                    }, 5000);
-
-                    //$('#formulario')[0].reset();
-
-                    //$('#cod_entidad').focus();
 
                 }
 

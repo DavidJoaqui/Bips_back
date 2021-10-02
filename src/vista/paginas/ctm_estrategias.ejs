@@ -109,7 +109,8 @@
 
                             <div div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                                 <div class="text-center">
-                                    <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Estrategia</button>
+                                    <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar Estrategia</button>
+                                    <a href="/ctm-estrategias" class="btn btn-default btn-sm">volver</a>
                                 </div>
                             </div>
 
@@ -248,7 +249,7 @@
             $(document).ready(function() {
 
                 $('#preview').hide();
-                document.getElementById("select_plan").title = 'Debe elegir un plan general'
+                document.getElementById("select_plan").title = 'Elige un plan general'
 
                 $("#select_plan").change(function() {
                     //$("#btn-subir").prop("disabled", true);

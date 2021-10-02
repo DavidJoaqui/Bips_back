@@ -167,6 +167,12 @@ module.exports = {
         return resultados;
     },
 
+    async eliminar_RegistroEstrategia(id) {
+        const resultados = await conexion.query("delete from schema_control.estrategias where id_estrategia= $1", [id]);
+        return resultados;
+    },
+
+
 
     //---------------------------Metodos PLanes--------------------------------------//
     //------------------------------------------------------------------------------//

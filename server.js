@@ -2024,6 +2024,42 @@ app.post("/actualizar-estrategia", auth, (req, res) => {
 })
 
 
+///eliminar-popup-estrategia/
+
+app.get("/eliminar-popup-estrategia/:id_estrategia/control-mando-bips", auth, (req, res) => {
+    // console.log(req.query);
+    //console.log(req.params);
+    //var name = req.query.;    
+
+    let params = [req.params.id_estrategia, req.query.nombre_estrategia];
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-estrategia"), { datos_estrategia: params });
+});
+
+
+app.post('/estrategia/delete/:id/control-mando-bips', auth, function(req, res) {
+
+    console.log(req.query);
+    console.log(req.params);
+    var msg = '';
+
+    modelControlMando.eliminar_RegistroEstrategia(req.params.id).then(respuesta => {
+
+        if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+            console.log("respuesta de eliminacion: 1, Se elimino correctamente la estrategia...");
+            msg = 'La estrategia ' + req.query.nombre_estrategia + ' se eliminó correctamente...';
+        } else {
+            console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar La estrategia " + req.query.nombre_estrategia);
+            msg = ' ocurrio un problema al eliminar la Estrategia... ' + req.query.nombre_estrategia;
+        }
+        req.flash('notify_del_estrategia', msg);
+        res.redirect("/listado-ctm-estrategias");
+
+
+    })
+
+
+});
+
 app.get("/ctm-planes", auth, (req, res) => {
 
     modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {

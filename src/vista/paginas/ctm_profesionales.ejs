@@ -31,8 +31,15 @@
 
                 <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <div class="form-group" style="padding-left: 30px;margin: 20px;">
-                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof" onclick="nuevo_profesional()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Nuevo Profesional</button>
+                        <div class="form-group" style="padding-left: 0px;margin: 0px;">
+
+                            <button class="nav-link active btn btn-info" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="lista_profesionales()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i
+                                    class="fas fa-list"></i> Lista Profesionales</button>
+                        </div>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <div class="form-group" style="padding-left: 0px;margin: 0px;">
+                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof" onclick="nuevo_profesional()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Profesional</button>
                         </div>
                     </li>
                 </ul>
@@ -237,13 +244,21 @@
 
             function nuevo_profesional() {
                 //alert("OK");
-
-
-
                 $('#panel_nuevo_prof').attr('hidden', false);
+                $('#iframe_prof').attr("src", '');
+                $('#iframe_prof').attr('hidden', true);
 
 
             }
+
+            function lista_profesionales() {
+                //listado-ctm-objetivos
+                $('#panel_nuevo_prof').attr('hidden', true);
+                $('#iframe_prof').attr("src", '/listado-ctm-profesionales');
+                $('#iframe_prof').attr('hidden', false);
+
+            }
+
 
             function cerrar() {
                 $('#panel_nuevo_prof').attr('hidden', true);

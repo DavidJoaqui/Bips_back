@@ -69,7 +69,7 @@
                 <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                     <div class="text-center">
                         <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar</button>
-                        <button style="font-weight: bold;" type="submit" class="btn btn-default btn-sm" id="btn-validar" name="btn-validar" onclick="lista_objetivos()">Volver</button>
+                        <a href="/listado-ctm-objetivos" class="btn btn-default btn-sm">volver</a>
                     </div>
                 </div>
         </div>
@@ -172,18 +172,23 @@
                 $("#select_linea").html("");
 
                 //$("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+                if (result.length == 0) {
 
-                result.forEach(element => {
+                    $("#select_linea").html("");
+                    $("#select_linea").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
 
-                    //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+                } else {
 
-                    if (element.id_linea == '<%= objetivo_info[0].id_linea_accion %>') {
-                        $("#select_linea").append('<option value=' + element.id_linea + ' selected="selected">' + element.linea_accion + '</option>');
-                    } else {
-                        $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
-                    }
+                    result.forEach(element => {
 
-                });
+                        if (element.id_linea == '<%= objetivo_info[0].id_linea_accion %>') {
+                            $("#select_linea").append('<option value=' + element.id_linea + ' selected="selected">' + element.linea_accion + '</option>');
+                        } else {
+                            $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                        }
+
+                    });
+                }
 
             }
 
@@ -214,15 +219,23 @@
                     //select_linea
                     $("#select_linea").html("");
 
-                    $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+                    if (result.length == 0) {
 
-                    result.forEach(element => {
+                        $("#select_linea").html("");
+                        $("#select_linea").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
 
-                        //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+                    } else {
 
-                        $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                        result.forEach(element => {
 
-                    });
+                            if (element.id_linea == '<%= objetivo_info[0].id_linea_accion %>') {
+                                $("#select_linea").append('<option value=' + element.id_linea + ' selected="selected">' + element.linea_accion + '</option>');
+                            } else {
+                                $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                            }
+
+                        });
+                    }
 
                 }
 

@@ -36,21 +36,28 @@
                                                      
                                                     
                             <% planes_generales.forEach(lista=> { %>
-                                <% if (lista.estado) { %>
+                                
 
                                     <% if (info_linea[0].id_plangeneral == lista.id_plangeneral) { %>
-                                        <option selected="selected" value="<%= info_linea[0].id_plangeneral %>">
-                                            <%= info_linea[0].plan_general %>
-                                        </option>
+
+                                        <% if (!lista.estado) { %>
+                                            <option selected="selected" value="<%= info_linea[0].id_plangeneral %>">
+                                                <%= info_linea[0].plan_general+' (Inactivo)' %>
+                                            </option>
+                                        <% }else{ %>
+                                            <option selected="selected" value="<%= info_linea[0].id_plangeneral %>">
+                                                <%= info_linea[0].plan_general %>
+                                            </option>
+                                            <% } %>
+                                        
                                     <% }else{ %>
-                                     
+                                        <% if (lista.estado) { %>
                                     <option value="<%= lista.id_plangeneral %>">
                                         <%= lista.plan_general %>
                                     </option>   
-                                <% }} %>
-
-                                
-                                
+                                    <% } %>
+                                    
+                                <% } %>                                                        
                                 <% }); %>
                         </select>
                     </div>
