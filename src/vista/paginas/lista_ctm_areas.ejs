@@ -7,7 +7,7 @@
                 overflow-x: auto;
                 overflow-y: auto;
             }
-            
+
             body::-webkit-scrollbar {
                 display: auto;
                 overflow-y: hidden;
@@ -15,10 +15,10 @@
         </style>
 
 
-        <div class="col-md-12" id="" name="" style="margin-top: 10px;">
+        <div class="col-md-12"  style="margin-top: 10px;">
 
 
-            <div class="col-md-12">
+            <div class="col-md-12" id="body_ent" name="body_ent">
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
@@ -53,7 +53,8 @@
                             <% if (m.error) { %>
 
                                 <div class="card " style="margin-top: 20px;">
-                                    <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
+                                    <div class="card-header text-white bg-danger mb-3 container-fluid"
+                                        id="btn-cerrar-err">
                                         <strong>Error!</strong>
                                         <button type="button" class="close" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -75,7 +76,8 @@
                                     <p type="text" id="loading" value="" hidden>loading...</p>
                                     <div class="table-responsive">
 
-                                        <table class="table table-striped table-bordered" style="width:100%" id="tbl_planos">
+                                        <table class="table table-striped table-bordered" style="width:100%"
+                                            id="tbl_planos">
 
 
                                             <thead class="head-tabla-reg">
@@ -91,16 +93,20 @@
 
                                                     <tr class="text-center">
                                                         <td>
-                                                            <%= i+1 %>
+                                                            <%= lista_areas[i].id_area%>
 
                                                         </td>
                                                         <td>
                                                             <%= lista_areas[i].nombre_area %>
                                                         </td>
                                                         <td class="btns-acciones">
-                                                            <a href="" title="Editar" onclick="editar_plan()"><i class="fas fa-edit"></i></a>
-                                                            <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+                                                            <a href="" title="Editar" onclick="editar_area('<%= lista_areas[i].id_area %>')"><i
+                                                                    class="fas fa-edit"></i></a>
+                                                            <a href="" title="Eliminar" style="color: red;"><i
+                                                                    class="far fa-trash-alt"></i></a>
                                                         </td>
+
+                                                        
 
                                                     </tr>
                                                     <% }%>
@@ -114,6 +120,51 @@
             </div>
 
 
+            <script type="text/javascript">
+                $(document).ready(function () {
+
+
+
+                    setTimeout(function () {
+                        $('#preview').hide();
+                    }, 5000);
+
+
+                });
+
+
+                function editar_area(id_area) {
+
+                    event.preventDefault();
+
+                    //alert("ok desde lista plan general");
+
+                    const peticion = "/form-editar-ctm-area/?id_area=" + id_area;
+
+                    $.ajax({
+                        type: 'post',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+
+                            //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
+                            //$('#preview').hide();
+                            $('#body_ent').html(result);
+
+
+
+                        }
+
+                    });
+
+                }
+            </script>
+
+
             <style>
                 #tbl_planos {
                     font-size: small;
@@ -121,15 +172,15 @@
                     border-spacing: 0px !important;
                     padding: 0px;
                 }
-                
+
                 #tbl_planos th {
                     padding: 7px;
                 }
-                
+
                 #tbl_planos td {
                     padding: 0;
                 }
-                
+
                 .btns-acciones form .btn-submit {
                     font-family: 'Montserrat', sans-serif;
                     border-radius: 5px;
@@ -139,7 +190,7 @@
                     transition: .3s ease all;
                     font-weight: bold;
                 }
-                
+
                 #btn-elim-all {
                     font-family: 'Montserrat', sans-serif;
                     border-radius: 5px;
@@ -148,21 +199,13 @@
                     cursor: pointer;
                     transition: .3s ease all;
                 }
-                
+
                 .head-tabla-reg {
                     background-color: #3f78da;
                     color: #fff;
                 }
-                
+
                 .titulo-tabla {
                     color: #20488f;
                 }
             </style>
-
-
-            <script type="text/javascript">
-                function editar_plan() {
-                    alert("ok desde lista plan general");
-
-                }
-            </script>

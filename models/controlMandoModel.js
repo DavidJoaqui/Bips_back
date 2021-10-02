@@ -173,6 +173,11 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_plan_accion_x_id(id_plan) {
+        const resultados = await conexion.query("select d.id_plan, d.plan,c.id_estrategia ,a.id_objetivo,a.id_linea_accion,b.id_plan_general from schema_control.objetivos a inner join schema_control.lineas_acciones b on(a.id_linea_accion=b.id_linea) inner join schema_control.estrategias c on (c.id_objetivo=a.id_objetivo) inner join schema_control.planes d on (d.id_estrategia=c.id_estrategia) where d.id_plan = $1", [id_plan]);
+        return resultados.rows;
+    },
+
     //-----------------------Metodos Areas--------------------------------------//
     //------------------------------------------------------------------------------//
     async insertar_area(nombre_area) {
@@ -183,6 +188,16 @@ module.exports = {
     async consultar_RegistroAreas() {
         const resultados = await conexion.query("select * from schema_control.areas");
         return resultados.rows;
+    },
+
+    async consultar_areaxid(id_area) {
+        const resultados = await conexion.query('select * from schema_control.areas where id_area=$1 ', [id_area]);
+        return resultados.rows;
+    },
+
+    async actualizar_area_x_id(id_area, area) {
+        const resultados = await conexion.query('update schema_control.areas set nombre_area=$2 where id_area=$1 ', [id_area,area]);
+        return resultados;
     },
 
     //-----------------------Metodos Indicadores--------------------------------------//

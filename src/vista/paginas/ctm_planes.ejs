@@ -35,10 +35,27 @@
                         <div class="form-group" style="padding-left: 10px;margin: 0px;">
                             <button class="nav-link active btn btn-success" type="button"
                                 style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea"
-                                onclick="nuevo_plan()" data-toggle="pill" href="" role="tab" aria-controls=""
+                                onclick="nuevo_registro()" data-toggle="pill" href="" role="tab" aria-controls=""
                                 aria-selected="true"><i class="fas fa-plus"></i> Plan</button>
                         </div>
                     </li>
+
+                    <li class="nav-item" role="presentation">
+                        <div class="form-group" style="padding-left: 10px;margin: 0px;">
+                            <button class="nav-link active btn btn-info" type="button"
+                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="lista()"
+                                data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i
+                                    class="fas fa-list"></i> Lista</button>
+                        </div>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <div class="form-group" style="padding-left: 30px;margin: 10px;">
+                            
+                        </div>
+                    </li>
+
+
                 </ul>
 
 
@@ -50,7 +67,7 @@
 
                 <div class="col-md col-md-offset-3" style="padding-bottom: 0px">
 
-                    <div class="card container" id="panel_nuevo_plan" hidden>
+                    <div class="card container" id="panel_nuevo" hidden>
 
 
 
@@ -118,7 +135,7 @@
                                         required>
                                         <option selected="selected" value="">Seleccionar Estrategia
                                         </option>
-                                       
+
                                     </select>
 
                                 </div>
@@ -146,8 +163,7 @@
             <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
                 <iframe src="/listado-ctm-planes" title="iframe Vistas control de mando" scrolling="no" onload=''
-                    frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_obj"
-                    id="iframe_obj">
+                    frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe" id="iframe">
                 </iframe>
             </div>
         </body>
@@ -157,6 +173,17 @@
 
 
         <script type="text/javascript">
+
+            function lista() {
+                //alert("OK");
+                $('#panel_nuevo').attr('hidden', true);
+                ///lista-ctm-indicadores
+
+                $('#iframe').attr('hidden', false);
+                $('#iframe').attr("src", '/listado-ctm-planes');
+                $("#iframe").show();
+            }
+
             function almacenar_registro() {
 
                 event.preventDefault();
@@ -196,10 +223,10 @@
 
                                     //$('#select_estrategia').focus();
 
-                                    var iframe = document.getElementById('iframe_obj');
+                                    var iframe = document.getElementById('iframe');
 
-                                    $('#iframe_obj').attr("src", iframe.src);
-                                    $("#iframe_obj").show();
+                                    $('#iframe').attr("src", iframe.src);
+                                    $("#iframe").show();
 
                                     setTimeout(function () {
                                         $('#preview').hide();
@@ -246,14 +273,10 @@
 
 
 
-            function nuevo_plan() {
-                //alert("OK");
-
-
-
-                $('#panel_nuevo_plan').attr('hidden', false);
-
-
+            function nuevo_registro() {
+                $('#panel_nuevo').attr('hidden', false);
+                $('#iframe').attr("src", '');
+                $('#iframe').attr('hidden', true);
             }
 
 

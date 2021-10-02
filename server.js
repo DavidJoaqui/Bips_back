@@ -1550,6 +1550,8 @@ app.get("/lista-ctm-areas", auth, (req, res) => {
 
 });
 
+
+
 app.post("/persistir-plan", auth, (req, res) => {
     //res.send("OK");
     console.log(req.query);
@@ -1831,6 +1833,74 @@ app.post("/form-editar-ctm-objetivo", auth, (req, res) => {
 
 });
 
+
+app.post("/form-editar-ctm-plan-accion", auth, (req, res) => {
+
+    console.log('id_plan:'+req.query.id_plan);
+    modelControlMando.consultar_plan_accion_x_id(req.query.id_plan).then(plan_accion_info => {
+        modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+            modelControlMando.consultar_RegistrosLineasAccion().then(lineas_accion => {
+                res.render("paginas/editar_plan_accion", { id_plan: req.query.id_plan, planes_generales: listaPlanes_grales, plan_accion_info: plan_accion_info, lineas_accion: lineas_accion });
+            });
+        });
+    });
+});
+
+app.get("/consultar-areaxid", auth, (req, res) => {
+
+      console.log('a:'+req.query.id_area);
+    //console.log(req.params);
+    //console.log(req.body);
+
+    modelControlMando.consultar_areaxid(req.query.id_area).then(lista_areas => {
+        //console.log(lista_planes);
+        //res.render("paginas/ctm_objetivos", { user: req.session.user,listaPlanes_grales: listaPlanes_grales, lista_lineas_accion: lista_lineas_accion });
+        console.log(lista_areas);
+        res.send(lista_areas);
+
+    });
+
+});
+
+app.post("/form-editar-ctm-area", auth, (req, res) => {
+    console.log(req.query.id_area);
+    //consultar el area
+    modelControlMando.consultar_areaxid(req.query.id_area).then(lista_areas => {
+    res.render("paginas/editar_area", { id_area: req.query.id_area, lista_areas:lista_areas});
+    });
+});
+
+
+app.post("/actualizar-area", auth, (req, res) => {
+   console.log(req.query);
+    //console.log(req.params);
+    //console.log(req.body);
+    modelControlMando.actualizar_area_x_id(req.query.id_area, req.query.area).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update area");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
+
+            res.send({ status: 200, msg: 'El Area ' + req.query.id_area + ' fue actualizado correctamente...' });
+            //res.render("/config-entidades");
+
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.send({ status: 300, msg: 'ERROR al actualizar el area <b>' + req.query.id_area + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El area  <b>' + req.query.id_area + '</b>, ' + +'NO se pudo actualizar...' });
+    });
+
+})
+
 app.post("/actualizar-objetivo", auth, (req, res) => {
     //res.send("OK");
     console.log(req.query);
@@ -2092,16 +2162,16 @@ app.post("/persistir-registro-indicador", auth, (req, res) => {
 
 app.post("/persistir-calificacion-indicador", auth, (req, res) => {
 
-    console.log('reg_indicador:'+req.query.reg_indicador);
-    
-    console.log('numerador:'+req.query.vr_numerador);
-    console.log('denominador:'+req.query.vr_denominador);
-    console.log('res_num:'+req.query.resultado_numerico);
-    console.log('res_descr:'+req.query.resultado_descriptivo);
-    console.log('desviacion:'+req.query.desviacion);
+    console.log('reg_indicador:' + req.query.reg_indicador);
 
-    console.log('comentario:'+req.query.comentario);
-    console.log('estado:'+req.query.estado);
+    console.log('numerador:' + req.query.vr_numerador);
+    console.log('denominador:' + req.query.vr_denominador);
+    console.log('res_num:' + req.query.resultado_numerico);
+    console.log('res_descr:' + req.query.resultado_descriptivo);
+    console.log('desviacion:' + req.query.desviacion);
+
+    console.log('comentario:' + req.query.comentario);
+    console.log('estado:' + req.query.estado);
 
 
     modelControlMando.insertar_calificacion_indicador(req.query.reg_indicador, req.query.vr_numerador, req.query.vr_denominador, req.query.resultado_numerico, req.query.resultado_descriptivo, req.query.desviacion, req.query.comentario, req.query.estado).then(respuesta => {
@@ -2275,25 +2345,25 @@ app.post("/persistir-profesional/", auth, (req, res) => {
 })
 
 app.get("/calcular-resultado-numerico", auth, (req, res) => {
-   
+
     //console.log('A:'+req.query.numerador);
     //console.log('B:'+req.query.denominador);
 
-     var valor_resultado_numerico= (req.query.numerador/req.query.denominador)*100;
-     // console.log('resultado_num:'+valor_resultado_numerico);
-      res.send(valor_resultado_numerico.toString());
-  
+    var valor_resultado_numerico = (req.query.numerador / req.query.denominador) * 100;
+    // console.log('resultado_num:'+valor_resultado_numerico);
+    res.send(valor_resultado_numerico.toString());
+
 });
 
 app.get("/calcular-desviacion", auth, (req, res) => {
-   
-    console.log('A:'+req.query.resultado_numerico);
-    console.log('B:'+req.query.meta_numerica);
 
-     var valor_desviacion= (req.query.meta_numerica-req.query.resultado_numerico);
-      console.log('desviacion:'+valor_desviacion);
-      res.send(valor_desviacion.toString());
-  
+    console.log('A:' + req.query.resultado_numerico);
+    console.log('B:' + req.query.meta_numerica);
+
+    var valor_desviacion = (req.query.meta_numerica - req.query.resultado_numerico);
+    console.log('desviacion:' + valor_desviacion);
+    res.send(valor_desviacion.toString());
+
 });
 
 
