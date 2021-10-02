@@ -5,8 +5,7 @@
 
         <div class="card border-dark container" style=" text-align: center;">
 
-            <div class="preview text-center" id="preview"
-                style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
                 <div class="card col-md-12" id="card-msg">
 
 
@@ -19,14 +18,12 @@
             </div>
 
             <form id="formulario" enctype="multipart/form-data" method="POST">
-                <input class="form-control" type="text" placeholder="" name="" id="id_plan" value="<%= id_plan %>"
-                    hidden>
+                <input class="form-control" type="text" placeholder="" name="" id="id_plan" value="<%= id_plan %>" hidden>
                 <div class="form-group row">
                     <label class="col-2 col-form-label" for="linea_accion" style="font-weight: bold;"> Plan:
                     </label>
                     <div class="col-10">
-                        <input class="form-control" type="text" placeholder="plan" name="txt_plan" id="txt_plan"
-                            value="<%= plan_accion_info[0].plan %>">
+                        <input class="form-control" type="text" placeholder="plan" name="txt_plan" id="txt_plan" value="<%= plan_accion_info[0].plan %>">
                     </div>
                 </div>
 
@@ -35,8 +32,7 @@
                         general: </label>
 
                     <div class="col-10">
-                        <select class="form-control" name="select_plan" id="select_plan" data-toggle="tooltip"
-                            title="Seleccionar plan General!" data-placement="right" required>
+                        <select class="form-control" name="select_plan" id="select_plan" data-toggle="tooltip" title="Seleccionar plan General!" data-placement="right" required>
 
 
                             <% planes_generales.forEach(lista=> { %>
@@ -64,8 +60,7 @@
                 <div class="form-group row">
                     <label class="col-2 col-form-label" style="font-weight: bold;">Linea de acción: </label>
                     <div class="col-10">
-                        <select class="form-control" name="select_linea" id="select_linea" data-toggle="tooltip"
-                            title="Seleccionar Linea de Acción!" data-placement="right" required>
+                        <select class="form-control" name="select_linea" id="select_linea" data-toggle="tooltip" title="Seleccionar Linea de Acción!" data-placement="right" required>
 
 
                         </select>
@@ -76,8 +71,7 @@
                 <div class="form-group row">
                     <label class="col-2 col-form-label" style="font-weight: bold;">Objetivo: </label>
                     <div class="col-10">
-                        <select class="form-control" name="select_objetivo" id="select_objetivo" data-toggle="tooltip"
-                            title="Seleccionar Objetivo!" data-placement="right" required>
+                        <select class="form-control" name="select_objetivo" id="select_objetivo" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
 
 
                         </select>
@@ -87,8 +81,7 @@
                 <div class="form-group row">
                     <label class="col-2 col-form-label" style="font-weight: bold;">Estrategia: </label>
                     <div class="col-10">
-                        <select class="form-control" name="select_estrategia" id="select_estrategia"
-                            data-toggle="tooltip" title="Seleccionar Estrategia!" data-placement="right" required>
+                        <select class="form-control" name="select_estrategia" id="select_estrategia" data-toggle="tooltip" title="Seleccionar Estrategia!" data-placement="right" required>
                             <option selected="selected" value="">Seleccionar Estrategia
                             </option>
 
@@ -98,11 +91,9 @@
 
                 </div>
 
-                <div class="form-group row"
-                    style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                     <div class="text-center">
-                        <button style="font-weight: bold;" class="btn btn-success " id="btn-validar" name="btn-validar"
-                            onclick="actualizar_registro()">Actualizar</button>
+                        <button style="font-weight: bold;" class="btn btn-success " id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar</button>
                     </div>
                 </div>
         </div>
@@ -115,70 +106,34 @@
 <script type="text/javascript">
     function actualizar_registro() {
         event.preventDefault();
-        var id_linea = $('#select_linea').val();
-        var objetivo = $('#txt_plan').val();
-        var id_objetivo = $('#id_objetivo').val();
-        var id_plan = $('#select_linea').val();
+        var id_plan = $('#id_plan').val();
+        var plan = $('#txt_plan').val();
+        var id_estrategia = $('#select_estrategia').val();
 
-        var peticion = "/actualizar-objetivo/?id_objetivo=" + id_objetivo + "&id_linea_accion=" + id_linea + "&objetivo=" + objetivo;
+        var peticion = "/actualizar-plan-accion/?id_plan=" + id_plan + "&plan=" + plan + "&id_estrategia=" + id_estrategia;
 
         $.ajax({
             type: 'post',
             url: peticion,
             data: [],
 
-            success: function (result) {
+            success: function(result) {
 
-                //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
-
-                /*setTimeout(function() {
-                    window.location.reload(1);
-                }, 5000);*/
                 if (result["status"] == 200) {
-
                     console.log("actualizado correctamente...");
-                    //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
-                    //$('#preview').show();
-
-                    //$('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>OK!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
-
-                    //$('#card-msg').show();
-
-                    /* setTimeout(function() {
-                         $('#preview').hide();
-                     }, 5000);*/
 
                     alert(result["msg"]);
-
                     alert();
-
-                    //<div class="alert alert-success"> <strong>Success!</strong> This alert box could indicate a successful or positive action.</div>
-
-                    /* popup.alert({
-                         msg: 'Hello!'
-                     });*/
 
                 } else {
                     $('#preview').show();
 
-                    //$('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
-
                     alert(result["msg"]);
 
-                    //$('#card-msg').show();
-
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('#preview').hide();
                     }, 5000);
-
-                    //$('#formulario')[0].reset();
-
-                    //$('#cod_entidad').focus();
-
                 }
-
-                //$('#body_ent').html(result);
-
 
             }
 
@@ -187,7 +142,7 @@
 
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         $('#preview').hide();
         // document.getElementById("select_plan").title = 'Debe elegir un plan general'
@@ -202,7 +157,7 @@
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 //select_linea
                 $("#select_linea").html("");
@@ -230,8 +185,93 @@
 
         });
 
+        //lalmado de objetivo <%= plan_accion_info[0].id_objetivo %>
 
-        $("#select_plan").change(function () {
+        var peticion = "/consultar-objetivo-x-lineas-accion/?id_linea_accion=" + '<%= plan_accion_info[0].id_linea_accion %>';
+
+        $.ajax({
+
+            type: 'get',
+            url: peticion,
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+
+            success: function(result) {
+
+                //select_linea
+                $("#select_objetivo").html("");
+
+
+                if (result.length == 0) {
+
+                    $("#select_objetivo").html("");
+                    $("#select_objetivo").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+
+                } else {
+                    $("#select_objetivo").append('<option value="0" selected="selected">' + 'Elegir una opción' + '</option>');
+                    result.forEach(element => {
+
+                        if (element.id_linea_accion == '<%= plan_accion_info[0].id_linea_accion %>') {
+                            $("#select_objetivo").append('<option value=' + element.id_objetivo + ' selected="selected">' + element.objetivo + '</option>');
+                        } else {
+                            $("#select_objetivo").append('<option value=' + element.id_objetivo + '>' + element.objetivo + '</option>');
+                        }
+
+                    });
+                }
+
+            }
+
+        });
+
+
+        //llamado estrategias
+        var peticion = "/consultar-estrategia-x-objetivo/?id_objetivo=" + '<%= plan_accion_info[0].id_objetivo %>';
+
+        $.ajax({
+
+            type: 'get',
+            url: peticion,
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+
+            success: function(result) {
+
+                if (result.length == 0) {
+
+                    $("#select_estrategia").html("");
+                    $("#select_estrategia").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+
+                } else {
+
+                    //select_linea
+                    $("#select_estrategia").html("");
+
+                    $("#select_estrategia").append('<option selected="selected">' + 'Seleccionar Estrategia' + '</option>');
+
+                    result.forEach(element => {
+                        if (element.id_estrategia == '<%= plan_accion_info[0].id_estrategia %>') {
+
+                            $("#select_estrategia").append('<option value=' + element.id_estrategia + ' selected="selected">' + element.estrategia + '</option>');
+                        } else {
+                            $("#select_estrategia").append('<option value=' + element.id_estrategia + '>' + element.estrategia + '</option>');
+                        }
+
+                    });
+
+                }
+
+            }
+
+        });
+
+
+
+        $("#select_plan").change(function() {
             //$("#btn-subir").prop("disabled", true);
             //$('#files').attr("disabled", true);
             // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
@@ -249,7 +289,7 @@
                 cache: false,
                 processData: false,
 
-                success: function (result) {
+                success: function(result) {
 
                     //select_linea
                     $("#select_linea").html("");
@@ -283,7 +323,7 @@
 
         });
 
-        $("#select_linea").change(function () {
+        $("#select_linea").change(function() {
             //$("#btn-subir").prop("disabled", true);
             //$('#files').attr("disabled", true);
             // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
@@ -301,19 +341,19 @@
                 cache: false,
                 processData: false,
 
-                success: function (result) {
+                success: function(result) {
 
                     //select_linea
                     $("#select_objetivo").html("");
 
-                   
+
                     if (result.length == 0) {
 
                         $("#select_objetivo").html("");
                         $("#select_objetivo").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
 
                     } else {
-
+                        $("#select_objetivo").append('<option value="0" selected="selected">' + 'Elegir una opción' + '</option>');
                         result.forEach(element => {
 
                             if (element.id_linea == '<%= plan_accion_info[0].id_objetivo %>') {
@@ -332,7 +372,7 @@
 
         });
 
-        $("#select_objetivo").change(function () {
+        $("#select_objetivo").change(function() {
             //$("#btn-subir").prop("disabled", true);
             //$('#files').attr("disabled", true);
             // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
@@ -350,7 +390,7 @@
                 cache: false,
                 processData: false,
 
-                success: function (result) {
+                success: function(result) {
 
                     //select_linea
                     $("#select_estrategia").html("");
@@ -373,7 +413,4 @@
         });
 
     });
-
-
-
 </script>
