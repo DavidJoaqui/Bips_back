@@ -8,20 +8,23 @@
 
                     <div class="card card-danger" id="panel" name="panel">
                         <div class="card-heading" id="panel_heading">
-                            <a href="/listado-ctm-lineas-accion" id="btn-cerrar-popup" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
+                            <a href="/listado-ctm-objetivos" id="btn-cerrar-popup" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
                             <p> <b>Confirmación</b></p>
                         </div>
                         <div class="card-body">
 
-                            <p>Seguro desea eliminar la Linea de Acción<b> <%= datos_linea[1] %></b>?<br>
+                            <p>Seguro desea eliminar el Objetivo<b> <%= datos_objetivo[1] %></b>?<br>
 
                             </p>
-                            <form action="/linea-accion/delete/<%= datos_linea[0] %>/control-mando-bips/?nombre_linea=<%= datos_linea[1] %>" method="POST">
+                            <form action="/objetivo/delete/<%= datos_objetivo[0] %>/control-mando-bips/?nombre_objetivo=<%= datos_objetivo[1] %>" method="POST">
                                 <input type="submit" class="btn-submit btn btn-success" value="Aceptar">
                             </form>
-                            <form action="/listado-ctm-lineas-accion" method="GET">
-                                <button type="" class="btn-submit btn btn-default" value="">Cancelar</button>
-                            </form>
+                            <div class="form-group">
+
+                                <form action="/listado-ctm-objetivos" method="GET">
+                                    <button type="" class="btn-submit btn btn-default" value=""> Cancelar</button>
+                                </form>
+                            </div>
 
                         </div>
 

@@ -2,4 +2,8 @@ node_modules/
 filesBipsUploads/
 /package-lock.json
 models/persistencia/*
+<<<<<<< HEAD
 daemon/*
+=======
+daemon/
+>>>>>>> ajustes_david

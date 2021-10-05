@@ -1,0 +1,371 @@
+<div style="display: flex;justify-content: center;align-items: center;padding-bottom: 30px">
+
+
+    <div class="col-md-9 col-md-offset-3" style="padding-bottom: 30px">
+
+        <div class="card border-dark container" style=" text-align: center;">
+
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+                <div class="card col-md-12" id="card-msg">
+
+
+                </div>
+            </div>
+
+            <div class="col-md-12" style="text-align: center;">
+                <h3 style="color: #20488f;font-size: 30px;font-weight: bold;" class="">Editar Estrategia.
+                </h3>
+            </div>
+
+            <form id="formulario" enctype="multipart/form-data">
+                <input class="form-control" type="text" placeholder="" name="" id="id_estrategia" value="<%= id_estrategia %>" hidden>
+                <div class="form-group row">
+                    <label class="col-2 col-form-label" for="linea_accion" style="font-weight: bold;"> Estrategia: </label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" placeholder="objetivo" name="txt_estrategia" id="txt_estrategia" value="<%= estrategia_info[0].estrategia %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label" for="select_plan" style="font-weight: bold;">Plan
+                        general: </label>
+
+                    <div class="col-10">
+                        <select class="form-control" name="select_plan" id="select_plan" data-toggle="tooltip" title="Seleccionar plan General!" data-placement="right" required>
+                                                     
+                                                    
+                            <% planes_generales.forEach(lista=> { %>
+                                          
+                                    <% if (lista.id_plangeneral == estrategia_info[0].id_plangeneral) { %>           
+                                        <% if (lista.estado) { %>
+                                            <option selected="selected" value="<%= lista.id_plangeneral %>">
+                                                <%= lista.plan_general %>
+                                            </option> 
+                                        <% }else{ %>
+                                            <option selected="selected" value="<%= lista.id_plangeneral %>">
+                                                <%= lista.plan_general+' (Inactivo)' %>
+                                            </option>
+                                        <% } %>
+
+
+                                    <% }else{ %>           
+                                        <% if (lista.estado) { %> 
+                                    <option value="<%= lista.id_plangeneral %>">
+                                        <%= lista.plan_general %>
+                                    </option> 
+                                <% }} %>
+
+                                
+                                
+                                <% }); %>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group row" style="">
+                    <label class="col-2 col-form-label" style="font-weight: bold; font-size: 15px;"> Linea de acción: </label>
+                    <div class="col-10">
+                        <select class="form-control" name="select_linea" id="select_linea" data-toggle="tooltip" title="Seleccionar Linea de Acción!" data-placement="right" required>
+                            <% lineas_accion.forEach(lista=> { %>
+                                         
+                                    <% if (lista.id_linea == estrategia_info[0].id_linea) { %>           
+                                      
+                                    <option selected="selected" value="<%= lista.id_linea %>">
+                                        <%= lista.linea_accion %>
+                                    </option> 
+                                    <% }else{ %>           
+                                        
+                                    <option value="<%= lista.id_linea %>">
+                                        <%= lista.linea_accion %>
+                                    </option>                                                           
+                                
+                                <% }}); %>                                                            
+                                
+                            </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label" style="font-weight: bold;">Objetivo: </label>
+                    <div class="col-10">
+                        <select class="form-control" name="select_objetivo" id="select_objetivo" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>                            
+                           
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                    <div class="text-center">
+                        <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar</button>
+                        <a href="/listado-ctm-estrategias" class="btn btn-default btn-sm">volver</a>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function actualizar_registro() {
+        event.preventDefault();
+        var txt_estrategia = $('#txt_estrategia').val();
+        var objetivo = $('#select_objetivo').val();
+        var id_estrategia = $('#id_estrategia').val();
+
+        var peticion = "/actualizar-estrategia/?id_estrategia=" + id_estrategia + "&id_objetivo=" + objetivo + "&estrategia=" + txt_estrategia;
+
+        $.ajax({
+            type: 'post',
+            url: peticion,
+            data: [],
+
+            success: function(result) {
+
+                //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                /*setTimeout(function() {
+                    window.location.reload(1);
+                }, 5000);*/
+                if (result["status"] == 200) {
+
+                    console.log("actualizado correctamente...");
+                    //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
+                    //$('#preview').show();
+
+                    //$('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>OK!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                    //$('#card-msg').show();
+
+                    /* setTimeout(function() {
+                         $('#preview').hide();
+                     }, 5000);*/
+
+                    alert(result["msg"]);
+
+                    //<div class="alert alert-success"> <strong>Success!</strong> This alert box could indicate a successful or positive action.</div>
+
+                    /* popup.alert({
+                         msg: 'Hello!'
+                     });*/
+
+                } else {
+                    $('#preview').show();
+
+                    //$('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                    alert(result["msg"]);
+
+                    //$('#card-msg').show();
+
+                    setTimeout(function() {
+                        $('#preview').hide();
+                    }, 5000);
+
+                    //$('#formulario')[0].reset();
+
+                    //$('#cod_entidad').focus();
+
+                }
+
+                //$('#body_ent').html(result);
+
+
+            }
+
+        });
+
+
+    }
+
+    $(document).ready(function() {
+
+
+
+        var peticion = "/consultar-lineas-accion_x_plan_general/?id_plan_gral=" + '<%= estrategia_info[0].id_plangeneral %>';
+
+        $.ajax({
+
+            type: 'get',
+            url: peticion,
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+
+            success: function(result) {
+
+                //select_linea
+                $("#select_linea").html("");
+
+                //$("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+
+                result.forEach(element => {
+
+                    //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                    if (element.id_linea == '<%= estrategia_info[0].id_linea %>') {
+                        $("#select_linea").append('<option value=' + element.id_linea + ' selected="selected">' + element.linea_accion + '</option>');
+                    } else {
+                        $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                    }
+
+                });
+
+
+
+
+            }
+
+        });
+
+
+        var peticion = "/consultar-objetivo-x-lineas-accion/?id_linea_accion=" + '<%= estrategia_info[0].id_linea %>';
+
+        $.ajax({
+
+            type: 'get',
+            url: peticion,
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+
+            success: function(result) {
+
+                //select_linea
+                $("#select_objetivo").html("");
+
+                //$("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+
+                if (result.length == 0) {
+
+                    $("#select_objetivo").html("");
+                    $("#select_objetivo").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+
+                } else {
+
+                    result.forEach(element => {
+
+                        //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+                        if (element.id_objetivo == '<%= estrategia_info[0].id_objetivo %>') {
+                            $("#select_objetivo").append('<option value=' + element.id_objetivo + ' selected="selected">' + element.objetivo + '</option>');
+                        } else {
+
+                            $("#select_objetivo").append('<option value=' + element.id_objetivo + '>' + element.objetivo + '</option>');
+                        }
+
+                    });
+                }
+
+            }
+
+        });
+
+
+
+        $("#select_plan").change(function() {
+            //$("#btn-subir").prop("disabled", true);
+            //$('#files').attr("disabled", true);
+            // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+            //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+            //alert("selecciono la opcion --> " +$("#select_plan option:selected").val());
+
+            var peticion = "/consultar-lineas-accion_x_plan_general/?id_plan_gral=" + $(this).val();
+
+            $.ajax({
+
+                type: 'get',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function(result) {
+
+                    //alert("el tamaño es " + result.length);
+                    //select_linea
+                    //$("#select_linea").html("");
+                    $("#select_linea").html("");
+                    $("#select_objetivo").html("");
+
+                    //$("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+                    if (result.length == 0) {
+
+                        $("#select_linea").html("");
+                        $("#select_objetivo").html("");
+                        $("#select_linea").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+                        $("#select_objetivo").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+
+                    } else {
+                        $("#select_linea").append('<option value="0" selected="selected">' + 'Elige una opción ' + '</option>');
+                        result.forEach(element => {
+
+                            //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                            $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+
+                        });
+
+                    }
+
+                }
+
+            });
+
+
+        });
+
+        $("#select_linea").change(function() {
+            //$("#btn-subir").prop("disabled", true);
+            //$('#files').attr("disabled", true);
+            // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
+            //$('#nombre_ips').val($("#cbxips option:selected").text().trim());
+            //alert("selecciono la opcion --> " +$("#select_plan option:selected").val());
+
+            var peticion = "/consultar-objetivo-x-lineas-accion/?id_linea_accion=" + $(this).val();
+
+            $.ajax({
+
+                type: 'get',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function(result) {
+
+                    //select_linea
+                    $("#select_objetivo").html("");
+
+                    if (result.length == 0) {
+
+                        $("#select_objetivo").html("");
+                        $("#select_objetivo").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+                    } else {
+
+                        $("#select_objetivo").append('<option value="0" selected="selected">' + 'Elige una opción ' + '</option>');
+
+                        result.forEach(element => {
+
+                            //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+
+                            $("#select_objetivo").append('<option value=' + element.id_objetivo + '>' + element.objetivo + '</option>');
+
+                        });
+                    }
+
+                }
+
+            });
+
+
+        });
+
+
+    });
+</script>

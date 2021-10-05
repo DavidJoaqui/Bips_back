@@ -38,7 +38,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <div class="form-group" style="">
-                        <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof" onclick="nuevo_plan()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Adicionar Plan general</button>
+                        <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof" onclick="nuevo_plan()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Plan general</button>
                     </div>
                 </li>
 
@@ -110,7 +110,7 @@
                                 <button style="font-weight: bold; align-content: center;" class="btn btn-success btn-sm"
                                     id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar
                                     Registro</button>                                    
-                                        <button style="font-weight: bold;" type="submit" class="btn btn-default btn-sm" id="btn-validar" name="btn-validar" onclick="lista_planes()">Lista</button>                                    
+                                    <a href="/ctm-plan-general" class="btn btn-default btn-sm">volver</a>                                        
                             </div>
 
 
@@ -143,7 +143,7 @@
                 var checkbox = document.getElementById('is_active');
                 var activo= true;
                 if(checkbox.checked) {
-                    alert('esta marcado...');
+                    console.log("plan general activado ...");
 
                 }else{
                     activo = false;
@@ -168,34 +168,34 @@
                         }, 5000);*/
                         if (result["status"] == 200) {
 
-                            $('#preview').show();
+                            //$('#preview').show();
 
-                            $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+                            //$('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
-                            $('#card-msg').show();
+                           // $('#card-msg').show();
+                           alert(result["msg"]);
 
                             $('#formulario')[0].reset();
 
                             $('#nombre_plan').focus();
                             
 
-                            setTimeout(function () {
-                                $('#preview').hide();
-                            }, 4000);
 
 
                         } else {
                             $('#preview').show();
 
-                            $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+                            //$('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
-                            $('#card-msg').show();
+                            //$('#card-msg').show();
 
-                            setTimeout(function () {
+                            /*setTimeout(function () {
                                 $('#preview').hide();
-                            }, 5000);
+                            }, 5000);*/
 
-                            //$('#formulario')[0].reset();
+                            alert(result["msg"]);
+
+                            $('#formulario')[0].reset();
 
                             $('#nombre_plan').focus();
 
@@ -245,7 +245,7 @@
 
                 setTimeout(function () {
                                 $('#preview').hide();
-                            }, 4000);
+                            }, 5000);
 
 
             });

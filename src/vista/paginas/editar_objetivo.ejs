@@ -17,7 +17,7 @@
                 </h3>
             </div>
 
-            <form id="formulario" enctype="multipart/form-data" method="POST">
+            <form id="formulario" enctype="multipart/form-data">
                 <input class="form-control" type="text" placeholder="" name="" id="id_objetivo" value="<%= id_objetivo %>" hidden>
                 <div class="form-group row">
                     <label class="col-2 col-form-label" for="linea_accion" style="font-weight: bold;"> Objetivo: </label>
@@ -68,7 +68,8 @@
 
                 <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                     <div class="text-center">
-                        <button style="font-weight: bold;" class="btn btn-success " id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar</button>
+                        <button style="font-weight: bold;" class="btn btn-success btn-sm" id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar</button>
+                        <a href="/listado-ctm-objetivos" class="btn btn-default btn-sm">volver</a>
                     </div>
                 </div>
         </div>
@@ -114,8 +115,6 @@
                      }, 5000);*/
 
                     alert(result["msg"]);
-
-                    alert();
 
                     //<div class="alert alert-success"> <strong>Success!</strong> This alert box could indicate a successful or positive action.</div>
 
@@ -172,15 +171,24 @@
                 //select_linea
                 $("#select_linea").html("");
 
-                $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+                //$("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+                if (result.length == 0) {
 
-                result.forEach(element => {
+                    $("#select_linea").html("");
+                    $("#select_linea").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
 
-                    //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+                } else {
 
-                    $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                    result.forEach(element => {
 
-                });
+                        if (element.id_linea == '<%= objetivo_info[0].id_linea_accion %>') {
+                            $("#select_linea").append('<option value=' + element.id_linea + ' selected="selected">' + element.linea_accion + '</option>');
+                        } else {
+                            $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                        }
+
+                    });
+                }
 
             }
 
@@ -211,15 +219,23 @@
                     //select_linea
                     $("#select_linea").html("");
 
-                    $("#select_linea").append('<option selected="selected">' + 'Seleccionar linea de acción' + '</option>');
+                    if (result.length == 0) {
 
-                    result.forEach(element => {
+                        $("#select_linea").html("");
+                        $("#select_linea").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
 
-                        //$("#select_linea").append('<option value='+result[0].id_linea+'>'+result[0].linea_accion+'</option>');
+                    } else {
 
-                        $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                        result.forEach(element => {
 
-                    });
+                            if (element.id_linea == '<%= objetivo_info[0].id_linea_accion %>') {
+                                $("#select_linea").append('<option value=' + element.id_linea + ' selected="selected">' + element.linea_accion + '</option>');
+                            } else {
+                                $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                            }
+
+                        });
+                    }
 
                 }
 

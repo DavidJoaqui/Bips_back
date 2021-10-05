@@ -13,7 +13,11 @@ module.exports = {
     },
 
     async consultar_RegistrosPlan_General() {
+<<<<<<< HEAD
         const resultados = await conexion.query("select id_plangeneral,plan_general, to_char(fecha_inicial, 'DD/MM/YYYY') fecha_inicial, to_char(fecha_final, 'DD/MM/YYYY') fecha_final, estado from schema_control.plangeneral");
+=======
+        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general, concat(to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD'),'-',to_char(p.fecha_inicial, 'YYYY')) as fecha_inicial ,concat(to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD'),'-',to_char(p.fecha_final , 'YYYY')) as fecha_final, p.estado from schema_control.plangeneral p");
+>>>>>>> ajustes_david
         return resultados.rows;
     },
 
@@ -96,7 +100,7 @@ module.exports = {
     },
 
     async consultar_RegistrosObjetivos() {
-        const resultados = await conexion.query("select obj.id_linea_accion ,obj.id_objetivo, obj.objetivo, t2.linea_accion as desc_linea_accion from schema_control.objetivos obj inner join(select t1.id_linea,concat(t1.linea_accion,' (',t1.plan_general,')') as linea_accion from (select pg.plan_general,la.linea_accion, la.id_linea from schema_control.lineas_acciones la inner join schema_control.plangeneral pg on(la.id_plan_general=id_plangeneral) order by la.id_linea asc)t1)t2  on(obj.id_linea_accion=t2.id_linea)");
+        const resultados = await conexion.query("select obj.id_linea_accion ,obj.id_objetivo, obj.objetivo, t2.linea_accion as desc_linea_accion,plan_general from schema_control.objetivos obj inner join(select t1.id_linea, t1.linea_accion as linea_accion,t1.plan_general as plan_general from (select pg.plan_general,la.linea_accion, la.id_linea from schema_control.lineas_acciones la inner join schema_control.plangeneral pg on(la.id_plan_general=id_plangeneral) order by la.id_linea asc)t1)t2  on(obj.id_linea_accion=t2.id_linea)");
         return resultados.rows;
     },
 
@@ -127,6 +131,10 @@ module.exports = {
         return resultados;
     },
 
+    async eliminar_RegistroObjetivo(id) {
+        const resultados = await conexion.query("delete from schema_control.objetivos where id_objetivo= $1", [id]);
+        return resultados;
+    },
 
 
     //-----------------------Metodos ESTRATEGIAS--------------------------------------//
@@ -143,13 +151,29 @@ module.exports = {
     },
 
     async consultar_RegistrosEstrategias() {
-        const resultados = await conexion.query("select a.id_estrategia,a.estrategia, b.id_objetivo, b.objetivo from schema_control.estrategias a inner join schema_control.objetivos b on (a.id_objetivo=b.id_objetivo)");
+        const resultados = await conexion.query("select a.id_estrategia,a.estrategia, obj.id_objetivo, obj.objetivo, la.linea_accion, pg.plan_general from schema_control.estrategias a inner join schema_control.objetivos obj on (a.id_objetivo=obj.id_objetivo) inner join schema_control.lineas_acciones la on (obj.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on (la.id_plan_general=pg.id_plangeneral)");
         return resultados.rows;
     },
 
     async consultar_EstartegiasXobetivo(id_objetivo) {
         const resultados = await conexion.query("select * from schema_control.estrategias where id_objetivo = $1", [id_objetivo]);
         return resultados.rows;
+    },
+
+    async consultar_RegistroEstrategia_x_id(id_est) {
+        const resultados = await conexion.query("select est.*,obj.id_objetivo, obj.objetivo,la.id_linea,la.linea_accion,pg.id_plangeneral,pg.plan_general from schema_control.estrategias est inner join schema_control.objetivos obj on (est.id_objetivo=obj.id_objetivo) inner join schema_control.lineas_acciones la on (obj.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on (la.id_plan_general=pg.id_plangeneral) where est.id_estrategia = $1", [id_est]);
+        return resultados.rows;
+
+    },
+
+    async actualizar_RegistroEstrategia_x_id(id_est, id_objetivo, estrategia) {
+        const resultados = await conexion.query('update schema_control.estrategias set estrategia=$3, id_objetivo=$2 where id_estrategia=$1 ', [id_est, id_objetivo, estrategia]);
+        return resultados;
+    },
+
+    async eliminar_RegistroEstrategia(id) {
+        const resultados = await conexion.query("delete from schema_control.estrategias where id_estrategia= $1", [id]);
+        return resultados;
     },
 
 
@@ -202,7 +226,7 @@ module.exports = {
     //------------------------------------------------------------------------------//
 
     async consultar_reg_indicadores() {
-        const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.nombre_indicador,b.tipo_meta , a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones,d.nombre_area ,concat(c.nombres, ' ', c.apellidos, ' ', c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_control.areas d on(b.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes) order by a.id_registroindicador");        
+        const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.nombre_indicador,b.tipo_meta , a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones,d.nombre_area ,concat(c.nombres, ' ', c.apellidos, ' ', c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_control.areas d on(b.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes) order by a.id_registroindicador");
         return resultados.rows;
     },
 
@@ -226,7 +250,7 @@ module.exports = {
         return resultados.rows;
     },
 
- 
+
 
 
     async consultar_indicadorxarea(area) {
@@ -234,13 +258,18 @@ module.exports = {
         return resultados.rows;
     },
 
-    async consultar_indicadorxperiodo_area(vigencia,periodo,area) {
-        const resultados = await conexion.query("select b.id_indicador,b.nombre_indicador from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador=b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional=c.id_profesional) inner join schema_control.areas d on (b.id_area=d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado=e.id_mes) where a.vigencia =$1 and e.id_mes = $2 and d.id_area =$3 order by a.id_registroindicador", [vigencia,periodo,area]);
+    async consultar_indicadorxperiodo_area(vigencia, periodo, area) {
+        const resultados = await conexion.query("select b.id_indicador,b.nombre_indicador from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador=b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional=c.id_profesional) inner join schema_control.areas d on (b.id_area=d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado=e.id_mes) where a.vigencia =$1 and e.id_mes = $2 and d.id_area =$3 order by a.id_registroindicador", [vigencia, periodo, area]);
         return resultados.rows;
     },
 
+<<<<<<< HEAD
     async consultar_det_indicador(vigencia,periodo,area,indicador) {
         const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.id_indicador, b.nombre_indicador, b.tipo_meta , b.formula_literal_numerador, b.formula_literal_denominador,b.formula_literal_descriptiva,b.meta_descriptiva,b.meta_numerica, a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones, d.nombre_area ,concat(c.nombres,' ',c.apellidos,' ',c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a  inner join schema_control.indicadores b on (a.id_indicador=b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional=c.id_profesional) inner join schema_control.areas d on (b.id_area=d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado=e.id_mes) where a.vigencia =$1 and e.id_mes = $2 and d.id_area =$3 and b.id_indicador =$4 order by a.id_registroindicador", [vigencia,periodo,area,indicador]);
+=======
+    async consultar_det_indicador(vigencia, periodo, area, indicador) {
+        const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.id_indicador, b.nombre_indicador, b.tipo_meta , b.formula_literal_numerador, b.formula_literal_denominador,b.formula_literal_descriptiva,b.meta_descriptiva,b.meta_numerica, a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones, d.nombre_area ,concat(c.nombres,' ',c.apellidos,' ',c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a  inner join schema_control.indicadores b on (a.id_indicador=b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional=c.id_profesional) inner join schema_control.areas d on (b.id_area=d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado=e.id_mes) where a.vigencia =$1 and e.id_mes = $2 and d.id_area =$3 and b.id_indicador =$4 order by a.id_registroindicador", [vigencia, periodo, area, indicador]);
+>>>>>>> ajustes_david
         return resultados.rows;
     },
 
@@ -272,7 +301,7 @@ module.exports = {
         return resultados;
     },
 
-        //-----------------------Metodos calificacion indicadores--------------------------------------//
+    //-----------------------Metodos calificacion indicadores--------------------------------------//
     //------------------------------------------------------------------------------//
 
     async consultar_periodoxaño_calificacion(año) {
@@ -280,8 +309,8 @@ module.exports = {
         return resultados.rows;
     },
 
-    async consultar_areaxperiodo_calificacion(periodo,vigencia) {
-        const resultados = await conexion.query("select c.id_area, c.nombre_area from schema_control.registroindicadores a inner join schema_control.profesionales b on (a.id_profesional=b.id_profesional) inner join schema_control.areas c on(b.id_area_trabajo=c.id_area) where a.periodoevaluado = $1 and a.vigencia =$2 group by c.id_area, c.nombre_area order by c.nombre_area asc", [periodo,vigencia]);
+    async consultar_areaxperiodo_calificacion(periodo, vigencia) {
+        const resultados = await conexion.query("select c.id_area, c.nombre_area from schema_control.registroindicadores a inner join schema_control.profesionales b on (a.id_profesional=b.id_profesional) inner join schema_control.areas c on(b.id_area_trabajo=c.id_area) where a.periodoevaluado = $1 and a.vigencia =$2 group by c.id_area, c.nombre_area order by c.nombre_area asc", [periodo, vigencia]);
         return resultados.rows;
     },
 
