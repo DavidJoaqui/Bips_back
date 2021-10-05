@@ -13,7 +13,7 @@ module.exports = {
     },
 
     async consultar_RegistrosPlan_General() {
-        const resultados = await conexion.query("select id_plangeneral,plan_general, to_char(fecha_inicial, 'DD/MM/YYYY') fecha_inicial, to_char(fecha_final, 'DD/MM/YYYY') fecha_final, estado from schema_control.plangeneral");
+        const resultados = await conexion.query("select id_plangeneral,plan_general, to_char(fecha_inicial, 'DD/MM/YYYY') fecha_inicial, to_char(fecha_final, 'DD/MM/YYYY') fecha_final, estado from schema_control.plangeneral where estado = true ");
         return resultados.rows;
     },
 
@@ -208,12 +208,27 @@ module.exports = {
     //-----------------------Metodos Indicadores--------------------------------------//
     //------------------------------------------------------------------------------//
     async insertar_indicador(nombre_indicador, id_plan, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador) {
-        const resultados = await conexion.query('insert into schema_control.indicadores (nombre_indicador,id_plan,id_area,tipo_meta,formula_literal_descriptiva,meta_descriptiva,meta_numerica,formula_literal_numerador,formula_literal_denominador) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)', [nombre_indicador, id_plan, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador]);
+        const resultados = await conexion.query('insert into schema_control.indicadores (nombre_indicador,id_plan,id_area,tipo_meta,formula_literal_descriptiva,meta_descriptiva,meta_numerica,formula_literal_numerador,formula_literal_denominador) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)', [nombre_indicador,id_plan, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador]);
         return resultados;
     },
 
+    async actualizar_indicador(id_indicador, nombre_indicador,id_plan_accion, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador) {
+        const resultados = await conexion.query('update schema_control.indicadores set nombre_indicador=$2, id_plan=$3, id_area=$4, tipo_meta=$5, formula_literal_descriptiva=$6, meta_descriptiva=$7, meta_numerica=$8,formula_literal_numerador=$9,formula_literal_denominador=$10 where id_indicador=$1 ', [id_indicador, nombre_indicador,id_plan_accion, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador]);
+        return resultados;
+    },
+
+    async consultar_indicadores_x_id(id_indicador) {
+        const resultados = await conexion.query("select f.id_indicador , f.nombre_indicador , f.tipo_meta, f.meta_numerica, f.meta_descriptiva,f.formula_literal_numerador, f.formula_literal_denominador, f.formula_literal_descriptiva , d.id_plan,c.id_estrategia ,a.id_objetivo, a.id_linea_accion,b.id_plan_general,g.id_area  from schema_control.objetivos a inner join schema_control.lineas_acciones b on(a.id_linea_accion=b.id_linea) inner join schema_control.estrategias c on (c.id_objetivo=a.id_objetivo) inner join schema_control.planes d on (d.id_estrategia=c.id_estrategia) inner join schema_control.plangeneral e on(e.id_plangeneral=b.id_plan_general) inner join schema_control.indicadores f on (f.id_plan =d.id_plan) inner join schema_control.areas g on (f.id_area=g.id_area) where f.id_indicador = $1", [id_indicador]);
+        return resultados.rows;
+    },
+
     async consultar_RegistrosIndicadores() {
-        const resultados = await conexion.query("select ind.tipo_meta,ind.formula_literal_numerador,ind.formula_literal_denominador, ind.meta_descriptiva, ind.formula_literal_descriptiva, ind.nombre_indicador,ind.meta_numerica,a.nombre_area, pa.plan, e.estrategia,o.objetivo,la.linea_accion, pg.plan_general from schema_control.indicadores ind  inner join schema_control.areas a on(ind.id_area=a.id_area) inner join schema_control.planes pa on(ind.id_plan=pa.id_plan) inner join schema_control.estrategias e on(pa.id_estrategia=e.id_estrategia) inner join schema_control.objetivos o on(e.id_objetivo=o.id_objetivo) inner join schema_control.lineas_acciones la on(o.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on(la.id_plan_general=pg.id_plangeneral)");
+        const resultados = await conexion.query("select ind.id_indicador,ind.tipo_meta,ind.formula_literal_numerador,ind.formula_literal_denominador, ind.meta_descriptiva, ind.formula_literal_descriptiva, ind.nombre_indicador,ind.meta_numerica,a.nombre_area, pa.plan, e.estrategia,o.objetivo,la.linea_accion, pg.plan_general from schema_control.indicadores ind  inner join schema_control.areas a on(ind.id_area=a.id_area) inner join schema_control.planes pa on(ind.id_plan=pa.id_plan) inner join schema_control.estrategias e on(pa.id_estrategia=e.id_estrategia) inner join schema_control.objetivos o on(e.id_objetivo=o.id_objetivo) inner join schema_control.lineas_acciones la on(o.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on(la.id_plan_general=pg.id_plangeneral)");
+        return resultados.rows;
+    },
+
+    async consultar_tipometaxidplan(id_plan) {
+        const resultados = await conexion.query("select a.id_area,b.nombre_area , a.tipo_meta  from schema_control.indicadores a inner join schema_control.areas b on (a.id_area=b.id_area) where a.id_plan =$1 group by a.id_area,b.nombre_area, a.tipo_meta ", [id_plan]);
         return resultados.rows;
     },
 
@@ -225,6 +240,8 @@ module.exports = {
         const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.nombre_indicador,b.tipo_meta , a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones,d.nombre_area ,concat(c.nombres, ' ', c.apellidos, ' ', c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_control.areas d on(b.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes) order by a.id_registroindicador");
         return resultados.rows;
     },
+
+    
 
     async insertar_registro_indicador(indicador, profesional, vigencia, periodo, vr_numerador, vr_denominador, observacion) {
         const resultados = await conexion.query('INSERT INTO schema_control.registroindicadores (id_indicador, fecharegistro, id_profesional, vigencia, periodoevaluado, formula_cifras_numerador, formula_cifras_denominador, soportes, observaciones) values ($1,current_date,$2,$3,$4,$5,$6,null,$7)', [indicador, profesional, vigencia, periodo, vr_numerador, vr_denominador, observacion]);
