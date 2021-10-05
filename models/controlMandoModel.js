@@ -13,7 +13,7 @@ module.exports = {
     },
 
     async consultar_RegistrosPlan_General() {
-        const resultados = await conexion.query("select id_plangeneral,plan_general, to_char(fecha_inicial, 'DD/MM/YYYY') fecha_inicial, to_char(fecha_final, 'DD/MM/YYYY') fecha_final, estado from schema_control.plangeneral where estado = true ");
+        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general, concat(to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD'),'-',to_char(p.fecha_inicial, 'YYYY')) as fecha_inicial ,concat(to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD'),'-',to_char(p.fecha_final , 'YYYY')) as fecha_final, p.estado from schema_control.plangeneral p");
         return resultados.rows;
     },
 
