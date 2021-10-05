@@ -13,11 +13,7 @@ module.exports = {
     },
 
     async consultar_RegistrosPlan_General() {
-<<<<<<< HEAD
-        const resultados = await conexion.query("select id_plangeneral,plan_general, to_char(fecha_inicial, 'DD/MM/YYYY') fecha_inicial, to_char(fecha_final, 'DD/MM/YYYY') fecha_final, estado from schema_control.plangeneral");
-=======
         const resultados = await conexion.query("select p.id_plangeneral,p.plan_general, concat(to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD'),'-',to_char(p.fecha_inicial, 'YYYY')) as fecha_inicial ,concat(to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD'),'-',to_char(p.fecha_final , 'YYYY')) as fecha_final, p.estado from schema_control.plangeneral p");
->>>>>>> ajustes_david
         return resultados.rows;
     },
 
@@ -263,13 +259,8 @@ module.exports = {
         return resultados.rows;
     },
 
-<<<<<<< HEAD
-    async consultar_det_indicador(vigencia,periodo,area,indicador) {
-        const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.id_indicador, b.nombre_indicador, b.tipo_meta , b.formula_literal_numerador, b.formula_literal_denominador,b.formula_literal_descriptiva,b.meta_descriptiva,b.meta_numerica, a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones, d.nombre_area ,concat(c.nombres,' ',c.apellidos,' ',c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a  inner join schema_control.indicadores b on (a.id_indicador=b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional=c.id_profesional) inner join schema_control.areas d on (b.id_area=d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado=e.id_mes) where a.vigencia =$1 and e.id_mes = $2 and d.id_area =$3 and b.id_indicador =$4 order by a.id_registroindicador", [vigencia,periodo,area,indicador]);
-=======
     async consultar_det_indicador(vigencia, periodo, area, indicador) {
         const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.id_indicador, b.nombre_indicador, b.tipo_meta , b.formula_literal_numerador, b.formula_literal_denominador,b.formula_literal_descriptiva,b.meta_descriptiva,b.meta_numerica, a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones, d.nombre_area ,concat(c.nombres,' ',c.apellidos,' ',c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a  inner join schema_control.indicadores b on (a.id_indicador=b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional=c.id_profesional) inner join schema_control.areas d on (b.id_area=d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado=e.id_mes) where a.vigencia =$1 and e.id_mes = $2 and d.id_area =$3 and b.id_indicador =$4 order by a.id_registroindicador", [vigencia, periodo, area, indicador]);
->>>>>>> ajustes_david
         return resultados.rows;
     },
 
@@ -314,8 +305,8 @@ module.exports = {
         return resultados.rows;
     },
 
-    async insertar_calificacion_indicador(reg_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario,estado) {
-        const resultados = await conexion.query('INSERT INTO schema_control.calificacion_registro_indicadores (id_registro_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario, estado, fecha_calificacion) values ($1, $2,$3,$4, $5, $6, $7, $8,current_date)', [reg_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario,estado]);
+    async insertar_calificacion_indicador(reg_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario, estado) {
+        const resultados = await conexion.query('INSERT INTO schema_control.calificacion_registro_indicadores (id_registro_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario, estado, fecha_calificacion) values ($1, $2,$3,$4, $5, $6, $7, $8,current_date)', [reg_indicador, vr_numerador, vr_denominador, resultado_numerico, resultado_descriptivo, desviacion, comentario, estado]);
         return resultados;
     },
 
