@@ -15,7 +15,6 @@ var moment = require('moment');
 const flash = require('express-flash-messages')
 const session = require('express-session')
 
-
 const app = express();
 
 //app.use(express.urlencoded);

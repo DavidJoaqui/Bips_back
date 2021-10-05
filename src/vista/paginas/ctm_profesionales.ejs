@@ -57,52 +57,47 @@
             <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
 
 
-                <div class="col-md-9 col-md-offset-3" style="padding-bottom: 0px">
+                <div class="col-md-7 col-md-offset-3" style="padding-bottom: 0px">
 
-                    <div class="card container" style=" text-align: center;" id="panel_nuevo_prof" hidden>
+                    <div class="container" style=" text-align: center;" id="panel_nuevo_prof" hidden>
 
                         <div class="card-heading" id="panel_heading">
                             <!--<a href="#" id="btn-cerrar-popup" class="btn-cerrar-popup" onclick="cerrar()"><i class="fas fa-times"></i></a>-->
                             <h3>Nuevo Profesional</h3>
                         </div>
 
-
-
-
-
                         <form id="formulario" enctype="multipart/form-data" method="POST">
 
-                            <div class="well form-inline">
+                            <div class="card container">
 
 
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_num_identificacion" style="font-weight: bold;">Número de Identificacion: <label for="" style="color:red;">*</label> &nbsp;</label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="número identificación" name="txt_num_identificacion" id="txt_num_identificacion" value="">
+                                <div class="form-group row" style="margin-top: 10px;">
+                                    <label class="col-2 col-form-label" for="txt_num_identificacion" style="font-weight: bold;">Número de Identificacion: </label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" placeholder="número identificación" name="txt_num_identificacion" id="txt_num_identificacion" value="">
+                                    </div>
                                 </div>
 
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_nombre" style="font-weight: bold;"> Nombres:<label for="" style="color:red;">*</label>&nbsp; </label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa los nombres" name="txt_nombre" id="txt_nombre" value="">
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label" for="txt_nombre" style="font-weight: bold;"> Nombres: </label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" placeholder="ingresa los nombres" name="txt_nombre" id="txt_nombre" value="">
+                                    </div>
                                 </div>
 
-                                <div class="form-group col-sm-12 col-md-12 text-center" style="justify-content: center;">
-                                    <label class="col-sm-12 col-md-3" for="txt_apellido" style="font-weight: bold;"> Apellidos:&nbsp; </label>
-
-                                    <input class="col-sm-12 col-md-4" type="text" placeholder="ingresa los apellidos" name="txt_apellido" id="txt_apellido" value="">
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label" for="txt_apellido" style="font-weight: bold;"> Apellidos:&nbsp; </label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" placeholder="ingresa los apellidos" name="txt_apellido" id="txt_apellido" value="">
+                                    </div>
                                 </div>
 
+                                <div class="form-group row">
 
+                                    <label style="font-weight: bold;" class="col-2 col-form-label">Areá Trabajo:</label>
 
-
-
-
-                                <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-
-                                    <label style="font-weight: bold;" class="col-sm-12 col-md-3">Areá Trabajo:<label for="" style="color:red;">*</label> &nbsp;</label>
-
-                                    <select class="form-select form-group form-control input-sm col-md-4" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar area de Trabajo!" data-placement="right" required>
+                                    <div class="col-10">
+                                        <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar area de Trabajo!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar área de Trabajo
                                         </option>
                                         <% lista_areas.forEach(lista=> { %>
@@ -111,7 +106,7 @@
                                             </option>
                                             <% }); %>
                                     </select>
-
+                                    </div>
 
 
                                 </div>
