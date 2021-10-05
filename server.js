@@ -1508,7 +1508,7 @@ app.get("/eliminar-popup-plan-general/:id_plan/control-mando-bips", auth, (req, 
 
 //plan-general/delete/
 
-app.post('/plan-general/delete/:id/control-mando-bips', auth, function (req, res) {
+app.post('/plan-general/delete/:id/control-mando-bips', auth, function(req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -1549,6 +1549,8 @@ app.get("/lista-ctm-areas", auth, (req, res) => {
 
 
 });
+
+
 
 app.post("/persistir-plan", auth, (req, res) => {
     //res.send("OK");
@@ -1597,7 +1599,7 @@ app.get("/eliminar-popup-linea-accion/:id_linea/control-mando-bips", auth, (req,
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-linea-accion"), { datos_linea: params });
 });
 
-app.post('/linea-accion/delete/:id/control-mando-bips', auth, function (req, res) {
+app.post('/linea-accion/delete/:id/control-mando-bips', auth, function(req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -1900,6 +1902,98 @@ app.post("/form-editar-ctm-objetivo", auth, (req, res) => {
 
 });
 
+
+app.post("/form-editar-ctm-plan-accion", auth, (req, res) => {
+
+    console.log('id_plan:' + req.query.id_plan);
+    modelControlMando.consultar_plan_accion_x_id(req.query.id_plan).then(plan_accion_info => {
+        modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+            modelControlMando.consultar_RegistrosLineasAccion().then(lineas_accion => {
+
+                res.render("paginas/editar_plan_accion", { id_plan: req.query.id_plan, planes_generales: listaPlanes_grales, plan_accion_info: plan_accion_info, lineas_accion: lineas_accion });
+            });
+        });
+    });
+});
+
+
+app.post("/form-editar-ctm-indicador", auth, (req, res) => {
+
+    console.log('id_indicador:' + req.query.id_indicador);
+    //console.log('id_area:' + req.query.id_area);
+    modelControlMando.consultar_indicadores_x_id(req.query.id_indicador).then(indicador_info => {
+        modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+            modelControlMando.consultar_RegistrosLineasAccion().then(lineas_accion => {
+                modelControlMando.consultar_RegistroPlanes().then(lista_plan_accion => {
+                    res.render("paginas/editar_indicador", {
+                        id_indicador: req.query.id_indicador,
+                        id_plan_accion: req.query.id_plan,
+                        planes_generales: listaPlanes_grales,
+                        indicador_info: indicador_info,
+                        lineas_accion: lineas_accion,
+                        lista_plan_accion: lista_plan_accion
+                    });
+                });
+            });
+        });
+    });
+});
+
+app.get("/consultar-areaxid", auth, (req, res) => {
+
+    console.log('a:' + req.query.id_area);
+    //console.log(req.params);
+    //console.log(req.body);
+
+    modelControlMando.consultar_areaxid(req.query.id_area).then(lista_areas => {
+        //console.log(lista_planes);
+        //res.render("paginas/ctm_objetivos", { user: req.session.user,listaPlanes_grales: listaPlanes_grales, lista_lineas_accion: lista_lineas_accion });
+        console.log(lista_areas);
+        res.send(lista_areas);
+
+    });
+
+});
+
+app.post("/form-editar-ctm-area", auth, (req, res) => {
+    console.log(req.query.id_area);
+    //consultar el area
+    modelControlMando.consultar_areaxid(req.query.id_area).then(lista_areas => {
+        res.render("paginas/editar_area", { id_area: req.query.id_area, lista_areas: lista_areas });
+    });
+});
+
+
+app.post("/actualizar-area", auth, (req, res) => {
+    console.log(req.query);
+    //console.log(req.params);
+    //console.log(req.body);
+    modelControlMando.actualizar_area_x_id(req.query.id_area, req.query.area).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update area");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
+
+            res.send({ status: 200, msg: 'El Area ' + req.query.id_area + ' fue actualizado correctamente...' });
+            //res.render("/config-entidades");
+
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.send({ status: 300, msg: 'ERROR al actualizar el area <b>' + req.query.id_area + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El area  <b>' + req.query.id_area + '</b>, ' + +'NO se pudo actualizar...' });
+    });
+
+})
+
 app.post("/actualizar-objetivo", auth, (req, res) => {
     //res.send("OK");
     console.log(req.query);
@@ -1992,458 +2086,510 @@ app.post("/form-editar-ctm-estrategia", auth, (req, res) => {
 
 
 app.post("/actualizar-estrategia", auth, (req, res) => {
-    //res.send("OK");
-    console.log(req.query);
-    console.log(req.params);
-    console.log(req.body);
-    modelControlMando.actualizar_RegistroEstrategia_x_id(req.query.id_estrategia, req.query.id_objetivo, req.query.estrategia).then(respuesta => {
-        console.log(respuesta);
-        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
-            console.log("OK... update Estrategia OK");
-            //console.log(listaArchivos);    
-            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-            //res.setHeader('Content-type', 'text/html');
-            //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
+            //res.send("OK");
+            console.log(req.query);
+            console.log(req.params);
+            console.log(req.body);
+            modelControlMando.actualizar_RegistroEstrategia_x_id(req.query.id_estrategia, req.query.id_objetivo, req.query.estrategia).then(respuesta => {
+                        console.log(respuesta);
+                        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+                            console.log("OK... update Estrategia OK");
+                            //console.log(listaArchivos);    
+                            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                            //res.setHeader('Content-type', 'text/html');
+                            //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
 
-            res.send({ status: 200, msg: 'La Estrategia ' + req.query.estrategia + ' fue actualizada correctamente...' });
-            //res.render("/config-entidades");
+                            res.send({ status: 200, msg: 'La Estrategia ' + req.query.estrategia + ' fue actualizada correctamente...' });
+                            //res.render("/config-entidades");
 
-        } else {
+                        } else {
 
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.send({ status: 300, msg: 'ERROR al actualizar La Estrategia ' + req.query.estrategia + ' intente de nuevo...' });
-        }
+                            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                            res.send({ status: 300, msg: 'ERROR al actualizar La Estrategia ' + req.query.estrategia + ' intente de nuevo...' });
+                            app.post("/actualizar-plan-accion", auth, (req, res) => {
 
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! La Estrategia ' + req.query.estrategia + ' NO se pudo actualizar...' });
-    });
 
-})
+                                modelControlMando.actualizar_plan_accion_x_id(req.query.id_plan, req.query.plan, req.query.id_estrategia).then(respuesta => {
+                                    console.log(respuesta);
+                                    if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... update plan de accion");
+                                        res.send({ status: 200, msg: 'El plan de accion ' + req.query.plan + ' fue actualizado correctamente...' });
+                                    } else {
+                                        res.send({ status: 300, msg: 'ERROR al actualizar el plan de accion <b>' + req.query.plan + '</b> ' + ' intente de nuevo...' });
+                                    }
 
+                                }).catch(err => {
+                                    console.log(err);
+                                    //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+                                    res.json({ status: 500, msg: 'ERROR!! El plan de accion  <b>' + req.query.plan + '</b>, ' + +'NO se pudo actualizar...' });
+                                });
 
-///eliminar-popup-estrategia/
+                            })
 
-app.get("/eliminar-popup-estrategia/:id_estrategia/control-mando-bips", auth, (req, res) => {
-    // console.log(req.query);
-    //console.log(req.params);
-    //var name = req.query.;    
 
-    let params = [req.params.id_estrategia, req.query.nombre_estrategia];
-    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-estrategia"), { datos_estrategia: params });
-});
+                            ///eliminar-popup-estrategia/
 
+                            app.get("/eliminar-popup-estrategia/:id_estrategia/control-mando-bips", auth, (req, res) => {
+                                // console.log(req.query);
+                                //console.log(req.params);
+                                //var name = req.query.;    
 
-app.post('/estrategia/delete/:id/control-mando-bips', auth, function(req, res) {
+                                let params = [req.params.id_estrategia, req.query.nombre_estrategia];
+                                res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-estrategia"), { datos_estrategia: params });
+                            });
 
-    console.log(req.query);
-    console.log(req.params);
-    var msg = '';
 
-    modelControlMando.eliminar_RegistroEstrategia(req.params.id).then(respuesta => {
+                            app.post('/estrategia/delete/:id/control-mando-bips', auth, function(req, res) {
 
-        if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
-            console.log("respuesta de eliminacion: 1, Se elimino correctamente la estrategia...");
-            msg = 'La estrategia ' + req.query.nombre_estrategia + ' se eliminó correctamente...';
-        } else {
-            console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar La estrategia " + req.query.nombre_estrategia);
-            msg = ' ocurrio un problema al eliminar la Estrategia... ' + req.query.nombre_estrategia;
-        }
-        req.flash('notify_del_estrategia', msg);
-        res.redirect("/listado-ctm-estrategias");
+                                console.log(req.query);
+                                console.log(req.params);
+                                var msg = '';
 
+                                modelControlMando.eliminar_RegistroEstrategia(req.params.id).then(respuesta => {
 
-    })
+                                    if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                                        console.log("respuesta de eliminacion: 1, Se elimino correctamente la estrategia...");
+                                        msg = 'La estrategia ' + req.query.nombre_estrategia + ' se eliminó correctamente...';
+                                    } else {
+                                        console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar La estrategia " + req.query.nombre_estrategia);
+                                        msg = ' ocurrio un problema al eliminar la Estrategia... ' + req.query.nombre_estrategia;
+                                    }
+                                    req.flash('notify_del_estrategia', msg);
+                                    res.redirect("/listado-ctm-estrategias");
 
 
-});
+                                })
 
-app.get("/ctm-planes", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+                            });
 
-        //console.log(lista_planes);
-        res.render("paginas/ctm_planes", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
+                            app.get("/ctm-planes", auth, (req, res) => {
 
-    });
+                                modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
 
-});
+                                    //console.log(lista_planes);
+                                    res.render("paginas/ctm_planes", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
 
-app.get("/listado-ctm-planes", auth, (req, res) => {
+                                });
 
-    modelControlMando.consultar_RegistroPlanes().then(lista_Planes => {
-        //console.log(lista_planes);
-        res.render("paginas/lista_ctm_planes", { lista_Planes: lista_Planes });
-    });
+                            });
 
+                            app.get("/listado-ctm-planes", auth, (req, res) => {
 
-});
+                                modelControlMando.consultar_RegistroPlanes().then(lista_Planes => {
+                                    //console.log(lista_planes);
+                                    res.render("paginas/lista_ctm_planes", { lista_Planes: lista_Planes });
+                                });
 
-app.get("/ctm-indicadores", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
-        modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+                            });
 
-            res.render("paginas/ctm_indicadores", { user: req.session.user, listaPlanes_grales: listaPlanes_grales, lista_areas: lista_areas });
-        });
-    });
-});
+                            app.get("/ctm-indicadores", auth, (req, res) => {
 
-app.get("/ctm-reg-indicadores", auth, (req, res) => {
+                                modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+                                    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
 
-    modelControlMando.consultar_vigencia_año().then(lista_años => {
-        modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+                                        res.render("paginas/ctm_indicadores", { user: req.session.user, listaPlanes_grales: listaPlanes_grales, lista_areas: lista_areas });
+                                    });
+                                });
+                            });
 
-            res.render("paginas/ctm_reg_indicadores", { user: req.session.user, lista_areas: lista_areas, lista_años: lista_años });
-        });
-    });
+                            app.get("/ctm-reg-indicadores", auth, (req, res) => {
 
-});
+                                modelControlMando.consultar_vigencia_año().then(lista_años => {
+                                    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
 
-app.get("/ctm-calificacion-indicadores", auth, (req, res) => {
+                                        res.render("paginas/ctm_reg_indicadores", { user: req.session.user, lista_areas: lista_areas, lista_años: lista_años });
+                                    });
+                                });
 
-    modelControlMando.consultar_vigenciaxreg_indicadores().then(lista_años => {
+                            });
 
+                            app.post("/actualizar-indicador", auth, (req, res) => {
 
-        res.render("paginas/ctm_calificacion_indicadores", { user: req.session.user, lista_años: lista_años });
-    });
+                                console.log('1:' + req.query.id_indicador);
+                                console.log('2:' + req.query.nombre_indicador);
+                                console.log('3:' + req.query.id_plan_accion);
+                                console.log('4:' + req.query.id_area);
+                                console.log('5:' + req.query.tipo_meta);
+                                console.log('6:' + req.query.formula_literal_descriptiva);
+                                console.log('7:' + req.query.meta_descriptiva);
+                                console.log('8:' + req.query.meta_numerica);
+                                console.log('9:' + req.query.formula_literal_numerador);
+                                console.log('10:' + req.query.formula_literal_denominador);
 
+                                modelControlMando.actualizar_indicador(req.query.id_indicador, req.query.nombre_indicador, req.query.id_plan_accion, req.query.id_area,
+                                    req.query.tipo_meta, req.query.formula_literal_descriptiva, req.query.meta_descriptiva, req.query.meta_numerica,
+                                    req.query.formula_literal_numerador, req.query.formula_literal_denominador).then(respuesta => {
+                                    console.log(respuesta);
+                                    if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... update indicador");
+                                        res.send({ status: 200, msg: 'El indicador ' + req.query.nombre_indicador + ' fue actualizado correctamente...' });
+                                    } else {
+                                        res.send({ status: 300, msg: 'ERROR al actualizar el indicador <b>' + req.query.nombre_indicador + '</b> ' + ' intente de nuevo...' });
+                                    }
 
-});
+                                }).catch(err => {
+                                    console.log(err);
+                                    //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+                                    res.json({ status: 500, msg: 'ERROR!! El indicador ' + req.query.nombre_indicador + 'NO se pudo actualizar...' });
+                                });
 
-app.get("/consultar-periodo-x-anio", auth, (req, res) => {
+                            })
 
-    modelControlMando.consultar_periodoxaño(req.query.año).then(lista_periodo => {
-        res.send(lista_periodo);
-    });
-});
 
-app.get("/consultar-periodo-x-anio-calificacion", auth, (req, res) => {
+                            app.get("/ctm-calificacion-indicadores", auth, (req, res) => {
 
-    modelControlMando.consultar_periodoxaño_calificacion(req.query.año).then(lista_periodo => {
-        res.send(lista_periodo);
-    });
-});
+                                modelControlMando.consultar_vigenciaxreg_indicadores().then(lista_años => {
 
 
-app.get("/consultar-area-x-periodo-calificacion", auth, (req, res) => {
-    //console.log('periodo'+req.query.periodo);
-    //console.log('vigencia'+req.query.vigencia);
+                                    res.render("paginas/ctm_calificacion_indicadores", { user: req.session.user, lista_años: lista_años });
+                                });
 
-    modelControlMando.consultar_areaxperiodo_calificacion(req.query.periodo, req.query.vigencia).then(lista_area => {
-        //console.log('lista_area'+lista_area);
-        res.send(lista_area);
 
-    });
+                            });
 
-});
+                            app.get("/consultar-periodo-x-anio", auth, (req, res) => {
 
+                                modelControlMando.consultar_periodoxaño(req.query.año).then(lista_periodo => {
+                                    res.send(lista_periodo);
+                                });
+                            });
 
+                            app.get("/consultar-periodo-x-anio-calificacion", auth, (req, res) => {
 
+                                modelControlMando.consultar_periodoxaño_calificacion(req.query.año).then(lista_periodo => {
+                                    res.send(lista_periodo);
+                                });
+                            });
 
-app.get("/consultar-profesional-x-area", auth, (req, res) => {
-    // console.log(req.query.area);
-    modelControlMando.consultar_profesionalxarea(req.query.area).then(lista_profesional => {
-        res.send(lista_profesional);
-    });
-});
 
-app.get("/consultar-indicador-x-area", auth, (req, res) => {
-    //console.log('id_area:' + req.query.area);
-    modelControlMando.consultar_indicadorxarea(req.query.area).then(lista_indicadores => {
-        res.send(lista_indicadores);
-    });
-});
+                            app.get("/consultar-area-x-periodo-calificacion", auth, (req, res) => {
+                                //console.log('periodo'+req.query.periodo);
+                                //console.log('vigencia'+req.query.vigencia);
 
-app.get("/consultar-indicador-x-periodo-area", auth, (req, res) => {
+                                modelControlMando.consultar_areaxperiodo_calificacion(req.query.periodo, req.query.vigencia).then(lista_area => {
+                                    //console.log('lista_area'+lista_area);
+                                    res.send(lista_area);
 
-    modelControlMando.consultar_indicadorxperiodo_area(req.query.vigencia, req.query.periodo, req.query.area).then(lista_indicadores => {
+                                });
 
-        res.send(lista_indicadores);
-    });
-});
+                            });
 
-app.get("/consultar-detalle-indicador-x-indicador", auth, (req, res) => {
-    //console.log('id_area:' + req.query.area);
-    modelControlMando.consultar_det_indicador(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_detalle_indicador => {
-        res.send(lista_detalle_indicador);
-    });
-});
 
 
 
+                            app.get("/consultar-profesional-x-area", auth, (req, res) => {
+                                // console.log(req.query.area);
+                                modelControlMando.consultar_profesionalxarea(req.query.area).then(lista_profesional => {
+                                    res.send(lista_profesional);
+                                });
+                            });
 
+                            app.get("/consultar-indicador-x-area", auth, (req, res) => {
+                                //console.log('id_area:' + req.query.area);
+                                modelControlMando.consultar_indicadorxarea(req.query.area).then(lista_indicadores => {
+                                    res.send(lista_indicadores);
+                                });
+                            });
 
+                            app.get("/consultar-indicador-x-periodo-area", auth, (req, res) => {
 
+                                modelControlMando.consultar_indicadorxperiodo_area(req.query.vigencia, req.query.periodo, req.query.area).then(lista_indicadores => {
 
+                                    res.send(lista_indicadores);
+                                });
+                            });
 
+                            app.get("/consultar-detalle-indicador-x-indicador", auth, (req, res) => {
+                                //console.log('id_area:' + req.query.area);
+                                modelControlMando.consultar_det_indicador(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_detalle_indicador => {
+                                    res.send(lista_detalle_indicador);
+                                });
+                            });
 
-app.get("/ctm-indicadores-planes", auth, (req, res) => {
+                            app.get("/consultar-tipometa-area-x-plan", auth, (req, res) => {
+                                //console.log('id_area:' + req.query.area);
+                                modelControlMando.consultar_tipometaxidplan(req.query.id_plan).then(lista_tipo_meta => {
+                                    res.send(lista_tipo_meta);
+                                });
+                            });
 
-    modelControlMando.consultar_RegistroPlanes().then(lista_planes => {
-        //console.log(lista_planes);
-        res.render("paginas/ctm_indicadores", { user: req.session.user, lista_planes: lista_planes });
-    });
 
-});
 
-app.get("/lista-ctm-indicadores", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosIndicadores().then(lista_Indicadores => {
-        //console.log(lista_Estrategias);lista_Estrategias
-        res.render("paginas/lista_ctm_indicadores", { lista_Indicadores: lista_Indicadores });
-    });
 
 
-});
 
-app.get("/lista-ctm-reg-indicadores", auth, (req, res) => {
 
-    modelControlMando.consultar_reg_indicadores().then(lista_registro_indicadores => {
-        //console.log(lista_Estrategias);lista_Estrategias
-        res.render("paginas/lista_ctm_reg_indicadores", { lista_registro_indicadores: lista_registro_indicadores });
-    });
 
 
-});
 
-app.get("/lista-ctm-cal-indicadores", auth, (req, res) => {
+                            app.get("/ctm-indicadores-planes", auth, (req, res) => {
 
-    modelControlMando.consultar_calificacion_indicadores().then(lista_calificacion_indicadores => {
-        //console.log(lista_Estrategias);lista_Estrategias
-        res.render("paginas/lista_ctm_calificacion_indicadores", { lista_calificacion_indicadores: lista_calificacion_indicadores });
-    });
+                                modelControlMando.consultar_RegistroPlanes().then(lista_planes => {
+                                    //console.log(lista_planes);
+                                    res.render("paginas/ctm_indicadores", { user: req.session.user, lista_planes: lista_planes });
+                                });
 
+                            });
 
-});
+                            app.get("/lista-ctm-indicadores", auth, (req, res) => {
 
-//persistir-indicador
-app.post("/persistir-indicador", auth, (req, res) => {
-    //res.send("OK");
-    //console.log(req.query);
-    //console.log(req.params);
+                                modelControlMando.consultar_RegistrosIndicadores().then(lista_Indicadores => {
+                                    //console.log(lista_Estrategias);lista_Estrategias
+                                    res.render("paginas/lista_ctm_indicadores", { lista_Indicadores: lista_Indicadores });
+                                });
 
-    modelControlMando.insertar_indicador(req.query.nombre_indicador, req.query.plan_accion, req.query.area, req.query.tipo_meta, req.query.formula_descriptiva, req.query.meta_descriptiva, req.query.meta_numerica, req.query.formula_literal_num, req.query.form_literal_den).then(respuesta => {
 
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW Indicador");
-            //console.log(listaArchivos);    
-            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-            //res.setHeader('Content-type', 'text/html');
-            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-            res.json({ status: 200, msg: 'El Indicador <b>' + req.query.nombre_indicador + '</b>, se creó correctamente...' });
-        } else {
+                            });
 
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al crear el Indicador <b>' + req.query.nombre_indicador + '</b>, intente de nuevo...' });
-        }
+                            app.get("/lista-ctm-reg-indicadores", auth, (req, res) => {
 
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! El Indicador <b>' + req.query.nombre_indicador + ' </b> YA EXISTE...' });
-    });
+                                modelControlMando.consultar_reg_indicadores().then(lista_registro_indicadores => {
+                                    //console.log(lista_Estrategias);lista_Estrategias
+                                    res.render("paginas/lista_ctm_reg_indicadores", { lista_registro_indicadores: lista_registro_indicadores });
+                                });
 
-})
 
-app.post("/persistir-registro-indicador", auth, (req, res) => {
+                            });
 
-    console.log(req.query.profesional);
-    modelControlMando.insertar_registro_indicador(req.query.indicador, req.query.profesional, req.query.vigencia, req.query.periodo, req.query.vr_numerador, req.query.vr_denominador, req.query.observacion).then(respuesta => {
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW Indicador");
-            res.json({ status: 200, msg: 'El Registro Indicador <b>' + req.query.nombre_indicador + '</b>, se creó correctamente...' });
-        } else {
-            res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador <b>' + req.query.nombre_indicador + '</b>, intente de nuevo...' });
-        }
-    }).catch(err => {
-        console.log(err);
-        res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador <b>' + req.query.nombre_indicador + ' </b> YA EXISTE...' });
-    });
-})
+                            app.get("/lista-ctm-cal-indicadores", auth, (req, res) => {
 
-app.post("/persistir-calificacion-indicador", auth, (req, res) => {
+                                modelControlMando.consultar_calificacion_indicadores().then(lista_calificacion_indicadores => {
+                                    //console.log(lista_Estrategias);lista_Estrategias
+                                    res.render("paginas/lista_ctm_calificacion_indicadores", { lista_calificacion_indicadores: lista_calificacion_indicadores });
+                                });
 
-    console.log('reg_indicador:'+req.query.reg_indicador);
-    
-    console.log('numerador:'+req.query.vr_numerador);
-    console.log('denominador:'+req.query.vr_denominador);
-    console.log('res_num:'+req.query.resultado_numerico);
-    console.log('res_descr:'+req.query.resultado_descriptivo);
-    console.log('desviacion:'+req.query.desviacion);
 
-    console.log('comentario:'+req.query.comentario);
-    console.log('estado:'+req.query.estado);
+                            });
 
+                            //persistir-indicador
+                            app.post("/persistir-indicador", auth, (req, res) => {
+                                //res.send("OK");
+                                //console.log(req.query);
+                                //console.log(req.params);
 
-    modelControlMando.insertar_calificacion_indicador(req.query.reg_indicador, req.query.vr_numerador, req.query.vr_denominador, req.query.resultado_numerico, req.query.resultado_descriptivo, req.query.desviacion, req.query.comentario, req.query.estado).then(respuesta => {
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW Indicador");
-            res.json({ status: 200, msg: 'Calificación Indicador <b></b>, se creó correctamente...' });
-        } else {
-            res.json({ status: 300, msg: 'ERROR al crear al calificar el Indicador <b></b>, intente de nuevo...' });
-        }
-    }).catch(err => {
-        console.log(err);
-        res.json({ status: 500, msg: 'ERROR!! Calificación Indicador <b> </b> YA EXISTE...' });
-    });
-})
+                                modelControlMando.insertar_indicador(req.query.nombre_indicador, req.query.plan_accion, req.query.area, req.query.tipo_meta, req.query.formula_descriptiva, req.query.meta_descriptiva, req.query.meta_numerica, req.query.formula_literal_num, req.query.form_literal_den).then(respuesta => {
 
+                                    if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... insert NEW Indicador");
+                                        //console.log(listaArchivos);    
+                                        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                                        //res.setHeader('Content-type', 'text/html');
+                                        //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+                                        res.json({ status: 200, msg: 'El Indicador <b>' + req.query.nombre_indicador + '</b>, se creó correctamente...' });
+                                    } else {
 
+                                        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                                        res.json({ status: 300, msg: 'ERROR al crear el Indicador <b>' + req.query.nombre_indicador + '</b>, intente de nuevo...' });
+                                    }
 
-app.post("/persistir-estrategia/", auth, (req, res) => {
+                                }).catch(err => {
+                                    console.log(err);
+                                    //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+                                    res.json({ status: 500, msg: 'ERROR!! El Indicador <b>' + req.query.nombre_indicador + ' </b> YA EXISTE...' });
+                                });
 
+                            })
 
+                            app.post("/persistir-registro-indicador", auth, (req, res) => {
 
-    modelControlMando.insertar_estrategia(req.query.estrategia, req.query.objetivo).then(respuesta => {
+                                console.log(req.query.profesional);
+                                modelControlMando.insertar_registro_indicador(req.query.indicador, req.query.profesional, req.query.vigencia, req.query.periodo, req.query.vr_numerador, req.query.vr_denominador, req.query.observacion).then(respuesta => {
+                                    if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... insert NEW Indicador");
+                                        res.json({ status: 200, msg: 'El Registro Indicador <b>' + req.query.nombre_indicador + '</b>, se creó correctamente...' });
+                                    } else {
+                                        res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador <b>' + req.query.nombre_indicador + '</b>, intente de nuevo...' });
+                                    }
+                                }).catch(err => {
+                                    console.log(err);
+                                    res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador <b>' + req.query.nombre_indicador + ' </b> YA EXISTE...' });
+                                });
+                            })
 
+                            app.post("/persistir-calificacion-indicador", auth, (req, res) => {
 
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW");
-            res.json({ status: 200, msg: 'La estrategia <b>' + req.query.estrategia + '</b>, se creó correctamente...' });
-        } else {
+                                console.log('reg_indicador:' + req.query.reg_indicador);
 
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al crear la estrategia <b>' + req.query.estrategia + '</b>, intente de nuevo...' });
-        }
+                                console.log('numerador:' + req.query.vr_numerador);
+                                console.log('denominador:' + req.query.vr_denominador);
+                                console.log('res_num:' + req.query.resultado_numerico);
+                                console.log('res_descr:' + req.query.resultado_descriptivo);
+                                console.log('desviacion:' + req.query.desviacion);
 
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! la estrategia <b>' + req.query.estrategia + ' </b> YA EXISTE...' });
-    });
+                                console.log('comentario:' + req.query.comentario);
+                                console.log('estado:' + req.query.estado);
 
 
+                                modelControlMando.insertar_calificacion_indicador(req.query.reg_indicador, req.query.vr_numerador, req.query.vr_denominador, req.query.resultado_numerico, req.query.resultado_descriptivo, req.query.desviacion, req.query.comentario, req.query.estado).then(respuesta => {
+                                    if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... insert NEW Indicador");
+                                        res.json({ status: 200, msg: 'Calificación Indicador <b></b>, se creó correctamente...' });
+                                    } else {
+                                        res.json({ status: 300, msg: 'ERROR al crear al calificar el Indicador <b></b>, intente de nuevo...' });
+                                    }
+                                }).catch(err => {
+                                    console.log(err);
+                                    res.json({ status: 500, msg: 'ERROR!! Calificación Indicador <b> </b> YA EXISTE...' });
+                                });
+                            })
 
-})
 
 
-app.post("/persistir-area/", auth, (req, res) => {
-    modelControlMando.insertar_area(req.query.nombre_area).then(respuesta => {
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW");
-            res.json({ status: 200, msg: ' el area <b>' + req.query.nombre_area + '</b>, se creó correctamente...' });
-        } else {
+                            app.post("/persistir-estrategia/", auth, (req, res) => {
 
-            //req.flash('error', 'ERROR al crear el area ' + req.query.nombre_area + ', con codigo ' + req.query.id_area + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al crear  el area <b>' + req.query.nombre_area + '</b>, intente de nuevo...' });
-        }
 
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear el area ' + req.query.nombre_area + ', con codigo ' + req.query.id_area + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!!  el area <b>' + req.query.nombre_area + ' </b> YA EXISTE...' });
-    });
-})
 
+                                modelControlMando.insertar_estrategia(req.query.estrategia, req.query.objetivo).then(respuesta => {
 
-app.post("/persistir-plan-accion/", auth, (req, res) => {
 
+                                    if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... insert NEW");
+                                        res.json({ status: 200, msg: 'La estrategia <b>' + req.query.estrategia + '</b>, se creó correctamente...' });
+                                    } else {
 
+                                        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                                        res.json({ status: 300, msg: 'ERROR al crear la estrategia <b>' + req.query.estrategia + '</b>, intente de nuevo...' });
+                                    }
 
-    modelControlMando.insertar_plan(req.query.plan, req.query.estrategia).then(respuesta => {
+                                }).catch(err => {
+                                    console.log(err);
+                                    //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+                                    res.json({ status: 500, msg: 'ERROR!! la estrategia <b>' + req.query.estrategia + ' </b> YA EXISTE...' });
+                                });
 
 
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW");
-            res.json({ status: 200, msg: ' el plan <b>' + req.query.plan + '</b>, se creó correctamente...' });
-        } else {
 
-            //req.flash('error', 'ERROR al crear el plan ' + req.query.plan + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al crear  el plan <b>' + req.query.plan + '</b>, intente de nuevo...' });
-        }
+                            })
 
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear el plan ' + req.query.plan + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!!  el plan <b>' + req.query.plan + ' </b> YA EXISTE...' });
-    });
 
+                            app.post("/persistir-area/", auth, (req, res) => {
+                                modelControlMando.insertar_area(req.query.nombre_area).then(respuesta => {
+                                    if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... insert NEW");
+                                        res.json({ status: 200, msg: ' el area <b>' + req.query.nombre_area + '</b>, se creó correctamente...' });
+                                    } else {
 
+                                        //req.flash('error', 'ERROR al crear el area ' + req.query.nombre_area + ', con codigo ' + req.query.id_area + ' intente de nuevo...');
+                                        res.json({ status: 300, msg: 'ERROR al crear  el area <b>' + req.query.nombre_area + '</b>, intente de nuevo...' });
+                                    }
 
-})
+                                }).catch(err => {
+                                    console.log(err);
+                                    //req.flash('error', 'ERROR al crear el area ' + req.query.nombre_area + ', con codigo ' + req.query.id_area + ' Ya existe...');
+                                    res.json({ status: 500, msg: 'ERROR!!  el area <b>' + req.query.nombre_area + ' </b> YA EXISTE...' });
+                                });
+                            })
 
-//ctm-profesionales
 
-app.get("/ctm-profesionales", auth, (req, res) => {
+                            app.post("/persistir-plan-accion/", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
-        //console.log(lista_planes);
-        res.render("paginas/ctm_profesionales", { user: req.session.user, lista_areas: lista_areas });
-    });
 
 
-});
+                                modelControlMando.insertar_plan(req.query.plan, req.query.estrategia).then(respuesta => {
 
-app.get("/listado-ctm-profesionales", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosProfesionales().then(lista_prof => {
-        //console.log(lista_planes);
-        res.render("paginas/lista_ctm_profesionales", { lista_prof: lista_prof });
-    });
+                                    if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... insert NEW");
+                                        res.json({ status: 200, msg: ' el plan <b>' + req.query.plan + '</b>, se creó correctamente...' });
+                                    } else {
 
+                                        //req.flash('error', 'ERROR al crear el plan ' + req.query.plan + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                                        res.json({ status: 300, msg: 'ERROR al crear  el plan <b>' + req.query.plan + '</b>, intente de nuevo...' });
+                                    }
 
-});
+                                }).catch(err => {
+                                    console.log(err);
+                                    //req.flash('error', 'ERROR al crear el plan ' + req.query.plan + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+                                    res.json({ status: 500, msg: 'ERROR!!  el plan <b>' + req.query.plan + ' </b> YA EXISTE...' });
+                                });
 
-app.post("/persistir-profesional/", auth, (req, res) => {
-    //res.send("OK");
-    //console.log(req.query);
-    //console.log(req.params);
 
-    modelControlMando.insertar_Profesional(req.query.num_identificacion, req.query.nombres, req.query.apellidos, req.query.area_trabajo).then(respuesta => {
 
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW entidad");
-            //console.log(listaArchivos);    
-            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-            //res.setHeader('Content-type', 'text/html');
-            //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
-            res.json({ status: 200, msg: 'El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + '</b>, se creó correctamente...' });
-        } else {
+                            })
 
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
-            res.json({ status: 300, msg: 'ERROR al crear el Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + '</b>, intente de nuevo...' });
-        }
+                            //ctm-profesionales
 
-    }).catch(err => {
-        console.log(err);
-        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-        res.json({ status: 500, msg: 'ERROR!! El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + ' </b> YA EXISTE...' });
-    });
-})
+                            app.get("/ctm-profesionales", auth, (req, res) => {
 
-app.get("/calcular-resultado-numerico", auth, (req, res) => {
-   
-    //console.log('A:'+req.query.numerador);
-    //console.log('B:'+req.query.denominador);
+                                modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+                                    //console.log(lista_planes);
+                                    res.render("paginas/ctm_profesionales", { user: req.session.user, lista_areas: lista_areas });
+                                });
 
-     var valor_resultado_numerico= (req.query.numerador/req.query.denominador)*100;
-     // console.log('resultado_num:'+valor_resultado_numerico);
-      res.send(valor_resultado_numerico.toString());
-  
-});
 
-app.get("/calcular-desviacion", auth, (req, res) => {
-   
-    console.log('A:'+req.query.resultado_numerico);
-    console.log('B:'+req.query.meta_numerica);
+                            });
 
-     var valor_desviacion= (req.query.meta_numerica-req.query.resultado_numerico);
-      console.log('desviacion:'+valor_desviacion);
-      res.send(valor_desviacion.toString());
-  
-});
+                            app.get("/listado-ctm-profesionales", auth, (req, res) => {
 
+                                modelControlMando.consultar_RegistrosProfesionales().then(lista_prof => {
+                                    //console.log(lista_planes);
+                                    res.render("paginas/lista_ctm_profesionales", { lista_prof: lista_prof });
+                                });
 
 
+                            });
 
-///resultados-financieros
-app.get("/resultados-financieros", auth, (req, res) => {
+                            app.post("/persistir-profesional/", auth, (req, res) => {
+                                //res.send("OK");
+                                //console.log(req.query);
+                                //console.log(req.params);
 
-    res.render(path.join(__dirname + "/src/vista/paginas/rpt_financiero_contabilidad"), { user: req.session.user, });
-});
+                                modelControlMando.insertar_Profesional(req.query.num_identificacion, req.query.nombres, req.query.apellidos, req.query.area_trabajo).then(respuesta => {
 
+                                    if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                                        console.log("OK... insert NEW entidad");
+                                        //console.log(listaArchivos);    
+                                        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                                        //res.setHeader('Content-type', 'text/html');
+                                        //req.flash('notify', 'La entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' se creó correctamente...');
+                                        res.json({ status: 200, msg: 'El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + '</b>, se creó correctamente...' });
+                                    } else {
 
-app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
-module.exports = app;
+                                        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+                                        res.json({ status: 300, msg: 'ERROR al crear el Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + '</b>, intente de nuevo...' });
+                                    }
+
+                                }).catch(err => {
+                                    console.log(err);
+                                    //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+                                    res.json({ status: 500, msg: 'ERROR!! El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + ' </b> YA EXISTE...' });
+                                });
+                            })
+
+                            app.get("/calcular-resultado-numerico", auth, (req, res) => {
+
+                                //console.log('A:'+req.query.numerador);
+                                //console.log('B:'+req.query.denominador);
+
+                                var valor_resultado_numerico = (req.query.numerador / req.query.denominador) * 100;
+                                // console.log('resultado_num:'+valor_resultado_numerico);
+                                res.send(valor_resultado_numerico.toString());
+
+                            });
+
+                            app.get("/calcular-desviacion", auth, (req, res) => {
+
+                                console.log('A:' + req.query.resultado_numerico);
+                                console.log('B:' + req.query.meta_numerica);
+
+                                var valor_desviacion = (req.query.meta_numerica - req.query.resultado_numerico);
+                                console.log('desviacion:' + valor_desviacion);
+                                res.send(valor_desviacion.toString());
+
+                            });
+
+
+
+
+                            ///resultados-financieros
+                            app.get("/resultados-financieros", auth, (req, res) => {
+
+                                res.render(path.join(__dirname + "/src/vista/paginas/rpt_financiero_contabilidad"), { user: req.session.user, });
+                            });
+
+
+                            app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
+                            module.exports = app;

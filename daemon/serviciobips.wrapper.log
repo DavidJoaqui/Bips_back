@@ -79,3 +79,4 @@
 2021-09-29 21:19:14 - Send SIGINT 5912
 2021-09-29 21:19:14 - SIGINT to 5912 failed - Killing as fallback
 2021-09-29 21:19:14 - Finished serviciobips.exe
+2021-10-01 11:29:23 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined

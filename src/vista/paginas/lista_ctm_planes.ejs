@@ -4,7 +4,7 @@
         <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
 
-            <div class="col-md-12">
+            <div class="col-md-12" id="body_ent" name="body_ent">
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
@@ -42,7 +42,7 @@
                                   
 
                                     <td class="btns-acciones">
-                                        <a href="" title="Editar"><i class="fas fa-edit"></i></a>
+                                        <a href="" title="Editar"><i class="fas fa-edit" onclick="editar('<%= lista_Planes[i].id_plan %>')"></i></a>
                                         <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                     </td>
 
@@ -57,7 +57,30 @@
                 </div>
             </div>
 
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    setTimeout(function () {
+                        $('#preview').hide();
+                    }, 5000);
+                });
 
+
+                function editar(id_plan) {
+                    event.preventDefault();
+                    const peticion = "/form-editar-ctm-plan-accion/?id_plan=" + id_plan;
+                    $.ajax({
+                        type: 'post',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (result) {
+                            $('#body_ent').html(result);
+                        }
+                    });
+                }
+            </script>
             <style>
                 body {
                     /*background-color: #eaedee;*/
