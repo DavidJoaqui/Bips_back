@@ -1514,21 +1514,33 @@ app.post('/plan-general/delete/:id/control-mando-bips', auth, function(req, res)
     console.log(req.params);
     var msg = '';
 
-    modelControlMando.eliminar_RegistroPlan_General(req.params.id).then(respuesta => {
+    modelControlMando.consultar_LineasAccionXplangral(req.params.id).then(rspta_eliminacion => {
 
-        if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
-            console.log("respuesta de eliminacion: 1, Se elimino correctamente el plan general...");
-            msg = 'El plan general ' + req.query.nombre_plan + ' se eliminó correctamente...';
+        console.log(rspta_eliminacion);
+        if (rspta_eliminacion.length == 0) {
+
+            modelControlMando.eliminar_RegistroPlan_General(req.params.id).then(respuesta => {
+
+                msg = 'El plan general ' + req.query.nombre_plan + ' se eliminó correctamente...';
+                if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                    console.log("respuesta de eliminacion: 1, Se elimino correctamente el plan general...");
+                    msg = 'El plan general ' + req.query.nombre_plan + ' se eliminó correctamente...';
+                } else {
+                    console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el plan general " + req.query.nombre_plan);
+                    msg = ' ocurrio un problema al eliminar el plan general... ' + req.query.nombre_plan;
+                }
+            })
+
         } else {
-            console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el plan general " + req.query.nombre_plan);
-            msg = ' ocurrio un problema al eliminar el plan general... ' + req.query.nombre_plan;
+
+            msg = 'El plan general ' + req.query.nombre_plan + ' NO  se puede Eliminar, tiene asociada una Linea de Acción...';
         }
-
-
 
         req.flash('notify_del_plangral', msg);
         //res.json({ status: 200, msg });        
         res.redirect("/listado-ctm-planes-generales");
+
+
 
 
     })
