@@ -1836,15 +1836,50 @@ app.get("/consultar-lineas-accion_x_plan_general", auth, (req, res) => {
 
 });
 
+app.post("/form-editar-ctm-plan-accion", auth, (req, res) => {
+
+    console.log('id_plan:' + req.query.id_plan);
+    modelControlMando.consultar_plan_accion_x_id(req.query.id_plan).then(plan_accion_info => {
+        modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+            modelControlMando.consultar_RegistrosLineasAccion().then(lineas_accion => {
+
+                res.render("paginas/editar_plan_accion", { id_plan: req.query.id_plan, planes_generales: listaPlanes_grales, plan_accion_info: plan_accion_info, lineas_accion: lineas_accion });
+            });
+        });
+    });
+});
+
+app.post("/form-editar-ctm-indicador", auth, (req, res) => {
+
+    console.log('id_indicador:' + req.query.id_indicador);
+    //console.log('id_area:' + req.query.id_area);
+    modelControlMando.consultar_indicadores_x_id(req.query.id_indicador).then(indicador_info => {
+        modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
+            modelControlMando.consultar_RegistrosLineasAccion().then(lineas_accion => {
+                modelControlMando.consultar_RegistroPlanes().then(lista_plan_accion => {
+                    res.render("paginas/editar_indicador", {
+                        id_indicador: req.query.id_indicador,
+                        id_plan_accion: req.query.id_plan,
+                        planes_generales: listaPlanes_grales,
+                        indicador_info: indicador_info,
+                        lineas_accion: lineas_accion,
+                        lista_plan_accion: lista_plan_accion
+                    });
+                });
+            });
+        });
+    });
+});
+
+app.get("/consultar-areaxid", auth, (req, res) => {
+    modelControlMando.consultar_areaxid(req.query.id_area).then(lista_areas => {
+        console.log(lista_areas);
+        res.send(lista_areas);
+    });
+});
+
 app.get("/consultar-objetivo-x-lineas-accion", auth, (req, res) => {
-
-    //console.log(req.query);
-    //console.log(req.params);
-    //console.log(req.body);
-
     modelControlMando.consultar_ObjetivosXlinea(req.query.id_linea_accion).then(lista_objetivos => {
-        //console.log(lista_planes);
-        //res.render("paginas/ctm_objetivos", { user: req.session.user,listaPlanes_grales: listaPlanes_grales, lista_lineas_accion: lista_lineas_accion });
         res.send(lista_objetivos);
 
     });
@@ -1967,21 +2002,32 @@ app.get("/listado-ctm-estrategias", auth, (req, res) => {
 
 });
 
+app.post("/actualizar-plan-accion", auth, (req, res) => {
+
+
+    modelControlMando.actualizar_plan_accion_x_id(req.query.id_plan, req.query.plan, req.query.id_estrategia).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update plan de accion");
+            res.send({ status: 200, msg: 'El plan de accion ' + req.query.plan + ' fue actualizado correctamente...' });
+        } else {
+            res.send({ status: 300, msg: 'ERROR al actualizar el plan de accion <b>' + req.query.plan + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El plan de accion  <b>' + req.query.plan + '</b>, ' + +'NO se pudo actualizar...' });
+    });
+
+})
+
 
 app.post("/form-editar-ctm-estrategia", auth, (req, res) => {
-
-    //res.send('OK');
-
-    //consultar_RegistrosPlan_General_x_id
-
     modelControlMando.consultar_RegistroEstrategia_x_id(req.query.id_estrategia).then(estrategia_info => {
-
         modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
-
             modelControlMando.consultar_RegistrosLineasAccion().then(lineas_accion => {
-
                 modelControlMando.consultar_RegistrosObjetivos().then(lista_objetivos => {
-                    //console.log(lista_planes);                    
                     res.render("paginas/editar_estrategia", {
                         id_estrategia: req.query.id_estrategia,
                         planes_generales: listaPlanes_grales,
@@ -1991,17 +2037,31 @@ app.post("/form-editar-ctm-estrategia", auth, (req, res) => {
                     });
                     //res.render("paginas/ctm_objetivos", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
                 });
-
             });
         });
-
     });
-
-
-
-
 });
 
+app.post("/actualizar-indicador", auth, (req, res) => {
+
+    modelControlMando.actualizar_indicador(req.query.id_indicador, req.query.nombre_indicador, req.query.id_plan_accion, req.query.id_area,
+        req.query.tipo_meta, req.query.formula_literal_descriptiva, req.query.meta_descriptiva, req.query.meta_numerica,
+        req.query.formula_literal_numerador, req.query.formula_literal_denominador).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update indicador");
+            res.send({ status: 200, msg: 'El indicador ' + req.query.nombre_indicador + ' fue actualizado correctamente...' });
+        } else {
+            res.send({ status: 300, msg: 'ERROR al actualizar el indicador <b>' + req.query.nombre_indicador + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El indicador ' + req.query.nombre_indicador + 'NO se pudo actualizar...' });
+    });
+
+})
 
 app.post("/actualizar-estrategia", auth, (req, res) => {
     //res.send("OK");
@@ -2072,25 +2132,23 @@ app.post('/estrategia/delete/:id/control-mando-bips', auth, function(req, res) {
 });
 
 app.get("/ctm-planes", auth, (req, res) => {
-
     modelControlMando.consultar_RegistrosPlan_General().then(listaPlanes_grales => {
-
-        //console.log(lista_planes);
         res.render("paginas/ctm_planes", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
-
     });
-
 });
 
 app.get("/listado-ctm-planes", auth, (req, res) => {
-
     modelControlMando.consultar_RegistroPlanes().then(lista_Planes => {
-        //console.log(lista_planes);
         res.render("paginas/lista_ctm_planes", { lista_Planes: lista_Planes });
     });
-
-
 });
+
+app.get("/consultar-tipometa-area-x-plan", auth, (req, res) => {
+    modelControlMando.consultar_tipometaxidplan(req.query.id_plan).then(lista_tipo_meta => {
+        res.send(lista_tipo_meta);
+    });
+});
+
 
 app.get("/ctm-indicadores", auth, (req, res) => {
 
