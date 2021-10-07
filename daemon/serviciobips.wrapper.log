@@ -80,3 +80,35 @@
 2021-09-29 21:19:14 - SIGINT to 5912 failed - Killing as fallback
 2021-09-29 21:19:14 - Finished serviciobips.exe
 2021-10-01 11:29:23 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-07 13:42:04 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-07 13:42:05 - Started 3984
+2021-10-07 17:06:28 - Stopping serviciobips.exe
+2021-10-07 17:06:28 - ProcessKill 3984
+2021-10-07 17:06:28 - Found child process: 4004 Name: conhost.exe
+2021-10-07 17:06:28 - Found child process: 4744 Name: node.exe
+2021-10-07 17:06:28 - Stopping process 4004
+2021-10-07 17:06:28 - Send SIGINT 4004
+2021-10-07 17:06:28 - SIGINT to 4004 failed - Killing as fallback
+2021-10-07 17:06:29 - Stopping process 4744
+2021-10-07 17:06:29 - Send SIGINT 4744
+2021-10-07 17:06:29 - SIGINT to 4744 failed - Killing as fallback
+2021-10-07 17:06:29 - Stopping process 3984
+2021-10-07 17:06:29 - Send SIGINT 3984
+2021-10-07 17:06:29 - SIGINT to 3984 failed - Killing as fallback
+2021-10-07 17:06:29 - Finished serviciobips.exe
+2021-10-07 22:37:36 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-07 22:37:36 - Started 4048
+2021-10-07 17:54:04 - Stopping serviciobips.exe
+2021-10-07 17:54:04 - ProcessKill 4048
+2021-10-07 17:54:04 - Found child process: 4056 Name: conhost.exe
+2021-10-07 17:54:04 - Found child process: 4700 Name: node.exe
+2021-10-07 17:54:04 - Stopping process 4056
+2021-10-07 17:54:04 - Send SIGINT 4056
+2021-10-07 17:54:04 - SIGINT to 4056 failed - Killing as fallback
+2021-10-07 17:54:04 - Stopping process 4700
+2021-10-07 17:54:04 - Send SIGINT 4700
+2021-10-07 17:54:04 - SIGINT to 4700 failed - Killing as fallback
+2021-10-07 17:54:04 - Stopping process 4048
+2021-10-07 17:54:04 - Send SIGINT 4048
+2021-10-07 17:54:04 - SIGINT to 4048 failed - Killing as fallback
+2021-10-07 17:54:04 - Finished serviciobips.exe

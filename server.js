@@ -1409,7 +1409,15 @@ app.get("/config-user-bips", auth, (req, res) => {
 });
 
 app.get("/config-perfil-bips", auth, (req, res) => {
-    res.render("paginas/config_perfil", { user: req.session.user, });
+
+    var url = path.join(__dirname + "/" + 'filesBipsUploads/' + 'example_pdf.pdf');
+    res.render("paginas/config_perfil", { user: req.session.user, url: url });
+});
+
+app.get("/file-view-pdf", auth, (req, res) => {
+
+    var url = path.join(__dirname + "/" + 'filesBipsUploads/' + 'example_pdf.pdf');
+    res.send('ok', { user: req.session.user, url: url });
 });
 
 app.get("/gestion-bips", auth, (req, res) => {
@@ -2183,7 +2191,7 @@ app.get("/ctm-calificacion-indicadores", auth, (req, res) => {
 });
 
 app.get("/consultar-periodo-x-anio", auth, (req, res) => {
-
+    console.log(req.query.año);
     modelControlMando.consultar_periodoxaño(req.query.año).then(lista_periodo => {
         res.send(lista_periodo);
     });

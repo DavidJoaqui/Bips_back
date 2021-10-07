@@ -138,3 +138,133 @@ true
 usuario pruebas
 4
 OK... insert NEW Indicador
+El servidor se esta ejecutando...
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'PWD',
+  'btn-login': ''
+}
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'PWD',
+  'btn-login': ''
+}
+false
+usuario pruebas
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+true
+usuario pruebas
+id_indicador:11
+[ { id_area: '29', nombre_area: 'SISTEMAS' } ]
+Result {
+  command: 'UPDATE',
+  rowCount: 1,
+  oid: null,
+  rows: [],
+  fields: [],
+  _parsers: undefined,
+  _types: TypeOverrides {
+    _types: {
+      getTypeParser: [Function: getTypeParser],
+      setTypeParser: [Function: setTypeParser],
+      arrayParser: [Object],
+      builtins: [Object]
+    },
+    text: {},
+    binary: {}
+  },
+  RowCtor: null,
+  rowAsArray: false
+}
+OK... update indicador
+Result {
+  command: 'UPDATE',
+  rowCount: 1,
+  oid: null,
+  rows: [],
+  fields: [],
+  _parsers: undefined,
+  _types: TypeOverrides {
+    _types: {
+      getTypeParser: [Function: getTypeParser],
+      setTypeParser: [Function: setTypeParser],
+      arrayParser: [Object],
+      builtins: [Object]
+    },
+    text: {},
+    binary: {}
+  },
+  RowCtor: null,
+  rowAsArray: false
+}
+OK... update indicador
+2021
+{
+  id_plan: '79',
+  nombre_plan: 'test',
+  fecha_inicial: '2019-01-01',
+  fecha_fin: '2019-12-01',
+  activo: 'false'
+}
+{}
+{}
+Result {
+  command: 'UPDATE',
+  rowCount: 1,
+  oid: null,
+  rows: [],
+  fields: [],
+  _parsers: undefined,
+  _types: TypeOverrides {
+    _types: {
+      getTypeParser: [Function: getTypeParser],
+      setTypeParser: [Function: setTypeParser],
+      arrayParser: [Object],
+      builtins: [Object]
+    },
+    text: {},
+    binary: {}
+  },
+  RowCtor: null,
+  rowAsArray: false
+}
+OK... update plan general
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+El servidor se esta ejecutando...

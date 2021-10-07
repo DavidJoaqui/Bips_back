@@ -249,7 +249,7 @@ module.exports = {
     },
 
     async consultar_vigencia_año() {
-        const resultados = await conexion.query("select año from (select to_char(fecha_inicial, 'YYYY') as año from schema_control.plangeneral where estado = true group by año union all select to_char(fecha_final, 'YYYY') as año from schema_control.plangeneral where estado = true group by año) t group by año order by año");
+        const resultados = await conexion.query("select to_char(a.fecha, 'YYYY') as periodo_año from schema_control.fecha a inner join schema_control.plangeneral b on (a.id_plan_general=b.id_plangeneral) where b.estado = true group by periodo_año order by periodo_año asc");
         return resultados.rows;
     },
 

@@ -5,8 +5,7 @@
 
         <div class="card border-dark container" style=" text-align: center;">
 
-            <div class="preview text-center" id="preview"
-                style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
                 <div class="card col-md-12" id="card-msg">
 
 
@@ -19,16 +18,14 @@
             </div>
 
             <form id="formulario" enctype="multipart/form-data" method="POST">
-                <input class="form-control" type="text" placeholder="" name="" id="id_indicador"
-                    value="<%= id_indicador %>" hidden>
+                <input class="form-control" type="text" placeholder="" name="" id="id_indicador" value="<%= id_indicador %>" hidden>
                 <div class="form-group row">
                     <label class="col-2 col-form-label" style="font-weight: bold;"> indicador:
                     </label>
 
 
                     <div class="col-10">
-                        <input class="form-control" type="text" placeholder="plan" name="txt_indicador"
-                            id="txt_indicador" value="<%= indicador_info[0].nombre_indicador %>">
+                        <input class="form-control" type="text" placeholder="plan" name="txt_indicador" id="txt_indicador" value="<%= indicador_info[0].nombre_indicador %>">
                     </div>
                 </div>
 
@@ -37,8 +34,7 @@
                         general: </label>
 
                     <div class="col-10">
-                        <select class="form-control" name="select_plan" id="select_plan" data-toggle="tooltip"
-                            title="Seleccionar plan General!" data-placement="right" required>
+                        <select class="form-control" name="select_plan" id="select_plan" data-toggle="tooltip" title="Seleccionar plan General!" data-placement="right" required>
 
 
                             <% planes_generales.forEach(lista=> { %>
@@ -66,8 +62,7 @@
                 <div class="form-group row">
                     <label class="col-2 col-form-label" style="font-weight: bold;">Linea de acción: </label>
                     <div class="col-10">
-                        <select class="form-control" name="select_linea" id="select_linea" data-toggle="tooltip"
-                            title="Seleccionar Linea de Acción!" data-placement="right" required>
+                        <select class="form-control" name="select_linea" id="select_linea" data-toggle="tooltip" title="Seleccionar Linea de Acción!" data-placement="right" required>
 
 
                         </select>
@@ -78,8 +73,7 @@
                 <div class="form-group row">
                     <label class="col-2 col-form-label" style="font-weight: bold;">Objetivo: </label>
                     <div class="col-10">
-                        <select class="form-control" name="select_objetivo" id="select_objetivo" data-toggle="tooltip"
-                            title="Seleccionar Objetivo!" data-placement="right" required>
+                        <select class="form-control" name="select_objetivo" id="select_objetivo" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
 
 
                         </select>
@@ -89,8 +83,7 @@
                 <div class="form-group row">
                     <label class="col-2 col-form-label" style="font-weight: bold;">Estrategia: </label>
                     <div class="col-10">
-                        <select class="form-control" name="select_estrategia" id="select_estrategia"
-                            data-toggle="tooltip" title="Seleccionar Estrategia!" data-placement="right" required>
+                        <select class="form-control" name="select_estrategia" id="select_estrategia" data-toggle="tooltip" title="Seleccionar Estrategia!" data-placement="right" required>
                             <option selected="selected" value="">Seleccionar Estrategia
                             </option>
 
@@ -104,8 +97,7 @@
                     <label class="col-2 col-form-label" style="font-weight: bold;">Plan de Acción:
                     </label>
                     <div class="col-10">
-                        <select class="form-control" name="select_plan_accion" id="select_plan_accion"
-                            data-toggle="tooltip" title="Seleccionar Plan de Acción!" data-placement="right" required>
+                        <select class="form-control" name="select_plan_accion" id="select_plan_accion" data-toggle="tooltip" title="Seleccionar Plan de Acción!" data-placement="right" required>
                             <option selected="selected" value="">Seleccionar plan de Acción
                             </option>
 
@@ -117,8 +109,7 @@
 
                     <label class="col-2 col-form-label" style="font-weight: bold;" for="select_objetivo">Area: </label>
                     <div class="col-4">
-                        <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip"
-                            title="Seleccionar Objetivo!" data-placement="right" required>
+                        <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
                             <option selected="selected" value="">Seleccionar area
                             </option>
                            
@@ -131,12 +122,10 @@
                         Tipo Meta: </label>
 
                     <div class="col-4">
-                        <select class="form-control" name="select_tipo_meta" id="select_tipo_meta" data-toggle="tooltip"
-                            title="Seleccionar Plan de Acción!" data-placement="right" required>
+                        <select class="form-control" name="select_tipo_meta" id="select_tipo_meta" data-toggle="tooltip" title="Seleccionar Plan de Acción!" data-placement="right" required>
                             <option selected="selected" value="">Seleccionar Tipo de meta
                             </option>
-                            <option value="Descriptiva">Descriptiva</option>
-                            <option value="Numerica">Númerica</option>
+                            
 
 
 
@@ -151,9 +140,7 @@
                         <label class="col-2 col-form-label" for="txt_meta_descriptiva" style="font-weight: bold;">
                             Meta descriptiva: </label>
                         <div class="col-10">
-                            <input class="form-control" type="text" placeholder="Meta Descriptiva"
-                                name="txt_meta_descriptiva" id="txt_meta_descriptiva"
-                                value="<%= indicador_info[0].meta_descriptiva %>">
+                            <input class="form-control" type="text" placeholder="Meta Descriptiva" name="txt_meta_descriptiva" id="txt_meta_descriptiva" value="<%= indicador_info[0].meta_descriptiva %>">
                         </div>
 
                     </div>
@@ -162,9 +149,7 @@
                         <label class="col-3 col-form-label" for="txt_fl_descriptiva" style="font-weight: bold;">Formula
                             Literal Descriptiva : </label>
                         <div class="col-9">
-                            <input class="form-control" type="text" placeholder="Formula literal Descriptiva"
-                                name="txt_fl_descriptiva" id="txt_fl_descriptiva"
-                                value="<%= indicador_info[0].formula_literal_descriptiva %>">
+                            <input class="form-control" type="text" placeholder="Formula literal Descriptiva" name="txt_fl_descriptiva" id="txt_fl_descriptiva" value="<%= indicador_info[0].formula_literal_descriptiva %>">
                         </div>
 
                     </div>
@@ -177,8 +162,7 @@
                         <label class="col-2 col-form-label" for="txt_meta_numerica" style="font-weight: bold;">
                             Meta Númerica: </label>
                         <div class="col-10">
-                            <input class="form-control" type="text" placeholder="Meta numerica" name="txt_meta_numerica"
-                                id="txt_meta_numerica" value="<%= indicador_info[0].meta_numerica %>">
+                            <input class="form-control" type="text" placeholder="Meta numerica" name="txt_meta_numerica" id="txt_meta_numerica" value="<%= indicador_info[0].meta_numerica %>">
                         </div>
 
                     </div>
@@ -187,8 +171,7 @@
                         <label class="col-3 col-form-label" for="txt_fl_numerador" style="font-weight: bold;">
                             Formula literal Numerador: </label>
                         <div class="col-9">
-                            <input class="form-control" type="text" placeholder="numerador" name="txt_fl_numerador"
-                                id="txt_fl_numerador" value="<%= indicador_info[0].formula_literal_numerador %>">
+                            <input class="form-control" type="text" placeholder="numerador" name="txt_fl_numerador" id="txt_fl_numerador" value="<%= indicador_info[0].formula_literal_numerador %>">
                         </div>
                     </div>
 
@@ -197,18 +180,15 @@
                         <label class="col-3 col-form-label" for="txt_fl_denominador" style="font-weight: bold;">
                             Formula literal Denominador: </label>
                         <div class="col-9">
-                            <input class="form-control" type="text" placeholder="Denominador" name="txt_fl_denominador"
-                                id="txt_fl_denominador" value="<%= indicador_info[0].formula_literal_denominador %>">
+                            <input class="form-control" type="text" placeholder="Denominador" name="txt_fl_denominador" id="txt_fl_denominador" value="<%= indicador_info[0].formula_literal_denominador %>">
                         </div>
 
                     </div>
                 </div>
 
-                <div class="form-group row"
-                    style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                <div class="form-group row" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                     <div class="text-center">
-                        <button style="font-weight: bold;" class="btn btn-success " id="btn-validar" name="btn-validar"
-                            onclick="actualizar_registro()">Actualizar</button>
+                        <button style="font-weight: bold;" class="btn btn-success " id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Actualizar</button>
                         <a href="/lista-ctm-indicadores" class="btn btn-default">volver</a>
                     </div>
                 </div>
@@ -235,18 +215,32 @@
         var formula_literal_descriptiva = $('#txt_fl_descriptiva').val();
         var formula_literal_numerador = $('#txt_fl_numerador').val();
         var formula_literal_denominador = $('#txt_fl_denominador').val();
-        
 
-        var peticion = "/actualizar-indicador/?id_indicador=" + id_indicador  + "&nombre_indicador=" + nombre_indicador
-        +"&id_plan_accion=" + id_plan_accion 
-        +"&id_area=" + id_area
-        +"&meta_numerica=" + meta_numerica
-        +"&meta_descriptiva=" + meta_descriptiva 
-        +"&formula_literal_descriptiva=" + formula_literal_descriptiva 
-        +"&formula_literal_numerador=" + formula_literal_numerador
-        +"&formula_literal_denominador=" + formula_literal_denominador
-        + "&tipo_meta=" + tipo_meta
-        ;
+
+        if (tipo_meta == 'Descriptiva') {
+            meta_numerica = 0;
+            formula_literal_numerador = "";
+            formula_literal_denominador = "";
+
+        } else {
+
+            meta_descriptiva = "";
+            formula_literal_descriptiva = "";
+
+        }
+
+        var peticion = "/actualizar-indicador/?id_indicador=" + id_indicador + "&nombre_indicador=" + nombre_indicador +
+            "&id_plan_accion=" + id_plan_accion +
+            "&id_area=" + id_area +
+            "&meta_numerica=" + meta_numerica +
+            "&meta_descriptiva=" + meta_descriptiva +
+            "&formula_literal_descriptiva=" + formula_literal_descriptiva +
+            "&formula_literal_numerador=" + formula_literal_numerador +
+            "&formula_literal_denominador=" + formula_literal_denominador +
+            "&tipo_meta=" + tipo_meta;
+
+
+
 
 
         $.ajax({
@@ -254,7 +248,7 @@
             url: peticion,
             data: [],
 
-            success: function (result) {
+            success: function(result) {
 
                 if (result["status"] == 200) {
                     console.log("actualizado correctamente...");
@@ -269,7 +263,7 @@
 
                     alert(result["msg"]);
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('#preview').hide();
                     }, 5000);
                 }
@@ -281,7 +275,7 @@
 
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         $('#preview').hide();
         // document.getElementById("select_plan").title = 'Debe elegir un plan general'
@@ -296,7 +290,7 @@
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 //select_linea
                 $("#select_linea").html("");
@@ -337,7 +331,7 @@
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 //select_linea
                 $("#select_objetivo").html("");
@@ -378,7 +372,7 @@
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 if (result.length == 0) {
 
@@ -420,7 +414,7 @@
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 if (result.length == 0) {
 
@@ -463,7 +457,7 @@
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 if (result.length == 0) {
 
@@ -485,13 +479,13 @@
                             if ($('#select_tipo_meta').val() == "Descriptiva") {
                                 $('#panel_numerica').attr('hidden', true);
                                 $('#panel_descriptiva').attr('hidden', false);
+                                $("#select_tipo_meta").append('<option value="Numerica">Númerica</option>');
+
                             } else {
                                 $('#panel_numerica').attr('hidden', false);
                                 $('#panel_descriptiva').attr('hidden', true);
+                                $("#select_tipo_meta").append('<option value="Descriptiva">Descriptiva</option>');
                             }
-                        } else {
-                            $("#select_tipo_meta").append('<option value=' + element.tipo_meta + '>' + element.tipo_meta + '</option>');
-
                         }
 
                     });
@@ -505,7 +499,7 @@
         //consultar areas
 
         var peticion = "/consultar-areaxid/?id_area=" + '<%= indicador_info[0].id_area %>';
-        
+
         $.ajax({
 
             type: 'get',
@@ -515,7 +509,7 @@
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 if (result.length == 0) {
 
@@ -527,13 +521,13 @@
                     $("#select_area").html("");
 
                     //$("#select_area").append('<option selected="selected">' + 'Seleccionar area' + '</option>');
-                   // $("#select_area").append('<option value=' + element.id_area + '>' + element.nombre_area + '</option>');
+                    // $("#select_area").append('<option value=' + element.id_area + '>' + element.nombre_area + '</option>');
 
                     result.forEach(element => {
                         if (element.id_area == '<%= indicador_info[0].id_area %>') {
 
                             $("#select_area").append('<option value=' + element.id_area + ' selected="selected">' + element.nombre_area + '</option>');
-                            
+
                             //mostrar panel segun tipo de meta
 
                         } else {
@@ -554,7 +548,7 @@
 
 
 
-        $("#select_plan").change(function () {
+        $("#select_plan").change(function() {
             //$("#btn-subir").prop("disabled", true);
             //$('#files').attr("disabled", true);
             // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
@@ -572,7 +566,7 @@
                 cache: false,
                 processData: false,
 
-                success: function (result) {
+                success: function(result) {
 
                     //select_linea
                     $("#select_linea").html("");
@@ -606,7 +600,7 @@
 
         });
 
-        $("#select_linea").change(function () {
+        $("#select_linea").change(function() {
             //$("#btn-subir").prop("disabled", true);
             //$('#files').attr("disabled", true);
             // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
@@ -624,7 +618,7 @@
                 cache: false,
                 processData: false,
 
-                success: function (result) {
+                success: function(result) {
 
                     //select_linea
                     $("#select_objetivo").html("");
@@ -655,7 +649,7 @@
 
         });
 
-        $("#select_objetivo").change(function () {
+        $("#select_objetivo").change(function() {
             //$("#btn-subir").prop("disabled", true);
             //$('#files').attr("disabled", true);
             // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
@@ -673,7 +667,7 @@
                 cache: false,
                 processData: false,
 
-                success: function (result) {
+                success: function(result) {
 
                     //select_linea
                     $("#select_estrategia").html("");
@@ -696,7 +690,7 @@
         });
 
 
-        $("#select_estrategia").change(function () {
+        $("#select_estrategia").change(function() {
             //$("#btn-subir").prop("disabled", true);
             //$('#files').attr("disabled", true);
             // $('#nombre_ips').text($("#cbxips option:selected").text().trim());
@@ -714,7 +708,7 @@
                 cache: false,
                 processData: false,
 
-                success: function (result) {
+                success: function(result) {
 
                     //select_linea
                     $("#select_plan_accion").html("");
@@ -736,7 +730,7 @@
 
         });
 
-        $("#select_tipo_meta").change(function () {
+        $("#select_tipo_meta").change(function() {
             if ($('#select_tipo_meta').val() == "Descriptiva") {
                 $('#panel_numerica').attr('hidden', true);
                 $('#panel_descriptiva').attr('hidden', false);

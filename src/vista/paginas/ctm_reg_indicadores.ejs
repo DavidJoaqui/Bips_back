@@ -7,7 +7,7 @@
                 overflow-x: auto;
                 overflow-y: auto;
             }
-
+            
             body::-webkit-scrollbar {
                 display: none;
                 overflow-y: hidden;
@@ -15,8 +15,7 @@
         </style>
 
         <body id="body_ent">
-            <div class="preview text-center" id="preview"
-                style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
                 <div class="card col-md-12" id="card-msg">
 
 
@@ -33,20 +32,14 @@
                 <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <div class="form-group" style="padding-left: 30px;margin: 20px;">
-                            <button class="nav-link active btn btn-success" type="button"
-                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea"
-                                onclick="nuevo_indicador()" data-toggle="pill" href="" role="tab" aria-controls=""
-                                aria-selected="true"><i class="fas fa-plus"></i> Registro Indicador</button>
+                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="nuevo_indicador()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Registro Indicador</button>
 
                         </div>
                     </li>
                     <li class="nav-item" role="presentation">
                         <div class="form-group" style="padding-left: 0px;margin: 20px;">
 
-                            <button class="nav-link active btn btn-info" type="button"
-                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea"
-                                onclick="lista_indicadores()" data-toggle="pill" href="" role="tab" aria-controls=""
-                                aria-selected="true"><i class="fas fa-list"></i> Lista</button>
+                            <button class="nav-link active btn btn-info" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="lista_indicadores()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-list"></i> Lista</button>
                         </div>
                     </li>
                 </ul>
@@ -56,8 +49,7 @@
 
             </div>
 
-            <div
-                style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
+            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
 
 
                 <div class="col-md col-md-offset-3" style="padding-bottom: 0px">
@@ -74,17 +66,14 @@
 
                             <div class="form-group row">
 
-                                <label class="col-2 col-form-label" style="font-weight: bold;"
-                                    for="select_objetivo">Vigencia: </label>
+                                <label class="col-2 col-form-label" style="font-weight: bold;" for="select_objetivo">Vigencia: </label>
                                 <div class="col-3">
-                                    <select class="form-control" name="select_vigencia" id="select_vigencia"
-                                        data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right"
-                                        required>
+                                    <select class="form-control" name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar vigencia
                                         </option>
                                         <% lista_años.forEach(lista=> { %>
-                                            <option value="<%= lista.año %>">
-                                                <%= lista.año %>
+                                            <option value="<%= lista.periodo_año %>">
+                                                <%= lista.periodo_año %>
                                             </option>
                                             <% }); %>
                                     </select>
@@ -95,9 +84,7 @@
                                     Periodo Evaluado:</label>
 
                                 <div class="col-5">
-                                    <select class="form-control" name="select_periodo" id="select_periodo"
-                                        data-toggle="tooltip" title="Seleccionar Periodo!" data-placement="right"
-                                        required>
+                                    <select class="form-control" name="select_periodo" id="select_periodo" data-toggle="tooltip" title="Seleccionar Periodo!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar Periodo
                                         </option>
 
@@ -109,12 +96,9 @@
 
                             <div class="form-group row">
 
-                                <label class="col-2 col-form-label" style="font-weight: bold;"
-                                    for="select_objetivo">Area: </label>
+                                <label class="col-2 col-form-label" style="font-weight: bold;" for="select_objetivo">Area: </label>
                                 <div class="col-3">
-                                    <select class="form-control" name="select_area" id="select_area"
-                                        data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right"
-                                        required>
+                                    <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar area
                                         </option>
                                         <% lista_areas.forEach(lista=> { %>
@@ -130,9 +114,7 @@
                                     Profesional:</label>
 
                                 <div class="col-5">
-                                    <select class="form-control" name="select_profesional" id="select_profesional"
-                                        data-toggle="tooltip" title="Seleccionar Profesional!" data-placement="right"
-                                        required>
+                                    <select class="form-control" name="select_profesional" id="select_profesional" data-toggle="tooltip" title="Seleccionar Profesional!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar Profesional</option>
 
 
@@ -147,9 +129,7 @@
                                 <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
                                     Nombre Indicador: </label>
                                 <div class="col-10">
-                                    <select class="form-control" name="select_indicador" id="select_indicador"
-                                        data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right"
-                                        required>
+                                    <select class="form-control" name="select_indicador" id="select_indicador" data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar Indicador</option>
 
                                     </select>
@@ -162,8 +142,7 @@
 
 
                                 <div class="col-4">
-                                    <output class="form-control" type="text" placeholder="linea de accón"
-                                        name="txt_tipo_meta" id="txt_tipo_meta" value="">
+                                    <output class="form-control" type="text" placeholder="linea de accón" name="txt_tipo_meta" id="txt_tipo_meta" value="">
                                 </div>
                                 <div class="col-4">
                                     <input type="file" class="input-file-input form-control" name="files" id="files" multiple>

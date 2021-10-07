@@ -32,14 +32,14 @@
                                 <th>Tipo meta</th>
 
                                 <th>Meta Númerica</th>
-                                <th>Formula Literal Numerador</th>                                                                
+                                <th>Formula Literal Numerador</th>
                                 <th>Formula Literal Denominador</th>
 
-                                <th>Meta Descriptiva</th>                                                                
+                                <th>Meta Descriptiva</th>
                                 <th>Formula Literal Descriptiva</th>
 
-                                
-                                
+
+
                                 <th>Acciones</th>
 
                             </tr>
@@ -81,9 +81,15 @@
                                     </td>
 
                                     <td>
-                                        <%= lista_Indicadores[i].meta_numerica %>
+                                        <% if (lista_Indicadores[i].meta_numerica != 0) { %>
+                                            <%= lista_Indicadores[i].meta_numerica %>
+                                                <% }else{ %>
+                                                    <%= '' %>
+
+                                                        <% } %>
+
                                     </td>
-                                    
+
                                     <td>
                                         <%= lista_Indicadores[i].formula_literal_numerador %>
                                     </td>
@@ -116,8 +122,8 @@
             </div>
 
             <script type="text/javascript">
-                $(document).ready(function () {
-                    setTimeout(function () {
+                $(document).ready(function() {
+                    setTimeout(function() {
                         $('#preview').hide();
                     }, 5000);
                 });
@@ -133,7 +139,7 @@
                         contentType: false,
                         cache: false,
                         processData: false,
-                        success: function (result) {
+                        success: function(result) {
                             $('#body_ent').html(result);
                         }
                     });
@@ -146,14 +152,11 @@
                     /*background-color: #eaedee;*/
                     overflow-x: auto;
                     overflow-y: auto;
-                    
                 }
-
                 
                 body::-webkit-scrollbar {
                     display: auto;
                     overflow-y: hidden;
-                    
                 }
                 
                 #tbl_planos {
@@ -161,7 +164,6 @@
                     font-family: 'Montserrat', sans-serif;
                     border-spacing: 0px !important;
                     padding: 0px;
-                   
                 }
                 
                 #tbl_planos th {
@@ -171,7 +173,6 @@
                 #tbl_planos td {
                     padding: 0;
                 }
-                
                 
                 .btns-acciones form .btn-submit {
                     font-family: 'Montserrat', sans-serif;
@@ -195,7 +196,6 @@
                 .head-tabla-reg {
                     background-color: #3f78da;
                     color: #fff;
-                    
                 }
                 
                 .titulo-tabla {
