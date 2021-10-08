@@ -418,7 +418,7 @@
                         success: function (result) {
                             $("#select_periodo").html(""); $("#select_periodo").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
                             result.forEach(element => {
-                                $("#select_periodo").append('<option value=' + element.id_mes + '>' + element.nombre_mes + '</option>');
+                                $("#select_periodo").append('<option value=' + element.cod_mes + '>' + element.nombre_mes + '</option>');
                             });
                         }
                     });
@@ -430,7 +430,8 @@
                 $("#select_area").change(function () {
 
                     var peticion = "/consultar-profesional-x-area/?area=" + $(this).val();
-                    var peticion2 = "/consultar-indicador-x-area/?area=" + $(this).val();
+                    var peticion2 = "/consultar-indicador-x-area/?area=" + $(this).val()+
+                    "&vigencia=" + $('#select_vigencia').val().toString() + "&periodo=" + $('#select_periodo').val().toString();
                     $.ajax({
                         type: 'get',
                         url: peticion,

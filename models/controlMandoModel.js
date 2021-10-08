@@ -259,15 +259,15 @@ module.exports = {
     },
 
     async consultar_periodoxaño(año) {
-        const resultados = await conexion.query("select b.id_mes,b.nombre_mes  from schema_control.fecha a  inner join schema_control.periodo_mes b on (to_char(fecha, 'MM')=b.cod_mes) where to_char(fecha, 'YYYY') = $1 group by b.id_mes, b.nombre_mes order by b.id_mes asc", [año]);
+        const resultados = await conexion.query("select b.cod_mes,b.nombre_mes  from schema_control.fecha a  inner join schema_control.periodo_mes b on (to_char(fecha, 'MM')=b.cod_mes) where to_char(fecha, 'YYYY') = $1 group by b.id_mes, b.nombre_mes order by b.id_mes asc", [año]);
         return resultados.rows;
     },
 
 
 
 
-    async consultar_indicadorxarea(area) {
-        const resultados = await conexion.query("select a.id_indicador, a.nombre_indicador from schema_control.indicadores a inner join schema_control.areas b on (a.id_area=b.id_area) where b.id_area =$1", [area]);
+    async consultar_indicadorxarea(area,vigencia,periodo) {
+        const resultados = await conexion.query("select to_char(f.fecha, 'YYYY')as periodo_año,  to_char(f.fecha, 'MM')as periodo_mes ,ind.id_indicador, ind.nombre_indicador from schema_control.indicadores ind inner join schema_control.areas a on(ind.id_area=a.id_area) inner join schema_control.planes pa on(ind.id_plan=pa.id_plan) inner join schema_control.estrategias e on(pa.id_estrategia=e.id_estrategia) inner join schema_control.objetivos o on(e.id_objetivo=o.id_objetivo) inner join schema_control.lineas_acciones la on(o.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on(la.id_plan_general=pg.id_plangeneral) inner join schema_control.fecha f on (pg.id_plangeneral=f.id_plan_general) where a.id_area =$1 and to_char(f.fecha, 'YYYY')=$2 and to_char(f.fecha, 'MM')= $3 and pg.estado = true group by periodo_mes, periodo_año, ind.id_indicador, ind.nombre_indicador", [area,vigencia,periodo]);
         return resultados.rows;
     },
 

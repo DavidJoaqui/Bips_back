@@ -2191,7 +2191,7 @@ app.get("/ctm-calificacion-indicadores", auth, (req, res) => {
 });
 
 app.get("/consultar-periodo-x-anio", auth, (req, res) => {
-    console.log(req.query.año);
+    //console.log(req.query.año);
     modelControlMando.consultar_periodoxaño(req.query.año).then(lista_periodo => {
         res.send(lista_periodo);
     });
@@ -2228,8 +2228,12 @@ app.get("/consultar-profesional-x-area", auth, (req, res) => {
 });
 
 app.get("/consultar-indicador-x-area", auth, (req, res) => {
-    //console.log('id_area:' + req.query.area);
-    modelControlMando.consultar_indicadorxarea(req.query.area).then(lista_indicadores => {
+    console.log('id_area:' + req.query.area);
+    console.log('VIGENCIA:' + req.query.vigencia);
+    console.log('PERIODO:' + req.query.periodo);
+    
+    
+    modelControlMando.consultar_indicadorxarea(req.query.area,req.query.vigencia,req.query.periodo).then(lista_indicadores => {
         res.send(lista_indicadores);
     });
 });
