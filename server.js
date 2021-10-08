@@ -2170,11 +2170,19 @@ app.get("/ctm-indicadores", auth, (req, res) => {
 
 app.get("/ctm-reg-indicadores", auth, (req, res) => {
 
-    modelControlMando.consultar_vigencia_año().then(lista_años => {
-        modelControlMando.consultar_RegistroAreas().then(lista_areas => {
 
-            res.render("paginas/ctm_reg_indicadores", { user: req.session.user, lista_areas: lista_areas, lista_años: lista_años });
-        });
+    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+
+        res.render("paginas/ctm_reg_indicadores", { user: req.session.user, lista_areas: lista_areas });
+    });
+
+
+});
+
+app.get("/consultar-vigencia-anio-profesional", auth, (req, res) => {
+    //console.log(req.query.año);
+    modelControlMando.consultar_vigencia_año(req.query.profesional).then(lista_años => {
+        res.send(lista_años);
     });
 
 });
@@ -2227,14 +2235,35 @@ app.get("/consultar-profesional-x-area", auth, (req, res) => {
     });
 });
 
-app.get("/consultar-indicador-x-area", auth, (req, res) => {
-    console.log('id_area:' + req.query.area);
-    console.log('VIGENCIA:' + req.query.vigencia);
-    console.log('PERIODO:' + req.query.periodo);
-    
-    
-    modelControlMando.consultar_indicadorxarea(req.query.area,req.query.vigencia,req.query.periodo).then(lista_indicadores => {
+app.get("/consultar-indicador-x-periodo", auth, (req, res) => {
+    //console.log('id_area:' + req.query.area);
+    //console.log('VIGENCIA:' + req.query.vigencia);
+    //console.log('PERIODO:' + req.query.periodo);
+
+
+    modelControlMando.consultar_indicadorxperiodo(req.query.area, req.query.vigencia, req.query.periodo).then(lista_indicadores => {
         res.send(lista_indicadores);
+    });
+});
+
+app.get("/validacion-insert-reg-indicadores", auth, (req, res) => {
+    //console.log('id_area:' + req.query.area);
+    //console.log('VIGENCIA:' + req.query.vigencia);
+    //console.log('PERIODO:' + req.query.periodo);
+
+
+    modelControlMando.validacion_insert_reg_indicadores(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador, req.query.profesional).then(validacion => {
+        var bandera = false;
+        if (validacion.length == 0) {
+            //res.send(bandera, validacion);
+            res.send({ status: 200, bandera: bandera });
+        } else {
+            bandera = true;
+            //res.send(bandera, validacion);
+            console.log(validacion);
+            res.send({ status: 200, msg: 'El profesional ya tiene registrado este indicador en este periodo', datos: validacion, bandera: bandera });
+        }
+
     });
 });
 
@@ -2248,6 +2277,10 @@ app.get("/consultar-indicador-x-periodo-area", auth, (req, res) => {
 
 app.get("/consultar-detalle-indicador-x-indicador", auth, (req, res) => {
     //console.log('id_area:' + req.query.area);
+    console.log('id_area:' + req.query.area);
+    console.log('VIGENCIA:' + req.query.vigencia);
+    console.log('PERIODO:' + req.query.periodo);
+    console.log('indicador:' + req.query.indicador);
     modelControlMando.consultar_det_indicador(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_detalle_indicador => {
         res.send(lista_detalle_indicador);
     });
@@ -2331,17 +2364,17 @@ app.post("/persistir-indicador", auth, (req, res) => {
 
 app.post("/persistir-registro-indicador", auth, (req, res) => {
 
-    console.log(req.query.profesional);
+    // console.log(req.query.profesional);
     modelControlMando.insertar_registro_indicador(req.query.indicador, req.query.profesional, req.query.vigencia, req.query.periodo, req.query.vr_numerador, req.query.vr_denominador, req.query.observacion).then(respuesta => {
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW Indicador");
-            res.json({ status: 200, msg: 'El Registro Indicador <b>' + req.query.nombre_indicador + '</b>, se creó correctamente...' });
+            res.json({ status: 200, msg: 'El Registro Indicador , se creó correctamente...' });
         } else {
-            res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador <b>' + req.query.nombre_indicador + '</b>, intente de nuevo...' });
+            res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador , intente de nuevo...' });
         }
     }).catch(err => {
         console.log(err);
-        res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador <b>' + req.query.nombre_indicador + ' </b> YA EXISTE...' });
+        res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador YA EXISTE...' });
     });
 })
 

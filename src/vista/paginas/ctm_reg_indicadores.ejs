@@ -64,35 +64,7 @@
 
 
 
-                            <div class="form-group row">
 
-                                <label class="col-2 col-form-label" style="font-weight: bold;" for="select_objetivo">Vigencia: </label>
-                                <div class="col-3">
-                                    <select class="form-control" name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required>
-                                        <option selected="selected" value="">Seleccionar vigencia
-                                        </option>
-                                        <% lista_años.forEach(lista=> { %>
-                                            <option value="<%= lista.periodo_año %>">
-                                                <%= lista.periodo_año %>
-                                            </option>
-                                            <% }); %>
-                                    </select>
-
-                                </div>
-
-                                <label class="col-2 col-form-label" style="font-weight: bold;">
-                                    Periodo Evaluado:</label>
-
-                                <div class="col-5">
-                                    <select class="form-control" name="select_periodo" id="select_periodo" data-toggle="tooltip" title="Seleccionar Periodo!" data-placement="right" required>
-                                        <option selected="selected" value="">Seleccionar Periodo
-                                        </option>
-
-
-
-                                    </select>
-                                </div>
-                            </div>
 
                             <div class="form-group row">
 
@@ -123,6 +95,31 @@
                                 </div>
 
 
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-2 col-form-label" style="font-weight: bold;" for="select_objetivo">Vigencia: </label>
+                                <div class="col-3">
+                                    <select class="form-control" name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar vigencia
+                                        
+                                    </select>
+
+                                </div>
+
+                                <label class="col-2 col-form-label" style="font-weight: bold;">
+                                    Periodo Evaluado:</label>
+
+                                <div class="col-5">
+                                    <select class="form-control" name="select_periodo" id="select_periodo" data-toggle="tooltip" title="Seleccionar Periodo!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar Periodo
+                                        </option>
+
+
+
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-group row">
@@ -301,7 +298,44 @@
                     vr_denominador = 0;
                 }
 
-                var peticion = "/persistir-registro-indicador/" +
+                var peticion_validacion = "/validacion-insert-reg-indicadores/?vigencia=" + vigencia +
+                    "&periodo=" + periodo +
+                    "&area=" + area +
+                    "&profesional=" + profesional +
+                    "&indicador=" + indicador;
+                
+                $.ajax({
+                    type: 'get',
+                    url: peticion_validacion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function (result) {
+
+                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                        /*setTimeout(function() {
+                            window.location.reload(1);
+                        }, 5000);*/
+                        if (result["status"] == 200 && result["bandera"]) {
+
+                            alert(result["msg"]);
+
+                           // $('#preview').show();
+
+                           // $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                            //$('#card-msg').show();
+
+                            //$('#formulario')[0].reset();                       
+
+
+                        } else {
+                            
+
+                            var peticion = "/persistir-registro-indicador/" +
                     "?vigencia=" + vigencia +
                     "&periodo=" + periodo +
                     "&area=" + area +
@@ -311,8 +345,6 @@
                     "&vr_denominador=" + vr_denominador +
                     "&observacion=" + observacion ;
                     
-
-
 
                 $.ajax({
                     type: 'post',
@@ -373,6 +405,20 @@
 
                 });
 
+                        }
+
+                        //$('#body_ent').html(result);
+
+
+                    }
+
+                });                    
+
+
+
+
+ 
+
             }
 
 
@@ -424,15 +470,38 @@
                     });
                 });
 
+                $("#select_periodo").change(function () {
+
+                    var peticion = "/consultar-indicador-x-periodo/?periodo=" + $(this).val().toString()+
+                    "&vigencia=" + $('#select_vigencia').val().toString() 
+                    + "&area=" + $('#select_area').val();
+                    
+
+                    $.ajax({
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (result) {
+                            $("#select_indicador").html("");
+                            $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+
+                            result.forEach(element => {
+                                $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + ' </option>');
+                            });
+                        }
+                    });
+               
+                });
 
 
 
                 $("#select_area").change(function () {
 
                     var peticion = "/consultar-profesional-x-area/?area=" + $(this).val();
-                    var peticion2 = "/consultar-indicador-x-area/?area=" + $(this).val()+
-                    "&vigencia=" + $('#select_vigencia').val().toString() + "&periodo=" + $('#select_periodo').val().toString();
-                    $.ajax({
+                   $.ajax({
                         type: 'get',
                         url: peticion,
                         data: [],
@@ -448,28 +517,41 @@
                         }
                     });
 
+                    });
+
+                 $("#select_profesional").change(function () {
+
+                    var peticion = "/consultar-vigencia-anio-profesional/?profesional=" + $(this).val();
+
                     $.ajax({
+
                         type: 'get',
-                        url: peticion2,
+                        url: peticion,
                         data: [],
                         contentType: false,
                         cache: false,
                         processData: false,
-                        success: function (result) {
-                            $("#select_indicador").html("");
-                            $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
 
+                        success: function (result) {
+                            $("#select_vigencia").html("");
+                             $("#select_vigencia").append('<option selected="selected">' + 'Seleccionar Vigencia' + '</option>');
                             result.forEach(element => {
-                                $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + ' </option>');
+                                $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
                             });
                         }
                     });
                 });
 
+                
+
+                
+
+
+
                 $("#select_indicador").change(function () {
 
                     var peticion = "/consultar-detalle-indicador-x-indicador/?indicador=" + $(this).val()+
-                    "&vigencia=" + $('#select_vigencia').val() + "&periodo=" + $('#select_periodo').val() + "&area=" + $('#select_area').val();
+                    "&vigencia=" + $('#select_vigencia').val().toString() + "&periodo=" + $('#select_periodo').val().toString() + "&area=" + $('#select_area').val();
 
                     $.ajax({
 
@@ -490,7 +572,7 @@
 
                             //$("#txt_tipo_meta").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
                             result.forEach(element => {
-                                $("#txt_tipo_meta").append('<output value=' + element.tipo_meta + '>' + element.tipo_meta);
+                                $("#txt_tipo_meta").append('<output value=' + element.tipo_meta +'>' + element.tipo_meta);
                                 $("#txt_meta_numerica").append('<output value=' + element.meta_numerica + '>' + 'Superior al ' + element.meta_numerica + '%');
                                 $("#txt_meta_descriptiva").append('<output value=' + element.meta_descriptiva + '>' + element.meta_descriptiva);
                                 $("#txt_fl_descriptiva").append('<output value=' + element.formula_literal_descriptiva + '>' + element.formula_literal_descriptiva);
