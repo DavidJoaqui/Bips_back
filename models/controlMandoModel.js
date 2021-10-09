@@ -237,14 +237,18 @@ module.exports = {
     //------------------------------------------------------------------------------//
 
     async consultar_reg_indicadores() {
-        const resultados = await conexion.query("select a.id_registroindicador,to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes,b.nombre_indicador,b.tipo_meta , a.formula_cifras_numerador,a.formula_cifras_denominador, a.soportes, a.observaciones,d.nombre_area ,concat(c.nombres, ' ', c.apellidos, ' ', c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_control.areas d on(b.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes) order by a.id_registroindicador");
+        const resultados = await conexion.query("select a.id_registroindicador, to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes, b.nombre_indicador, b.tipo_meta , a.formula_cifras_numerador, a.formula_cifras_denominador, a.observaciones, d.nombre_area , concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user=u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) order by a.id_registroindicador");
+        return resultados.rows;
+    },
+
+    async consultar_reg_indicadores_x_profesional(idprof) {
+        const resultados = await conexion.query("select a.id_registroindicador, to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes, b.nombre_indicador, b.tipo_meta , a.formula_cifras_numerador, a.formula_cifras_denominador, a.observaciones, d.nombre_area , concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where c.id_profesional = $1 order by a.id_registroindicador", [idprof]);
         return resultados.rows;
     },
 
 
-
     async insertar_registro_indicador(indicador, profesional, vigencia, periodo, vr_numerador, vr_denominador, observacion) {
-        const resultados = await conexion.query('INSERT INTO schema_control.registroindicadores (id_indicador, fecharegistro, id_profesional, vigencia, periodoevaluado, formula_cifras_numerador, formula_cifras_denominador, soportes, observaciones) values ($1,current_date,$2,$3,$4,$5,$6,null,$7)', [indicador, profesional, vigencia, periodo, vr_numerador, vr_denominador, observacion]);
+        const resultados = await conexion.query('INSERT INTO schema_control.registroindicadores (id_indicador, fecharegistro, id_profesional, vigencia, periodoevaluado, formula_cifras_numerador, formula_cifras_denominador, observaciones) values ($1,current_date,$2,$3,$4,$5,$6,$7) returning id_registroindicador', [indicador, profesional, vigencia, periodo, vr_numerador, vr_denominador, observacion]);
         return resultados;
     },
 
@@ -273,7 +277,7 @@ module.exports = {
 
 
     async validacion_insert_reg_indicadores(vigencia, periodo, area, indicador, profesional) {
-        const resultados = await conexion.query("select a.id_registroindicador, a.vigencia,e.nombre_mes,b.id_indicador, b.nombre_indicador, concat(c.nombres, ' ', c.apellidos, ' ', c.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_control.areas d on(b.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 and b.id_indicador = $4 and a.id_profesional = $5 order by a.id_registroindicador ", [vigencia, periodo, area, indicador, profesional]);
+        const resultados = await conexion.query("select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 and b.id_indicador = $4 and a.id_profesional = $5 order by a.id_registroindicador ", [vigencia, periodo, area, indicador, profesional]);
         return resultados.rows;
     },
 
@@ -292,7 +296,7 @@ module.exports = {
     //------------------------------------------------------------------------------//
     //consultar_RegistrosProfesionales
     async consultar_RegistrosProfesionales() {
-        const resultados = await conexion.query("select p.num_identificacion,p.nombres, p.apellidos, a.nombre_area from schema_control.profesionales p inner join schema_control.areas a on(p.id_area_trabajo=a.id_area) order by p.id_profesional ASC");
+        const resultados = await conexion.query("select u.num_identificacion, u.nombre, u.apellido, a.nombre_area from schema_control.profesionales p inner join schema_seguridad.user u on (u.id_user = p.id_user) inner join schema_control.areas a on (u.id_area = a.id_area) where u.es_profesional = '1' order by p.id_profesional asc");
         return resultados.rows;
     },
     async consultar_profesionalxarea(area) {

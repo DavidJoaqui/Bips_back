@@ -112,3 +112,19 @@
 2021-10-07 17:54:04 - Send SIGINT 4048
 2021-10-07 17:54:04 - SIGINT to 4048 failed - Killing as fallback
 2021-10-07 17:54:04 - Finished serviciobips.exe
+2021-10-08 23:47:15 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-08 23:47:16 - Started 3904
+2021-10-08 18:52:45 - Stopping serviciobips.exe
+2021-10-08 18:52:45 - ProcessKill 3904
+2021-10-08 18:52:46 - Found child process: 3924 Name: conhost.exe
+2021-10-08 18:52:46 - Found child process: 2820 Name: node.exe
+2021-10-08 18:52:46 - Stopping process 3924
+2021-10-08 18:52:46 - Send SIGINT 3924
+2021-10-08 18:52:46 - SIGINT to 3924 failed - Killing as fallback
+2021-10-08 18:52:46 - Stopping process 2820
+2021-10-08 18:52:46 - Send SIGINT 2820
+2021-10-08 18:52:46 - SIGINT to 2820 failed - Killing as fallback
+2021-10-08 18:52:46 - Stopping process 3904
+2021-10-08 18:52:46 - Send SIGINT 3904
+2021-10-08 18:52:46 - SIGINT to 3904 failed - Killing as fallback
+2021-10-08 18:52:46 - Finished serviciobips.exe

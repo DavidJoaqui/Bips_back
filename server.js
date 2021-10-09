@@ -21,6 +21,7 @@ const app = express();
 //app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'filesBipsUploads')));
 app.use(express.static(path.join(__dirname, 'src/public')));
+app.use(express.static('E:\Upload_Soportes_Bips'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'src/vista'));
@@ -182,6 +183,47 @@ const upload = multer({
     storage: storage
 });
 
+//metodo de almacenamiento para los sportes cargados a un registro de indicador
+const storage_soportes = multer.diskStorage({
+
+    /*  Se define el path con la palabra reservada de multer destination donde se le indica la 
+        ruta abosluta para la carga de los soportes desde el registro de indicador
+
+        path : E:\Upload_Soportes_Bips
+
+        esta ruta absoluta esta definida como statica para el servidor y se puede cambiar,
+        NOTA ::: SE DEBE CAMBIAR EN --> app.use(express.static('E:\Upload_Soportes_Bips'));
+    */
+    destination: 'E:/Upload_Soportes_Bips/',
+
+    filename: function(req, file, cb) {
+        //console.log(req.files);
+
+        var ext = path.extname(file.originalname);
+        //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
+
+        if (ext !== '.txt' && ext !== '.Txt' && ext !== '.pdf' && ext !== '.xlsx' && ext !== '.docx') {
+            return cb("Solo se permite Archivos de texto(.txt), PDF(.pdf), Excel(.xlsx) o Word(.docx)");
+
+        } else {
+
+            let fech_now = Date.now();
+            let date_ = new Date(fech_now);
+
+            let fecha_completa_sinSeparador = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_";
+            let hora = date_.getHours() + "_" + date_.getMinutes() + "_";
+
+            console.log("nombre generado para el archivo : " + "_" + fecha_completa_sinSeparador + hora + file.originalname);
+            cb("", "_" + fecha_completa_sinSeparador + hora + file.originalname);
+        }
+    }
+});
+
+const upload_soportes = multer({
+    storage: storage_soportes
+});
+
+
 
 var auth = function(req, res, next) {
     if (req.session && req.session.admin)
@@ -214,6 +256,7 @@ app.post('/login', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.render("paginas/login");
 })
+
 app.get('/login', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.render("paginas/login");
@@ -227,7 +270,7 @@ app.get('/inicio/bips', auth, function(req, res) {
 })
 
 app.get('/login-data', auth, function(req, res) {
-    res.render("paginas/inicio", { user: req.session.user });
+    res.render("paginas/inicio", { user: req.session.username['nombre'] });
     //res.setHeader('Content-type', 'text/html');
     //res.render("paginas/inicio", { user: req.session.user });
 
@@ -952,9 +995,9 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
 
 
             /*
-            La función spawn lanza un comando en un nuevo proceso y podemos usarlo para pasarle cualquier argumento a ese comando
+                    La función spawn lanza un comando en un nuevo proceso y podemos usarlo para pasarle cualquier argumento a ese comando
             
-            */
+                    */
             //let spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo_af=" + path_plano_AF, '-logfile=/tmp/trans.log']);
             var spawn_trs = spawn('sh', ['/var/lib/PENTAHO_/data-integration/pan.sh', "-file=src/IntegracionKtr/tras-all-Planos.ktr", '-level=Detailed',
                 "-param:ruta_archivo_af=" + path_plano_AF,
@@ -1137,15 +1180,17 @@ app.post('/login-data', function(req, res) {
                 //modelSecurity.validacion_user_password().then(user_ok => {
 
                 //console.log("resp_user1"+Object.entries(user_ok));
-                console.log(user_ok[0].pwd);
-                console.log(user_ok[0].nombre_usuario);
+                //console.log(user_ok[0].pwd);
+                //console.log(user_ok[0].nombre_usuario);
 
                 if (user_ok[0].pwd == true) {
                     //console.log("entro en validacion");
+                    var usuario = { id: user_ok[0].id, username: req.body.username, id_area: user_ok[0].id_area, nombre: user_ok[0].nombre };
                     req.session.user = user_ok[0].nombre_usuario;
                     req.session.admin = true;
                     req.session.web = "http://192.168.1.84:3000";
-                    req.session.username = req.body.username;
+                    req.session.username = usuario;
+                    //req.session. = user_ok[0].id;
                     //console.log(req);
 
                     //console.log(listaArchivos);    
@@ -1157,7 +1202,7 @@ app.post('/login-data', function(req, res) {
                             req.flash('notify', 'Inicio de sesion con exito...');
                             res.setHeader('Content-type', 'text/html');
                             //res.redirect("/config-entidades");
-                            res.render("paginas/inicio", { user: req.session.user });
+                            res.render("paginas/inicio", { user: req.session.username['nombre'] });
                             /*res.render("paginas/entidades", {
                                 registroEntidades: listaentidades,
                                 status: 200,
@@ -1433,7 +1478,7 @@ app.get("/estado-recaudo-bips", auth, (req, res) => {
 });
 
 app.get("/control-mando", auth, (req, res) => {
-    res.render("paginas/control_mando", { user: req.session.user });
+    res.render("paginas/control_mando", { user: req.session.username['nombre'] });
 });
 
 app.get("/menu-ctm", auth, (req, res) => {
@@ -2151,6 +2196,15 @@ app.get("/listado-ctm-planes", auth, (req, res) => {
     });
 });
 
+app.get("/eliminar-popup-plan-accion/:id_plan_accion/control-mando-bips", auth, (req, res) => {
+    // console.log(req.query);
+    //console.log(req.params);
+    //var name = req.query.;    
+
+    let params = [req.params.id_plan, req.query.nombre_plan_accion];
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-plan-accion"), { datos_objetivo: params });
+});
+
 app.get("/consultar-tipometa-area-x-plan", auth, (req, res) => {
     modelControlMando.consultar_tipometaxidplan(req.query.id_plan).then(lista_tipo_meta => {
         res.send(lista_tipo_meta);
@@ -2171,9 +2225,9 @@ app.get("/ctm-indicadores", auth, (req, res) => {
 app.get("/ctm-reg-indicadores", auth, (req, res) => {
 
 
-    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+    modelControlMando.consultar_areaxid(req.session.username['id_area']).then(lista_area => {
 
-        res.render("paginas/ctm_reg_indicadores", { user: req.session.user, lista_areas: lista_areas });
+        res.render("paginas/ctm_reg_indicadores", { user: req.session.user, id: req.session.username['id'], lista_areas: lista_area, nombre: req.session.username['nombre'] });
     });
 
 
@@ -2322,6 +2376,16 @@ app.get("/lista-ctm-reg-indicadores", auth, (req, res) => {
 
 
 });
+//consultar_reg_indicadores_x_profesional
+app.get("/lista_reg_indicadores_x_profesional", auth, (req, res) => {
+
+    modelControlMando.consultar_reg_indicadores_x_profesional(req.query.id_profesional).then(lista_registro_indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        res.render("paginas/lista_ctm_reg_indicadores", { lista_registro_indicadores: lista_registro_indicadores });
+    });
+
+
+});
 
 app.get("/lista-ctm-cal-indicadores", auth, (req, res) => {
 
@@ -2362,20 +2426,91 @@ app.post("/persistir-indicador", auth, (req, res) => {
 
 })
 
-app.post("/persistir-registro-indicador", auth, (req, res) => {
+app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_soporte'), (req, res) => {
 
-    // console.log(req.query.profesional);
-    modelControlMando.insertar_registro_indicador(req.query.indicador, req.query.profesional, req.query.vigencia, req.query.periodo, req.query.vr_numerador, req.query.vr_denominador, req.query.observacion).then(respuesta => {
-        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW Indicador");
-            res.json({ status: 200, msg: 'El Registro Indicador , se creó correctamente...' });
-        } else {
-            res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador , intente de nuevo...' });
+    //let fecha_completa = date_.getDate() + "/" + (date_.getMonth() + 1) + "/" + date_.getFullYear();
+    let fech_now = Date.now();
+    let date_ = new Date(fech_now);
+
+    let fecha_completa_sinSeparador = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_";
+    let hora = date_.getHours() + "_" + date_.getMinutes() + "_";
+
+    console.log(req.files);
+
+    for (var i in req.files) {
+
+        let path_soporte = 'E:\Upload_Soportes_Bips/' + "_" + fecha_completa_sinSeparador + hora + req.files[i].originalname;
+
+        //console.log("cbxips" + req.body.cbxips);
+        console.log(path_soporte);
+        try {
+
+            modelControlMando.insertar_registro_indicador(
+                Number(req.body.select_indicador),
+                Number(req.body.select_profesional),
+                req.body.select_vigencia,
+                Number(req.body.select_periodo),
+                parseFloat(req.body.txt_vr_numerador),
+                parseFloat(req.body.txt_vr_denominador),
+                req.body.txt_observacion).then(respuesta => {
+
+                if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                    //console.log(respuesta);
+                    console.log(respuesta['rows'][0].id_registroindicador);
+
+                    /*Se debe de obtener el idRegistro Indicador recien insertado para realizar crear la relaciona en BD con el 
+                    soporte*/
+
+                    /* modelplanos.insertar_SoporteRegistroIndicador(
+
+                         req.body.cbxips,
+                         req.body.nombre_ips,
+                         periodo,
+                         req.files[i].originalname,
+                         req.files[i].mimetype,
+                         fecha_hora,
+                         '0',
+                         nombre_temp,
+                         path_ins,
+
+                     ).then(respuesta => {
+                         //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
+                         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                             console.log("OK... upload");
+                             //num_archivos--;
+                             //console.log("archivos insert "+num_archivos);
+
+                         }
+                     });*/
+
+
+                    //console.log("OK... insert NEW Indicador");
+                    res.json({ status: 200, msg: 'El Registro Indicador , se creó correctamente...' });
+
+                } else {
+                    res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador , intente de nuevo...' });
+                }
+
+            }).catch(err => {
+                console.log(err);
+                res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador YA EXISTE...' });
+            });
+
+
+            // res.json({ status: 200, msg: 'test ok' });
+
+            //console.log(req.params);
+            //console.log(req.files);
+
+
+        } catch (error) {
+            console.log("err " + error);
+
         }
-    }).catch(err => {
-        console.log(err);
-        res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador YA EXISTE...' });
-    });
+
+    }
+
+
 })
 
 app.post("/persistir-calificacion-indicador", auth, (req, res) => {

@@ -39,11 +39,12 @@
                                         <%= lista_Planes[i].plan %>
                                     </td>
 
-                                  
+
 
                                     <td class="btns-acciones">
                                         <a href="" title="Editar"><i class="fas fa-edit" onclick="editar('<%= lista_Planes[i].id_plan %>')"></i></a>
-                                        <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+                                        <a href="/eliminar-popup-plan-accion/<%= lista_Planes[i].id_plan %>/control-mando-bips/?nombre_plan_accion=<%= lista_Planes[i].plan %>" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+
                                     </td>
 
                                 </tr>
@@ -58,8 +59,8 @@
             </div>
 
             <script type="text/javascript">
-                $(document).ready(function () {
-                    setTimeout(function () {
+                $(document).ready(function() {
+                    setTimeout(function() {
                         $('#preview').hide();
                     }, 5000);
                 });
@@ -75,7 +76,7 @@
                         contentType: false,
                         cache: false,
                         processData: false,
-                        success: function (result) {
+                        success: function(result) {
                             $('#body_ent').html(result);
                         }
                     });
@@ -86,14 +87,11 @@
                     /*background-color: #eaedee;*/
                     overflow-x: auto;
                     overflow-y: auto;
-                    
                 }
-
                 
                 body::-webkit-scrollbar {
                     display: auto;
                     overflow-y: hidden;
-                    
                 }
                 
                 #tbl_planos {
@@ -101,7 +99,6 @@
                     font-family: 'Montserrat', sans-serif;
                     border-spacing: 0px !important;
                     padding: 0px;
-                   
                 }
                 
                 #tbl_planos th {
@@ -111,7 +108,6 @@
                 #tbl_planos td {
                     padding: 0;
                 }
-                
                 
                 .btns-acciones form .btn-submit {
                     font-family: 'Montserrat', sans-serif;
@@ -135,7 +131,6 @@
                 .head-tabla-reg {
                     background-color: #3f78da;
                     color: #fff;
-                    
                 }
                 
                 .titulo-tabla {
