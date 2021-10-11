@@ -1,0 +1,162 @@
+<%- include("head"); %>
+
+
+    <div class="col-md-12" id="" name="" style="margin-top: 10px;">
+
+
+        <div class="col-md-12" id="body_ent">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered" id="tbl_planos">
+
+
+                    <thead class="">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Soporte</th>
+                            <!--nombre origeinal-->
+                            <th scope="col">Habilitado</th>
+                            <th scope="col">Valido</th>
+                            <th scope="col">fecha Carga</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="developers">
+                        <% for(var i=0; i<lista_soportes.length; i++) { %>
+
+                            <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
+                                <td>
+                                    <%= i+1 %>
+
+                                </td>
+
+
+                                <td>
+                                    <%if(lista_soportes[i].extension == '.docx' ){%>
+                                        <i class="far fa-file-word" style="color: blue;"></i>
+                                        <%= lista_soportes[i].nombre_original %>
+                                            <%}else if(lista_soportes[i].extension == '.pdf'){%>
+                                                <i class="fas fa-file-pdf" style="color: red;"></i>
+                                                <%= lista_soportes[i].nombre_original %>
+                                                    <%}else if(lista_soportes[i].extension == '.xlsx'){%>
+                                                        <i class="fas fa-file-excel" style="color: green;"></i>
+                                                        <%= lista_soportes[i].nombre_original %>
+                                                            <%}else if(lista_soportes[i].extension == '.txt'){%>
+                                                                <i class="fas fa-file-alt" style="color: gray;"></i>
+                                                                <%= lista_soportes[i].nombre_original %>
+                                                                    <%}%>
+
+                                </td>
+
+                                <td>
+                                    <%= lista_soportes[i].es_habilitado %>
+                                </td>
+
+                                <td>
+                                    <%= lista_soportes[i].es_valido %>
+                                </td>
+                                <td>
+                                    <%= lista_soportes[i].fecha %>
+                                </td>
+
+                                <td class="btns-acciones">
+                                    <a href="" title="ver"><i class="fas fa-eye" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
+                                    <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>')"></i></a>
+
+                                </td>
+
+
+
+                            </tr>
+                            <% }%>
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+            });
+
+
+            function RealizarAccion(id_reg_indicador) {
+                event.preventDefault();
+                const peticion = "/form-ctm-calificacion-reg-indicador/?id_reg_indicador=" + id_reg_indicador;
+                $.ajax({
+                    type: 'post',
+                    url: peticion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(result) {
+                        $('#body_ent').html(result);
+                    }
+                });
+            }
+        </script>
+
+
+
+        <style>
+            body {
+                /*background-color: #eaedee;*/
+                overflow-x: auto;
+                overflow-y: auto;
+            }
+            
+            body::-webkit-scrollbar {
+                display: auto;
+                overflow-y: hidden;
+            }
+            
+            #tbl_planos {
+                font-size: small;
+                font-family: 'Montserrat', sans-serif;
+                border-spacing: 0px !important;
+                padding: 0px;
+            }
+            
+            #tbl_planos th {
+                padding: 7px;
+            }
+            
+            #tbl_planos td {
+                padding: 0;
+            }
+            
+            .btns-acciones form .btn-submit {
+                font-family: 'Montserrat', sans-serif;
+                border-radius: 5px;
+                font-size: 10px;
+                border: none;
+                cursor: pointer;
+                transition: .3s ease all;
+                font-weight: bold;
+            }
+            
+            #btn-elim-all {
+                font-family: 'Montserrat', sans-serif;
+                border-radius: 5px;
+                font-size: 10px;
+                border: none;
+                cursor: pointer;
+                transition: .3s ease all;
+            }
+            
+            .head-tabla-reg {
+                background-color: #3f78da;
+                color: #fff;
+            }
+            
+            .titulo-tabla {
+                color: #20488f;
+            }
+        </style>

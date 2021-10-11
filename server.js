@@ -17,11 +17,21 @@ const session = require('express-session')
 
 const app = express();
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------  Configuraciones de Directorio              -----------------------------//
+//                                                                                                            //
+//                                              2021                                                          //
+const dir_soportes_ctm = 'E:/Upload_Soportes_Bips/';
+//                                                                                                            //      
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 //app.use(express.urlencoded);
 //app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'filesBipsUploads')));
 app.use(express.static(path.join(__dirname, 'src/public')));
-app.use(express.static('E:\Upload_Soportes_Bips'));
+app.use(express.static(dir_soportes_ctm));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'src/vista'));
@@ -189,12 +199,12 @@ const storage_soportes = multer.diskStorage({
     /*  Se define el path con la palabra reservada de multer destination donde se le indica la 
         ruta abosluta para la carga de los soportes desde el registro de indicador
 
-        path : E:\Upload_Soportes_Bips
+        path : dir_soportes_ctm
 
         esta ruta absoluta esta definida como statica para el servidor y se puede cambiar,
-        NOTA ::: SE DEBE CAMBIAR EN --> app.use(express.static('E:\Upload_Soportes_Bips'));
+        NOTA ::: SE DEBE CAMBIAR EN --> app.use(express.static(dir_soportes_ctm));
     */
-    destination: 'E:/Upload_Soportes_Bips/',
+    destination: dir_soportes_ctm,
 
     filename: function(req, file, cb) {
         //console.log(req.files);
@@ -2321,6 +2331,18 @@ app.get("/validacion-insert-reg-indicadores", auth, (req, res) => {
     });
 });
 
+app.get("/obtener-reg-indicadores_xvigencia_xperiodo_xarea", auth, (req, res) => {
+    //console.log('id_area:' + req.query.area);
+    //console.log('VIGENCIA:' + req.query.vigencia);
+    //console.log('PERIODO:' + req.query.periodo);
+
+
+    modelControlMando.consultar_indicadorxVigencia_xPeriodo_xarea(req.query.vigencia, req.query.periodo, req.query.area).then(resultados_reg_indicadores => {
+        res.send(resultados_reg_indicadores);
+
+    });
+});
+
 app.get("/consultar-indicador-x-periodo-area", auth, (req, res) => {
 
     modelControlMando.consultar_indicadorxperiodo_area(req.query.vigencia, req.query.periodo, req.query.area).then(lista_indicadores => {
@@ -2339,13 +2361,6 @@ app.get("/consultar-detalle-indicador-x-indicador", auth, (req, res) => {
         res.send(lista_detalle_indicador);
     });
 });
-
-
-
-
-
-
-
 
 
 app.get("/ctm-indicadores-planes", auth, (req, res) => {
@@ -2397,6 +2412,45 @@ app.get("/lista-ctm-cal-indicadores", auth, (req, res) => {
 
 });
 
+app.get("/lista-ctm-reg-ind-xcal-filtrado", auth, (req, res) => {
+    //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
+    //console.log(req.query)
+    modelControlMando.consultar_reg_ind_xcal_filtrado(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_reg_indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        //res.setHeader('Content-type', 'text/html');
+        //res.send(lista_reg_indicadores);
+        res.render("paginas/lista_ctm_ind_xcal_filtrados", { lista_calificacion_indicadores: lista_reg_indicadores });
+    });
+
+
+});
+
+app.get("/obtener_soportesxreg_indicador", auth, (req, res) => {
+    //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
+    console.log(req.query)
+    modelControlMando.consultar_soportes_x_regIndicador(req.query.id_reg_indicador).then(lista_soportes => {
+        console.log(lista_soportes);
+
+        res.render("paginas/lista_ctm_soportes", { lista_soportes: lista_soportes });
+    });
+
+
+});
+
+///form-ctm-calificacion-reg-indicador
+app.post("/form-ctm-calificacion-reg-indicador", auth, (req, res) => {
+
+    modelControlMando.consultar_det_reg_ind_xcalificar(req.query.id_reg_indicador).then(lista_reg_indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        console.log(lista_reg_indicadores);
+        res.setHeader('Content-type', 'text/html');
+        res.render("paginas/detalleCalificacion_reg_indicador", { lista_calificacion_indicadores: lista_reg_indicadores });
+    });
+
+
+
+});
+
 //persistir-indicador
 app.post("/persistir-indicador", auth, (req, res) => {
     //res.send("OK");
@@ -2439,7 +2493,7 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
 
     for (var i in req.files) {
 
-        let path_soporte = 'E:\Upload_Soportes_Bips/' + "_" + fecha_completa_sinSeparador + hora + req.files[i].originalname;
+        let path_soporte = dir_soportes_ctm + "_" + fecha_completa_sinSeparador + hora + req.files[i].originalname;
 
         //console.log("cbxips" + req.body.cbxips);
         console.log(path_soporte);
@@ -2452,36 +2506,53 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
                 Number(req.body.select_periodo),
                 parseFloat(req.body.txt_vr_numerador),
                 parseFloat(req.body.txt_vr_denominador),
-                req.body.txt_observacion).then(respuesta => {
+                req.body.txt_observacion, '0', 1).then(respuesta => {
 
                 if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
                     //console.log(respuesta);
                     console.log(respuesta['rows'][0].id_registroindicador);
 
+                    var ext = path.extname(req.files[i].originalname);
+
+                    var id_registro_indicador = respuesta['rows'][0].id_registroindicador;
+                    var nombre_soporte = req.files[i].filename;
+                    var path_soporte = req.files[i].path;
+                    var es_habilitado = true;
+                    var extension = ext;
+                    var mime = req.files[i].mimetype;
+                    var fecha_carga = date_;
+                    var es_valido = true;
+                    var peso = req.files[i].size;
+                    var nombre_original = req.files[i].originalname;
+
+                    console.log(nombre_soporte);
+
                     /*Se debe de obtener el idRegistro Indicador recien insertado para realizar crear la relaciona en BD con el 
                     soporte*/
 
-                    /* modelplanos.insertar_SoporteRegistroIndicador(
+                    modelControlMando.insertar_SoporteRegistroIndicador(
 
-                         req.body.cbxips,
-                         req.body.nombre_ips,
-                         periodo,
-                         req.files[i].originalname,
-                         req.files[i].mimetype,
-                         fecha_hora,
-                         '0',
-                         nombre_temp,
-                         path_ins,
+                        id_registro_indicador,
+                        nombre_soporte,
+                        path_soporte,
+                        es_habilitado,
+                        extension,
+                        mime,
+                        fecha_carga,
+                        es_valido,
+                        peso,
+                        nombre_original
 
-                     ).then(respuesta => {
-                         //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
-                         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                             console.log("OK... upload");
-                             //num_archivos--;
-                             //console.log("archivos insert "+num_archivos);
+                    ).then(respuesta => {
+                        //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
+                        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                            console.log(respuesta);
+                            console.log("OK... upload");
+                            //num_archivos--;
+                            //console.log("archivos insert "+num_archivos);
 
-                         }
-                     });*/
+                        }
+                    });
 
 
                     //console.log("OK... insert NEW Indicador");
@@ -2515,8 +2586,8 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
 
 app.post("/persistir-calificacion-indicador", auth, (req, res) => {
 
-    console.log('reg_indicador:' + req.query.reg_indicador);
-
+    /*console.log('reg_indicador:' + req.query.reg_indicador);
+    
     console.log('numerador:' + req.query.vr_numerador);
     console.log('denominador:' + req.query.vr_denominador);
     console.log('res_num:' + req.query.resultado_numerico);
@@ -2524,10 +2595,10 @@ app.post("/persistir-calificacion-indicador", auth, (req, res) => {
     console.log('desviacion:' + req.query.desviacion);
 
     console.log('comentario:' + req.query.comentario);
-    console.log('estado:' + req.query.estado);
+    console.log('estado:' + req.query.estado);*/
 
 
-    modelControlMando.insertar_calificacion_indicador(req.query.reg_indicador, req.query.vr_numerador, req.query.vr_denominador, req.query.resultado_numerico, req.query.resultado_descriptivo, req.query.desviacion, req.query.comentario, req.query.estado).then(respuesta => {
+    modelControlMando.insertar_calificacion_indicador(Number(req.query.reg_indicador), parseFloat(req.query.vr_numerador), parseFloat(req.query.vr_denominador), parseFloat(req.query.resultado_numerico), Number(req.query.resultado_descriptivo), parseFloat(req.query.desviacion), req.query.comentario, Number(req.query.estado)).then(respuesta => {
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW Indicador");
             res.json({ status: 200, msg: 'Calificación Indicador <b></b>, se creó correctamente...' });
@@ -2668,7 +2739,7 @@ app.get("/calcular-resultado-numerico", auth, (req, res) => {
     //console.log('A:'+req.query.numerador);
     //console.log('B:'+req.query.denominador);
 
-    var valor_resultado_numerico = (req.query.numerador / req.query.denominador) * 100;
+    var valor_resultado_numerico = ((req.query.numerador / req.query.denominador) * 100).toFixed(2);
     // console.log('resultado_num:'+valor_resultado_numerico);
     res.send(valor_resultado_numerico.toString());
 
@@ -2679,7 +2750,7 @@ app.get("/calcular-desviacion", auth, (req, res) => {
     console.log('A:' + req.query.resultado_numerico);
     console.log('B:' + req.query.meta_numerica);
 
-    var valor_desviacion = (req.query.meta_numerica - req.query.resultado_numerico);
+    var valor_desviacion = (req.query.meta_numerica - req.query.resultado_numerico).toFixed(2);
     console.log('desviacion:' + valor_desviacion);
     res.send(valor_desviacion.toString());
 
