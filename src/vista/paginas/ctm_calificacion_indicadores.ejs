@@ -123,12 +123,20 @@
                                 <div class="form-group row">
                                     <label class="col-2 col-form-label" style="font-weight: bold;">
                                     Nombre Indicador: </label>
-                                    <div class="col-10">
+                                    <div class="col-8">
                                         <select class="form-control" name="select_indicador" id="select_indicador" data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar Indicador</option>
 
                                     </select>
                                     </div>
+                                    <div class="col-2">
+
+                                        <button type="button" id="btn-all" class="btn btn-sm btn-info" onclick="verTodos()" disabled>
+                                            Ver todos
+                                        </button>
+
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -276,10 +284,71 @@
 
             }
 
+            function verTodos() {
+                var peticion = '/lista-ctm-reg-ind-xcal';
+
+                $.ajax({
+
+                    type: 'get',
+                    url: peticion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function(result) {
+
+                        //tabla_reg_ind_xcal_filtrados
+                        $("#tabla_reg_ind_xcal_filtrados").html("");
+
+                        $("#tabla_reg_ind_xcal_filtrados").html(result);
+
+                        $("#select_vigencia").attr('disabled', false);
+                        document.getElementById("select_vigencia").selectedIndex = "0";
+                        $("#select_periodo").attr('disabled', true);
+                        $("#select_periodo").html("");
+                        $("#select_area").attr('disabled', true);
+                        $("#select_area").html("");
+                        $("#select_indicador").attr('disabled', true);
+                        $("#select_indicador").html("");
+                        $("#btn-all").attr('disabled', true);
+
+                    }
+                });
+            }
+
             $(document).ready(function() {
+
+                $("#select_periodo").attr('disabled', true);
+                $("#select_area").attr('disabled', true);
+                $("#select_indicador").attr('disabled', true);
+                $("#btn-all").attr('disabled', true);
+
+
+                var peticion = '/lista-ctm-reg-ind-xcal';
+
+                $.ajax({
+
+                    type: 'get',
+                    url: peticion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function(result) {
+
+                        //tabla_reg_ind_xcal_filtrados
+                        $("#tabla_reg_ind_xcal_filtrados").html("");
+
+                        $("#tabla_reg_ind_xcal_filtrados").html(result);
+
+                    }
+                });
 
 
                 $("#select_vigencia").change(function() {
+
 
                     var peticion = "/consultar-periodo-x-anio-calificacion/?año=" + $(this).val();
 
@@ -293,6 +362,8 @@
                         processData: false,
 
                         success: function(result) {
+
+                            $("#select_periodo").attr('disabled', false);
                             $("#select_periodo").html("");
                             $("#select_periodo").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
                             result.forEach(element => {
@@ -317,6 +388,12 @@
                         processData: false,
 
                         success: function(result) {
+
+                            $("#select_periodo").attr('disabled', false);
+                            $("#select_area").attr('disabled', false);
+                            $("#select_indicador").attr('disabled', true);
+                            $("#btn-all").attr('disabled', false);
+
                             $("#select_area").html("");
                             $("#select_area").append('<option selected="selected">' + 'Seleccionar Area' + '</option>');
                             result.forEach(element => {
@@ -362,6 +439,9 @@
                         cache: false,
                         processData: false,
                         success: function(result) {
+
+                            $("#select_indicador").attr('disabled', false);
+
                             $("#select_indicador").html("");
                             $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
 
@@ -407,94 +487,12 @@
 
                             $("#tabla_reg_ind_xcal_filtrados").html(result);
 
+                            $("#select_vigencia").attr('disabled', false);
+                            $("#select_periodo").attr('disabled', true);
+                            $("#select_area").attr('disabled', true);
+                            $("#select_indicador").attr('disabled', true);
+                            $("#btn-all").attr('disabled', false);
 
-
-
-                            /*  $("#txt_tipo_meta").html("");
-                               $("#txt_meta_numerica").html("");
-                               $("#txt_meta_descriptiva").html("");
-                               $("#txt_fl_descriptiva").html("");
-                               $("#txt_fl_numerador").html("");
-                               $("#txt_fl_denominador").html("");
-                               $("#txt_vr_denominador").html("");
-                               $("#txt_vr_numerador").html("");
-                               $("#txt_id_reg_indicador").html("");
-
-                               $("#txt_observacion").html("");
-
-                               //$("#txt_tipo_meta").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
-                               result.forEach(element => {
-                                   $("#txt_tipo_meta").append('<output value=' + element.tipo_meta + '>' + element.tipo_meta);
-                                   $("#txt_meta_numerica").append('<output value=' + element.meta_numerica + '>' + element.meta_numerica);
-                                   $("#txt_meta_descriptiva").append('<output value=' + element.meta_descriptiva + '>' + element.meta_descriptiva);
-                                   $("#txt_fl_descriptiva").append('<output value=' + element.formula_literal_descriptiva + '>' + element.formula_literal_descriptiva);
-                                   $("#txt_fl_numerador").append('<output value=' + element.formula_literal_numerador + '>' + element.formula_literal_numerador);
-                                   $("#txt_fl_denominador").append('<output value=' + element.formula_literal_denominador + '>' + element.formula_literal_denominador);
-                                   $("#txt_vr_denominador").append('<output value=' + element.formula_cifras_denominador + '>' + element.formula_cifras_denominador);
-                                   $("#txt_vr_numerador").append('<output value=' + element.formula_cifras_numerador + '>' + element.formula_cifras_numerador);
-                                   $("#txt_id_reg_indicador").append('<output value=' + element.id_registroindicador + '>' + element.id_registroindicador);
-                                   $("#txt_observacion").append('<output value=' + element.observaciones + '>' + element.observaciones);
-
-
-                               });*/
-
-
-
-                            /*  if ($('#txt_tipo_meta').val() == "Descriptiva") {
-                                $('#panel_numerica').attr('hidden', true);
-                                $('#panel_descriptiva').attr('hidden', false);
-
-
-
-                            } else {
-                                $('#panel_numerica').attr('hidden', false);
-                                $('#panel_descriptiva').attr('hidden', true);
-                                var peticion2 = "/calcular-resultado-numerico/?numerador=" + $('#txt_vr_numerador').val()
-                                    + "&denominador=" + $('#txt_vr_denominador').val();
-
-                                $.ajax({
-                                    type: 'get',
-                                    url: peticion2,
-                                    data: [],
-                                    contentType: false,
-                                    cache: false,
-                                    processData: false,
-                                    success: function (result) {
-                                        $("#txt_resultado_numerico").html("");
-                                        //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
-                                        $("#txt_resultado_numerico").append('<option value=' + result + '>' + result + ' </option>');
-
-                                        var peticion3 = "/calcular-desviacion/?meta_numerica=" + $('#txt_meta_numerica').val()
-                                            + "&resultado_numerico=" + $('#txt_resultado_numerico').val();
-
-                                        $.ajax({
-                                            type: 'get',
-                                            url: peticion3,
-                                            data: [],
-                                            contentType: false,
-                                            cache: false,
-                                            processData: false,
-                                            success: function (result2) {
-                                                $("#txt_desviacion").html("");
-                                                //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
-                                                $("#txt_desviacion").append('<option value=' + result2 + '>' + result2 + ' </option>');
-
-
-                                            }
-                                        });
-
-                                    }
-                                });
-
-
-
-
-
-
-
-
-                            }
-                        */
                         }
                     });
 
@@ -510,6 +508,9 @@
 
 
                 })
+
+
+
 
             });
         </script>

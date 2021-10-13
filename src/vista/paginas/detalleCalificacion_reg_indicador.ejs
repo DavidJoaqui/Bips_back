@@ -29,14 +29,24 @@
 
                     <form id="formulario" enctype="multipart/form-data" method="POST">
 
-                        <div class="col-12">
-                            <h3 class=" col-12">Detalles Generales del Registro de Indicador.</h3>
+                        <div class="form-group row">
+                            <div class="col-9">
+                                <h3 class=" col-12">Detalles Generales del Registro de Indicador.</h3>
+
+                            </div>
+                            <h4 class=" col-1"><small style="color: blue;">Versión::</small> </h4>
+                            <div class="col-2">
+
+                                <output class="form-control" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value='<%= lista_calificacion_indicadores[0].tipo_meta %>'>
+                            <%= lista_calificacion_indicadores[0].version %>
+                            </output>
+                            </div>
                         </div>
 
                         <div class="form-group row">
 
 
-                            <label class="col-12 col-form-label" style="font-weight: bold;">
+                            <label class="col-12 col-form-label" style="font-weight: bold;color: blue;">
                                 Informacion del Indicador y Profesional </label>
 
                         </div>
@@ -180,6 +190,16 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
+                                            Observaciones: </label>
+                                <div class="col-10">
+                                    <output class="form-control" type="text" name="txt_observacion" id="txt_observacion">
+                                        <%= lista_calificacion_indicadores[0].observaciones %>
+                                        </output>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="container" id="panel_numerica" style=" text-align: center;" hidden>
@@ -268,7 +288,7 @@
                         </div>
 
 
-                        <label class="col-12 col-form-label" style="font-weight: bold;">
+                        <label class="col-12 col-form-label" style="font-weight: bold;color: blue;">
                             Soportes </label>
                         <div class="form-group row" id="panel_soportes">
 
@@ -281,8 +301,8 @@
 
                             <div class="form-group row">
 
-                                <label class="col-12 col-form-label" style="font-weight: bold;">
-                                        Calificacion </label>
+                                <label class="col-12 col-form-label" style="font-weight: bold;color: blue;">
+                                        Calificación </label>
 
                                 <label class="col-2 col-form-label" style="font-weight: bold;">
                                         Resultado: </label>
@@ -297,38 +317,39 @@
 
                             <% }%>
 
+                                <div class="form-group row">
+                                    <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
+                                            Comentario: </label>
+                                    <div class="col-10">
+                                        <textarea class="form-control" type="text" name="txt_comentario" id="txt_comentario" value=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+
+                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                                Aprobado:
+                                            </label>
+                                    <div class="col-2">
+                                        <select class="form-control" name="select_aprobar" id="select_aprobar" data-toggle="tooltip" title="Seleccionar Aprobar!" data-placement="right" required>
+                                                    <option selected="selected" value="">Seleccionar</option>
+                                                    <option value="1">Si</option>
+                                                    <option value="0">No</option>
+                                                </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                                    <div class="text-center">
+                                        <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar
+                                                    Calificación Indicador</button>
+                                    </div>
+                                </div>
 
 
 
                 </div>
 
-                <div class="form-group row">
-                    <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
-                                Comentario: </label>
-                    <div class="col-10">
-                        <textarea class="form-control" type="text" name="txt_comentario" id="txt_comentario" value=""></textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
 
-                    <label class="col-2 col-form-label" style="font-weight: bold;">
-                                    Aprobado:
-                                </label>
-                    <div class="col-2">
-                        <select class="form-control" name="select_aprobar" id="select_aprobar" data-toggle="tooltip" title="Seleccionar Aprobar!" data-placement="right" required>
-                                        <option selected="selected" value="">Seleccionar</option>
-                                        <option value="1">Si</option>
-                                        <option value="0">No</option>
-                                    </select>
-                    </div>
-                </div>
-
-                <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-                    <div class="text-center">
-                        <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar
-                                        Calificación Indicador</button>
-                    </div>
-                </div>
 
 
 

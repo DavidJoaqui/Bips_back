@@ -61,9 +61,12 @@
                                 </td>
 
                                 <td class="btns-acciones">
-                                    <a href="" title="ver"><i class="fas fa-eye" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
-                                    <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>')"></i></a>
-
+                                    <%if(lista_soportes[i].extension != '.pdf' ){%>
+                                        <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
+                                        <%}else{%>
+                                            <a href="" title="Ver"><i class="fas fa-eye" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
+                                            <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
+                                            <%}%>
                                 </td>
 
 
@@ -100,6 +103,58 @@
                         $('#body_ent').html(result);
                     }
                 });
+            }
+
+            function RealizarAccionDescargar(id_soporte, nombre_original, mime, extension) {
+                event.preventDefault();
+                const peticion = "/descargar-recurso-soporte/" + id_soporte;
+
+                /*var dtype = "";
+                if (extension == '.pdf') {
+                    dtype = "pdf"
+                } else {
+                    dtype = ""
+                }*/
+
+                /* $.ajax({
+                     method: 'get',
+                     url: peticion,
+                     contentType: mime,
+
+                     success: function(data) {
+                         //alert("OK");
+
+
+                         var binaryData = [];
+                         binaryData.push(data);
+
+                         var a = document.createElement('a');
+                         var url = window.URL.createObjectURL(new Blob(binaryData));
+                         a.href = url;
+                         //a.download = nombre_original;
+                         document.body.append(a);
+                         a.click();
+                         a.remove();
+                         window.URL.revokeObjectURL(url);
+                     }
+                 });*/
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', peticion, true);
+                xhr.responseType = 'blob';
+
+                xhr.onload = function(e) {
+
+                    var blob = new File([this.response], {
+                        type: mime
+                    });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = nombre_original;
+                    link.click();
+
+                };
+
+                xhr.send();
             }
         </script>
 

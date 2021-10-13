@@ -2425,6 +2425,19 @@ app.get("/lista-ctm-reg-ind-xcal-filtrado", auth, (req, res) => {
 
 });
 
+app.get("/lista-ctm-reg-ind-xcal", auth, (req, res) => {
+    //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
+    //console.log(req.query)
+    modelControlMando.consultar_reg_ind_xcalificar().then(lista_reg_indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        //res.setHeader('Content-type', 'text/html');
+        //res.send(lista_reg_indicadores);
+        res.render("paginas/lista_ctm_ind_xcal_filtrados", { lista_calificacion_indicadores: lista_reg_indicadores });
+    });
+
+
+});
+
 app.get("/obtener_soportesxreg_indicador", auth, (req, res) => {
     //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
     console.log(req.query)
@@ -2432,6 +2445,29 @@ app.get("/obtener_soportesxreg_indicador", auth, (req, res) => {
         console.log(lista_soportes);
 
         res.render("paginas/lista_ctm_soportes", { lista_soportes: lista_soportes });
+    });
+
+
+});
+///descargar-recurso-soporte
+app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
+    //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
+    //console.log(req.query)
+    modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
+        //console.log(lista_soportes[0]);
+
+
+        //res.download(path.join(__dirname, 'example_pdf.pdf'));
+
+        // console.log(lista_soportes[0].peso);
+        console.log(lista_soportes);
+        var file = fs.readFileSync(path.join(__dirname + "/example_pdf.pdf"), 'binary');
+        //res.setHeader('Content-Length', 10000000000000000);
+        res.write(file, 'binary');
+        res.end();
+
+        //res.json({ respuesta: "OK", status: 200 });
+
     });
 
 
