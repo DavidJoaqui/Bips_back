@@ -30,16 +30,60 @@
                     <form id="formulario" enctype="multipart/form-data" method="POST">
 
                         <div class="form-group row">
-                            <div class="col-9">
+                            <div class="col-6">
                                 <h3 class=" col-12">Detalles Generales del Registro de Indicador.</h3>
 
                             </div>
-                            <h4 class=" col-1"><small style="color: blue;">Versión::</small> </h4>
+                            <h4 class=" col-1"><small style="color: blue;">Versión:</small> </h4>
                             <div class="col-2">
 
-                                <output class="form-control" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value='<%= lista_calificacion_indicadores[0].tipo_meta %>'>
-                            <%= lista_calificacion_indicadores[0].version %>
-                            </output>
+
+                                <%= lista_calificacion_indicadores[0].version %>
+                                    </output>
+                            </div>
+
+                            <h4 class=" col-1"><small style="color: blue;">Calificado:</small> </h4>
+                            <div class="col-2">
+
+                                <script type="text/javascript">
+                                    event.preventDefault();
+                                    const peticion = "/consultar-calificacion-reg-indicador/?id_reg_indicador=" + '<%= lista_calificacion_indicadores[0].id_registroindicador %>';
+                                    $.ajax({
+                                        type: 'post',
+                                        url: peticion,
+                                        data: [],
+                                        contentType: false,
+                                        cache: false,
+                                        processData: false,
+                                        success: function(result) {
+                                            if (result.length != 0 && result[0].estado) {
+                                                $('#estado_cal').html('<i class="fas fa-check-circle text-center" onclick="" style="color: green;"> Aprobado</i>');
+                                            } else {
+                                                $('#estado_cal').html("<i class='fas fa-minus-circle text-center' style='color: red;'' onclick=''></i>Pendiente Aprobación");
+
+                                                var estado_cal = '<%=lista_calificacion_indicadores[0].calificado%>';
+
+                                                if (estado_cal = 1 && !result[0].estado) {
+                                                    alert('se genera nueva calificacion');
+                                                }
+
+                                            }
+
+                                        }
+                                    });
+                                </script>
+
+
+                                <%if(lista_calificacion_indicadores[0].calificado){%>
+
+                                    <i class="fas fa-check-circle text-center" onclick="" style=""> SI /<p id="estado_cal"></p></i>
+
+                                    <%}else{%>
+
+
+                                        <i class="fas fa-minus-circle text-center" style="" onclick=""> NO /<p id="estado_cal"></p></i>
+                                        <%}%>
+
                             </div>
                         </div>
 
@@ -255,7 +299,7 @@
                                             </output>
                                 </div>
 
-                                <label class="col-form-label" style="font-weight: bold;"> Resultado:
+                                <!--<label class="col-form-label" style="font-weight: bold;"> Resultado:
                                         </label>
 
                                 <div class="col-1">
@@ -267,18 +311,17 @@
                                         <div class="col-1">
                                             <output class="form-control" type="text" name="txt_desviacion"
                                                 id="txt_desviacion" value="">
-                                        </div>
-    
-                                        <div class="col-1">
-                                            <output class="form-control" type="text" name="txt_id_reg_indicador" hidden 
-                                                id="txt_id_reg_indicador" value='<%= lista_calificacion_indicadores[0].id_registroindicador %>'>
+                                        </div>-->
+
+                                <div class="col-1">
+                                    <output class="form-control" type="text" name="txt_id_reg_indicador" hidden id="txt_id_reg_indicador" value='<%= lista_calificacion_indicadores[0].id_registroindicador %>'>
                                                 <%= lista_calificacion_indicadores[0].id_registroindicador %>
                                             </output>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
-                                            Observaciones: </label>
+                                            Nota agregada: </label>
                                 <div class="col-10">
                                     <output class="form-control" type="text" name="txt_observacion" id="txt_observacion">
                                         <%= lista_calificacion_indicadores[0].observaciones %>
@@ -296,67 +339,60 @@
                         </div>
 
 
-                        <% if (lista_calificacion_indicadores[0].tipo_meta == 'Descriptiva') { %>
-
-                            <div class="form-group row">
-
-                                <label class="col-12 col-form-label" style="font-weight: bold;color: blue;">
-                                        Calificación </label>
-
-                                <label class="col-2 col-form-label" style="font-weight: bold;">
-                                        Resultado: </label>
-                                <div class="col-4">
-                                    <select class="form-control" name="select_resultado_descriptivo" id="select_resultado_descriptivo" data-toggle="tooltip" title="Seleccionar Resultado!" data-placement="right" required>
-                                            <option selected="selected" value="">Seleccionar</option>
-                                            <option value=1>Cumple</option>
-                                            <option value=0>No Cumple</option>
-                                        </select>
-                                </div>
-                            </div>
-
-                            <% }%>
-
-                                <div class="form-group row">
-                                    <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
-                                            Comentario: </label>
-                                    <div class="col-10">
-                                        <textarea class="form-control" type="text" name="txt_comentario" id="txt_comentario" value=""></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-
-                                    <label class="col-2 col-form-label" style="font-weight: bold;">
-                                                Aprobado:
-                                            </label>
-                                    <div class="col-2">
-                                        <select class="form-control" name="select_aprobar" id="select_aprobar" data-toggle="tooltip" title="Seleccionar Aprobar!" data-placement="right" required>
-                                                    <option selected="selected" value="">Seleccionar</option>
-                                                    <option value="1">Si</option>
-                                                    <option value="0">No</option>
-                                                </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-                                    <div class="text-center">
-                                        <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar
-                                                    Calificación Indicador</button>
-                                    </div>
-                                </div>
-
-
                     </form>
                 </div>
             </div>
+
+
         </div>
 
+        <%if(lista_calificacion_indicadores[0].calificado){%>
+
+            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
 
 
-        <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
+                <div class="col-md col-md-offset-3" style="padding-bottom: 0px">
 
-            <iframe src="" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_indicador" id="iframe_indicador">
-                </iframe>
-        </div>
+                    <div class="container" id="" style=" text-align: center;">
+
+
+
+                        <div class="col-12 col-form-label text-center">
+
+                            <div><label for="panel_soportes" class="col-12 col-form-label" style="font-weight: bold;font-size: 15px;color: blue">
+                    Acerca de la Calificación </label></div>
+
+                        </div>
+                        <div class="form-group row col-12" style="justify-content: center;align-items: center;">
+
+
+                            <h1 class="col-12 col-form-label text-center" style="font-weight: bold;color: blue;font-size: 15px;">
+                                Comentarios: </h1>
+
+                            <output class="form-control col-12 text-center" type="text" name="txt_observacion_calificacion" id="txt_observacion_calificacion">
+                        
+                        </output>
+
+
+                        </div>
+                        <div class="">
+
+
+
+                            <h1 class="col-12 col-form-label text-center" style="font-weight: bold;color: blue;font-size: 20px;">
+                                Trazabilidad </h1>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <%}%>
+
+
+
+
     </body>
 
 
@@ -451,6 +487,29 @@
 
             //alert('<%=lista_calificacion_indicadores["id_registroindicador"] %>' );
             //console.log(lista_calificacion_indicadores);
+
+
+            event.preventDefault();
+            const peticion = "/consultar-calificacion-reg-indicador/?id_reg_indicador=" + '<%= lista_calificacion_indicadores[0].id_registroindicador %>';
+            $.ajax({
+
+                type: 'post',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(result) {
+                    if (result[0].comentario != "") {
+                        $('#txt_observacion_calificacion').html(result[0].comentario);
+                    } else {
+                        $('#txt_observacion_calificacion').html("Sin observaciones");
+
+                    }
+
+                }
+            });
+
 
             var tipo_meta = '<%= lista_calificacion_indicadores[0].tipo_meta %>';
 

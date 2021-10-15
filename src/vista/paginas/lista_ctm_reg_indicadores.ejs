@@ -33,6 +33,8 @@
                                 <th>Observaciones</th>
                                 <th>Area</th>
                                 <th>Profesional</th>
+                                <th>Calificado</th>
+                                <th>Aprobado</th>
                                 <th>Acciones</th>
 
                             </tr>
@@ -82,9 +84,59 @@
                                         <%= lista_registro_indicadores[i].nombre_profesional %>
                                     </td>
 
+                                    <td>
+
+                                        <%if(lista_registro_indicadores[i].calificado){%>
+                                            SI
+                                            <%}else{%>
+                                                NO
+                                                <%}%>
+                                    </td>
+
+                                    <td id="<%= lista_registro_indicadores[i].id_registroindicador %>" name="<%= lista_registro_indicadores[i].id_registroindicador %>">
+                                        <!--Se debera verificar si el id registro indicador ya fue calificado para
+                                        seteaer el siguiente estado-->
+                                        <script type="text/javascript">
+                                            event.preventDefault();
+                                            const peticion = "/consultar-calificacion-reg-indicador/?id_reg_indicador=" + '<%= lista_registro_indicadores[i].id_registroindicador %>';
+                                            $.ajax({
+                                                type: 'post',
+                                                url: peticion,
+                                                data: [],
+                                                contentType: false,
+                                                cache: false,
+                                                processData: false,
+                                                success: function(result) {
+                                                    if (result.length != 0 && result[0].estado) {
+                                                        $('#<%= lista_registro_indicadores[i].id_registroindicador %>').html('<i class="fas fa-check-circle text-center" onclick="" style="color: green;"> SI</i>');
+                                                    } else {
+                                                        $('#<%= lista_registro_indicadores[i].id_registroindicador %>').html("<i class='fas fa-minus-circle text-center' style='color: red;'' onclick=''></i>NO");
+                                                    }
+
+                                                }
+                                            });
+                                        </script>
+
+
+                                    </td>
+
                                     <td class="btns-acciones">
-                                        <a href="" title="Editar"><i class="fas fa-edit"></i></a>
-                                        <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+
+                                        <%if(lista_registro_indicadores[i].calificado){%>
+
+                                            <a href="" title="ver Detalle" style="color:blue" onclick="verDetalle('<%= lista_registro_indicadores[i].id_registroindicador %>')"><i class="far fa-eye"></i></a>
+
+
+                                            <%}else{%>
+                                                <a href="" title="ver Detalle" style="color:blue" onclick="verDetalle('<%= lista_registro_indicadores[i].id_registroindicador %>')"><i class="far fa-eye"></i></a>
+                                                <span class="vertical-line"></span>
+                                                <a href="" title="Editar"><i class="fas fa-edit"></i></a>
+                                                <span class="vertical-line"></span>
+                                                <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+
+                                                <%}%>
+
+
                                     </td>
 
                                 </tr>
@@ -99,7 +151,37 @@
             </div>
 
 
+            <script type="text/javascript">
+                $(document).ready(function() {
+
+                });
+
+
+                function verDetalle(id_reg_indicador) {
+                    event.preventDefault();
+                    const peticion = "/form-ctm-visualizar-reg-indicador/?id_reg_indicador=" + id_reg_indicador;
+                    $.ajax({
+                        type: 'post',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            $('#body_ent').html(result);
+                        }
+                    });
+                }
+            </script>
+
             <style>
+                .vertical-line {
+                    display: inline-block;
+                    border-left: 1px solid #ccc;
+                    margin: 0 5px;
+                    height: 10px;
+                }
+                
                 body {
                     /*background-color: #eaedee;*/
                     overflow-x: auto;

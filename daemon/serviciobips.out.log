@@ -269,3 +269,161 @@ OK... update plan general
 }
 El servidor se esta ejecutando...
 El servidor se esta ejecutando...
+El servidor se esta ejecutando...
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+[
+  {
+    id_registroindicador: '64',
+    fecharegistro: 'OCT-11-2021 12:00AM',
+    vigencia: '2020',
+    periodoevaluado: '5',
+    formula_cifras_numerador: NaN,
+    formula_cifras_denominador: NaN,
+    observaciones: 'ok Mmayo',
+    calificado: false,
+    version: 1,
+    nombre_mes: 'MAYO',
+    id_indicador: '12',
+    tipo_meta: 'Descriptiva',
+    formula_literal_numerador: '',
+    formula_literal_denominador: '',
+    meta_descriptiva: 'Este req es indispensable, debe cumlpirse',
+    formula_literal_descriptiva: 'Aprueba',
+    id_area: '29',
+    nombre_indicador: 'test desc',
+    meta_numerica: 0,
+    id_plan: '17',
+    num_identificacion: '345345',
+    nombre_profesional: 'test test',
+    nombre_area: 'SISTEMAS'
+  }
+]
+{ id_reg_indicador: '64', _: '1634130598204' }
+[
+  {
+    id_soporte: '10',
+    id_registro_indicador: '64',
+    nombre_soporte: '_11102021_12_58_example_pdf.pdf',
+    ruta_digital: 'E:\\Upload_Soportes_Bips\\_11102021_12_58_example_pdf.pdf',
+    es_habilitado: true,
+    extension: '.pdf',
+    mime_type: 'application/pdf',
+    fecha_carga: 2021-10-11T05:00:00.000Z,
+    es_valido: true,
+    peso: '1016315',
+    nombre_original: 'example_pdf.pdf',
+    fecha: 'OCT-11-2021 12:00AM'
+  }
+]
+[]
+OK... insert NEW Indicador
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'pwd',
+  'btn-login': ''
+}
+[
+  {
+    id_registroindicador: '64',
+    fecharegistro: 'OCT-11-2021 12:00AM',
+    vigencia: '2020',
+    periodoevaluado: '5',
+    formula_cifras_numerador: NaN,
+    formula_cifras_denominador: NaN,
+    observaciones: 'ok Mmayo',
+    calificado: false,
+    version: 1,
+    nombre_mes: 'MAYO',
+    id_indicador: '12',
+    tipo_meta: 'Descriptiva',
+    formula_literal_numerador: '',
+    formula_literal_denominador: '',
+    meta_descriptiva: 'Este req es indispensable, debe cumlpirse',
+    formula_literal_descriptiva: 'Aprueba',
+    id_area: '29',
+    nombre_indicador: 'test desc',
+    meta_numerica: 0,
+    id_plan: '17',
+    num_identificacion: '345345',
+    nombre_profesional: 'test test',
+    nombre_area: 'SISTEMAS'
+  }
+]
+{ id_reg_indicador: '64', _: '1634143835207' }
+[
+  {
+    id_soporte: '10',
+    id_registro_indicador: '64',
+    nombre_soporte: '_11102021_12_58_example_pdf.pdf',
+    ruta_digital: 'E:\\Upload_Soportes_Bips\\_11102021_12_58_example_pdf.pdf',
+    es_habilitado: true,
+    extension: '.pdf',
+    mime_type: 'application/pdf',
+    fecha_carga: 2021-10-11T05:00:00.000Z,
+    es_valido: true,
+    peso: '1016315',
+    nombre_original: 'example_pdf.pdf',
+    fecha: 'OCT-11-2021 12:00AM'
+  }
+]
+OK... insert NEW Indicador
+[
+  {
+    id_registroindicador: '45',
+    fecharegistro: 'OCT-09-2021 12:00AM',
+    vigencia: '2020',
+    periodoevaluado: '1',
+    formula_cifras_numerador: 0,
+    formula_cifras_denominador: 0,
+    observaciones: 'test',
+    calificado: false,
+    version: 1,
+    nombre_mes: 'ENERO',
+    id_indicador: '12',
+    tipo_meta: 'Descriptiva',
+    formula_literal_numerador: '',
+    formula_literal_denominador: '',
+    meta_descriptiva: 'Este req es indispensable, debe cumlpirse',
+    formula_literal_descriptiva: 'Aprueba',
+    id_area: '29',
+    nombre_indicador: 'test desc',
+    meta_numerica: 0,
+    id_plan: '17',
+    num_identificacion: '345345',
+    nombre_profesional: 'test test',
+    nombre_area: 'SISTEMAS'
+  }
+]
+{ id_reg_indicador: '45', _: '1634143865332' }
+[]
+OK... insert NEW Indicador
+id_area:29
+VIGENCIA:2020
+PERIODO:02
+indicador:11
+El servidor se esta ejecutando...
+El servidor se esta ejecutando...
+El servidor se esta ejecutando...
+El servidor se esta ejecutando...
+{}
+{}
+[Object: null prototype] {
+  username: 'user',
+  password: 'wewe',
+  'btn-login': ''
+}

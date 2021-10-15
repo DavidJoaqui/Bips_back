@@ -173,6 +173,7 @@ module.exports = {
         return resultados.rows;
     },
 
+    //consultar_PlanesXestrategia
     async consultar_PlanesXestrategia(id_estrategia) {
         const resultados = await conexion.query("select * from schema_control.planes where id_estrategia = $1", [id_estrategia]);
         return resultados.rows;
@@ -181,6 +182,11 @@ module.exports = {
     async consultar_plan_accion_x_id(id_plan) {
         const resultados = await conexion.query("select d.id_plan, d.plan,c.id_estrategia ,a.id_objetivo,a.id_linea_accion,b.id_plan_general from schema_control.objetivos a inner join schema_control.lineas_acciones b on(a.id_linea_accion=b.id_linea) inner join schema_control.estrategias c on (c.id_objetivo=a.id_objetivo) inner join schema_control.planes d on (d.id_estrategia=c.id_estrategia) where d.id_plan = $1", [id_plan]);
         return resultados.rows;
+    },
+
+    async eliminar_plan_accion(id) {
+        const resultados = await conexion.query("delete from schema_control.planes where id_plan = $1", [id]);
+        return resultados;
     },
 
     //-----------------------Metodos Areas--------------------------------------//
@@ -242,7 +248,7 @@ module.exports = {
     },
 
     async consultar_reg_indicadores_x_profesional(idprof) {
-        const resultados = await conexion.query("select a.id_registroindicador, to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes, b.nombre_indicador, b.tipo_meta , a.formula_cifras_numerador, a.formula_cifras_denominador, a.observaciones, d.nombre_area , concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where c.id_profesional = $1 order by a.id_registroindicador", [idprof]);
+        const resultados = await conexion.query("select a.id_registroindicador, to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, a.calificado, e.nombre_mes, b.nombre_indicador, b.tipo_meta , a.formula_cifras_numerador, a.formula_cifras_denominador, a.observaciones, d.nombre_area , concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where c.id_profesional = $1 order by a.id_registroindicador", [idprof]);
         return resultados.rows;
     },
 
@@ -317,6 +323,13 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_det_reg_ind_evaluacion(id_reg_indicador) {
+        const resultados = await conexion.query("select a.id_registroindicador, to_char(a.fecharegistro, 'MON-DD-YYYY HH12:MIPM') as fecharegistro, a.vigencia, a.periodoevaluado, a.formula_cifras_numerador , a.formula_cifras_denominador, a.observaciones , a.calificado, a.version , e.nombre_mes, b.*, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional, d.nombre_area from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.id_registroindicador = $1", [id_reg_indicador]);
+        return resultados.rows;
+    },
+
+
+
     async consultar_soportes_x_regIndicador(id_reg_indicador) {
         const resultados = await conexion.query("select s.*, to_char(s.fecha_carga,'MON-DD-YYYY HH12:MIPM') fecha from schema_control.soporte s inner join schema_control.registroindicadores r on(s.id_registro_indicador = r.id_registroindicador) where s.id_registro_indicador = $1 and s.es_habilitado ='1' and s.es_valido ='1'", [id_reg_indicador]);
         return resultados.rows;
@@ -324,6 +337,18 @@ module.exports = {
 
     async consultar_soporte(id_soporte) {
         const resultados = await conexion.query("select s.* from schema_control.soporte s inner join schema_control.registroindicadores r on(s.id_registro_indicador = r.id_registroindicador) where s.id_registro_indicador = $1 and s.es_habilitado ='1' and s.es_valido ='1'", [id_soporte]);
+        return resultados.rows;
+    },
+
+    async actualizar_RegIndicador_calificado(id_reg_indicador) {
+        const resultados = await conexion.query("update schema_control.registroindicadores set calificado='1' where id_registroindicador=$1 ", [id_reg_indicador]);
+        return resultados;
+    },
+
+    //consultar_det_cal_x_regIndicador
+
+    async consultar_det_cal_x_regIndicador(id_reg_indicador) {
+        const resultados = await conexion.query("select cri.* from schema_control.calificacion_registro_indicadores cri left join schema_control.registroindicadores r on(cri.id_registro_indicador = r.id_registroindicador) where cri.id_registro_indicador =$1", [id_reg_indicador]);
         return resultados.rows;
     },
 
@@ -351,6 +376,12 @@ module.exports = {
     async insertar_Profesional(num_id_prof, nombres, apellidos, id_area) {
         const resultados = await conexion.query('insert into schema_control.profesionales (num_identificacion,nombres,apellidos,id_area_trabajo) values ($1,$2,$3,$4)', [num_id_prof, nombres, apellidos, id_area]);
         return resultados;
+    },
+
+    //consultarProfesionalXidUsuario
+    async consultarProfesionalXidUsuario(id_user) {
+        const resultados = await conexion.query("select * from schema_control.profesionales where id_user = $1", [id_user]);
+        return resultados.rows;
     },
 
     //-----------------------Metodos calificacion indicadores--------------------------------------//

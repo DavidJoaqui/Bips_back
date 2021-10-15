@@ -102,7 +102,7 @@
 
                                 <div class="col-5">
                                     <p>
-                                        <input type="text" id="select_profesional" name="select_profesional" value="<%= id %>" hidden>
+                                        <input type="text" id="select_profesional" name="select_profesional" value="<%= id_profesional %>" hidden>
                                         <input type="text" name="" id="" value=" <%= nombre %>" disabled>
 
                                     </p>
@@ -321,20 +321,24 @@
 
                         </form>
 
-                </div>
+                    </div>
             </div>
             </div>
 
             </div>
 
 
-            <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
+            <!--<div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
-                <iframe src="/lista_reg_indicadores_x_profesional/?id_profesional=<%= id %>" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0"
+                <iframe src="/lista_reg_indicadores_x_profesional/?id_profesional=<%= id_profesional %>" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0"
                     class="embed-responsive-item" width="100%" height="600px" name="iframe_indicador"
                     id="iframe_indicador">
                 </iframe>
+            </div>-->
+            <div class="" id="tbl_mis_registros">
+
             </div>
+
         </body>
 
 
@@ -590,7 +594,7 @@
                 ///lista-ctm-indicadores
 
                 $('#iframe_indicador').attr('hidden', false);
-                $('#iframe_indicador').attr("src", '/lista_reg_indicadores_x_profesional/?id_profesional=<%= id %>');
+                $('#iframe_indicador').attr("src", '/lista_reg_indicadores_x_profesional/?id_profesional=<%= id_profesional %>');
                 $("#iframe_indicador").show();
 
 
@@ -599,7 +603,7 @@
             $(document).ready(function () {
 
                 //event.preventDefault();
-                var peticion = "/consultar-vigencia-anio-profesional/?profesional=" +'<%= id %>';
+                var peticion = "/consultar-vigencia-anio-profesional/?profesional=" +'<%= id_profesional %>';
 
             $.ajax({
 
@@ -618,6 +622,29 @@
                     });
                 }
             }); 
+
+            //consulta de los registros de indicador por profesional o profesional en sesion
+
+            var peticion_mis_registros = "/lista_reg_indicadores_x_profesional/?id_profesional=" +'<%= id_profesional %>';
+
+            $.ajax({
+
+                type: 'get',
+                url: peticion_mis_registros,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function (result) {
+                    $('#panel_nuevo_indicador').attr('hidden', true);
+                    $("#tbl_mis_registros").html("");
+                    $("#tbl_mis_registros").html(result);
+                }
+            }); 
+
+
+            
 
                 //peticion de registro de indicador con subida de soportes
                 
@@ -714,8 +741,25 @@
                             $file_.value = '';
 
                             alert("Los archivos se cargaron correctamente!");
-                            // $('#formulario')[0].reset();
+                            $('#formulario')[0].reset();
 
+                            var peticion_reg_indicador = "/lista-ctm-reg-indicadores";
+
+                            $.ajax({
+
+                                type: 'get',
+                                url: peticion_reg_indicador,
+                                data: [],
+                                contentType: false,
+                                cache: false,
+                                processData: false,
+
+                                success: function (result) {
+                                    $("#tbl_mis_registros").html("");
+                                    $("#tbl_mis_registros").html(result);
+                                }
+                            }); 
+                
 
 
 

@@ -128,3 +128,54 @@
 2021-10-08 18:52:46 - Send SIGINT 3904
 2021-10-08 18:52:46 - SIGINT to 3904 failed - Killing as fallback
 2021-10-08 18:52:46 - Finished serviciobips.exe
+2021-10-13 05:21:53 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-13 05:21:53 - Started 4084
+2021-10-13 18:34:36 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-13 18:34:39 - Started 3948
+2021-10-13 13:42:29 - Stopping serviciobips.exe
+2021-10-13 13:42:29 - ProcessKill 3948
+2021-10-13 13:42:30 - Found child process: 3960 Name: conhost.exe
+2021-10-13 13:42:30 - Found child process: 2796 Name: node.exe
+2021-10-13 13:42:30 - Stopping process 3960
+2021-10-13 13:42:30 - Send SIGINT 3960
+2021-10-13 13:42:30 - SIGINT to 3960 failed - Killing as fallback
+2021-10-13 13:42:30 - Stopping process 2796
+2021-10-13 13:42:30 - Send SIGINT 2796
+2021-10-13 13:42:30 - SIGINT to 2796 failed - Killing as fallback
+2021-10-13 13:42:30 - Stopping process 3948
+2021-10-13 13:42:30 - Send SIGINT 3948
+2021-10-13 13:42:30 - SIGINT to 3948 failed - Killing as fallback
+2021-10-13 13:42:30 - Finished serviciobips.exe
+2021-10-13 20:56:23 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-13 20:56:23 - Started 3892
+2021-10-13 21:05:25 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-13 21:05:25 - Started 3908
+2021-10-13 16:06:27 - Stopping serviciobips.exe
+2021-10-13 16:06:27 - ProcessKill 3908
+2021-10-13 16:06:28 - Shutdown exception
+Message:Se está cerrando el sistema. (Excepción de HRESULT: 0x8007045B)
+Stacktrace:   en System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   en System.Management.ManagementScope.InitializeGuts(Object o)
+   en System.Management.ManagementScope.Initialize()
+   en System.Management.ManagementObjectSearcher.Initialize()
+   en System.Management.ManagementObjectSearcher.Get()
+   en winsw.WrapperService.GetChildPids(Int32 pid)
+   en winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   en winsw.WrapperService.StopIt()
+   en winsw.WrapperService.OnShutdown()
+2021-10-13 21:08:14 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\Administrador.WIN-558CN09M9BC\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file E:\Bips_back\server.js --log "ServicioBips wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-10-13 21:08:17 - Started 4044
+2021-10-13 17:06:39 - Stopping serviciobips.exe
+2021-10-13 17:06:39 - ProcessKill 4044
+2021-10-13 17:06:39 - Found child process: 3880 Name: conhost.exe
+2021-10-13 17:06:39 - Found child process: 4404 Name: node.exe
+2021-10-13 17:06:40 - Stopping process 3880
+2021-10-13 17:06:40 - Send SIGINT 3880
+2021-10-13 17:06:40 - SIGINT to 3880 failed - Killing as fallback
+2021-10-13 17:06:40 - Stopping process 4404
+2021-10-13 17:06:40 - Send SIGINT 4404
+2021-10-13 17:06:40 - SIGINT to 4404 failed - Killing as fallback
+2021-10-13 17:06:40 - Stopping process 4044
+2021-10-13 17:06:40 - Send SIGINT 4044
+2021-10-13 17:06:40 - SIGINT to 4044 failed - Killing as fallback
+2021-10-13 17:06:40 - Finished serviciobips.exe

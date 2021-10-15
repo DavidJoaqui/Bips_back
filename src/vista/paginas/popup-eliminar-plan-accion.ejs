@@ -16,10 +16,10 @@
                             <p>Seguro desea eliminar el Plan de Accion<b> <%= datos_plan[1] %></b>?<br>
 
                             </p>
-                            <form action="/plan-general/delete/<%= datos_plan[0] %>/control-mando-bips/?nombre_plan=<%= datos_plan[1] %>" method="POST">
+                            <form action="/plan-accion/delete/<%= datos_plan[0] %>/control-mando-bips/?nombre_plan=<%= datos_plan[2] %>" method="POST">
                                 <input type="submit" class="btn-submit btn btn-success" value="Aceptar">
                             </form>
-                            <form action="/listado-ctm-planes" method="GET">
+                            <form action="/lista-ctm-planes" method="GET">
                                 <button type="" class="btn-submit btn btn-default" value="">Cancelar</button>
                             </form>
 

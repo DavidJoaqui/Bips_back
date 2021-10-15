@@ -1195,22 +1195,33 @@ app.post('/login-data', function(req, res) {
 
                 if (user_ok[0].pwd == true) {
                     //console.log("entro en validacion");
-                    var usuario = { id: user_ok[0].id, username: req.body.username, id_area: user_ok[0].id_area, nombre: user_ok[0].nombre };
-                    req.session.user = user_ok[0].nombre_usuario;
-                    req.session.admin = true;
-                    req.session.web = "http://192.168.1.84:3000";
-                    req.session.username = usuario;
-                    //req.session. = user_ok[0].id;
-                    //console.log(req);
 
-                    //console.log(listaArchivos);    
-                    //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                    //res.setHeader('Content-type', 'text/html');
-                    //res.redirect("/config-entidades");
-                    modelEntidad.consultar_registro_entidades().then(listaentidades => {
+                    //var usuario = { id: user_ok[0].id, username: req.body.username, id_area: user_ok[0].id_area, nombre: user_ok[0].nombre };
+
+                    if (user_ok[0].es_profesional) {
+
+                        console.log("Es profesional");
+                        modelControlMando.consultarProfesionalXidUsuario(user_ok[0].id).then(result => {
+                            console.log(result);
+
+                            var usuario = { id_user: user_ok[0].id, id_profesional: Number(result[0].id_profesional), username: req.body.username, id_area: user_ok[0].id_area, nombre: user_ok[0].nombre };
+
+                            req.session.user = user_ok[0].nombre_usuario;
+                            req.session.admin = true;
+                            req.session.web = "http://192.168.1.84:3000";
+                            req.session.username = usuario;
+                            //req.session. = user_ok[0].id;
+                            //console.log(req);
+
+                            //console.log(listaArchivos);    
+                            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                            //res.setHeader('Content-type', 'text/html');
+                            //res.redirect("/config-entidades");                            
+                            //console.log(listaArchivos);    
+
                             //console.log(listaArchivos);    
                             req.flash('notify', 'Inicio de sesion con exito...');
-                            res.setHeader('Content-type', 'text/html');
+                            //res.setHeader('Content-type', 'text/html');
                             //res.redirect("/config-entidades");
                             res.render("paginas/inicio", { user: req.session.username['nombre'] });
                             /*res.render("paginas/entidades", {
@@ -1220,13 +1231,47 @@ app.post('/login-data', function(req, res) {
                                 retorno: "0",
                                 user: user_ok[0].nombre_usuario,
                             });*/
+                            //res.setHeader('Content-type', 'text/html');
+                            //res.redirect("/config-entidades");
+
+                            /*res.render("paginas/entidades", {
+                                registroEntidades: listaentidades,
+                                status: 200,
+                                code: 0,
+                                retorno: "0",
+                                user: user_ok[0].nombre_usuario,
+                            });*/
 
 
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            return res.status(500).send("Error obteniendo registros");
+
+
+
                         });
+                    } else {
+
+                        var usuario = { id: user_ok[0].id, id_profesional: Number(result[0].id_profesional), username: req.body.username, id_area: user_ok[0].id_area, nombre: user_ok[0].nombre };
+                        req.session.user = user_ok[0].nombre_usuario;
+                        req.session.admin = true;
+                        req.session.web = "http://192.168.1.84:3000";
+                        req.session.username = usuario;
+
+                        //console.log(listaArchivos);    
+                        req.flash('notify', 'Inicio de sesion con exito...');
+                        //res.setHeader('Content-type', 'text/html');
+                        //res.redirect("/config-entidades");
+                        res.render("paginas/inicio", { user: req.session.username['nombre'] });
+                        /*res.render("paginas/entidades", {
+                            registroEntidades: listaentidades,
+                            status: 200,
+                            code: 0,
+                            retorno: "0",
+                            user: user_ok[0].nombre_usuario,
+                        });*/
+
+                    }
+
+
+
 
 
 
@@ -2211,8 +2256,49 @@ app.get("/eliminar-popup-plan-accion/:id_plan_accion/control-mando-bips", auth, 
     //console.log(req.params);
     //var name = req.query.;    
 
-    let params = [req.params.id_plan, req.query.nombre_plan_accion];
-    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-plan-accion"), { datos_objetivo: params });
+    let params = [req.params.id_plan_accion, req.query.nombre_plan_accion, req.query.id_estrategia];
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-plan-accion"), { datos_plan: params });
+});
+
+
+app.post('/plan-accion/delete/:id_plan/control-mando-bips', auth, function(req, res) {
+
+    console.log(req.query);
+    console.log(req.params.id_estrategia);
+    var msg = '';
+
+    modelControlMando.consultar_PlanesXestrategia(req.params.id_estrategia).then(rspta_eliminacion => {
+
+        console.log(rspta_eliminacion);
+        if (rspta_eliminacion.length == 0) {
+
+            modelControlMando.eliminar_plan_accion(req.params.id_plan).then(respuesta => {
+
+                msg = 'El plan general ' + req.query.nombre_plan + ' se eliminó correctamente...';
+                if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                    console.log("respuesta de eliminacion: 1, Se elimino correctamente el plan de accion...");
+                    msg = 'El plan de accion ' + req.query.nombre_plan + ' se eliminó correctamente...';
+                } else {
+                    console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el plan general " + req.query.nombre_plan);
+                    msg = ' ocurrio un problema al eliminar el plan de accion... ' + req.query.nombre_plan;
+                }
+            })
+
+        } else {
+
+            msg = 'El plan de accion ' + req.query.nombre_plan + ' NO  se puede Eliminar, tiene asociada una estrategia...';
+        }
+
+        req.flash('notify_del_plangral', msg);
+        //res.json({ status: 200, msg });        
+        res.redirect("/lista-ctm-planes");
+
+
+
+
+    })
+
+
 });
 
 app.get("/consultar-tipometa-area-x-plan", auth, (req, res) => {
@@ -2237,7 +2323,7 @@ app.get("/ctm-reg-indicadores", auth, (req, res) => {
 
     modelControlMando.consultar_areaxid(req.session.username['id_area']).then(lista_area => {
 
-        res.render("paginas/ctm_reg_indicadores", { user: req.session.user, id: req.session.username['id'], lista_areas: lista_area, nombre: req.session.username['nombre'] });
+        res.render("paginas/ctm_reg_indicadores", { user: req.session.user, id_profesional: req.session.username['id_profesional'], lista_areas: lista_area, nombre: req.session.username['nombre'] });
     });
 
 
@@ -2453,6 +2539,59 @@ app.get("/obtener_soportesxreg_indicador", auth, (req, res) => {
 app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
     //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
     //console.log(req.query)
+    const spawn = require('child_process').spawn;
+
+    //const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"], { shell: true }, { stdio: 'inherit' });
+    const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"]);
+    /*spawn_cp = spawn('cmd.exe', ['cd ', 'e:/', ' dir'], { shell: true }, function(err, stdout, stderr) {
+        if (err) throw err;
+        console.log(stdout);
+    });*/
+
+
+    //spawn_cp.stdout.pipe(process.stdout);
+
+    // #!/usr/bin / env node
+    /* var name = process.argv[2];
+     var exec = require('child_process').exec;
+
+     var child = exec('echo hello ' + name, function(err, stdout, stderr) {
+         if (err) throw err;
+         console.log(stdout);
+     });*/
+
+
+    spawn_cp.stdout.on('data', (data) => {
+        console.log("std OUT");
+        console.log(data.toString())
+
+        // res.send(data.toString());
+    });
+    spawn_cp.stderr.on('data', (data) => {
+        console.log("std ERR");
+        console.error(data.toString());
+    });
+    //res.send(stdout);
+
+    spawn_cp.on('close', (code) => {
+        console.log('OK.. code: ' + code);
+        var preText = `Child exited with code ${code} : `;
+        switch (code) {
+            case 1:
+                console.info(preText + "El comando BATCH se ejecuto correctamente...");
+                break;
+                /*case 1:
+                    console.info(preText + "The file already exists");
+                    break;
+                case 2:
+                    console.info(preText + "The file doesn't exists and now is created");
+                    break;
+                case 3:
+                    console.info(preText + "An error ocurred while creating the file");
+                    break;*/
+        }
+    });
+    /*
     modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
         //console.log(lista_soportes[0]);
 
@@ -2468,7 +2607,7 @@ app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
 
         //res.json({ respuesta: "OK", status: 200 });
 
-    });
+    });*/
 
 
 });
@@ -2478,11 +2617,52 @@ app.post("/form-ctm-calificacion-reg-indicador", auth, (req, res) => {
 
     modelControlMando.consultar_det_reg_ind_xcalificar(req.query.id_reg_indicador).then(lista_reg_indicadores => {
         //console.log(lista_Estrategias);lista_Estrategias
-        console.log(lista_reg_indicadores);
+        //console.log(lista_reg_indicadores);
         res.setHeader('Content-type', 'text/html');
         res.render("paginas/detalleCalificacion_reg_indicador", { lista_calificacion_indicadores: lista_reg_indicadores });
     });
 
+
+
+});
+
+//form-ctm-visualizar-reg-indicador/
+
+app.post("/form-ctm-visualizar-reg-indicador", auth, (req, res) => {
+
+    modelControlMando.consultar_det_reg_ind_evaluacion(req.query.id_reg_indicador).then(lista_reg_indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        console.log(lista_reg_indicadores);
+        res.setHeader('Content-type', 'text/html');
+        res.render("paginas/detalleVisualizacion_reg_indicador", { lista_calificacion_indicadores: lista_reg_indicadores });
+    });
+
+
+
+});
+
+//consultar-calificacion-reg-indicador
+app.post("/consultar-calificacion-reg-indicador", auth, (req, res) => {
+
+    modelControlMando.consultar_det_cal_x_regIndicador(req.query.id_reg_indicador).then(calificacion => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        //console.log(lista_reg_indicadores);
+        //res.setHeader('Content-type', 'text/html');
+        res.send(calificacion);
+    });
+
+
+
+});
+
+app.get("/obtener_trazabilidad_Indicador/:id_indicador/:id_profesional/:tipo_meta/:vigencia/:periodo", auth, (req, res) => {
+    //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
+    console.log(req.query)
+    modelControlMando.consultar_trazabilidad_reg_indicador(req.query.id_reg_indicador).then(lista_soportes => {
+        console.log(lista_soportes);
+
+        res.render("paginas/lista_ctm_soportes", { lista_soportes: lista_soportes });
+    });
 
 
 });
@@ -2635,15 +2815,32 @@ app.post("/persistir-calificacion-indicador", auth, (req, res) => {
 
 
     modelControlMando.insertar_calificacion_indicador(Number(req.query.reg_indicador), parseFloat(req.query.vr_numerador), parseFloat(req.query.vr_denominador), parseFloat(req.query.resultado_numerico), Number(req.query.resultado_descriptivo), parseFloat(req.query.desviacion), req.query.comentario, Number(req.query.estado)).then(respuesta => {
+
+
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-            console.log("OK... insert NEW Indicador");
-            res.json({ status: 200, msg: 'Calificación Indicador <b></b>, se creó correctamente...' });
+
+            //actualizarRegIndicador
+            modelControlMando.actualizar_RegIndicador_calificado(req.query.reg_indicador).then(calificado => {
+
+                if (calificado['command'] == "UPDATE" && calificado['rowCount'] > 0) {
+                    console.log("OK... insert NEW Indicador, update registro de indicador --> calificado: 1");
+                    res.json({ status: 200, msg: 'La Calificación del Indicador se registro correctamente...' });
+                } else {
+                    console.log("Ocurrio un Error al actualizar la calificacion el registro de Indicador");
+                    res.json({ status: 200, msg: 'Ocurrio un Error al actualizar la calificacion el registro de Indicador' });
+                }
+
+
+
+            });
+
+
         } else {
-            res.json({ status: 300, msg: 'ERROR al crear al calificar el Indicador <b></b>, intente de nuevo...' });
+            res.json({ status: 300, msg: 'ERROR al crear al calificar el Indicador, intente de nuevo...' });
         }
     }).catch(err => {
         console.log(err);
-        res.json({ status: 500, msg: 'ERROR!! Calificación Indicador <b> </b> YA EXISTE...' });
+        res.json({ status: 500, msg: 'ERROR!! Calificación Indicador YA EXISTE...' });
     });
 })
 
