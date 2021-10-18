@@ -58,10 +58,9 @@
                                 <%if(lista_calificacion_indicadores[0].calificado){%>
 
                                     <i class="fas fa-check-circle text-center" onclick="" style="color: green;"> SI <span class="vertical-line"></span></i><label id="estado_cal"></label>
-                                    <button type="button" style="margin-left: 20px;" id="btn-respuesta" class="btn btn-sm btn-info" onclick="generar_respuesta('<%= lista_calificacion_indicadores[0].id_registroindicador %>')" hidden>
+                                    <button type="button" style="margin-left: 20px;" id="btn-respuesta" class="btn btn-sm btn-info" onclick="generarRespuesta()" hidden>
                                         Responder
                                     </button>
-
                                     <%}else{%>
 
 
@@ -132,11 +131,9 @@
 
 
 
-                                            <a href="/ctm-reg-indicadores" class="btn btn-sm btn-secondary ; ">volver</a>
+
 
                             </div>
-
-
                         </div>
                         <div class="dropdown-divider"></div>
                         <div class="form-group row" id="acerca_calificacion" hidden>
@@ -200,7 +197,6 @@
 
                         <div><label for="panel_soportes" class="col-12 col-form-label" style="font-weight: bold;font-size: 15px;color: blue">
                             Detalles del Indicador Calificado </label></div>
-
                         <div class="form-group row">
 
 
@@ -470,7 +466,11 @@
                             <div class="">
 
 
-                                <div class="form-group row col-12" id="panel_trazabilidad" name="panel_trazabilidad">
+
+                                <h1 class="col-12 col-form-label text-center" style="font-weight: bold;color: blue;font-size: 20px;">
+                                    Trazabilidad </h1>
+
+                                <div class="form-group row col-10" id="panel_trazabilidad" name="panel_trazabilidad">
 
                                 </div>
 
@@ -573,34 +573,7 @@
 
         }
 
-        function generar_respuesta(id_registroindicador) {
 
-            event.preventDefault();
-
-            //alert("ok desde lista plan general");
-
-            const peticion = "/ctm-respuesta-reg-indicador/?id_registroindicador=" + id_registroindicador;
-
-            $.ajax({
-                type: 'post',
-                url: peticion,
-                data: [],
-                contentType: false,
-                cache: false,
-                processData: false,
-
-                success: function(result) {
-
-                    //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
-                    $('#preview').hide();
-                    $('#body_ent').html(result);
-
-
-                }
-
-            });
-
-        }
 
         $(document).ready(function() {
 

@@ -2331,7 +2331,7 @@ app.get("/ctm-reg-indicadores", auth, (req, res) => {
 
 app.get("/consultar-vigencia-anio-profesional", auth, (req, res) => {
     //console.log(req.query.año);
-    modelControlMando.consultar_vigencia_año(req.query.profesional).then(lista_años => {
+    modelControlMando.consultar_vigencia_año(Number(req.query.profesional), Number(req.query.indicador)).then(lista_años => {
         res.send(lista_años);
     });
 
@@ -2350,7 +2350,7 @@ app.get("/ctm-calificacion-indicadores", auth, (req, res) => {
 
 app.get("/consultar-periodo-x-anio", auth, (req, res) => {
     //console.log(req.query.año);
-    modelControlMando.consultar_periodoxaño(req.query.año).then(lista_periodo => {
+    modelControlMando.consultar_periodoxaño(req.query.año, req.query.area, req.query.profesional, req.query.indicador).then(lista_periodo => {
         res.send(lista_periodo);
     });
 });
@@ -2417,6 +2417,28 @@ app.get("/validacion-insert-reg-indicadores", auth, (req, res) => {
     });
 });
 
+
+app.get("/validacion-insert-respuesta-indicadores", auth, (req, res) => {
+    //console.log('id_area:' + req.query.area);
+    //console.log('VIGENCIA:' + req.query.vigencia);
+    //console.log('PERIODO:' + req.query.periodo);
+
+
+    modelControlMando.validacion_insert_respuesta_indicadores(req.query.vigencia, req.query.periodo, req.query.indicador, req.query.profesional).then(validacion => {
+        var bandera = false;
+        if (validacion.length == 0) {
+            //res.send(bandera, validacion);
+            res.send({ status: 200, bandera: bandera });
+        } else {
+            bandera = true;
+            //res.send(bandera, validacion);
+            console.log(validacion);
+            res.send({ status: 200, msg: 'El profesional ya tiene registrado este indicador en este periodo pendiente por calificar', datos: validacion, bandera: bandera });
+        }
+
+    });
+});
+
 app.get("/obtener-reg-indicadores_xvigencia_xperiodo_xarea", auth, (req, res) => {
     //console.log('id_area:' + req.query.area);
     //console.log('VIGENCIA:' + req.query.vigencia);
@@ -2431,7 +2453,15 @@ app.get("/obtener-reg-indicadores_xvigencia_xperiodo_xarea", auth, (req, res) =>
 
 app.get("/consultar-indicador-x-periodo-area", auth, (req, res) => {
 
-    modelControlMando.consultar_indicadorxperiodo_area(req.query.vigencia, req.query.periodo, req.query.area).then(lista_indicadores => {
+    modelControlMando.consultar_indicadorxperiodo_area(req.query.area, req.query.periodo, req.query.area).then(lista_indicadores => {
+
+        res.send(lista_indicadores);
+    });
+});
+
+app.get("/consultar-indicador-x-area", auth, (req, res) => {
+
+    modelControlMando.consultar_indicadorxarea(req.query.id_area).then(lista_indicadores => {
 
         res.send(lista_indicadores);
     });
@@ -2626,6 +2656,30 @@ app.post("/form-ctm-calificacion-reg-indicador", auth, (req, res) => {
 
 });
 
+app.post("/ctm-respuesta-reg-indicador", auth, (req, res) => {
+
+    //res.send('OK');
+
+    //consultar_RegistrosPlan_General_x_id
+    console.log('id_reg_in:' + req.query.id_registroindicador);
+
+    modelControlMando.consultar_det_respuesta_indicador(req.query.id_registroindicador).then(lista_detalle_indicador => {
+
+
+
+        res.render("paginas/ctm_respuesta_indicadores.ejs", { id_registroindicador: req.query.id_registroindicador, lista_detalle_indicador: lista_detalle_indicador });
+        //res.render("paginas/ctm_objetivos", { user: req.session.user, listaPlanes_grales: listaPlanes_grales });
+
+
+
+
+    });
+
+
+
+
+});
+
 //form-ctm-visualizar-reg-indicador/
 
 app.post("/form-ctm-visualizar-reg-indicador", auth, (req, res) => {
@@ -2646,7 +2700,7 @@ app.post("/consultar-calificacion-reg-indicador", auth, (req, res) => {
 
     modelControlMando.consultar_det_cal_x_regIndicador(req.query.id_reg_indicador).then(calificacion => {
         //console.log(lista_Estrategias);lista_Estrategias
-        //console.log(lista_reg_indicadores);
+        console.log(calificacion);
         //res.setHeader('Content-type', 'text/html');
         res.send(calificacion);
     });
@@ -2655,13 +2709,13 @@ app.post("/consultar-calificacion-reg-indicador", auth, (req, res) => {
 
 });
 
-app.get("/obtener_trazabilidad_Indicador/:id_indicador/:id_profesional/:tipo_meta/:vigencia/:periodo", auth, (req, res) => {
+app.get("/obtener_trazabilidad_x_indicador_profesional_vigencia_periodo", auth, (req, res) => {
     //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
     console.log(req.query)
-    modelControlMando.consultar_trazabilidad_reg_indicador(req.query.id_reg_indicador).then(lista_soportes => {
-        console.log(lista_soportes);
-
-        res.render("paginas/lista_ctm_soportes", { lista_soportes: lista_soportes });
+    modelControlMando.consultar_trazabilidad_reg_indicador(Number(req.query.id_indicador), Number(req.query.profesional), req.query.vigencia, Number(req.query.periodo)).then(lista_trazabilidad => {
+        //console.log(lista_trazabilidad);
+        //res.send(lista_trazabilidad);
+        res.render("paginas/lista_ctm_trazabilidad", { lista_trazabilidad: lista_trazabilidad });
     });
 
 
@@ -2713,7 +2767,16 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
 
         //console.log("cbxips" + req.body.cbxips);
         console.log(path_soporte);
+        console.log("version:" + Number(req.body.select_version));
         try {
+            var version = Number(req.body.select_version);
+            if (version == 0) {
+
+                version = 1;
+
+            } else {
+                version = version + 1;
+            }
 
             modelControlMando.insertar_registro_indicador(
                 Number(req.body.select_indicador),
@@ -2722,7 +2785,8 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
                 Number(req.body.select_periodo),
                 parseFloat(req.body.txt_vr_numerador),
                 parseFloat(req.body.txt_vr_denominador),
-                req.body.txt_observacion, '0', 1).then(respuesta => {
+                req.body.txt_observacion,
+                '0', version).then(respuesta => {
 
                 if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
                     //console.log(respuesta);
@@ -2764,6 +2828,7 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
                         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
                             console.log(respuesta);
                             console.log("OK... upload");
+
                             //num_archivos--;
                             //console.log("archivos insert "+num_archivos);
 
