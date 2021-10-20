@@ -144,7 +144,7 @@
 
                 xhr.onload = function(e) {
 
-                    var blob = new File([this.response], {
+                    var blob = new Blob([this.response], {
                         type: mime
                     });
                     var link = document.createElement('a');

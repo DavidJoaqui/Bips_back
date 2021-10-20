@@ -25,14 +25,14 @@
                                 <th>Fecha</th>
                                 <th>Vigencia</th>
                                 <th>Periodo</th>
-                                <th>Indicador</th>
+                                <th>Profesional</th>
+                                <th>Area</th>
                                 <th>Tipo Meta</th>
                                 <th>Numerador</th>
                                 <th>Denominador</th>
-                                <th>Soportes</th>
-                                <th>Observaciones</th>
-                                <th>Area</th>
-                                <th>Profesional</th>
+                                <th>Nota</th>
+                                <th>Indicador</th>
+                                <th>Versión</th>
                                 <th>Calificado</th>
                                 <th>Aprobado</th>
                                 <th>Acciones</th>
@@ -59,11 +59,14 @@
                                         <input name="txt_periodo" id="txt_periodo" value='<%= lista_registro_indicadores[i].periodoevaluado %>' hidden>
                                         <%= lista_registro_indicadores[i].nombre_mes %>
                                     </td>
-
                                     <td>
-                                        <input name="txt_id_indicador" id="txt_id_indicador" value='<%= lista_registro_indicadores[i].id_indicador %>' hidden>
-                                        <%= lista_registro_indicadores[i].nombre_indicador %>
+                                        <input name="txt_id_profesional" id="txt_id_profesional" value='<%= lista_registro_indicadores[i].id_profesional %>' hidden>
+                                        <%= lista_registro_indicadores[i].nombre_profesional %>
                                     </td>
+                                    <td>
+                                        <%= lista_registro_indicadores[i].nombre_area %>
+                                    </td>
+
                                     <td>
                                         <%= lista_registro_indicadores[i].tipo_meta %>
                                     </td>
@@ -74,18 +77,18 @@
                                     <td>
                                         <%= lista_registro_indicadores[i].formula_cifras_denominador %>
                                     </td>
-                                    <td>
-                                        <%= lista_registro_indicadores[i].soportes %>
-                                    </td>
+
                                     <td>
                                         <%= lista_registro_indicadores[i].observaciones %>
                                     </td>
+
                                     <td>
-                                        <%= lista_registro_indicadores[i].nombre_area %>
+                                        <input name="txt_id_indicador" id="txt_id_indicador" value='<%= lista_registro_indicadores[i].id_indicador %>' hidden>
+                                        <%= lista_registro_indicadores[i].nombre_indicador %>
                                     </td>
-                                    <td>
-                                        <input name="txt_id_profesional" id="txt_id_profesional" value='<%= lista_registro_indicadores[i].id_profesional %>' hidden>
-                                        <%= lista_registro_indicadores[i].nombre_profesional %>
+
+                                    <td class="text-center" style="font-weight: bold;">
+                                        <%= lista_registro_indicadores[i].version %>
                                     </td>
 
                                     <td class="text-center">
@@ -96,6 +99,8 @@
                                                 <strong><label style="color: red;"> N O</label></strong>
                                                 <%}%>
                                     </td>
+
+
 
                                     <td id="<%= lista_registro_indicadores[i].id_registroindicador %>" name="<%= lista_registro_indicadores[i].id_registroindicador %>">
                                         <!--Se debera verificar si el id registro indicador ya fue calificado para
@@ -130,15 +135,17 @@
 
                                             <a href="" title="ver Detalle" style="color:blue" onclick="verDetalle('<%= lista_registro_indicadores[i].id_registroindicador %>')"><i class="far fa-eye"></i></a>
                                             <span class="vertical-line"></span>
-                                            <a href="" title="Trazabilidad" style="color:blue" onclick="verTrazabilidad($('#txt_id_indicador').val(),$('#txt_id_profesional').val(),$('#txt_vigencia').val(),$('#txt_periodo').val())"><i class="fas fa-list-ol"></i></a>
-
+                                            <a href="" title="Trazabilidad" style="color:blue" onclick="verTrazabilidad('<%= lista_registro_indicadores[i].id_indicador %>','<%= lista_registro_indicadores[i].id_profesional %>','<%= lista_registro_indicadores[i].vigencia %>','<%= lista_registro_indicadores[i].periodoevaluado %>')"><i class="fas fa-list-ol"></i></a>
+                                            <span class="vertical-line"></span>
                                             <%}else{%>
                                                 <a href="" title="ver Detalle" style="color:blue" onclick="verDetalle('<%= lista_registro_indicadores[i].id_registroindicador %>')"><i class="far fa-eye"></i></a>
+                                                <span class="vertical-line"></span>
+                                                <a href="" title="Trazabilidad" style="color:blue" onclick="verTrazabilidad('<%= lista_registro_indicadores[i].id_indicador %>','<%= lista_registro_indicadores[i].id_profesional %>','<%= lista_registro_indicadores[i].vigencia %>','<%= lista_registro_indicadores[i].periodoevaluado %>')"><i class="fas fa-list-ol"></i></a>
                                                 <span class="vertical-line"></span>
                                                 <a href="" title="Editar"><i class="fas fa-edit"></i></a>
                                                 <span class="vertical-line"></span>
                                                 <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
-
+                                                <span class="vertical-line"></span>
                                                 <%}%>
 
 

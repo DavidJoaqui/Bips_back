@@ -2571,46 +2571,68 @@ app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
     //console.log(req.query)
     const spawn = require('child_process').spawn;
 
-    //const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"], { shell: true }, { stdio: 'inherit' });
-    const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"]);
-    /*spawn_cp = spawn('cmd.exe', ['cd ', 'e:/', ' dir'], { shell: true }, function(err, stdout, stderr) {
-        if (err) throw err;
-        console.log(stdout);
-    });*/
+
+    modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
+        console.log("" + lista_soportes[0].ruta_digital);
+        //const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"], { shell: true }, { stdio: 'inherit' });
+        const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat", lista_soportes[0].ruta_digital, path.join(__dirname, 'filesBipsUploads')]);
+        /*spawn_cp = spawn('cmd.exe', ['cd ', 'e:/', ' dir'], { shell: true }, function(err, stdout, stderr) {
+            if (err) throw err;
+            console.log(stdout);
+        });*/
 
 
-    //spawn_cp.stdout.pipe(process.stdout);
+        //spawn_cp.stdout.pipe(process.stdout);
 
-    // #!/usr/bin / env node
-    /* var name = process.argv[2];
-     var exec = require('child_process').exec;
+        // #!/usr/bin / env node
+        /* var name = process.argv[2];
+        var exec = require('child_process').exec;
 
-     var child = exec('echo hello ' + name, function(err, stdout, stderr) {
-         if (err) throw err;
-         console.log(stdout);
-     });*/
+        var child = exec('echo hello ' + name, function(err, stdout, stderr) {
+             if (err) throw err;
+             console.log(stdout);
+         });*/
 
 
-    spawn_cp.stdout.on('data', (data) => {
-        console.log("std OUT");
-        console.log(data.toString())
+        spawn_cp.stdout.on('data', (data) => {
+            console.log("std OUT");
+            console.log(data.toString())
+                //res.download(path.join(__dirname, 'example_pdf.pdf'));
 
-        // res.send(data.toString());
-    });
-    spawn_cp.stderr.on('data', (data) => {
-        console.log("std ERR");
-        console.error(data.toString());
-    });
-    //res.send(stdout);
+            // console.log(lista_soportes[0].peso);
 
-    spawn_cp.on('close', (code) => {
-        console.log('OK.. code: ' + code);
-        var preText = `Child exited with code ${code} : `;
-        switch (code) {
-            case 1:
-                console.info(preText + "El comando BATCH se ejecuto correctamente...");
-                break;
-                /*case 1:
+
+            //res.json({ respuesta: "OK", status: 200 });
+
+            // res.send(data.toString());
+        });
+        spawn_cp.stderr.on('data', (data) => {
+                console.log("std ERR");
+                console.error(data.toString());
+            })
+            //res.send(stdout);
+
+        spawn_cp.on('close', (code) => {
+            console.log('OK.. code: ' + code);
+            var preText = `Child exited with code ${code} : `;
+            switch (code) {
+                case 1:
+                    console.info(preText + "El comando BATCH se ejecuto correctamente...");
+
+                    console.log(lista_soportes);
+                    var file = fs.readFileSync(path.join(__dirname, "/filesBipsUploads/", lista_soportes[0].nombre_soporte), 'binary');
+
+                    //res.download(path.join(__dirname, "/filesBipsUploads/", lista_soportes[0].nombre_soporte));
+                    //res.setHeader('Content-Length', 10000000000000000);
+                    res.setHeader('Content-disposition', 'attachment; filename=' + lista_soportes[0].nombre_soporte);
+                    res.setHeader('Content-Type', lista_soportes[0].mime_type);
+
+                    res.write(file, 'binary');
+                    res.end();
+
+
+                    break;
+                case 1:
                     console.info(preText + "The file already exists");
                     break;
                 case 2:
@@ -2618,26 +2640,27 @@ app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
                     break;
                 case 3:
                     console.info(preText + "An error ocurred while creating the file");
-                    break;*/
-        }
+                    break;
+            }
+        });;
+
+
+        /*modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
+            console.log("" + lista_soportes[0].ruta_digital);
+
+
+            //res.download(path.join(__dirname, 'example_pdf.pdf'));
+
+            // console.log(lista_soportes[0].peso);
+            console.log(lista_soportes);
+            var file = fs.readFileSync(path.join(__dirname + "/example_pdf.pdf"), 'binary');
+            //res.setHeader('Content-Length', 10000000000000000);
+            res.write(file, 'binary');
+            res.end();
+
+            //res.json({ respuesta: "OK", status: 200 });*/
+
     });
-    /*
-    modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
-        //console.log(lista_soportes[0]);
-
-
-        //res.download(path.join(__dirname, 'example_pdf.pdf'));
-
-        // console.log(lista_soportes[0].peso);
-        console.log(lista_soportes);
-        var file = fs.readFileSync(path.join(__dirname + "/example_pdf.pdf"), 'binary');
-        //res.setHeader('Content-Length', 10000000000000000);
-        res.write(file, 'binary');
-        res.end();
-
-        //res.json({ respuesta: "OK", status: 200 });
-
-    });*/
 
 
 });
@@ -2713,7 +2736,7 @@ app.get("/obtener_trazabilidad_x_indicador_profesional_vigencia_periodo", auth, 
     //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
     console.log(req.query)
     modelControlMando.consultar_trazabilidad_reg_indicador(Number(req.query.id_indicador), Number(req.query.profesional), req.query.vigencia, Number(req.query.periodo)).then(lista_trazabilidad => {
-        //console.log(lista_trazabilidad);
+        console.log(lista_trazabilidad);
         //res.send(lista_trazabilidad);
         res.render("paginas/lista_ctm_trazabilidad", { lista_trazabilidad: lista_trazabilidad });
     });
@@ -2768,6 +2791,19 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
         //console.log("cbxips" + req.body.cbxips);
         console.log(path_soporte);
         console.log("version:" + Number(req.body.select_version));
+        console.log("numerador:" + (req.body.txt_vr_numerador));
+        console.log("denominador:" + (req.body.txt_vr_denominador));
+
+        var numerador = parseFloat(req.body.txt_vr_numerador);
+        var denominador = parseFloat(req.body.txt_vr_denominador);
+        if (req.body.txt_vr_numerador == '') {
+            numerador = 0;
+        }
+        if (req.body.txt_vr_denominador == '') {
+            denominador = 0;
+
+        }
+
         try {
             var version = Number(req.body.select_version);
             if (version == 0) {
@@ -2783,8 +2819,8 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
                 Number(req.body.select_profesional),
                 req.body.select_vigencia,
                 Number(req.body.select_periodo),
-                parseFloat(req.body.txt_vr_numerador),
-                parseFloat(req.body.txt_vr_denominador),
+                numerador,
+                denominador,
                 req.body.txt_observacion,
                 '0', version).then(respuesta => {
 

@@ -85,6 +85,17 @@
 
                                                             if (result[0].estado) {
                                                                 $('#estado_cal').html('<i class="fas fa-check-circle text-center" onclick="" style="color: green;"> Aprobado</i>');
+                                                                $('#txt_observacion_calificacion').html(result[0].comentario);
+                                                                $('#txt_fecha_calificacion').html(result[0].fecha_calificacion);
+
+
+                                                                if (result[0].estado == false) {
+                                                                    $('#txt_estado_calificacion').html('<label>NO</label>');
+                                                                } else {
+                                                                    $('#txt_estado_calificacion').html('<label>SI</label>');
+                                                                }
+
+
                                                                 $('#acerca_calificacion').attr('hidden', false);
                                                             } else {
 
@@ -109,6 +120,7 @@
 
                                                                 if (result[0].comentario != "") {
                                                                     $('#txt_observacion_calificacion').html(result[0].comentario);
+                                                                    $('#txt_fecha_calificacion').html(result[0].fecha_calificacion);
                                                                 } else {
                                                                     $('#txt_observacion_calificacion').html("Sin observaciones");
 
@@ -453,7 +465,7 @@
 
         </div>
 
-        <%if(lista_calificacion_indicadores[0].calificado){%>
+        <%if(lista_calificacion_indicadores[0].calificado || lista_calificacion_indicadores[0].version >=2){%>
 
             <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
 

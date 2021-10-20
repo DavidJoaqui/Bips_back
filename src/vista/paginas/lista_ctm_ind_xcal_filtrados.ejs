@@ -8,7 +8,7 @@
 
             <div>
                 <span class="titulo-tabla" style="font-weight: bold;text-align: left;">
-                        <h2> registros por Calificar</h2>
+                        <h2> Registros por Calificar</h2>
                     </span>
             </div>
 
@@ -16,7 +16,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-bordered" id="tbl_planos">
+                <table class="table table-hover" id="tbl_planos">
 
 
                     <thead class="">
@@ -28,6 +28,8 @@
                             <th>Tipo meta</th>
                             <th>Area</th>
                             <th>Profesional</th>
+                            <th>Fecha Registro</th>
+                            <th>Versión</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -61,7 +63,12 @@
                                 <td>
                                     <%= lista_calificacion_indicadores[i].nombre_profesional %>
                                 </td>
-
+                                <td>
+                                    <%= lista_calificacion_indicadores[i].fecharegistro%>
+                                </td>
+                                <td class="text-center" style="font-weight: bold;">
+                                    <%= lista_calificacion_indicadores[i].version %>
+                                </td>
 
                                 <td class="btns-acciones">
                                     <a href="" title="Calificar"><i class="fas fa-edit" onclick="RealizarCalificacion('<%= lista_calificacion_indicadores[i].id_registroindicador %>')"></i></a>
