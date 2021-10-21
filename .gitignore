@@ -3,3 +3,4 @@ filesBipsUploads/
 /package-lock.json
 models/persistencia/*
 daemon/*
+pdf.js
