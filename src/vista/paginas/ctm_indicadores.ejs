@@ -185,12 +185,31 @@
 
                                 <div class="form-group row">
                                     <label class="col-2 col-form-label" for="txt_meta_numerica" style="font-weight: bold;">
+                                        Periodo Evaluación: </label>
+                                    <div class="col-10">
+                                        <select class="form-control" name="select_per_evaluacion" id="select_per_evaluacion" data-toggle="tooltip" title="Seleccionar Periodo de evaluacion!" data-placement="right" required>
+                                            <option selected="selected" value="">Seleccionar Periodo evaluación
+                                            </option>
+                                            <option value="1">Mensual</option>
+                                            <option value="2">Bimensual</option>
+                                            <option value="3">Trimestral</option>
+                                            <option value="4">Cuatrimestral</option>
+                                            <option value="6">Semestral</option>
+                                            <option value="12">Anual</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label" for="txt_meta_numerica" style="font-weight: bold;">
                                         Meta Númerica: </label>
                                     <div class="col-10">
                                         <input class="form-control" type="text" placeholder="Meta numerica" name="txt_meta_numerica" id="txt_meta_numerica" value="">
                                     </div>
 
                                 </div>
+
+
 
                                 <div class="form-group row">
                                     <label class="col-3 col-form-label" for="txt_fl_numerador" style="font-weight: bold;">
@@ -252,6 +271,7 @@
                 var tipo_meta = $('#select_tipo_meta').val();
                 var formula_descriptiva = $('#txt_fl_descriptiva').val();
                 var meta_descriptiva = $('#txt_meta_descriptiva').val();
+                var periodo_evaluacion = $('#select_per_evaluacion').val();
                 var form_literal_numerador = $('#txt_fl_numerador').val();
                 var form_literal_denominador = $('#txt_fl_denominador').val();
                 var meta_numerica = $('#txt_meta_numerica').val();
@@ -267,6 +287,7 @@
                     "&tipo_meta=" + tipo_meta +
                     "&formula_descriptiva=" + formula_descriptiva +
                     "&meta_descriptiva=" + meta_descriptiva +
+                    "&periodo_evaluacion=" + periodo_evaluacion +
                     "&formula_literal_num=" + form_literal_numerador +
                     "&form_literal_den=" + form_literal_denominador +
                     "&meta_numerica=" + meta_numerica;

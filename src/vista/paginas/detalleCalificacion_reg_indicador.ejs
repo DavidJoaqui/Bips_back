@@ -203,6 +203,49 @@
                         </div>
 
                         <div class="container" id="panel_numerica" style=" text-align: center;" hidden>
+
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label" style="font-weight: bold;">
+                                            Periodo Evaluación</label>
+
+                                <% if (lista_calificacion_indicadores[0].periodo_meta_num == 1) { %>
+                                    <div class="col-10">
+                                        <output class="form-control" type="text">Mensual</output>
+                                    </div>
+                                    <% }%>
+
+                                        <% if (lista_calificacion_indicadores[0].periodo_meta_num == 2) { %>
+                                            <div class="col-10">
+                                                <output class="form-control" type="text">Bimensual</output>
+                                            </div>
+                                            <% }%>
+
+                                                <% if (lista_calificacion_indicadores[0].periodo_meta_num == 3) { %>
+                                                    <div class="col-10">
+                                                        <output class="form-control" type="text">Trimestral</output>
+                                                    </div>
+                                                    <% }%>
+
+                                                        <% if (lista_calificacion_indicadores[0].periodo_meta_num == 4) { %>
+                                                            <div class="col-10">
+                                                                <output class="form-control" type="text">Cuatrimestral</output>
+                                                            </div>
+                                                            <% }%>
+
+
+                                                                <% if (lista_calificacion_indicadores[0].periodo_meta_num == 6) { %>
+                                                                    <div class="col-10">
+                                                                        <output class="form-control" type="text">Semestral</output>
+                                                                    </div>
+                                                                    <% }%>
+
+                                                                        <% if (lista_calificacion_indicadores[0].periodo_meta_num == 12) { %>
+                                                                            <div class="col-10">
+                                                                                <output class="form-control" type="text">Anual</output>
+                                                                            </div>
+                                                                            <% }%>
+
+                            </div>
                             <div class="form-group row">
                                 <label class="col-2 col-form-label" for="txt_meta_numerica" style="font-weight: bold;">
                                             Meta Númerica: </label>
@@ -273,6 +316,10 @@
                                             <output class="form-control" type="text" name="txt_id_reg_indicador" hidden 
                                                 id="txt_id_reg_indicador" value='<%= lista_calificacion_indicadores[0].id_registroindicador %>'>
                                                 <%= lista_calificacion_indicadores[0].id_registroindicador %>
+                                            </output>
+                                    <output class="form-control" type="text" name="" id="" value=''>
+                                        <input class="form-control" type="text" name="txt_periodo_evaluacion" id="txt_periodo_evaluacion" value='<%= lista_calificacion_indicadores[0].periodo_meta_num %>' hidden>
+                                                <%= lista_calificacion_indicadores[0].periodo_meta_num %>
                                             </output>
                                 </div>
                             </div>
@@ -370,6 +417,8 @@
 
 
             var reg_indicador = $('#txt_id_reg_indicador').val();
+
+            var periodo_evaluacion = $('#txt_periodo_evaluacion').val();
             // var indicador = $('#select_indicador').val();
             var vr_numerador = $('#txt_vr_numerador').val();
             var vr_denominador = $('#txt_vr_denominador').val();
@@ -422,7 +471,7 @@
                         $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
                         $('#card-msg').show();
-
+                        window.location.replace("/ctm-calificacion-indicadores");
                         $('#formulario')[0].reset();
                         setTimeout(function() {
                             $('#preview').hide();
@@ -482,8 +531,7 @@
                         $("#txt_resultado_numerico").append('<option value=' + result + '>' + result + ' </option>');
 
                         var peticion3 = "/calcular-desviacion/?meta_numerica=" + $('#txt_meta_numerica').val() +
-                            "&resultado_numerico=" + $('#txt_resultado_numerico').val();
-
+                            "&periodo_evaluacion=" + $('#txt_periodo_evaluacion').val() + "&resultado_numerico=" + $("#txt_resultado_numerico").val();
                         $.ajax({
                             type: 'get',
                             url: peticion3,

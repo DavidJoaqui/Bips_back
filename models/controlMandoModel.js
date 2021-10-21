@@ -213,18 +213,18 @@ module.exports = {
 
     //-----------------------Metodos Indicadores--------------------------------------//
     //------------------------------------------------------------------------------//
-    async insertar_indicador(nombre_indicador, id_plan, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador) {
-        const resultados = await conexion.query('insert into schema_control.indicadores (nombre_indicador,id_plan,id_area,tipo_meta,formula_literal_descriptiva,meta_descriptiva,meta_numerica,formula_literal_numerador,formula_literal_denominador) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)', [nombre_indicador, id_plan, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador]);
+    async insertar_indicador(nombre_indicador, id_plan, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, periodo_evaluacion,meta_numerica, formula_literal_numerador, formula_literal_denominador) {
+        const resultados = await conexion.query('insert into schema_control.indicadores (nombre_indicador,id_plan,id_area,tipo_meta,formula_literal_descriptiva,meta_descriptiva,periodo_meta_num,meta_numerica,formula_literal_numerador,formula_literal_denominador) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)', [nombre_indicador, id_plan, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, periodo_evaluacion,meta_numerica, formula_literal_numerador, formula_literal_denominador]);
         return resultados;
     },
 
-    async actualizar_indicador(id_indicador, nombre_indicador, id_plan_accion, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador) {
-        const resultados = await conexion.query('update schema_control.indicadores set nombre_indicador=$2, id_plan=$3, id_area=$4, tipo_meta=$5, formula_literal_descriptiva=$6, meta_descriptiva=$7, meta_numerica=$8,formula_literal_numerador=$9,formula_literal_denominador=$10 where id_indicador=$1 ', [id_indicador, nombre_indicador, id_plan_accion, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador]);
+    async actualizar_indicador(id_indicador, nombre_indicador, id_plan_accion, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador,periodo_evaluacion) {
+        const resultados = await conexion.query('update schema_control.indicadores set nombre_indicador=$2, id_plan=$3, id_area=$4, tipo_meta=$5, formula_literal_descriptiva=$6, meta_descriptiva=$7, meta_numerica=$8,formula_literal_numerador=$9,formula_literal_denominador=$10,periodo_meta_num=$11  where id_indicador=$1 ', [id_indicador, nombre_indicador, id_plan_accion, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, meta_numerica, formula_literal_numerador, formula_literal_denominador,periodo_evaluacion]);
         return resultados;
     },
 
     async consultar_indicadores_x_id(id_indicador) {
-        const resultados = await conexion.query("select f.id_indicador , f.nombre_indicador , f.tipo_meta, f.meta_numerica, f.meta_descriptiva,f.formula_literal_numerador, f.formula_literal_denominador, f.formula_literal_descriptiva , d.id_plan,c.id_estrategia ,a.id_objetivo, a.id_linea_accion,b.id_plan_general,g.id_area  from schema_control.objetivos a inner join schema_control.lineas_acciones b on(a.id_linea_accion=b.id_linea) inner join schema_control.estrategias c on (c.id_objetivo=a.id_objetivo) inner join schema_control.planes d on (d.id_estrategia=c.id_estrategia) inner join schema_control.plangeneral e on(e.id_plangeneral=b.id_plan_general) inner join schema_control.indicadores f on (f.id_plan =d.id_plan) inner join schema_control.areas g on (f.id_area=g.id_area) where f.id_indicador = $1", [id_indicador]);
+        const resultados = await conexion.query("select f.id_indicador , f.nombre_indicador , f.tipo_meta,f.periodo_meta_num, f.meta_numerica, f.meta_descriptiva,f.formula_literal_numerador, f.formula_literal_denominador, f.formula_literal_descriptiva , d.id_plan,c.id_estrategia ,a.id_objetivo, a.id_linea_accion,b.id_plan_general,g.id_area  from schema_control.objetivos a inner join schema_control.lineas_acciones b on(a.id_linea_accion=b.id_linea) inner join schema_control.estrategias c on (c.id_objetivo=a.id_objetivo) inner join schema_control.planes d on (d.id_estrategia=c.id_estrategia) inner join schema_control.plangeneral e on(e.id_plangeneral=b.id_plan_general) inner join schema_control.indicadores f on (f.id_plan =d.id_plan) inner join schema_control.areas g on (f.id_area=g.id_area) where f.id_indicador = $1", [id_indicador]);
         return resultados.rows;
     },
 
@@ -235,6 +235,11 @@ module.exports = {
 
     async consultar_tipometaxidplan(id_plan) {
         const resultados = await conexion.query("select a.id_area,b.nombre_area , a.tipo_meta  from schema_control.indicadores a inner join schema_control.areas b on (a.id_area=b.id_area) where a.id_plan =$1 group by a.id_area,b.nombre_area, a.tipo_meta ", [id_plan]);
+        return resultados.rows;
+    },
+
+    async consultar_per_evaluacionxidindicador(id_indicador) {
+        const resultados = await conexion.query("select periodo_meta_num from schema_control.indicadores where id_indicador = $1", [id_indicador]);
         return resultados.rows;
     },
 
@@ -308,7 +313,7 @@ module.exports = {
     },
 
     async consultar_det_indicador(vigencia, periodo, area, indicador) {
-        const resultados = await conexion.query("select to_char(f.fecha, 'YYYY') as periodo_año, to_char(f.fecha, 'MM') as periodo_mes, ind.id_indicador, ind.nombre_indicador, ind.tipo_meta, ind.formula_literal_numerador, ind.formula_literal_denominador, ind.formula_literal_descriptiva, ind.meta_descriptiva, ind.meta_numerica from schema_control.indicadores ind inner join schema_control.areas a on(ind.id_area = a.id_area) inner join schema_control.planes pa on(ind.id_plan = pa.id_plan) inner join schema_control.estrategias e on(pa.id_estrategia = e.id_estrategia) inner join schema_control.objetivos o on(e.id_objetivo = o.id_objetivo) inner join schema_control.lineas_acciones la on(o.id_linea_accion = la.id_linea) inner join schema_control.plangeneral pg on(la.id_plan_general = pg.id_plangeneral) inner join schema_control.fecha f on(pg.id_plangeneral = f.id_plan_general) where to_char(f.fecha, 'YYYY') = $1 and to_char(f.fecha, 'MM') = $2 and a.id_area = $3 and ind.id_indicador = $4 and pg.estado = true group by periodo_mes, periodo_año, ind.id_indicador, ind.nombre_indicador ", [vigencia, periodo, area, indicador]);
+        const resultados = await conexion.query("select to_char(f.fecha, 'YYYY') as periodo_año, to_char(f.fecha, 'MM') as periodo_mes, ind.id_indicador, ind.nombre_indicador, ind.tipo_meta,ind.periodo_meta_num , ind.formula_literal_numerador, ind.formula_literal_denominador, ind.formula_literal_descriptiva, ind.meta_descriptiva, ind.meta_numerica from schema_control.indicadores ind inner join schema_control.areas a on(ind.id_area = a.id_area) inner join schema_control.planes pa on(ind.id_plan = pa.id_plan) inner join schema_control.estrategias e on(pa.id_estrategia = e.id_estrategia) inner join schema_control.objetivos o on(e.id_objetivo = o.id_objetivo) inner join schema_control.lineas_acciones la on(o.id_linea_accion = la.id_linea) inner join schema_control.plangeneral pg on(la.id_plan_general = pg.id_plangeneral) inner join schema_control.fecha f on(pg.id_plangeneral = f.id_plan_general) where to_char(f.fecha, 'YYYY') = $1 and to_char(f.fecha, 'MM') = $2 and a.id_area = $3 and ind.id_indicador = $4 and pg.estado = true group by periodo_mes, periodo_año, ind.id_indicador, ind.nombre_indicador ", [vigencia, periodo, area, indicador]);
         return resultados.rows;
     },
 

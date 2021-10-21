@@ -219,7 +219,17 @@
 
                                 <div class="container" id="panel_numerica" style=" text-align: center;" >                                
 
-                                    
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label" for="txt_meta_numerica"
+                                            style="font-weight: bold;">
+                                            Periodo Evaluación: </label>
+                                        <div class="col-10">
+                                            <output class="form-control" type="text" name="txt_periodo_evaluacion"
+                                                id="txt_periodo_evaluacion" value="">
+                                        </div>
+
+                                    </div>
+
                                     <div class="form-group row">
                                         <label class="col-2 col-form-label" for="txt_meta_numerica"
                                             style="font-weight: bold;">
@@ -931,6 +941,7 @@
                         success: function (result) {
                             $("#txt_tipo_meta").html("");
                             $("#txt_meta_numerica").html("");
+                            $("#txt_periodo_evaluacion").html("");
                             $("#txt_meta_descriptiva").html("");
                             $("#txt_fl_descriptiva").html("");
                             $("#txt_fl_numerador").html("");
@@ -951,6 +962,25 @@
                                     $("#txt_fl_descriptiva").append('<output value=' + element.formula_literal_descriptiva + '>' + element.formula_literal_descriptiva);
                                     $("#txt_fl_numerador").append('<output value=' + element.formula_literal_numerador + '>' + element.formula_literal_numerador);
                                     $("#txt_fl_denominador").append('<output value=' + element.formula_literal_denominador + '>' + element.formula_literal_denominador);
+                                        if (element.periodo_meta_num == 1) {
+                                            $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Mensual' );
+                                     }
+                                     else if(element.periodo_meta_num == 2){
+                                        $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Bimensual' );
+                                     }
+                                     else if(element.periodo_meta_num == 3){
+                                        $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Trimestral' );
+                                     } 
+                                     else if(element.periodo_meta_num == 4){
+                                        $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Cuatrimestral' );
+                                     }
+                                     else if(element.periodo_meta_num == 6){
+                                        $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Semestral' );
+                                     }
+                                     else if(element.periodo_meta_num == 12){
+                                        $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Anual' );
+                                     }
+                                    
 
                                 });
 

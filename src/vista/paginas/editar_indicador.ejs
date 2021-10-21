@@ -125,11 +125,6 @@
                         <select class="form-control" name="select_tipo_meta" id="select_tipo_meta" data-toggle="tooltip" title="Seleccionar Plan de Acción!" data-placement="right" required>
                             <option selected="selected" value="">Seleccionar Tipo de meta
                             </option>
-                            
-
-
-
-
                         </select>
                     </div>
                 </div>
@@ -157,6 +152,18 @@
                 </div>
 
                 <div class="card container" id="panel_numerica" style=" text-align: center;" hidden>
+
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label" style="font-weight: bold;">
+                            Periodo Evaluación: </label>
+                        <div class="col-10">
+                            <select class="form-control" name="select_per_evaluacion" id="select_per_evaluacion" data-toggle="tooltip" title="Seleccionar Periodo de evaluacion!" data-placement="right" required>
+                                <option selected="selected" value="">Seleccionar Periodo evaluación
+                                </option>
+                              
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="form-group row">
                         <label class="col-2 col-form-label" for="txt_meta_numerica" style="font-weight: bold;">
@@ -211,6 +218,7 @@
         var id_area = $('#select_area').val();
         var tipo_meta = $('#select_tipo_meta').val();
         var meta_descriptiva = $('#txt_meta_descriptiva').val();
+        var periodo_evaluacion = $('#select_per_evaluacion').val();
         var meta_numerica = $('#txt_meta_numerica').val();
         var formula_literal_descriptiva = $('#txt_fl_descriptiva').val();
         var formula_literal_numerador = $('#txt_fl_numerador').val();
@@ -235,6 +243,7 @@
             "&meta_numerica=" + meta_numerica +
             "&meta_descriptiva=" + meta_descriptiva +
             "&formula_literal_descriptiva=" + formula_literal_descriptiva +
+            "&periodo_evaluacion=" + periodo_evaluacion +
             "&formula_literal_numerador=" + formula_literal_numerador +
             "&formula_literal_denominador=" + formula_literal_denominador +
             "&tipo_meta=" + tipo_meta;
@@ -496,6 +505,8 @@
 
         });
 
+
+
         //consultar areas
 
         var peticion = "/consultar-areaxid/?id_area=" + '<%= indicador_info[0].id_area %>';
@@ -544,6 +555,84 @@
         });
 
 
+        //llamado registro  indicadores
+        var peticion = "/consultar-periodo-evaluacion-x-id-indicador/?id_indicador=" + '<%= indicador_info[0].id_indicador %>';
+
+        $.ajax({
+
+            type: 'get',
+            url: peticion,
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+
+            success: function(result) {
+
+                if (result.length == 0) {
+
+                    $("#select_per_evaluacion").html("");
+                    $("#select_per_evaluacion").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+
+                } else {
+
+                    $("#select_per_evaluacion").html("");
+
+                    $("#select_per_evaluacion").append('<option selected="selected">' + 'Seleccionar Periodo evaluacón' + '</option>');
+
+                    result.forEach(element => {
+                        if (element.periodo_meta_num == 1) {
+                            $("#select_per_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Mensual</option>');
+                            $("#select_per_evaluacion").append('<option value="2">Bimensual</option>');
+                            $("#select_per_evaluacion").append('<option value="3">Trimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="4">Cuatrimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="6">Semnestral</option>');
+                            $("#select_per_evaluacion").append('<option value="12">Anual</option>');
+                        } else if (element.periodo_meta_num == 2) {
+                            $("#select_per_evaluacion").append('<option value="2">Mensual</option>');
+                            $("#select_per_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Bimensual</option>');
+                            $("#select_per_evaluacion").append('<option value="3">Trimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="4">Cuatrimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="6">Semnestral</option>');
+                            $("#select_per_evaluacion").append('<option value="12">Anual</option>');
+                        } else if (element.periodo_meta_num == 3) {
+                            $("#select_per_evaluacion").append('<option value="1">Mensual</option>');
+                            $("#select_per_evaluacion").append('<option value="2">Bimensual</option>');
+                            $("#select_per_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Trimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="4">Cuatrimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="6">Semnestral</option>');
+                            $("#select_per_evaluacion").append('<option value="12">Anual</option>');
+                        } else if (element.periodo_meta_num == 4) {
+                            $("#select_per_evaluacion").append('<option value="1">Mensual</option>');
+                            $("#select_per_evaluacion").append('<option value="2">Bimensual</option>');
+                            $("#select_per_evaluacion").append('<option value="3">Trimestral</option>');
+                            $("#select_per_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Cuatrimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="6">Semnestral</option>');
+                            $("#select_per_evaluacion").append('<option value="12">Anual</option>');
+                        } else if (element.periodo_meta_num == 6) {
+                            $("#select_per_evaluacion").append('<option value="1">Mensual</option>');
+                            $("#select_per_evaluacion").append('<option value="2">Bimensual</option>');
+                            $("#select_per_evaluacion").append('<option value="3">Trimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="4">Cuatrimestral</option>');
+                            $("#select_per_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Semestral</option>');
+                            $("#select_per_evaluacion").append('<option value="12">Anual</option>');
+                        } else if (element.periodo_meta_num == 12) {
+                            $("#select_per_evaluacion").append('<option value="1">Mensual</option>');
+                            $("#select_per_evaluacion").append('<option value="2">Bimensual</option>');
+                            $("#select_per_evaluacion").append('<option value="3">Trimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="4">Cuatrimestral</option>');
+                            $("#select_per_evaluacion").append('<option value="6">Semnestral</option>');
+                            $("#select_per_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Anual</option>');
+
+                        }
+
+                    });
+
+                }
+
+            }
+
+        });
 
 
 

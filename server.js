@@ -2154,7 +2154,7 @@ app.post("/actualizar-indicador", auth, (req, res) => {
 
     modelControlMando.actualizar_indicador(req.query.id_indicador, req.query.nombre_indicador, req.query.id_plan_accion, req.query.id_area,
         req.query.tipo_meta, req.query.formula_literal_descriptiva, req.query.meta_descriptiva, req.query.meta_numerica,
-        req.query.formula_literal_numerador, req.query.formula_literal_denominador).then(respuesta => {
+        req.query.formula_literal_numerador, req.query.formula_literal_denominador, Number(req.query.periodo_evaluacion)).then(respuesta => {
         console.log(respuesta);
         if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
             console.log("OK... update indicador");
@@ -2304,6 +2304,12 @@ app.post('/plan-accion/delete/:id_plan/control-mando-bips', auth, function(req, 
 app.get("/consultar-tipometa-area-x-plan", auth, (req, res) => {
     modelControlMando.consultar_tipometaxidplan(req.query.id_plan).then(lista_tipo_meta => {
         res.send(lista_tipo_meta);
+    });
+});
+
+app.get("/consultar-periodo-evaluacion-x-id-indicador", auth, (req, res) => {
+    modelControlMando.consultar_per_evaluacionxidindicador(req.query.id_indicador).then(lista_periodo_evaluacion => {
+        res.send(lista_periodo_evaluacion);
     });
 });
 
@@ -2765,7 +2771,7 @@ app.post("/persistir-indicador", auth, (req, res) => {
     //console.log(req.query);
     //console.log(req.params);
 
-    modelControlMando.insertar_indicador(req.query.nombre_indicador, req.query.plan_accion, req.query.area, req.query.tipo_meta, req.query.formula_descriptiva, req.query.meta_descriptiva, req.query.meta_numerica, req.query.formula_literal_num, req.query.form_literal_den).then(respuesta => {
+    modelControlMando.insertar_indicador(req.query.nombre_indicador, req.query.plan_accion, req.query.area, req.query.tipo_meta, req.query.formula_descriptiva, req.query.meta_descriptiva, Number(req.query.periodo_evaluacion), req.query.meta_numerica, req.query.formula_literal_num, req.query.form_literal_den).then(respuesta => {
 
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW Indicador");
@@ -2799,50 +2805,56 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
 
     console.log(req.files);
 
-    for (var i in req.files) {
 
-        let path_soporte = dir_soportes_ctm + "_" + fecha_completa_sinSeparador + hora + req.files[i].originalname;
+    //console.log("cbxips" + req.body.cbxips);
+    //console.log(path_soporte);
+    console.log("version:" + Number(req.body.select_version));
+    console.log("numerador:" + (req.body.txt_vr_numerador));
+    console.log("denominador:" + (req.body.txt_vr_denominador));
 
-        //console.log("cbxips" + req.body.cbxips);
-        console.log(path_soporte);
-        console.log("version:" + Number(req.body.select_version));
-        console.log("numerador:" + (req.body.txt_vr_numerador));
-        console.log("denominador:" + (req.body.txt_vr_denominador));
+    var numerador = parseFloat(req.body.txt_vr_numerador);
+    var denominador = parseFloat(req.body.txt_vr_denominador);
+    if (req.body.txt_vr_numerador == '') {
+        numerador = 0;
+    }
+    if (req.body.txt_vr_denominador == '') {
+        denominador = 0;
 
-        var numerador = parseFloat(req.body.txt_vr_numerador);
-        var denominador = parseFloat(req.body.txt_vr_denominador);
-        if (req.body.txt_vr_numerador == '') {
-            numerador = 0;
+    }
+
+    try {
+        var version = Number(req.body.select_version);
+        if (version == 0) {
+
+            version = 1;
+
+        } else {
+            version = version + 1;
         }
-        if (req.body.txt_vr_denominador == '') {
-            denominador = 0;
 
-        }
+        modelControlMando.insertar_registro_indicador(
+            Number(req.body.select_indicador),
+            Number(req.body.select_profesional),
+            req.body.select_vigencia,
+            Number(req.body.select_periodo),
+            numerador,
+            denominador,
+            req.body.txt_observacion,
+            '0', version).then(respuesta => {
 
-        try {
-            var version = Number(req.body.select_version);
-            if (version == 0) {
+            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                //console.log(respuesta);
+                console.log(respuesta['rows'][0].id_registroindicador);
 
-                version = 1;
 
-            } else {
-                version = version + 1;
-            }
 
-            modelControlMando.insertar_registro_indicador(
-                Number(req.body.select_indicador),
-                Number(req.body.select_profesional),
-                req.body.select_vigencia,
-                Number(req.body.select_periodo),
-                numerador,
-                denominador,
-                req.body.txt_observacion,
-                '0', version).then(respuesta => {
+                console.log(nombre_soporte);
 
-                if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                    //console.log(respuesta);
-                    console.log(respuesta['rows'][0].id_registroindicador);
+                /*Se debe de obtener el idRegistro Indicador recien insertado para realizar crear la relaciona en BD con el 
+                soporte*/
+                for (var i in req.files) {
 
+                    //let path_soporte = dir_soportes_ctm + "_" + fecha_completa_sinSeparador + hora + req.files[i].originalname;
                     var ext = path.extname(req.files[i].originalname);
 
                     var id_registro_indicador = respuesta['rows'][0].id_registroindicador;
@@ -2856,10 +2868,6 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
                     var peso = req.files[i].size;
                     var nombre_original = req.files[i].originalname;
 
-                    console.log(nombre_soporte);
-
-                    /*Se debe de obtener el idRegistro Indicador recien insertado para realizar crear la relaciona en BD con el 
-                    soporte*/
 
                     modelControlMando.insertar_SoporteRegistroIndicador(
 
@@ -2886,30 +2894,28 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
                         }
                     });
 
-
-                    //console.log("OK... insert NEW Indicador");
-                    res.json({ status: 200, msg: 'El Registro Indicador , se creó correctamente...' });
-
-                } else {
-                    res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador , intente de nuevo...' });
                 }
+                //console.log("OK... insert NEW Indicador");
+                res.json({ status: 200, msg: 'El Registro Indicador , se creó correctamente...' });
 
-            }).catch(err => {
-                console.log(err);
-                res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador YA EXISTE...' });
-            });
+            } else {
+                res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador , intente de nuevo...' });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador YA EXISTE...' });
+        });
 
 
-            // res.json({ status: 200, msg: 'test ok' });
+        // res.json({ status: 200, msg: 'test ok' });
 
-            //console.log(req.params);
-            //console.log(req.files);
+        //console.log(req.params);
+        //console.log(req.files);
 
 
-        } catch (error) {
-            console.log("err " + error);
-
-        }
+    } catch (error) {
+        console.log("err " + error);
 
     }
 
@@ -3099,7 +3105,7 @@ app.get("/calcular-desviacion", auth, (req, res) => {
     console.log('A:' + req.query.resultado_numerico);
     console.log('B:' + req.query.meta_numerica);
 
-    var valor_desviacion = (req.query.meta_numerica - req.query.resultado_numerico).toFixed(2);
+    var valor_desviacion = ((req.query.meta_numerica / req.query.periodo_evaluacion) - req.query.resultado_numerico).toFixed(2);
     console.log('desviacion:' + valor_desviacion);
     res.send(valor_desviacion.toString());
 

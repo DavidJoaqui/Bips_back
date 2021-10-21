@@ -237,11 +237,12 @@
                             $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
 
                             $('#card-msg').show();
-
+                            //window.location.replace("/ctm-calificacion-indicadores");
                             $('#formulario')[0].reset();
                             setTimeout(function() {
                                 $('#preview').hide();
                             }, 4000);
+
 
                         } else {
                             $('#preview').show();
