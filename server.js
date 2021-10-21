@@ -2576,35 +2576,11 @@ app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
         console.log("" + lista_soportes[0].ruta_digital);
         //const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"], { shell: true }, { stdio: 'inherit' });
         const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat", lista_soportes[0].ruta_digital, path.join(__dirname, 'filesBipsUploads')]);
-        /*spawn_cp = spawn('cmd.exe', ['cd ', 'e:/', ' dir'], { shell: true }, function(err, stdout, stderr) {
-            if (err) throw err;
-            console.log(stdout);
-        });*/
-
-
-        //spawn_cp.stdout.pipe(process.stdout);
-
-        // #!/usr/bin / env node
-        /* var name = process.argv[2];
-        var exec = require('child_process').exec;
-
-        var child = exec('echo hello ' + name, function(err, stdout, stderr) {
-             if (err) throw err;
-             console.log(stdout);
-         });*/
-
 
         spawn_cp.stdout.on('data', (data) => {
             console.log("std OUT");
             console.log(data.toString())
-                //res.download(path.join(__dirname, 'example_pdf.pdf'));
 
-            // console.log(lista_soportes[0].peso);
-
-
-            //res.json({ respuesta: "OK", status: 200 });
-
-            // res.send(data.toString());
         });
         spawn_cp.stderr.on('data', (data) => {
                 console.log("std ERR");
@@ -2632,33 +2608,72 @@ app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
 
 
                     break;
-                case 1:
+                case 2:
                     console.info(preText + "The file already exists");
                     break;
-                case 2:
+                case 3:
                     console.info(preText + "The file doesn't exists and now is created");
                     break;
-                case 3:
+                case 4:
                     console.info(preText + "An error ocurred while creating the file");
                     break;
             }
         });;
 
 
-        /*modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
-            console.log("" + lista_soportes[0].ruta_digital);
+    });
 
 
-            //res.download(path.join(__dirname, 'example_pdf.pdf'));
+});
 
-            // console.log(lista_soportes[0].peso);
-            console.log(lista_soportes);
-            var file = fs.readFileSync(path.join(__dirname + "/example_pdf.pdf"), 'binary');
-            //res.setHeader('Content-Length', 10000000000000000);
-            res.write(file, 'binary');
-            res.end();
 
-            //res.json({ respuesta: "OK", status: 200 });*/
+app.get("/ver-recurso-soporte/:id_soporte", auth, (req, res) => {
+    //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
+    //console.log(req.query)
+    const spawn = require('child_process').spawn;
+
+
+    modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
+        console.log("" + lista_soportes[0].ruta_digital);
+        //const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"], { shell: true }, { stdio: 'inherit' });
+        const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat", lista_soportes[0].ruta_digital, path.join(__dirname, '/pdf.js/web/filespublic/')]);
+
+
+
+        spawn_cp.stdout.on('data', (data) => {
+            console.log("std OUT");
+            console.log(data.toString())
+
+        });
+        spawn_cp.stderr.on('data', (data) => {
+                console.log("std ERR");
+                console.error(data.toString());
+            })
+            //res.send(stdout);
+
+        spawn_cp.on('close', (code) => {
+            console.log('OK.. code: ' + code);
+            var preText = `Child exited with code ${code} : `;
+            switch (code) {
+                case 1:
+                    console.info(preText + "El comando BATCH se ejecuto correctamente, Accion Ver PDF...");
+
+                    res.render("paginas/ctm-iframeViewPDF", { user: req.session.user, file_pdf: lista_soportes[0].nombre_soporte });
+
+                    break;
+                case 2:
+                    console.info(preText + "The file already exists");
+                    break;
+                case 3:
+                    console.info(preText + "The file doesn't exists and now is created");
+                    break;
+                case 4:
+                    console.info(preText + "An error ocurred while creating the file");
+                    break;
+            }
+        });;
+
+
 
     });
 
@@ -3098,6 +3113,15 @@ app.get("/resultados-financieros", auth, (req, res) => {
 
     res.render(path.join(__dirname + "/src/vista/paginas/rpt_financiero_contabilidad"), { user: req.session.user, });
 });
+
+app.get("/verPDF", auth, (req, res) => {
+
+    //res.render(path.join(__dirname + "/filesBipsUploads/_19102021_13_48_+ == POLIZA GU169464.pdf"), { user: req.session.user, });
+    //var ruta = path.join(__dirname, "_19102021_13_48_+ == POLIZA GU169464.pdf");
+    //res.render('<iframe src="http://localhost:8888/web/viewer.html?file="' + ruta + "></iframe>");
+    res.render("paginas/ctm-iframeViewPDF", { user: req.session.user, });
+});
+
 
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));

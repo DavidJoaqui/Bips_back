@@ -1,21 +1,5 @@
 <%- include("test_header_new"); %>
 
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            history.replaceState("/config-perfil-bips", "Bips", "/config-perfil-bips");
-
-            setTimeout(function() {
-                $('#card-success').hide();
-            }, 5000);
-
-
-            $('#card-success').show();
-
-        });
-    </script>
-
     <div style="margin-top: 80px;padding-top: 10px;">
         <h1 style="color: #233dd2;" class="text-center">
             Portal de Inteligencia de Negocio BIPS
@@ -29,9 +13,19 @@
         <div class="card-body">test</div>
     </div>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
 
-    <div class="embed-responsive embed-responsive-16by9" id="report">
-        <iframe src="https://mozilla.github.io/pdf.js/web/viewer.html" scrolling="si" onload='validarCarga()' frameBorder="0" width="100%" title="Dashboard 2193" class="embed-responsive-item">
+            history.replaceState("/config-perfil-bips", "Bips", "/config-perfil-bips");
+            //var ruta = "http://localhost:3000/_19102021_18_7_myfile.pdf";
+            //$('#iframe_indicador').attr("src", "http://localhost:8888/web/viewer.html?file=http://localhost:3000/_19102021_18_7_myfile.pdf");
+
+
+        })
+    </script>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe src="http://localhost:8888/web/viewer.html?file=http://localhost:3000/_19102021_18_7_myfile.pdf" scrolling="si" id="viewerPdf" onload='' frameBorder="0" width="100%" title="Dashboard 2193" class="embed-responsive-item">
         </iframe>
 
 
@@ -39,11 +33,12 @@
 
     </div>
 
-    <div class="embed-responsive embed-responsive-16by9">
+
+    <!--<div class="embed-responsive embed-responsive-16by9">
 
         <iframe src="https://docs.google.com/gview?url=http://www.pdf995.com/samples/pdf.pdf&embedded=true" scrolling="si" onload='' frameBorder="0" width="100%" title="Dashboard 2193" class="embed-responsive-item">
         </iframe>
-        <!--<iframe src="https://docs.google.com/gview?url=<%= url %>&embedded=true" scrolling="si" onload='' frameBorder="0" width="100%" title="Dashboard 2193" class="embed-responsive-item">
-        </iframe>-->
-    </div>
+        <iframe src="https://docs.google.com/gview?url=<%= url %>&embedded=true" scrolling="si" onload='' frameBorder="0" width="100%" title="Dashboard 2193" class="embed-responsive-item">
+        </iframe>
+    </div>-->
     <%- include("footer"); %>

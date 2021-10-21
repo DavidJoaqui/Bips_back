@@ -1,5 +1,36 @@
 <%- include("head"); %>
 
+    <div class="container">
+
+        <!-- Trigger the modal with a button 
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+        -->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog" style="width: 100%">
+
+            <div class="" id="modal-diag" style="width: 100%;">
+
+                <!-- Modal content-->
+                <div class="modal-content" style="width: 100%;">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center"><small>visor pdf</small> </h4>
+                        <button type="button" class="close" id="cerrar-visor" data-dismiss="modal">&times;</button>
+
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="" id="viewerPdf">
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
@@ -27,6 +58,7 @@
 
                             <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
                                 <td>
+                                    <input type="text" id="id_reg_indicador" value="<%= lista_soportes[i].id_registro_indicador %>" hidden>
                                     <%= i+1 %>
 
                                 </td>
@@ -64,7 +96,7 @@
                                     <%if(lista_soportes[i].extension != '.pdf' ){%>
                                         <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
                                         <%}else{%>
-                                            <a href="" title="Ver"><i class="fas fa-eye" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
+                                            <a href="" title="Ver"><i class="fas fa-eye" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
                                             <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
                                             <%}%>
                                 </td>
@@ -88,19 +120,28 @@
 
             });
 
+            $(function() {
+                //$("#modal .close").click()
+                document.getElementById('cerrar-visor').click();
+            });
 
-            function RealizarAccion(id_reg_indicador) {
+
+            function RealizarAccionVer(id_soporte) {
                 event.preventDefault();
-                const peticion = "/form-ctm-calificacion-reg-indicador/?id_reg_indicador=" + id_reg_indicador;
+
+                //                $('#modal-diag').addClass('modal-dialog');
+
+                const peticion = "/ver-recurso-soporte/" + id_soporte;
                 $.ajax({
-                    type: 'post',
+                    type: 'get',
                     url: peticion,
                     data: [],
                     contentType: false,
                     cache: false,
                     processData: false,
                     success: function(result) {
-                        $('#body_ent').html(result);
+                        $('#viewerPdf').html(result);
+
                     }
                 });
             }
