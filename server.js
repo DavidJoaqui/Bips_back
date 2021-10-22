@@ -30,6 +30,7 @@ const dir_soportes_ctm = 'E:/Upload_Soportes_Bips/';
 //app.use(express.urlencoded);
 //app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'filesBipsUploads')));
+app.use(express.static(path.join(__dirname, 'pdf.js')));
 app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(express.static(dir_soportes_ctm));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -1201,7 +1202,7 @@ app.post('/login-data', function(req, res) {
                     if (user_ok[0].es_profesional) {
 
                         console.log("Es profesional");
-                        modelControlMando.consultarProfesionalXidUsuario(user_ok[0].id).then(result => {
+                        modelControlMando.consultarProfesionalXidUsuario(Number(user_ok[0].id)).then(result => {
                             console.log(result);
 
                             var usuario = { id_user: user_ok[0].id, id_profesional: Number(result[0].id_profesional), username: req.body.username, id_area: user_ok[0].id_area, nombre: user_ok[0].nombre };
@@ -2327,13 +2328,28 @@ app.get("/ctm-indicadores", auth, (req, res) => {
 app.get("/ctm-reg-indicadores", auth, (req, res) => {
 
 
-    modelControlMando.consultar_areaxid(req.session.username['id_area']).then(lista_area => {
+    modelControlMando.consultar_areaxid(Number(req.session.username['id_area'])).then(lista_area => {
 
-        res.render("paginas/ctm_reg_indicadores", { user: req.session.user, id_profesional: req.session.username['id_profesional'], lista_areas: lista_area, nombre: req.session.username['nombre'] });
+        res.render("paginas/ctm_reg_indicadores", { user: req.session.user, id_profesional: Number(req.session.username['id_profesional']), lista_areas: lista_area, nombre: req.session.username['nombre'] });
     });
 
 
 });
+
+app.post("/form-editar-ctm-reg-indicador", auth, (req, res) => {
+
+    console.log('id_indicador:' + req.query.id_reg_indicador);
+    //console.log('id_area:' + req.query.id_area);
+    modelControlMando.consultar_det_reg_ind_evaluacion(req.query.id_reg_indicador).then(indicador_info => {
+
+        res.render("paginas/editar_reg_indicadores", {
+            id_reg_indicador: req.query.id_reg_indicador,
+            indicador_info: indicador_info
+        });
+    });
+
+});
+
 
 app.get("/consultar-vigencia-anio-profesional", auth, (req, res) => {
     //console.log(req.query.año);
@@ -2475,9 +2491,9 @@ app.get("/consultar-indicador-x-area", auth, (req, res) => {
 
 app.get("/consultar-detalle-indicador-x-indicador", auth, (req, res) => {
     //console.log('id_area:' + req.query.area);
-    console.log('id_area:' + req.query.area);
-    console.log('VIGENCIA:' + req.query.vigencia);
-    console.log('PERIODO:' + req.query.periodo);
+    // console.log('id_area:' + req.query.area);
+    //console.log('VIGENCIA:' + req.query.vigencia);
+    //console.log('PERIODO:' + req.query.periodo);
     console.log('indicador:' + req.query.indicador);
     modelControlMando.consultar_det_indicador(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_detalle_indicador => {
         res.send(lista_detalle_indicador);
@@ -2921,6 +2937,61 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
 
 
 })
+
+app.get("/eliminar-popup-reg-indicador/:id_reg_indicador/control-mando-bips", auth, (req, res) => {
+    // console.log(req.query);
+    //console.log(req.params);
+    //var name = req.query.;    
+
+    let params = [req.params.id_reg_indicador, req.query.nombre_indicador, req.query.periodo, req.query.vigencia, req.query.version, req.query.id_profesional];
+    res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-reg-indicador"), { datos_plan: params });
+});
+
+app.post('/registro-indicador/delete/:id/control-mando-bips', auth, function(req, res) {
+
+    console.log(req.query);
+    console.log(req.params);
+    var msg = '';
+
+
+    //primero se eliminan los soportes asociados al registro de indicador recibido en la peticion
+    modelControlMando.eliminar_soporte_x_idRegistroIndicador(req.params.id).then(rspta_eliminacion => {
+
+        console.log(rspta_eliminacion);
+        if (rspta_eliminacion['command'] == "DELETE" && rspta_eliminacion['rowCount'] > 0) {
+            //eliminar_Registro_RegIndicador
+            console.log("Para el registro de indicador: " + req.params.id + " se Eliminaron: " + rspta_eliminacion['rowCount'] + " Soportes q estaban Adjuntos ");
+            modelControlMando.eliminar_Registro_RegIndicador(req.params.id).then(respuesta => {
+
+                msg = 'El Registro de indicador para el indicador ' + req.query.nombre_indicador + ' se eliminó correctamente...';
+                if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                    console.log("respuesta de eliminacion: 1, Se elimino correctamente el registro de indicador...");
+                    msg = 'El Registro de indicador para el indicador ' + req.query.nombre_indicador + ' se eliminó correctamente...';
+                } else {
+                    console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el registro de indicador " + req.query.nombre_indicador);
+                    msg = ' ocurrio un problema al eliminar el registro de Indicador... ' + req.query.nombre_indicador;
+                }
+
+
+                req.flash('notify_del_reg_indicador', msg);
+                res.redirect("/ctm-reg-indicadores");
+
+            })
+
+        }
+
+        //req.flash('notify_del_plangral', msg);
+        //res.json({ status: 200, msg: msg });
+        //res.json({ status: 200, msg });        
+
+
+
+
+
+    })
+
+
+});
 
 app.post("/persistir-calificacion-indicador", auth, (req, res) => {
 

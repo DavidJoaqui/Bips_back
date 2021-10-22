@@ -1,6 +1,8 @@
 <%- include("head"); %>
     <%- include("styles_gral"); %>
 
+
+
         <div class="col-md-12" id="body_lista" name="body_lista" style="margin-top: 10px;">
 
 
@@ -102,29 +104,14 @@
 
 
 
-                                    <td id="<%= lista_registro_indicadores[i].id_registroindicador %>" name="<%= lista_registro_indicadores[i].id_registroindicador %>">
-                                        <!--Se debera verificar si el id registro indicador ya fue calificado para
-                                        seteaer el siguiente estado-->
-                                        <script type="text/javascript">
-                                            event.preventDefault();
-                                            const peticion = "/consultar-calificacion-reg-indicador/?id_reg_indicador=" + '<%= lista_registro_indicadores[i].id_registroindicador %>';
-                                            $.ajax({
-                                                type: 'post',
-                                                url: peticion,
-                                                data: [],
-                                                contentType: false,
-                                                cache: false,
-                                                processData: false,
-                                                success: function(result) {
-                                                    if (result.length != 0 && result[0].estado) {
-                                                        $('#<%= lista_registro_indicadores[i].id_registroindicador %>').html('<i class="fas fa-check-circle text-center" onclick="" style="color: green;"> SI</i>');
-                                                    } else {
-                                                        $('#<%= lista_registro_indicadores[i].id_registroindicador %>').html("<i class='fas fa-minus-circle text-center' style='color: red;'' onclick=''></i>NO");
-                                                    }
+                                    <td class="text-center">
 
-                                                }
-                                            });
-                                        </script>
+                                        <input type="text" name="" id="tamaño_reg" value="<%= lista_registro_indicadores.length %>" hidden>
+                                        <%if(lista_registro_indicadores[i].estado == "Si"){%>
+                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i> SI</label></strong>
+                                            <%}else{%>
+                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i> NO</label></strong>
+                                                <%}%>
 
 
                                     </td>
@@ -142,9 +129,10 @@
                                                 <span class="vertical-line"></span>
                                                 <a href="" title="Trazabilidad" style="color:blue" onclick="verTrazabilidad('<%= lista_registro_indicadores[i].id_indicador %>','<%= lista_registro_indicadores[i].id_profesional %>','<%= lista_registro_indicadores[i].vigencia %>','<%= lista_registro_indicadores[i].periodoevaluado %>')"><i class="fas fa-list-ol"></i></a>
                                                 <span class="vertical-line"></span>
-                                                <a href="" title="Editar"><i class="fas fa-edit"></i></a>
-                                                <span class="vertical-line"></span>
-                                                <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
+                                                <a href="" title="Editar"><i class="fas fa-edit" onclick="editar('<%= lista_registro_indicadores[i].id_registroindicador %>')"></i></a>
+
+                                                <a href="/eliminar-popup-reg-indicador/<%= lista_registro_indicadores[i].id_registroindicador %>/control-mando-bips/?nombre_indicador=<%= lista_registro_indicadores[i].nombre_indicador %>&periodo=<%= lista_registro_indicadores[i].nombre_mes %>&vigencia=<%= lista_registro_indicadores[i].vigencia %>&version=<%= lista_registro_indicadores[i].version %>&id_profesional=<%= lista_registro_indicadores[i].id_profesional %>"
+                                                    title="Eliminar" style="color: red;"><i class="far fa-trash-alt" onclick=""></i></a>
                                                 <span class="vertical-line"></span>
                                                 <%}%>
 
@@ -166,6 +154,37 @@
             <script type="text/javascript">
                 $(document).ready(function() {
 
+                    $('#tbl_reg_indicador').DataTable({
+
+                        //Actualizo las etiquetas de mi tabla para mostrarlas en español
+                        language: {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            //"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                        }
+
+                    });
+
+
                 });
 
 
@@ -184,6 +203,23 @@
                         }
                     });
                 }
+
+                function editar(id_reg_indicador) {
+                    event.preventDefault();
+                    const peticion = "/form-editar-ctm-reg-indicador/?id_reg_indicador=" + id_reg_indicador;
+                    $.ajax({
+                        type: 'post',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            $('#body_ent').html(result);
+                        }
+                    });
+                }
+
 
                 function verTrazabilidad(id_indicador, profesional, vigencia, periodo) {
                     event.preventDefault();
@@ -209,6 +245,16 @@
             </script>
 
             <style>
+                .paginate_button {
+                    font-family: 'Montserrat', sans-serif;
+                    border-radius: 5px;
+                    font-size: 10px;
+                    border: none;
+                    cursor: pointer;
+                    transition: .3s ease all;
+                    font-weight: bold;
+                }
+                
                 .vertical-line {
                     display: inline-block;
                     border-left: 1px solid #ccc;

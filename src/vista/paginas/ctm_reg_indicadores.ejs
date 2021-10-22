@@ -14,69 +14,91 @@
             }
         </style>
 
-        <body id="body_ent">
-            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
-                <div class="card col-md-12" id="card-msg">
+
+        <% const m=getMessages() %>
+
+            <% if (m.notify_del_reg_indicador) { %>
 
 
-                </div>
-            </div>
+                <% m.notify_del_reg_indicador.forEach((element)=> { %>
 
-            <div class="col-md-12" style="text-align: center; margin-top: 0px;">
-                <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Indicadores
-                </h2>
-            </div>
-
-            <div class="tabs-to-dropdown">
-
-                <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <div class="form-group" style="padding-left: 0px;margin: 0px;">
-
-                            <button class="nav-link active btn btn-info" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="lista_indicadores()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-list"></i> Mis registros</button>
-                        </div>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <div class="form-group" style="padding-left: 0px;margin: 0px;">
-                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="nuevo_indicador()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Registro Indicador</button>
-
-                        </div>
-                    </li>
-
-                </ul>
+                    <script type="text/javascript">
+                        alert('<%= element %>');
+                    </script>
 
 
-                <div class="dropdown-divider"></div>
+                    <% }) %> %>
 
-            </div>
-
-            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
-
-
-                <div class="col-md col-md-offset-3" style="padding-bottom: 0px">
-
-                    <div class="card container" id="panel_nuevo_indicador" style=" text-align: center;" hidden>
+                        <% } %>
+                            <% if (m.error) { %>
 
 
-                        <div class="form-group row">
-                            <label class="col-1 col-form-label" style="font-weight: bold;">
+
+                                <% } %>
+
+                                    <body id="body_ent">
+                                        <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+                                            <div class="card col-md-12" id="card-msg">
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12" style="text-align: center; margin-top: 0px;">
+                                            <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Indicadores
+                                            </h2>
+                                        </div>
+
+                                        <div class="tabs-to-dropdown">
+
+                                            <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
+                                                <li class="nav-item" role="presentation">
+                                                    <div class="form-group" style="padding-left: 0px;margin: 0px;">
+
+                                                        <button class="nav-link active btn btn-info" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="lista_indicadores()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-list"></i> Mis registros</button>
+                                                    </div>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <div class="form-group" style="padding-left: 0px;margin: 0px;">
+                                                        <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="nuevo_indicador()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Registro Indicador</button>
+
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+
+
+                                            <div class="dropdown-divider"></div>
+
+                                        </div>
+
+                                        <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
+
+
+                                            <div class="col-md col-md-offset-3" style="padding-bottom: 0px">
+
+                                                <div class="card container" id="panel_nuevo_indicador" style=" text-align: center;" hidden>
+
+
+                                                    <div class="form-group row">
+                                                        <label class="col-1 col-form-label" style="font-weight: bold;">
                             - </label>
 
 
-                            <div class="col-10">
-                                <h3 class="text-center col-12">Nuevo Registro de Indicador.</h3>
-                            </div>
+                                                        <div class="col-10">
+                                                            <h3 class="text-center col-12">Nuevo Registro de Indicador.</h3>
+                                                        </div>
 
-                        </div>
+                                                    </div>
 
 
-                        <form id="formulario" enctype="multipart/form-data" method="">
+                                                    <form id="formulario" enctype="multipart/form-data" method="">
 
-                            <div class="form-group row">
+                                                        <div class="form-group row">
 
-                                <label class="col-2 col-form-label" style="font-weight: bold;" for="select_objetivo">Area: </label>
-                                <div class="col-3">
-                                    <!-- <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
+                                                            <label class="col-2 col-form-label" style="font-weight: bold;" for="select_objetivo">Area: </label>
+                                                            <div class="col-3">
+                                                                <!-- <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar area
                                         </option>
                                         <% lista_areas.forEach(lista=> { %>
@@ -86,98 +108,98 @@
                                             <% }); %>
                                     </select>-->
 
-                                    <% lista_areas.forEach(lista=> { %>
+                                                                <% lista_areas.forEach(lista=> { %>
 
-                                        <input type="text" name="select_area" id="select_area" value="<%= lista.id_area %>" hidden>
-                                        <label type="text" name="select_area" id="select_area" value=" " disabled><%= lista.nombre_area %></label>
+                                                                    <input type="text" name="select_area" id="select_area" value="<%= lista.id_area %>" hidden>
+                                                                    <label type="text" name="select_area" id="select_area" value=" " disabled><%= lista.nombre_area %></label>
 
 
 
-                                        <% }); %>
+                                                                    <% }); %>
 
-                                </div>
+                                                            </div>
 
-                                <label class="col-2 col-form-label" style="font-weight: bold;">
+                                                            <label class="col-2 col-form-label" style="font-weight: bold;">
                                     Profesional:</label>
 
-                                <div class="col-5">
-                                    <p>
-                                        <input type="text" id="select_version" name="select_version" value="0" hidden>
-                                        <input type="text" id="select_profesional" name="select_profesional" value="<%= id_profesional %>" hidden>
-                                        <label type="text" name="" id="" value="" disabled> <%= nombre %></label>
+                                                            <div class="col-5">
+                                                                <p>
+                                                                    <input type="text" id="select_version" name="select_version" value="0" hidden>
+                                                                    <input type="text" id="select_profesional" name="select_profesional" value="<%= id_profesional %>" hidden>
+                                                                    <label type="text" name="" id="" value="" disabled> <%= nombre %></label>
 
-                                    </p>
+                                                                </p>
 
 
-                                    <!--    <select class="form-control" name="select_profesional" id="select_profesional" data-toggle="tooltip" title="Seleccionar Profesional!" data-placement="right" required>
+                                                                <!--    <select class="form-control" name="select_profesional" id="select_profesional" data-toggle="tooltip" title="Seleccionar Profesional!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar Profesional</option>
 
 
 
                                     </select>-->
-                                </div>
+                                                            </div>
 
 
 
-                            </div>
+                                                        </div>
 
-                            <div class="form-group row">
-                                <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
+                                                        <div class="form-group row">
+                                                            <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
                                     Nombre Indicador: </label>
-                                <div class="col-10">
-                                    <select class="form-control" name="select_indicador" id="select_indicador" data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right" required>
+                                                            <div class="col-10">
+                                                                <select class="form-control" name="select_indicador" id="select_indicador" data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar Indicador</option>
 
                                     </select>
-                                </div>
-                            </div>
+                                                            </div>
+                                                        </div>
 
-                            <div class="form-group row">
+                                                        <div class="form-group row">
 
-                                <label class="col-2 col-form-label" style="font-weight: bold;" for="select_vigencia">Vigencia: </label>
-                                <div class="col-3">
-                                    <select class="form-control" name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required>
+                                                            <label class="col-2 col-form-label" style="font-weight: bold;" for="select_vigencia">Vigencia: </label>
+                                                            <div class="col-3">
+                                                                <select class="form-control" name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar vigencia
                                         
                                     </select>
 
-                                </div>
+                                                            </div>
 
-                                <label class="col-2 col-form-label" style="font-weight: bold;">
+                                                            <label class="col-2 col-form-label" style="font-weight: bold;">
                                     Periodo Evaluado:</label>
 
-                                <div class="col-5">
-                                    <select class="form-control" name="select_periodo" id="select_periodo" data-toggle="tooltip" title="Seleccionar Periodo!" data-placement="right" required>
+                                                            <div class="col-5">
+                                                                <select class="form-control" name="select_periodo" id="select_periodo" data-toggle="tooltip" title="Seleccionar Periodo!" data-placement="right" required>
                                         <option selected="selected" value="">Seleccionar Periodo
                                         </option>
 
 
 
                                     </select>
-                                </div>
-                            </div>
+                                                            </div>
+                                                        </div>
 
 
-                            <div class="" id="contenedor_info_indicador" name="contenedor_info_indicador" hidden>
+                                                        <div class="" id="contenedor_info_indicador" name="contenedor_info_indicador" hidden>
 
-                                <div class="dropdown-divider"></div>
+                                                            <div class="dropdown-divider"></div>
 
-                                <div class="form-group row">
-                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                                            <div class="form-group row">
+                                                                <label class="col-2 col-form-label" style="font-weight: bold;">
                                     - </label>
 
 
-                                    <div class="col-10">
-                                        <h3 class="text-center col-12" id="titulo_info_indicador">Información del Indicador Seleccionado</h3>
-                                    </div>
+                                                                <div class="col-10">
+                                                                    <h3 class="text-center col-12" id="titulo_info_indicador">Información del Indicador Seleccionado</h3>
+                                                                </div>
 
-                                </div>
+                                                            </div>
 
-                                <div class="form-group row" id="info_tipo_meta">
-                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                                            <div class="form-group row" id="info_tipo_meta">
+                                                                <label class="col-2 col-form-label" style="font-weight: bold;">
                                         Tipo Meta: </label>
-                                    <div class="col-10">
-                                        <output class="form-control" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value="">
+                                                                <div class="col-10">
+                                                                    <output class="form-control" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value="">
                                     </div>                                
                                     
                                 </div>
@@ -507,77 +529,10 @@
                     });
 
                     });
+             
 
-                      /*    var peticion = "/persistir-registro-indicador/" +
-                    "?vigencia=" + vigencia +
-                    "&periodo=" + periodo +
-                    "&area=" + area +
-                    "&profesional=" + profesional +
-                    "&indicador=" + indicador +
-                    "&vr_numerador=" + vr_numerador +
-                    "&vr_denominador=" + vr_denominador +
-                    "&observacion=" + observacion ;
-                    
-
-                $.ajax({
-                    type: 'post',
-                    url: peticion,
-                    data: [],
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-
-                    success: function (result) {
-
-                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+                        }
                         
-                        if (result["status"] == 200) {
-
-                            alert(result["msg"]);
-
-                            $('#preview').show();
-
-                            $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
-
-                            $('#card-msg').show();
-
-                            $('#formulario')[0].reset();
-
-                            //$('#select_linea').focus();
-
-
-                            setTimeout(function () {
-                                $('#preview').hide();
-                            }, 4000);
-
-
-                        } else {
-                            $('#preview').show();
-
-                            $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
-
-                            $('#card-msg').show();
-
-                            setTimeout(function () {
-                                $('#preview').hide();
-                            }, 5000);
-
-                            //$('#formulario')[0].reset();
-
-                            //$('#select_plan').focus();
-
-                        }
-
-                        //$('#body_ent').html(result);
-
-
-                    }
-
-                });*/
-
-                        }
-
-                        //$('#body_ent').html(result);
 
 
                     }
@@ -639,25 +594,7 @@
             
 
                 //event.preventDefault();
-                var peticion = "/consultar-vigencia-anio-profesional/?profesional=" +'<%= id_profesional %>';
-
-            $.ajax({
-
-                type: 'get',
-                url: peticion,
-                data: [],
-                contentType: false,
-                cache: false,
-                processData: false,
-
-                success: function (result) {
-                    $("#select_vigencia").html("");
-                    $("#select_vigencia").append('<option selected="selected">' + 'Seleccionar Vigencia' + '</option>');
-                    result.forEach(element => {
-                        $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
-                    });
-                }
-            }); 
+          
 
             //consulta de los registros de indicador por profesional o profesional en sesion
 
@@ -861,9 +798,7 @@
                 });    
             
                 });
-                           
-                                             
-
+                                                                       
                 $("#select_vigencia").change(function () {
 
                     var area = $('#select_area').val();
@@ -1025,28 +960,6 @@
 
                     });
 
-                 /*$("#select_profesional").change(function () {
-
-                    var peticion = "/consultar-vigencia-anio-profesional/?profesional=" + $(this).val();
-
-                    $.ajax({
-
-                        type: 'get',
-                        url: peticion,
-                        data: [],
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-
-                        success: function (result) {
-                            $("#select_vigencia").html("");
-                             $("#select_vigencia").append('<option selected="selected">' + 'Seleccionar Vigencia' + '</option>');
-                            result.forEach(element => {
-                                $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
-                            });
-                        }
-                    });
-                });*/
             
                 $("#select_indicador").change(function () {
 

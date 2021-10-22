@@ -254,7 +254,7 @@ module.exports = {
 
     async consultar_reg_indicadores_x_profesional(idprof) {
         var version = '"version"';
-        const resultados = await conexion.query("select c.id_profesional, a.version, a.id_indicador, a.periodoevaluado, a.id_registroindicador, to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, a.calificado, e.nombre_mes, e.id_mes , b.nombre_indicador, b.tipo_meta , a.formula_cifras_numerador, a.formula_cifras_denominador, a.observaciones, d.nombre_area , concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where c.id_profesional = $1 and a.id_registroindicador in ( select reg_ind.id_registroindicador from schema_control.registroindicadores reg_ind inner join (select a2.id_indicador,a2.periodoevaluado, a2.vigencia,a2.id_profesional,max(a2.version) as " + version + " from schema_control.registroindicadores a2 inner join schema_control.indicadores b2 on (a2.id_indicador = b2.id_indicador) inner join schema_control.profesionales c2 on (a2.id_profesional = c2.id_profesional) inner join schema_seguridad.user u2 on (c2.id_user = u2.id_user) inner join schema_control.areas d2 on (b2.id_area = d2.id_area) inner join schema_control.periodo_mes e2 on (a2.periodoevaluado = e2.id_mes) where a2.id_profesional = $2 group by a2.id_indicador, a2.periodoevaluado, a2.vigencia,a2.id_profesional)t1 on (t1.id_indicador = reg_ind.id_indicador) and (t1.periodoevaluado = reg_ind.periodoevaluado) and (t1.vigencia = reg_ind.vigencia) and (t1.id_profesional=reg_ind.id_profesional) and (t1.version = reg_ind.version) ) order by a.vigencia, e.id_mes, a.id_registroindicador asc", [idprof, idprof]);
+        const resultados = await conexion.query("select c.id_profesional, a.version, a.id_indicador, a.periodoevaluado, a.id_registroindicador, to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, a.calificado, e.nombre_mes, e.id_mes , b.nombre_indicador, b.tipo_meta , a.formula_cifras_numerador, a.formula_cifras_denominador, a.observaciones, d.nombre_area , concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional, (case when f.estado=true then 'Si' else 'No' end)::text as estado from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) left join schema_control.calificacion_registro_indicadores f on (a.id_registroindicador=f.id_registro_indicador) where c.id_profesional = $1 and a.id_registroindicador in ( select reg_ind.id_registroindicador from schema_control.registroindicadores reg_ind inner join ( select a2.id_indicador, a2.periodoevaluado, a2.vigencia, a2.id_profesional, max(a2.version) as "+version+" from schema_control.registroindicadores a2 inner join schema_control.indicadores b2 on (a2.id_indicador = b2.id_indicador) inner join schema_control.profesionales c2 on (a2.id_profesional = c2.id_profesional) inner join schema_seguridad.user u2 on (c2.id_user = u2.id_user) inner join schema_control.areas d2 on (b2.id_area = d2.id_area) inner join schema_control.periodo_mes e2 on (a2.periodoevaluado = e2.id_mes) where a2.id_profesional = $2 group by a2.id_indicador, a2.periodoevaluado, a2.vigencia, a2.id_profesional)t1 on (t1.id_indicador = reg_ind.id_indicador) and (t1.periodoevaluado = reg_ind.periodoevaluado) and (t1.vigencia = reg_ind.vigencia) and (t1.id_profesional = reg_ind.id_profesional) and (t1.version = reg_ind.version) ) order by a.vigencia, e.id_mes, a.id_registroindicador asc", [idprof, idprof]);
         return resultados.rows;
     },
 
@@ -275,7 +275,7 @@ module.exports = {
     },
 
     async consultar_periodoxaño(año, area, profesional, id_indicador) {
-        const resultados = await conexion.query("select b.cod_mes, b.nombre_mes from schema_control.fecha a inner join schema_control.periodo_mes b on (to_char(fecha, 'MM')= b.cod_mes) where to_char(fecha, 'YYYY') = $5 and b.cod_mes not in( select e.cod_mes from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and d.id_area = $2 and a.id_profesional = $3 and a.id_indicador =$4 order by a.id_registroindicador ) group by b.id_mes, b.nombre_mes order by b.id_mes asc", [año, area, profesional, id_indicador, año]);
+        const resultados = await conexion.query("select b.cod_mes, b.nombre_mes,b.id_mes  from schema_control.fecha a inner join schema_control.periodo_mes b on (to_char(fecha, 'MM')= b.cod_mes) where to_char(fecha, 'YYYY') = $5 and b.cod_mes not in( select e.cod_mes from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and d.id_area = $2 and a.id_profesional = $3 and a.id_indicador =$4 order by a.id_registroindicador ) group by b.id_mes, b.nombre_mes order by b.id_mes asc", [año, area, profesional, id_indicador, año]);
         return resultados.rows;
     },
 
@@ -347,11 +347,16 @@ module.exports = {
     },
 
     async consultar_det_reg_ind_evaluacion(id_reg_indicador) {
-        const resultados = await conexion.query("select a.id_registroindicador,a.periodoevaluado,a.id_profesional,a.id_indicador, to_char(a.fecharegistro, 'MON-DD-YYYY HH12:MIPM') as fecharegistro, a.vigencia, a.periodoevaluado, a.formula_cifras_numerador , a.formula_cifras_denominador, a.observaciones , a.calificado, a.version , e.nombre_mes, b.*, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional, d.nombre_area from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.id_registroindicador = $1", [id_reg_indicador]);
+        const resultados = await conexion.query("select a.id_registroindicador,a.periodoevaluado,a.id_profesional,a.id_indicador, to_char(a.fecharegistro, 'MON-DD-YYYY HH12:MIPM') as fecharegistro, a.vigencia, a.periodoevaluado, a.formula_cifras_numerador , a.formula_cifras_denominador, a.observaciones , a.calificado, a.version , e.nombre_mes, b.*, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional, d.nombre_area  from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.id_registroindicador = $1", [id_reg_indicador]);
         return resultados.rows;
     },
 
+    async eliminar_Registro_RegIndicador(id) {
+        const resultados = await conexion.query("delete from schema_control.registroindicadores where id_registroindicador= $1", [id]);
+        return resultados;
+    },
 
+//------------------------SOPORTES-----------------------------------------------
 
     async consultar_soportes_x_regIndicador(id_reg_indicador) {
         const resultados = await conexion.query("select s.*, to_char(s.fecha_carga,'MON-DD-YYYY HH12:MIPM') fecha from schema_control.soporte s inner join schema_control.registroindicadores r on(s.id_registro_indicador = r.id_registroindicador) where s.id_registro_indicador = $1 and s.es_habilitado ='1' and s.es_valido ='1'", [id_reg_indicador]);
@@ -367,6 +372,13 @@ module.exports = {
         const resultados = await conexion.query("update schema_control.registroindicadores set calificado='1' where id_registroindicador=$1 ", [id_reg_indicador]);
         return resultados;
     },
+
+    //eliminar_soporte_x_idRegistroIndicador
+    async eliminar_soporte_x_idRegistroIndicador(id) {
+        const resultados = await conexion.query("delete from schema_control.soporte where id_registro_indicador= $1", [id]);
+        return resultados;
+    },
+    
 
     //consultar_det_cal_x_regIndicador
 
