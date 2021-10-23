@@ -263,6 +263,10 @@ module.exports = {
         const resultados = await conexion.query('INSERT INTO schema_control.registroindicadores (id_indicador, fecharegistro, id_profesional, vigencia, periodoevaluado, formula_cifras_numerador, formula_cifras_denominador, observaciones,calificado, version) values ($1,current_date,$2,$3,$4,$5,$6,$7,$8,$9) returning id_registroindicador', [indicador, profesional, vigencia, periodo, vr_numerador, vr_denominador, observacion, calificado, version]);
         return resultados;
     },
+    async actualizar_reg_indicador(id_registroindicador,vr_numerador, vr_denominador, observacion) {
+        const resultados = await conexion.query('update schema_control.registroindicadores set formula_cifras_numerador = $2, formula_cifras_denominador = $3, observaciones = $4 where id_registroindicador = $1', [id_registroindicador,vr_numerador, vr_denominador, observacion]);
+        return resultados;
+    },
 
     async consultar_vigencia_año(profesional, id_indicador) {
         const resultados = await conexion.query("select to_char(f.fecha, 'YYYY') as periodo_año from schema_control.indicadores ind inner join schema_control.areas a on(ind.id_area = a.id_area) inner join schema_control.planes pa on(ind.id_plan = pa.id_plan) inner join schema_control.estrategias e on(pa.id_estrategia = e.id_estrategia) inner join schema_control.objetivos o on(e.id_objetivo = o.id_objetivo) inner join schema_control.lineas_acciones la on(o.id_linea_accion = la.id_linea) inner join schema_control.plangeneral pg on(la.id_plan_general = pg.id_plangeneral) inner join schema_control.fecha f on(pg.id_plangeneral = f.id_plan_general) inner join schema_control.profesionales p on(p.id_area_trabajo = a.id_area) where p.id_profesional = $1 and ind.id_indicador = $2 and pg.estado = true group by periodo_año ", [profesional, id_indicador]);

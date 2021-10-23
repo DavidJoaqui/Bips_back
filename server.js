@@ -2993,18 +2993,98 @@ app.post('/registro-indicador/delete/:id/control-mando-bips', auth, function(req
 
 });
 
+app.post("/actualizar-reg-indicador", auth, upload_soportes.array('files_soporte'), (req, res) => {
+
+
+    console.log(req.body);
+
+    modelControlMando.actualizar_reg_indicador(req.body.id_registroindicador, Number(req.body.txt_vr_numerador), Number(req.body.txt_vr_denominador), req.body.txt_observacion).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update indicador");
+
+            let fech_now = Date.now();
+            let date_ = new Date(fech_now);
+
+            let fecha_completa_sinSeparador = date_.getDate() + "" + (date_.getMonth() + 1) + "" + date_.getFullYear() + "_";
+            let hora = date_.getHours() + "_" + date_.getMinutes() + "_";
+
+            console.log(req.files);
+
+            for (var i in req.files) {
+
+                //let path_soporte = dir_soportes_ctm + "_" + fecha_completa_sinSeparador + hora + req.files[i].originalname;
+
+                //console.log("cbxips" + req.body.cbxips);
+                console.log(path_soporte);
+
+                try {
+
+
+
+                    var ext = path.extname(req.files[i].originalname);
+
+                    var id_registro_indicador = req.body.id_registroindicador;
+                    var nombre_soporte = req.files[i].filename;
+                    var path_soporte = req.files[i].path;
+                    var es_habilitado = true;
+                    var extension = ext;
+                    var mime = req.files[i].mimetype;
+                    var fecha_carga = date_;
+                    var es_valido = true;
+                    var peso = req.files[i].size;
+                    var nombre_original = req.files[i].originalname;
+
+                    console.log(nombre_soporte);
+
+                    /*Se debe de obtener el idRegistro Indicador recien insertado para realizar crear la relaciona en BD con el 
+                    soporte*/
+
+                    modelControlMando.insertar_SoporteRegistroIndicador(
+
+                        id_registro_indicador,
+                        nombre_soporte,
+                        path_soporte,
+                        es_habilitado,
+                        extension,
+                        mime,
+                        fecha_carga,
+                        es_valido,
+                        peso,
+                        nombre_original
+
+                    ).then(respuesta => {
+                        //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
+                        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                            console.log(respuesta);
+                            console.log("OK... upload");
+
+                        }
+                    });
+                    res.json({ status: 200, msg: 'El Registro Indicador , se actualizo correctamente...' });
+
+                } catch (error) {
+                    console.log("err " + error);
+
+                }
+
+            }
+
+
+            res.send({ status: 200, msg: 'El registro del indicador ' + req.body.nombre_indicador + ' fue actualizado correctamente...' });
+        } else {
+            res.send({ status: 300, msg: 'ERROR al actualizar el registro del indicador <b>' + req.body.nombre_indicador + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El regisitro para el indicador ' + req.body.nombre_indicador + 'NO se pudo actualizar...' });
+    });
+
+})
+
 app.post("/persistir-calificacion-indicador", auth, (req, res) => {
-
-    /*console.log('reg_indicador:' + req.query.reg_indicador);
-    
-    console.log('numerador:' + req.query.vr_numerador);
-    console.log('denominador:' + req.query.vr_denominador);
-    console.log('res_num:' + req.query.resultado_numerico);
-    console.log('res_descr:' + req.query.resultado_descriptivo);
-    console.log('desviacion:' + req.query.desviacion);
-
-    console.log('comentario:' + req.query.comentario);
-    console.log('estado:' + req.query.estado);*/
 
 
     modelControlMando.insertar_calificacion_indicador(Number(req.query.reg_indicador), parseFloat(req.query.vr_numerador), parseFloat(req.query.vr_denominador), parseFloat(req.query.resultado_numerico), Number(req.query.resultado_descriptivo), parseFloat(req.query.desviacion), req.query.comentario, Number(req.query.estado)).then(respuesta => {

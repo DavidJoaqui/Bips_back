@@ -33,6 +33,7 @@
                         <div class="col-5">
                             <p>
                                 <input type="text" id="select_version" name="select_version" value="0" hidden>
+                                <input type="text" id="id_registroindicador" name="id_registroindicador" value="<%= lista.id_registroindicador %>" hidden>
                                 <input type="text" id="select_profesional" name="select_profesional" value="<%= lista.id_profesional %>" hidden>
                                 <input type="text" id="vigencia_año" name="vigencia_año" value="<%= lista.vigencia %>" hidden>
                                 <label type="text" name="" id="" value="" disabled> <%= lista.nombre_profesional%></label>
@@ -56,10 +57,7 @@
                         <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
                         Nombre Indicador: </label>
                         <div class="col-10">
-                            <select class="form-control" name="select_indicador" id="select_indicador" data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right" required>
-                            <option selected="selected" value="">Seleccionar Indicador</option>
-
-                        </select>
+                            <label type="text" name="" id="" value="" disabled> <%= lista.nombre_indicador%></label>
                         </div>
                     </div>
 
@@ -67,10 +65,8 @@
 
                         <label class="col-2 col-form-label" style="font-weight: bold;" for="select_vigencia">Vigencia: </label>
                         <div class="col-3">
-                            <select class="form-control" name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required>
-                            <option selected="selected" value="">Seleccionar vigencia
-                            
-                        </select>
+                            <label type="text" name="" id="" value="" disabled> <%= lista.vigencia%></label>
+
 
                         </div>
 
@@ -78,13 +74,8 @@
                         Periodo Evaluado:</label>
 
                         <div class="col-5">
-                            <select class="form-control" name="select_periodo" id="select_periodo" data-toggle="tooltip" title="Seleccionar Periodo!" data-placement="right" required>
-                            <option selected="selected" value="">Seleccionar Periodo
-                            </option>
+                            <label type="text" name="" id="" value="" disabled> <%= lista.nombre_mes%></label>
 
-
-
-                        </select>
                         </div>
                     </div>
 
@@ -234,17 +225,22 @@
                                 <input type="file" class="input-file-input form-control" name="files_soporte" id="files_soporte" multiple>
                             </div>
 
-                            <!--<div class="col-2">
-                            <button class="btn btn btn-primary btn-sm form-control " id="btn-subir"
-                                name="btn-subir" disabled>Subir</button>
-                        </div>-->
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="panel_soportes" class="col-2 col-form-label" style="font-weight: bold;color: blue">
+                                    Soportes: </label>
+                            <div class="form-group row col-10" id="panel_soportes">
+
+                            </div>
                         </div>
 
                         <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
                             <div class="text-center">
                                 <button style="font-weight: bold;" class="btn btn-success" id="btn-guardar" name="btn-guardar" onclick="">Actualizar
                                 Registro Indicador</button>
-                                <a href="/ctm-reg-indicadores" class="btn btn-default ; " id="btn-volver" name="btn-volver">volver</a>
+                                <a href="/ctm-reg-indicadores" class="btn btn-secondary ; " id="btn-volver" name="btn-volver">volver</a>
 
                             </div>
                         </div>
@@ -262,313 +258,7 @@
 
 
     <script type="text/javascript">
-        function almacenar_registro() {
-
-            event.preventDefault();
-            var vigencia = $('#select_vigencia').val();
-            var periodo = $('#select_periodo').val();
-            var area = $('#select_area').val();
-            var profesional = $('#select_profesional').val();
-            var indicador = $('#select_indicador').val();
-            var vr_numerador = $('#txt_vr_numerador').val();
-            var vr_denominador = $('#txt_vr_denominador').val();
-            var observacion = $('#txt_observacion').val();
-
-
-            if (vr_numerador = '') {
-                vr_numerador = 0;
-            }
-            if (vr_denominador = '') {
-                vr_denominador = 0;
-            }
-
-            var peticion_validacion = "/validacion-insert-reg-indicadores/?vigencia=" + vigencia +
-                "&periodo=" + periodo +
-                "&area=" + area +
-                "&profesional=" + profesional +
-                "&indicador=" + indicador;
-
-            $.ajax({
-                type: 'get',
-                url: peticion_validacion,
-                data: [],
-                contentType: false,
-                cache: false,
-                processData: false,
-
-                success: function(result) {
-
-                    //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
-
-                    /*setTimeout(function() {
-                        window.location.reload(1);
-                    }, 5000);*/
-                    if (result["status"] == 200 && result["bandera"]) {
-
-                        alert(result["msg"]);
-
-                        // $('#preview').show();
-
-                        // $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
-
-                        //$('#card-msg').show();
-
-                        //$('#formulario')[0].reset();                       
-
-
-                    } else {
-
-                        const $form = document.querySelector('#formulario');
-
-
-                        $form.addEventListener('submit', (event) => {
-
-                            event.preventDefault();
-
-                            $.ajax({
-                                type: 'POST',
-                                url: '/persistir-registro-indicador',
-                                data: new FormData($form),
-                                contentType: false,
-                                cache: false,
-                                processData: false,
-
-                                beforeSend: function(data) {
-                                    //console.log(data.status + ':' + data.statusText,data.responseText);
-                                    $('#datos').html('<p>Procesando...</p>');
-
-                                },
-                                error: function(data) {
-
-                                    console.log(data.responseText);
-                                    //var err = data.responseText.slice(0, 9);
-
-                                    $('#datos').html("<div style='float:center;' class='text-center'><i class='fa fa-exclamation-circle' aria-hidden='true' style='color:red;'> Ocurrio un Error! </i></div>" + data.responseText);
-
-                                    setTimeout(function() {
-                                        $('#datos').fadeOut('fast');
-                                    }, 5000);
-
-                                    $('#datos').show();
-
-                                    //$('#formulario')[0].reset();
-
-                                },
-                                success: function(result) {
-
-
-                                    //$('#datos').html('');
-                                    //$('#btn-subir').attr("disabled", true);
-                                    if (result['estado'] == '200') {
-                                        $('#datos').html('<p><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:green">La operacion se ejecuto con exito...</i></p>');
-                                        //console.log(JSON.stringify(result['respuesta']));
-                                        var iframe = document.getElementById('iframe_arch');
-
-                                        //$("#btn-subir").prop("disabled", true);
-                                        //$('#files').attr("disabled", true);
-                                        //$('#div_carga').hide();
-                                        //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
-                                        //console.log("Se debe persistir en BD: id_ips " // $("#cbxips").attr("disabled", true);
-                                        // $('#txtfecha_inicial').attr("disabled", true);
-                                        // $('#txtfecha_fin').attr("disabled", true);
-
-                                        //$('#btn-validar').attr("disabled", true); + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
-
-                                        //$("#cbxips").attr("disabled", true);
-                                        //$("#cbxips").attr("readonly", true);
-                                        //$('#txtfecha_inicial').attr("readonly", true);
-                                        //$('#txtfecha_fin').attr("readonly", true);
-
-
-                                        const $file_ = document.querySelector('#files');
-                                        $file_.value = '';
-
-                                        alert("Los archivos se cargaron correctamente!");
-
-
-                                        $('#formulario')[0].reset();
-
-
-
-
-                                        $('#iframe_arch').attr("src", iframe.src);
-                                        $("#iframe_arch").show();
-
-                                        setTimeout(function() {
-                                            $('#datos').fadeOut('fast');
-                                        }, 5000);
-
-
-
-
-                                    } else {
-                                        alert("ocurrio un error...");
-                                    }
-
-                                }
-
-                            });
-
-                        });
-
-
-
-                    }
-
-                    //$('#body_ent').html(result);
-
-
-                }
-
-            });
-
-
-
-
-
-
-        }
-
-
-
-        function nuevo_indicador() {
-            //alert("OK");
-            $('#panel_nuevo_indicador').attr('hidden', false);
-
-            $('#tbl_mis_registros').attr('hidden', true);
-
-        }
-
-
-
         $(document).ready(function() {
-
-
-
-            var area = $('#select_area').val();
-            var profesional = $('#select_profesional').val();
-            var indicador = $('#select_indicador').val();
-            var año = $('#select_indicador').val();
-
-            //peticion de indicador 
-            var peticion_indicador_Area = "/consultar-indicador-x-area/?id_area=" + $('#select_area').val();
-
-            $.ajax({
-
-                type: 'get',
-                url: peticion_indicador_Area,
-                data: [],
-                contentType: false,
-                cache: false,
-                processData: false,
-
-                success: function(result) {
-                    if (result.length == 0) {
-
-                        $("#select_indicador").html("");
-                        $("#select_indicador").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
-
-                    } else {
-                        $("#select_indicador").html("");
-                        $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
-
-                        result.forEach(element => {
-                            if (element.id_indicador == '<%= indicador_info[0].id_indicador %>') {
-                                $("#select_indicador").append('<option value=' + element.id_indicador + ' selected="selected">' + element.nombre_indicador + '</option>');
-                            } else {
-                                $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + '</option>');
-                            }
-                        });
-
-                    }
-
-
-
-
-                }
-            });
-
-
-
-
-
-
-            //peticion de vigencia 
-
-            var peticion = "consultar-vigencia-anio-profesional/?indicador=" + '<%= indicador_info[0].id_indicador %>' + "&profesional=" + profesional;
-
-            $.ajax({
-
-                type: 'get',
-                url: peticion,
-                data: [],
-                contentType: false,
-                cache: false,
-                processData: false,
-
-                success: function(result) {
-
-                    if (result.length == 0) {
-
-                        $("#select_vigencia").html("");
-                        $("#select_vigencia").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
-
-                    } else {
-                        $("#select_vigencia").html("");
-                        $("#select_vigencia").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
-
-                        result.forEach(element => {
-                            if (element.periodo_año == '<%= indicador_info[0].vigencia %>') {
-                                $("#select_vigencia").append('<option value=' + element.periodo_año + ' selected="selected">' + element.periodo_año + '</option>');
-                            } else {
-                                $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
-                            }
-                        });
-
-                    }
-                }
-            });
-
-            //peticion de periodo
-            var peticion = "consultar-periodo-x-anio/?año=" + '<%= indicador_info[0].vigencia %>' +
-                "&area=" + area + "&profesional=" + profesional + "&indicador=" + '<%= indicador_info[0].id_indicador %>';
-
-            $.ajax({
-
-                type: 'get',
-                url: peticion,
-                data: [],
-                contentType: false,
-                cache: false,
-                processData: false,
-
-
-
-                success: function(result) {
-                    if (result.length == 0) {
-
-                        $("#select_periodo").html("");
-                        $("#select_periodo").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
-
-                    } else {
-                        $("#select_periodo").html("");
-                        $("#select_periodo").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
-
-                        result.forEach(element => {
-                            if (element.nombre_mes == '<%= indicador_info[0].nombre_mes %>') {
-                                $("#select_periodo").append('<option value=' + element.cod_mes + ' selected="selected">' + element.nombre_mes + '</option>');
-                            } else {
-                                $("#select_periodo").append('<option value=' + element.cod_mes + '>' + element.nombre_mes + '</option>');
-                            }
-                        });
-
-                    }
-
-
-
-
-                }
-            });
 
             $('#contenedor_info_indicador').attr('hidden', false);
 
@@ -584,171 +274,100 @@
 
             }
 
+            var peticion_soportes = "/obtener_soportesxreg_indicador/?id_reg_indicador=<%= indicador_info[0].id_registroindicador %>";
+            $.ajax({
+                type: 'get',
+                url: peticion_soportes,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(result) {
+                    $("#panel_soportes").html("");
+                    //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                    $("#panel_soportes").html(result);
 
-            $("#select_vigencia").change(function() {
-
-                var area = $('#select_area').val();
-                var profesional = $('#select_profesional').val();
-                var indicador = $('#select_indicador').val();
-
-                var peticion = "consultar-periodo-x-anio/?año=" + $(this).val() +
-                    "&area=" + area + "&profesional=" + profesional + "&indicador=" + indicador;
-
-                $.ajax({
-
-                    type: 'get',
-                    url: peticion,
-                    data: [],
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-
-                    success: function(result) {
-                        $("#select_periodo").html("");
-                        $('#select_periodo').attr('disabled', false);
-                        $("#select_periodo").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
-
-                        result.forEach(element => {
-                            $("#select_periodo").append('<option value=' + element.cod_mes + '>' + element.nombre_mes + '</option>');
-                        });
-                    }
-                });
+                }
             });
 
-            $("#select_periodo").change(function() {
+            const $form = document.querySelector('#formulario');
 
 
-                $('#titulo_info_indicador').attr('hidden', false);
-                $('#info_tipo_meta').attr('hidden', false);
-                $('#panel_observacion').attr('hidden', false);
-                $('#panel_soporte').attr('hidden', false);
-                $('#btn-guardar').attr('hidden', false);
+            $form.addEventListener('submit', (event) => {
 
-
-                var peticion2 = "/consultar-detalle-indicador-x-indicador/?periodo=" + $(this).val() +
-                    "&vigencia=" + $('#select_vigencia').val().toString() + "&indicador=" + $('#select_indicador').val().toString() + "&area=" + $('#select_area').val();
+                event.preventDefault();
 
                 $.ajax({
-
-                    type: 'get',
-                    url: peticion2,
-                    data: [],
+                    type: 'POST',
+                    url: '/actualizar-reg-indicador',
+                    data: new FormData($form),
                     contentType: false,
                     cache: false,
                     processData: false,
 
+                    beforeSend: function(data) {
+                        //console.log(data.status + ':' + data.statusText,data.responseText);
+
+                    },
+                    error: function(data) {
+
+                        console.log(data.responseText);
+                        //var err = data.responseText.slice(0, 9);
+
+
+
+                        //$('#formulario')[0].reset();
+
+                    },
                     success: function(result) {
-                        $("#txt_tipo_meta").html("");
-                        $("#txt_meta_numerica").html("");
-                        $("#txt_periodo_evaluacion").html("");
-                        $("#txt_meta_descriptiva").html("");
-                        $("#txt_fl_descriptiva").html("");
-                        $("#txt_fl_numerador").html("");
-                        $("#txt_fl_denominador").html("");
 
 
+                        //$('#datos').html('');
+                        //$('#btn-subir').attr("disabled", true);
+                        if (result['status'] == 200) {
+                            //console.log(JSON.stringify(result['respuesta']));
 
-                        if (result.length == 0) {
-                            alert('No hay información asociada a este Indicador,por favor valide su parametrización');
-                        } else {
+                            const $file_ = document.querySelector('#files_soporte');
+                            $file_.value = '';
 
+                            alert("Se actualizo el registro indicador Correctamente");
 
-                            //$("#txt_tipo_meta").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
-                            result.forEach(element => {
-                                $("#txt_tipo_meta").append('<output value=' + element.tipo_meta + '>' + element.tipo_meta);
-                                $("#txt_meta_numerica").append('<output value=' + element.meta_numerica + '>' + 'Superior al ' + element.meta_numerica + '%');
-                                $("#txt_meta_descriptiva").append('<output value=' + element.meta_descriptiva + '>' + element.meta_descriptiva);
-                                $("#txt_fl_descriptiva").append('<output value=' + element.formula_literal_descriptiva + '>' + element.formula_literal_descriptiva);
-                                $("#txt_fl_numerador").append('<output value=' + element.formula_literal_numerador + '>' + element.formula_literal_numerador);
-                                $("#txt_fl_denominador").append('<output value=' + element.formula_literal_denominador + '>' + element.formula_literal_denominador);
-                                if (element.periodo_meta_num == 1) {
-                                    $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Mensual');
-                                } else if (element.periodo_meta_num == 2) {
-                                    $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Bimensual');
-                                } else if (element.periodo_meta_num == 3) {
-                                    $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Trimestral');
-                                } else if (element.periodo_meta_num == 4) {
-                                    $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Cuatrimestral');
-                                } else if (element.periodo_meta_num == 6) {
-                                    $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Semestral');
-                                } else if (element.periodo_meta_num == 12) {
-                                    $("#txt_periodo_evaluacion").append('<output value=' + element.periodo_meta_num + '>Anual');
+                            var peticion_soportes = "/obtener_soportesxreg_indicador/?id_reg_indicador=<%= indicador_info[0].id_registroindicador %>";
+                            $.ajax({
+                                type: 'get',
+                                url: peticion_soportes,
+                                data: [],
+                                contentType: false,
+                                cache: false,
+                                processData: false,
+                                success: function(result) {
+                                    $("#panel_soportes").html("");
+                                    //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                                    $("#panel_soportes").html(result);
+
                                 }
-
-
                             });
 
-                            $('#contenedor_info_indicador').attr('hidden', false);
-
-                            if ($('#txt_tipo_meta').val() == "Descriptiva") {
-                                $('#panel_numerica').attr('hidden', true);
-                                $('#panel_descriptiva').attr('hidden', false);
+                            //$('#formulario')[0].reset();
 
 
-                            } else {
-                                $('#panel_numerica').attr('hidden', false);
-                                $('#panel_descriptiva').attr('hidden', true);
 
 
-                            }
 
+
+
+
+                        } else {
+                            alert("ocurrio un error...");
                         }
+
                     }
-                });
 
-            });
-
-            $("#select_area").change(function() {
-
-                var peticion = "/consultar-profesional-x-area/?area=" + $(this).val();
-                $.ajax({
-                    type: 'get',
-                    url: peticion,
-                    data: [],
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(result) {
-                        $("#select_profesional").html("");
-                        $("#select_profesional").append('<option selected="selected">' + 'Seleccionar Profesional' + '</option>');
-                        result.forEach(element => {
-                            $("#select_profesional").append('<option value=' + element.id_profesional + '>' + element.nombre_profesional + '</option>');
-                        });
-                    }
                 });
 
             });
 
 
-
-            $("#select_indicador").change(function() {
-
-                var profesional = $('#select_profesional').val();
-
-                var peticion = "consultar-vigencia-anio-profesional/?indicador=" + $(this).val() + "&profesional=" + profesional;
-
-                $.ajax({
-
-                    type: 'get',
-                    url: peticion,
-                    data: [],
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-
-                    success: function(result) {
-                        $("#select_vigencia").attr("disabled", false);
-                        $("#select_vigencia").html("");
-                        $("#select_vigencia").append('<option selected="selected">' + 'Seleccionar Vigencia' + '</option>');
-                        result.forEach(element => {
-                            $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
-                        });
-                    }
-                });
-
-
-
-            });
 
         });
     </script>
