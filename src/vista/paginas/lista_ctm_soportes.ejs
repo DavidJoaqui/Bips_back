@@ -1,6 +1,6 @@
 <%- include("head"); %>
 
-    <div class="container">
+    <div class="container" id="panel_soportes_">
 
         <!-- Trigger the modal with a button 
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
@@ -30,243 +30,309 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
 
-        <div class="col-md-12" id="body_ent">
-
-            <div class="table-responsive">
-
-                <table class="table table-bordered" id="tbl_planos">
+        <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
 
-                    <thead class="">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Soporte</th>
-                            <!--nombre origeinal-->
-                            <th scope="col">Habilitado</th>
-                            <th scope="col">Valido</th>
-                            <th scope="col">fecha Carga</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="developers">
-                        <% for(var i=0; i<lista_soportes.length; i++) { %>
+            <div class="col-md-12">
 
-                            <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
-                                <td>
-                                    <input type="text" id="id_reg_indicador" value="<%= lista_soportes[i].id_registro_indicador %>" hidden>
-                                    <%= i+1 %>
+                <div class="table-responsive">
 
-                                </td>
+                    <table class="table table-bordered" id="tbl_planos">
 
 
-                                <td>
-                                    <%if(lista_soportes[i].extension == '.docx' ){%>
-                                        <i class="far fa-file-word" style="color: blue;"></i>
-                                        <%= lista_soportes[i].nombre_original %>
-                                            <%}else if(lista_soportes[i].extension == '.pdf'){%>
-                                                <i class="fas fa-file-pdf" style="color: red;"></i>
-                                                <%= lista_soportes[i].nombre_original %>
-                                                    <%}else if(lista_soportes[i].extension == '.xlsx'){%>
-                                                        <i class="fas fa-file-excel" style="color: green;"></i>
-                                                        <%= lista_soportes[i].nombre_original %>
-                                                            <%}else if(lista_soportes[i].extension == '.txt'){%>
-                                                                <i class="fas fa-file-alt" style="color: gray;"></i>
-                                                                <%= lista_soportes[i].nombre_original %>
-                                                                    <%}%>
+                        <thead class="">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Soporte</th>
+                                <!--nombre origeinal-->
+                                <th scope="col">Habilitado</th>
+                                <th scope="col">Valido</th>
+                                <th scope="col">fecha Carga</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="developers">
+                            <% for(var i=0; i<lista_soportes.length; i++) { %>
 
-                                </td>
+                                <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
+                                    <td>
+                                        <input type="text" id="id_reg_indicador" value="<%= lista_soportes[i].id_registro_indicador %>" hidden>
+                                        <%= i+1 %>
 
-                                <td>
-                                    <%= lista_soportes[i].es_habilitado %>
-                                </td>
+                                    </td>
 
-                                <td>
-                                    <%= lista_soportes[i].es_valido %>
-                                </td>
-                                <td>
-                                    <%= lista_soportes[i].fecha %>
-                                </td>
 
-                                <td class="btns-acciones">
-                                    <%if(lista_soportes[i].extension != '.pdf' ){%>
-                                        <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
-                                        <span class="vertical-line"></span>
-                                        <a href="" title="Eliminar"><i class="fa fa-minus-circle"  style="color: red;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
-                                        <span class="vertical-line"></span>
-                                        <%}else{%>
-                                            <a href="" title="Ver"><i class="fas fa-eye" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
-                                            <span class="vertical-line"></span>
+                                    <td>
+                                        <%if(lista_soportes[i].extension == '.docx' ){%>
+                                            <i class="far fa-file-word" style="color: blue;"></i>
+                                            <%= lista_soportes[i].nombre_original %>
+                                                <%}else if(lista_soportes[i].extension == '.pdf'){%>
+                                                    <i class="fas fa-file-pdf" style="color: red;"></i>
+                                                    <%= lista_soportes[i].nombre_original %>
+                                                        <%}else if(lista_soportes[i].extension == '.xlsx'){%>
+                                                            <i class="fas fa-file-excel" style="color: green;"></i>
+                                                            <%= lista_soportes[i].nombre_original %>
+                                                                <%}else if(lista_soportes[i].extension == '.txt'){%>
+                                                                    <i class="fas fa-file-alt" style="color: gray;"></i>
+                                                                    <%= lista_soportes[i].nombre_original %>
+                                                                        <%}%>
+
+                                    </td>
+
+                                    <td>
+                                        <%= lista_soportes[i].es_habilitado %>
+                                    </td>
+
+                                    <td>
+                                        <%= lista_soportes[i].es_valido %>
+                                    </td>
+                                    <td>
+                                        <%= lista_soportes[i].fecha %>
+                                    </td>
+
+                                    <td class="btns-acciones">
+                                        <%if(lista_soportes[i].extension != '.pdf' ){%>
                                             <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
                                             <span class="vertical-line"></span>
-                                            <a href="" title="Eliminar"><i class="fa fa-minus-circle" style="color: red;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
+                                            <a href="" title="Eliminar"><i class="fa fa-minus-circle" style="color: #de1f21;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>','<%= lista_soportes[i].id_registro_indicador %>')"></i></a>
                                             <span class="vertical-line"></span>
-                                            <%}%>
-                                </td>
+                                            <%}else{%>
+                                                <a href="" title="Ver"><i class="fas fa-eye" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
+                                                <span class="vertical-line"></span>
+                                                <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
+                                                <span class="vertical-line"></span>
+                                                <a href="" title="Eliminar"><i class="fa fa-minus-circle" style="color: #de1f21;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>','<%= lista_soportes[i].id_registro_indicador %>')"></i></a>
+                                                <span class="vertical-line"></span>
+                                                <%}%>
+                                    </td>
 
 
 
-                            </tr>
-                            <% }%>
-                    </tbody>
-                    <tfoot>
+                                </tr>
+                                <% }%>
+                        </tbody>
+                        <tfoot>
 
-                    </tfoot>
-                </table>
+                        </tfoot>
+                    </table>
 
+                </div>
             </div>
+
         </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
 
+        });
 
-        <script type="text/javascript">
-            $(document).ready(function() {
+        function RealizarAccionVer(id_soporte) {
+            event.preventDefault();
 
+            //                $('#modal-diag').addClass('modal-dialog');
+
+            const peticion = "/ver-recurso-soporte/" + id_soporte;
+            $.ajax({
+                type: 'get',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(result) {
+                    $('#viewerPdf').html(result);
+
+                }
             });
+        }
 
-            $(function() {
-                //$("#modal .close").click()
-                document.getElementById('cerrar-visor').click();
-            });
+        function RealizarAccionDescargar(id_soporte, nombre_original, mime, extension) {
+            event.preventDefault();
+            const peticion = "/descargar-recurso-soporte/" + id_soporte;
+
+            /*var dtype = "";
+            if (extension == '.pdf') {
+                dtype = "pdf"
+            } else {
+                dtype = ""
+            }*/
+
+            /* $.ajax({
+                 method: 'get',
+                 url: peticion,
+                 contentType: mime,
+
+                 success: function(data) {
+                     //alert("OK");
 
 
-            function RealizarAccionVer(id_soporte) {
-                event.preventDefault();
+                     var binaryData = [];
+                     binaryData.push(data);
 
-                //                $('#modal-diag').addClass('modal-dialog');
+                     var a = document.createElement('a');
+                     var url = window.URL.createObjectURL(new Blob(binaryData));
+                     a.href = url;
+                     //a.download = nombre_original;
+                     document.body.append(a);
+                     a.click();
+                     a.remove();
+                     window.URL.revokeObjectURL(url);
+                 }
+             });*/
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', peticion, true);
+            xhr.responseType = 'blob';
 
-                const peticion = "/ver-recurso-soporte/" + id_soporte;
-                $.ajax({
-                    type: 'get',
-                    url: peticion,
-                    data: [],
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(result) {
-                        $('#viewerPdf').html(result);
+            xhr.onload = function(e) {
 
-                    }
+                var blob = new Blob([this.response], {
+                    type: mime
                 });
-            }
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = nombre_original;
+                link.click();
 
-            function RealizarAccionDescargar(id_soporte, nombre_original, mime, extension) {
-                event.preventDefault();
-                const peticion = "/descargar-recurso-soporte/" + id_soporte;
+            };
 
-                /*var dtype = "";
-                if (extension == '.pdf') {
-                    dtype = "pdf"
-                } else {
-                    dtype = ""
-                }*/
-
-                /* $.ajax({
-                     method: 'get',
-                     url: peticion,
-                     contentType: mime,
-
-                     success: function(data) {
-                         //alert("OK");
+            xhr.send();
+        }
 
 
-                         var binaryData = [];
-                         binaryData.push(data);
+        function RealizarAccionEliminar(id_soporte, nombre_original, mime, extension, id_reg_indicador) {
+            event.preventDefault();
+            const peticion = "/eliminar-recurso-soporte/" + id_soporte;
 
-                         var a = document.createElement('a');
-                         var url = window.URL.createObjectURL(new Blob(binaryData));
-                         a.href = url;
-                         //a.download = nombre_original;
-                         document.body.append(a);
-                         a.click();
-                         a.remove();
-                         window.URL.revokeObjectURL(url);
-                     }
-                 });*/
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', peticion, true);
-                xhr.responseType = 'blob';
+            /*var dtype = "";
+            if (extension == '.pdf') {
+                dtype = "pdf"
+            } else {
+                dtype = ""
+            }*/
 
-                xhr.onload = function(e) {
+            $.ajax({
+                method: 'get',
+                url: peticion,
+                contentType: mime,
 
-                    var blob = new Blob([this.response], {
-                        type: mime
-                    });
-                    var link = document.createElement('a');
-                    link.href = window.URL.createObjectURL(blob);
-                    link.download = nombre_original;
-                    link.click();
+                success: function(result) {
+                    //alert("OK");
+                    if (result['status'] == '200') {
 
-                };
 
-                xhr.send();
-            }
-        </script>
+                        //Imprime la respuesta del servidor cuando estado es 200
+                        alert(result['msg']);
+
+                        //Se actualiza la lista de los soportes
+                        var peticion_soportes = "/obtener_soportesxreg_indicador/?id_reg_indicador=" + id_reg_indicador;
+                        $.ajax({
+                            type: 'get',
+                            url: peticion_soportes,
+                            data: [],
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function(result) {
+                                $("#panel_soportes_").html("");
+                                //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                                $("#panel_soportes_").html(result);
+
+                            }
+                        });
 
 
 
-        <style>
-            .vertical-line {
-                display: inline-block;
-                border-left: 1px solid #ccc;
-                margin: 0 5px;
-                height: 10px;
-            }
-            
-            body {
-                /*background-color: #eaedee;*/
-                overflow-x: auto;
-                overflow-y: auto;
-            }
-            
-            body::-webkit-scrollbar {
-                display: auto;
-                overflow-y: hidden;
-            }
-            
-            #tbl_planos {
-                font-size: small;
-                font-family: 'Montserrat', sans-serif;
-                border-spacing: 0px !important;
-                padding: 0px;
-            }
-            
-            #tbl_planos th {
-                padding: 7px;
-            }
-            
-            #tbl_planos td {
-                padding: 0;
-            }
-            
-            .btns-acciones form .btn-submit {
-                font-family: 'Montserrat', sans-serif;
-                border-radius: 5px;
-                font-size: 10px;
-                border: none;
-                cursor: pointer;
-                transition: .3s ease all;
-                font-weight: bold;
-            }
-            
-            #btn-elim-all {
-                font-family: 'Montserrat', sans-serif;
-                border-radius: 5px;
-                font-size: 10px;
-                border: none;
-                cursor: pointer;
-                transition: .3s ease all;
-            }
-            
-            .head-tabla-reg {
-                background-color: #3f78da;
-                color: #fff;
-            }
-            
-            .titulo-tabla {
-                color: #20488f;
-            }
-        </style>
+                    } else {
+                        alert(result['msg']);
+                    }
+
+                }
+            });
+
+            /*
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', peticion, true);
+            xhr.responseType = 'blob';
+
+            xhr.onload = function(e) {
+
+                var blob = new Blob([this.response], {
+                    type: mime
+                });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = nombre_original;
+                link.click();
+
+            };
+
+            xhr.send();*/
+        }
+    </script>
+
+
+
+    <style>
+        .vertical-line {
+            display: inline-block;
+            border-left: 1px solid #ccc;
+            margin: 0 5px;
+            height: 10px;
+        }
+        
+        body {
+            /*background-color: #eaedee;*/
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+        
+        body::-webkit-scrollbar {
+            display: auto;
+            overflow-y: hidden;
+        }
+        
+        #tbl_planos {
+            font-size: small;
+            font-family: 'Montserrat', sans-serif;
+            border-spacing: 0px !important;
+            padding: 0px;
+        }
+        
+        #tbl_planos th {
+            padding: 7px;
+        }
+        
+        #tbl_planos td {
+            padding: 0;
+        }
+        
+        .btns-acciones form .btn-submit {
+            font-family: 'Montserrat', sans-serif;
+            border-radius: 5px;
+            font-size: 10px;
+            border: none;
+            cursor: pointer;
+            transition: .3s ease all;
+            font-weight: bold;
+        }
+        
+        #btn-elim-all {
+            font-family: 'Montserrat', sans-serif;
+            border-radius: 5px;
+            font-size: 10px;
+            border: none;
+            cursor: pointer;
+            transition: .3s ease all;
+        }
+        
+        .head-tabla-reg {
+            background-color: #3f78da;
+            color: #fff;
+        }
+        
+        .titulo-tabla {
+            color: #20488f;
+        }
+    </style>

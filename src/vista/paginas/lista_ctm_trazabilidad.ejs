@@ -3,9 +3,30 @@
 
     <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
+        <div class="modal" class="modal fade" id="myModal_nota" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nota</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                    </div>
+                    <div class="modal-body" id="modal_body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="text-center">
             <span class="titulo-tabla" style="font-weight: bold;">
-                <h2 style="justify-content: center; color: blue;"> Trazabilidad del registro de Indicador</h2>
+                <h2 style="justify-content: center; color: blue;"> Trazabilidad del registro de Indicador</h2>            
+                
             </span>
         </div>
         <div class="col-md-12" id="body_ent">
@@ -16,11 +37,39 @@
 
 
                     <thead class="">
+                        <tr class="text-center">
+                            <th colspan="9">
+                                <label for="">Indicador</label>
+                            </th>
+
+
+                        </tr>
+
+                        <tr class="text-center">
+
+                            <th colspan="9">
+
+                                <%= lista_trazabilidad[0].nombre_indicador %>
+
+                            </th>
+
+                        </tr>
+
+                        <tr class="text-center">
+
+                            <th colspan="9">
+
+
+
+                            </th>
+
+                        </tr>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Versión</th>
                             <th scope="col">Fecha Registro</th>
                             <!--<th scope="col">Profesional</th>-->
+                            <th scope="col">Fecha Calificación</th>
                             <th scope="col">Vigencia</th>
                             <th scope="col">Periodo</th>
                             <th scope="col">Calificado</th>
@@ -44,7 +93,12 @@
 
                                 <td>
 
-                                    <%= lista_trazabilidad[i].fecharegistro %>
+                                    <%= lista_trazabilidad[i].fecharegistro2 %>
+
+                                </td>
+                                <td>
+
+                                    <%= lista_trazabilidad[i].fecha_calificacion %>
 
                                 </td>
 
@@ -73,7 +127,11 @@
                                 </td>
 
                                 <td class="btns-acciones">
-                                    --
+                                    <a href="" title="Ver Detalle"><i class="fas fa-eye" ></i></a>
+                                    <%if(lista_trazabilidad[i].calificado){%>
+                                        <i class="far fa-sticky-note" style="color: blue;" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal_nota" title="Ver Nota" onclick="RealizarAccionVerNota('<%= lista_trazabilidad[i].comentario %>')"></i>
+                                        <%}%>
+
                                 </td>
 
 
@@ -96,7 +154,13 @@
             });
 
 
-            event.preventDefault();
+            function RealizarAccionVerNota(comentario) {
+                event.preventDefault();
+
+                $('#modal_body').html(comentario);
+
+
+            }
         </script>
 
 

@@ -1205,52 +1205,78 @@ app.post('/login-data', function(req, res) {
                         modelControlMando.consultarProfesionalXidUsuario(Number(user_ok[0].id)).then(result => {
                             console.log(result);
 
-                            var usuario = { id_user: user_ok[0].id, id_profesional: Number(result[0].id_profesional), username: req.body.username, id_area: user_ok[0].id_area, nombre: user_ok[0].nombre };
-
-                            req.session.user = user_ok[0].nombre_usuario;
-                            req.session.admin = true;
-                            req.session.web = "http://192.168.1.84:3000";
-                            req.session.username = usuario;
-                            //req.session. = user_ok[0].id;
-                            //console.log(req);
-
-                            //console.log(listaArchivos);    
-                            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                            //res.setHeader('Content-type', 'text/html');
-                            //res.redirect("/config-entidades");                            
-                            //console.log(listaArchivos);    
-
-                            //console.log(listaArchivos);    
-                            req.flash('notify', 'Inicio de sesion con exito...');
-                            //res.setHeader('Content-type', 'text/html');
-                            //res.redirect("/config-entidades");
-                            res.render("paginas/inicio", { user: req.session.username['nombre'] });
-                            /*res.render("paginas/entidades", {
-                                registroEntidades: listaentidades,
-                                status: 200,
-                                code: 0,
-                                retorno: "0",
-                                user: user_ok[0].nombre_usuario,
-                            });*/
-                            //res.setHeader('Content-type', 'text/html');
-                            //res.redirect("/config-entidades");
-
-                            /*res.render("paginas/entidades", {
-                                registroEntidades: listaentidades,
-                                status: 200,
-                                code: 0,
-                                retorno: "0",
-                                user: user_ok[0].nombre_usuario,
-                            });*/
+                            modelControlMando.consultarPermisosRol(user_ok[0].rol).then(result_permisos => {
+                                console.log(result_permisos);
+                                var usuario = {
+                                    id_user: user_ok[0].id,
+                                    id_profesional: Number(result[0].id_profesional),
+                                    username: req.body.username,
+                                    id_area: user_ok[0].id_area,
+                                    nombre: user_ok[0].nombre,
+                                    nombre_rol: user_ok[0].nombre_rol,
+                                    rol: user_ok[0].rol,
+                                    permisos: result_permisos
+                                };
 
 
+
+                                req.session.user = user_ok[0].nombre_usuario;
+                                req.session.admin = true;
+                                req.session.web = "http://192.168.1.84:3000";
+                                req.session.username = usuario;
+                                //req.session. = user_ok[0].id;
+                                //console.log(req);
+
+                                //console.log(listaArchivos);    
+                                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                                //res.setHeader('Content-type', 'text/html');
+                                //res.redirect("/config-entidades");                            
+                                //console.log(listaArchivos);    
+
+                                //console.log(listaArchivos);    
+                                req.flash('notify', 'Inicio de sesion con exito...');
+                                //res.setHeader('Content-type', 'text/html');
+                                //res.redirect("/config-entidades");
+                                res.render("paginas/inicio", { user: req.session.username['nombre'] });
+                                /*res.render("paginas/entidades", {
+                                    registroEntidades: listaentidades,
+                                    status: 200,
+                                    code: 0,
+                                    retorno: "0",
+                                    user: user_ok[0].nombre_usuario,
+                                });*/
+                                //res.setHeader('Content-type', 'text/html');
+                                //res.redirect("/config-entidades");
+
+                                /*res.render("paginas/entidades", {
+                                    registroEntidades: listaentidades,
+                                    status: 200,
+                                    code: 0,
+                                    retorno: "0",
+                                    user: user_ok[0].nombre_usuario,
+                                });*/
+
+
+
+
+
+                            });
 
 
 
                         });
                     } else {
 
-                        var usuario = { id: user_ok[0].id, id_profesional: Number(result[0].id_profesional), username: req.body.username, id_area: user_ok[0].id_area, nombre: user_ok[0].nombre };
+                        var usuario = {
+                            id: user_ok[0].id,
+                            id_profesional: 0,
+                            username: req.body.username,
+                            id_area: user_ok[0].id_area,
+                            nombre: user_ok[0].nombre,
+                            nombre_rol: user_ok[0].nombre_rol,
+                            rol: user_ok[0].rol,
+                            permisos: {}
+                        };
                         req.session.user = user_ok[0].nombre_usuario;
                         req.session.admin = true;
                         req.session.web = "http://192.168.1.84:3000";
@@ -1534,21 +1560,25 @@ app.get("/estado-recaudo-bips", auth, (req, res) => {
 });
 
 app.get("/control-mando", auth, (req, res) => {
-    res.render("paginas/control_mando", { user: req.session.username['nombre'] });
+    res.render("paginas/control_mando", {
+        user: req.session.username['nombre'],
+        nombre_rol: req.session.username['nombre_rol'],
+        rol: req.session.username['rol'],
+        permisos: req.session.username['permisos']
+    });
 });
 
 app.get("/menu-ctm", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistrosPlan_General().then(lista_planes => {
-        //console.log(lista_planes);
-        res.render("paginas/menu_cuadro_mando");
-    });
+    //console.log(lista_planes);
+    res.render("paginas/menu_cuadro_mando", { nombre_rol: req.session.username['nombre_rol'], rol: req.session.username['rol'], permisos: req.session.username['permisos'] });
+
 
 
 });
 
 app.get("/ctm-plan-general", auth, (req, res) => {
-    res.render("paginas/plan_general");
+    res.render("paginas/plan_general", { nombre_rol: req.session.username['nombre_rol'], rol: req.session.username['rol'] });
 });
 
 app.get("/listado-ctm-planes-generales", auth, (req, res) => {
@@ -2648,6 +2678,83 @@ app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
 
 });
 
+app.get("/eliminar-recurso-soporte/:id_soporte", auth, (req, res) => {
+
+    const spawn = require('child_process').spawn;
+    modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
+
+        modelControlMando.eliminar_soporte_x_idSoporte(req.params.id_soporte).then(rspta_eliminacion => {
+
+
+
+            msg = 'El Soporte ' + lista_soportes[0].nombre_original + ' se eliminó correctamente...';
+            if (rspta_eliminacion['command'] == "DELETE" && rspta_eliminacion['rowCount'] > 0) {
+
+                console.log("respuesta de eliminacion: 1, Se elimino correctamente el soporte...");
+                msg = 'El Soporte ' + lista_soportes[0].nombre_original + ' se eliminó correctamente...';
+
+
+                //se elimina el soporte (digital) del directorio                    
+                const spawn_del = spawn('cmd.exe', ['/c', "C://task_delete_file.bat", dir_soportes_ctm, lista_soportes[0].nombre_soporte]);
+
+
+                spawn_del.stdout.on('data', (data) => {
+                    console.log("std OUT");
+                    console.log(data.toString())
+
+                });
+                spawn_del.stderr.on('data', (data) => {
+                        console.log("std ERR");
+                        console.error(data.toString());
+                    })
+                    //res.send(stdout);
+
+                spawn_del.on('close', (code) => {
+                    console.log('OK.. code: ' + code);
+                    var preText = `Child exited with code ${code} : `;
+                    switch (code) {
+                        case 1:
+                            req.flash('notify_del_soporte', msg);
+                            res.send({ status: 200, msg: msg });
+                            break;
+                        case 2:
+                            console.info(preText + "The file already exists");
+                            break;
+                        case 3:
+                            console.info(preText + "The file doesn't exists and now is created");
+                            break;
+                        case 4:
+                            console.info(preText + "An error ocurred while creating the file");
+                            break;
+                    }
+                });;
+
+
+            } else {
+                console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el Soporte " + lista_soportes[0].nombre_original);
+                msg = ' ocurrio un problema al eliminar el soporte... ' + lista_soportes[0].nombre_original;
+                req.flash('notify_del_soporte', msg);
+                res.send({ status: 300 });
+
+            }
+
+
+
+
+
+
+
+        })
+
+
+
+
+
+
+    });
+
+
+});
 
 app.get("/ver-recurso-soporte/:id_soporte", auth, (req, res) => {
     //select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 order by a.id_registroindicador
@@ -2879,7 +2986,7 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
                     var es_habilitado = true;
                     var extension = ext;
                     var mime = req.files[i].mimetype;
-                    var fecha_carga = date_;
+                    //var fecha_carga = date_;
                     var es_valido = true;
                     var peso = req.files[i].size;
                     var nombre_original = req.files[i].originalname;
@@ -2893,7 +3000,6 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
                         es_habilitado,
                         extension,
                         mime,
-                        fecha_carga,
                         es_valido,
                         peso,
                         nombre_original
@@ -3048,7 +3154,6 @@ app.post("/actualizar-reg-indicador", auth, upload_soportes.array('files_soporte
                         es_habilitado,
                         extension,
                         mime,
-                        fecha_carga,
                         es_valido,
                         peso,
                         nombre_original
