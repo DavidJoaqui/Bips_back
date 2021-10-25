@@ -3305,9 +3305,12 @@ app.post("/persistir-plan-accion/", auth, (req, res) => {
 
 app.get("/ctm-profesionales", auth, (req, res) => {
 
-    modelControlMando.consultar_RegistroAreas().then(lista_areas => {
-        //console.log(lista_planes);
-        res.render("paginas/ctm_profesionales", { user: req.session.user, lista_areas: lista_areas });
+
+    modelControlMando.consultar_roles().then(lista_roles => {
+        modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+            //console.log(lista_planes);
+            res.render("paginas/ctm_profesionales", { user: req.session.user, lista_areas: lista_areas, lista_roles: lista_roles });
+        });
     });
 
 
@@ -3325,10 +3328,10 @@ app.get("/listado-ctm-profesionales", auth, (req, res) => {
 
 app.post("/persistir-profesional/", auth, (req, res) => {
     //res.send("OK");
-    //console.log(req.query);
+    console.log(req.query);
     //console.log(req.params);
 
-    modelControlMando.insertar_Profesional(req.query.num_identificacion, req.query.nombres, req.query.apellidos, req.query.area_trabajo).then(respuesta => {
+    modelControlMando.insertar_Profesional(req.query.rol, req.query.password, req.query.nombre_usuario, req.query.area_trabajo, req.query.nombres, req.query.apellidos, req.query.profesional, req.query.num_identificacion, req.query.tipo_identificacion, req.query.activo, req.query.correo, req.query.telefono).then(respuesta => {
 
         if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
             console.log("OK... insert NEW entidad");

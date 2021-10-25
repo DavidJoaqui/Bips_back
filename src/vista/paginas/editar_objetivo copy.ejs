@@ -1,0 +1,1033 @@
+<%- include("head"); %>
+    <%- include("styles_gral"); %>
+
+        <style>
+            body {
+                /*background-color: #eaedee;*/
+                overflow-x: auto;
+                overflow-y: auto;
+            }
+            
+            body::-webkit-scrollbar {
+                display: none;
+                overflow-y: hidden;
+            }
+        </style>
+
+        <body id="body_ent">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+                <div class="card col-md-12" id="card-msg">
+
+
+                </div>
+            </div>
+
+            <div class="col-md-12" style="text-align: center; margin-top: 0px;">
+                <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro de Indicadores
+                </h2>
+            </div>
+
+            <div class="tabs-to-dropdown">
+
+                <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <div class="form-group" style="padding-left: 0px;margin: 0px;">
+
+                            <button class="nav-link active btn btn-info" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="lista_indicadores()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-list"></i> Mis registros</button>
+                        </div>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <div class="form-group" style="padding-left: 0px;margin: 0px;">
+                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="nuevo_indicador()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Registro Indicador</button>
+
+                        </div>
+                    </li>
+
+                </ul>
+
+
+                <div class="dropdown-divider"></div>
+
+            </div>
+
+            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
+
+
+                <div class="col-md col-md-offset-3" style="padding-bottom: 0px">
+
+                    <div class="card container" id="panel_nuevo_indicador" style=" text-align: center;" hidden>
+
+
+                        <div class="form-group row">
+                            <label class="col-1 col-form-label" style="font-weight: bold;">
+                            - </label>
+
+
+                            <div class="col-10">
+                                <h3 class="text-center col-12">Nuevo Registro de Indicador.</h3>
+                            </div>
+
+                        </div>
+
+
+                        <form id="formulario" enctype="multipart/form-data" method="">
+
+                            <div class="form-group row">
+
+                                <label class="col-2 col-form-label" style="font-weight: bold;" for="select_objetivo">Area: </label>
+                                <div class="col-3">
+                                    <!-- <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar Objetivo!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar area
+                                        </option>
+                                        <% lista_areas.forEach(lista=> { %>
+                                            <option value="<%= lista.id_area %>">
+                                                <%= lista.nombre_area %>
+                                            </option>
+                                            <% }); %>
+                                    </select>-->
+
+                                    <% lista_areas.forEach(lista=> { %>
+
+                                        <input type="text" name="select_area" id="select_area" value="<%= lista.id_area %>" hidden>
+                                        <label type="text" name="select_area" id="select_area" value=" " disabled><%= lista.nombre_area %></label>
+
+
+
+                                        <% }); %>
+
+                                </div>
+
+                                <label class="col-2 col-form-label" style="font-weight: bold;">
+                                    Profesional:</label>
+
+                                <div class="col-5">
+                                    <p>
+                                        <input type="text" id="select_version" name="select_version" value="0" hidden>
+                                        <input type="text" id="select_profesional" name="select_profesional" value="<%= id_profesional %>" hidden>
+                                        <label type="text" name="" id="" value="" disabled> <%= nombre %></label>
+
+                                    </p>
+
+
+                                    <!--    <select class="form-control" name="select_profesional" id="select_profesional" data-toggle="tooltip" title="Seleccionar Profesional!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar Profesional</option>
+
+
+
+                                    </select>-->
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="txt_onjetivo" class="col-2 col-form-label" style="font-weight: bold;">
+                                    Nombre Indicador: </label>
+                                <div class="col-10">
+                                    <select class="form-control" name="select_indicador" id="select_indicador" data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar Indicador</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-2 col-form-label" style="font-weight: bold;" for="select_vigencia">Vigencia: </label>
+                                <div class="col-3">
+                                    <select class="form-control" name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar vigencia
+                                        
+                                    </select>
+
+                                </div>
+
+                                <label class="col-2 col-form-label" style="font-weight: bold;">
+                                    Periodo Evaluado:</label>
+
+                                <div class="col-5">
+                                    <select class="form-control" name="select_periodo" id="select_periodo" data-toggle="tooltip" title="Seleccionar Periodo!" data-placement="right" required>
+                                        <option selected="selected" value="">Seleccionar Periodo
+                                        </option>
+
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="" id="contenedor_info_indicador" name="contenedor_info_indicador" hidden>
+
+                                <div class="dropdown-divider"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                    - </label>
+
+
+                                    <div class="col-10">
+                                        <h3 class="text-center col-12" id="titulo_info_indicador">Información del Indicador Seleccionado</h3>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row" id="info_tipo_meta">
+                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                        Tipo Meta: </label>
+                                    <div class="col-10">
+                                        <output class="form-control" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value="">
+                                    </div>                                
+                                    
+                                </div>
+
+                                <div class="container" id="panel_descriptiva" style=" text-align: center;">                                
+
+
+
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label" for="txt_meta_descriptiva"
+                                            style="font-weight: bold;">
+                                            Meta descriptiva: </label>
+                                        <div class="col-10">
+                                            <output class="form-control" type="text" placeholder="Meta Descriptiva"
+                                                name="txt_meta_descriptiva" id="txt_meta_descriptiva" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label" for="txt_fl_descriptiva"
+                                            style="font-weight: bold;">Descripcion: </label>
+                                        <div class="col-10">
+                                            <output class="form-control" type="text" name="txt_fl_descriptiva"
+                                                id="txt_fl_descriptiva" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label" style="font-weight: bold;">
+                                        - </label>
+        
+        
+                                        <div class="col-10">
+                                            <h3 class="text-center col-12">Ingreso de Registros.</h3>
+                                        </div>
+        
+                                    </div>
+
+                                </div>
+
+                                <div class="container" id="panel_numerica" style=" text-align: center;" >                                
+
+                                    
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label" for="txt_meta_numerica"
+                                            style="font-weight: bold;">
+                                            Meta Númerica: </label>
+                                        <div class="col-10">
+                                            <output class="form-control" type="text" name="txt_meta_numerica"
+                                                id="txt_meta_numerica" value="">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label" for="txt_fl_numerador"
+                                            style="font-weight: bold;">
+                                            Numerador: </label>
+                                        <div class="col-10">
+                                            <output class="form-control" type="text" name="txt_fl_numerador"
+                                                id="txt_fl_numerador" value="">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label" for="txt_fl_denominador"
+                                            style="font-weight: bold;">
+                                            Denominador: </label>
+                                        <div class="col-10">
+                                            <output class="form-control" type="text" name="txt_fl_denominador"
+                                                id="txt_fl_denominador" value="">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label" style="font-weight: bold;">
+                                        - </label>
+        
+        
+                                        <div class="col-10">
+                                            <h3 class="text-center col-12">Ingreso de Registros.</h3>
+                                        </div>
+        
+                                    </div>
+                                    <div class="form-group row">
+                                        
+                                        <label class="col-2 col-form-label" style="font-weight: bold;"> Valor Numerador:
+                                        </label>
+
+                                        <div class="col-4">
+                                            <input class="form-control" type="text" placeholder="Ingresar Valor"
+                                                name="txt_vr_numerador" id="txt_vr_numerador" value="">
+                                        </div>
+                                        <label class="col-2 col-form-label" style="font-weight: bold;"> Valor Denominador:
+                                        </label>
+
+                                        <div class="col-4">
+                                            <input class="form-control" type="text" placeholder="Ingresar Valor"
+                                                name="txt_vr_denominador" id="txt_vr_denominador" value="">
+                                        </div>
+                                    </div>
+
+
+
+                                </div>                        
+
+                                <div class="form-group row" id="panel_observacion" >                                                            
+                                        <label for="txt_observacion" class="col-2 col-form-label" style="font-weight: bold;">                                    
+                                            Observaciones: </label>
+                                        
+                                        <div class="col-10">
+                                            <textarea class="form-control" type="text" name="txt_observacion"
+                                                id="txt_observacion" value=""></textarea>
+                                        </div>                                
+                                    
+                                </div>
+
+                                <div class="form-group row" id="panel_soporte" >
+                                    <label for="txt_soporte" class="col-2 col-form-label" style="font-weight: bold;">                                    
+                                        Anexar soporte: </label>
+
+                                    <div class="col-6">
+                                        <input type="file" class="input-file-input form-control" name="files_soporte" id="files_soporte" multiple>
+                                    </div>
+                                    
+                                    <!--<div class="col-2">
+                                        <button class="btn btn btn-primary btn-sm form-control " id="btn-subir"
+                                            name="btn-subir" disabled>Subir</button>
+                                    </div>-->
+                                </div>
+
+                                <div class="form-group col-sm-12" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                                    <div class="text-center">
+                                        <button style="font-weight: bold;" class="btn btn-success" id="btn-guardar"
+                                            name="btn-guardar" onclick="" >Guardar
+                                            Registro Indicador</button>
+                                            <a href="/ctm-reg-indicadores" class="btn btn-default ; " id="btn-volver"  name="btn-volver">volver</a>
+
+                                    </div>
+                                </div>
+
+                                                
+
+                        </form>
+
+                    </div>
+            </div>
+            </div>
+
+            </div>
+
+
+            <!--<div class="col-md-12" id="" name="" style="padding-bottom: 30px">
+
+                <iframe src="/lista_reg_indicadores_x_profesional/?id_profesional=<%= id_profesional %>" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0"
+                    class="embed-responsive-item" width="100%" height="600px" name="iframe_indicador"
+                    id="iframe_indicador">
+                </iframe>
+            </div>-->
+            <div class="" id="tbl_mis_registros">
+
+            </div>
+
+        </body>
+
+
+
+
+
+        <script type="text/javascript">
+            function almacenar_registro() {
+
+                event.preventDefault();
+                var vigencia = $('#select_vigencia').val();
+                var periodo = $('#select_periodo').val();
+                var area = $('#select_area').val();
+                var profesional = $('#select_profesional').val();
+                var indicador = $('#select_indicador').val();
+                var vr_numerador = $('#txt_vr_numerador').val();
+                var vr_denominador = $('#txt_vr_denominador').val();
+                var observacion = $('#txt_observacion').val();
+                
+
+                if (vr_numerador = '') {
+                    vr_numerador = 0;
+                }
+                if (vr_denominador = '') {
+                    vr_denominador = 0;
+                }
+
+                var peticion_validacion = "/validacion-insert-reg-indicadores/?vigencia=" + vigencia +
+                    "&periodo=" + periodo +
+                    "&area=" + area +
+                    "&profesional=" + profesional +
+                    "&indicador=" + indicador;
+                
+                $.ajax({
+                    type: 'get',
+                    url: peticion_validacion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function (result) {
+
+                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                        /*setTimeout(function() {
+                            window.location.reload(1);
+                        }, 5000);*/
+                        if (result["status"] == 200 && result["bandera"]) {
+
+                            alert(result["msg"]);
+
+                           // $('#preview').show();
+
+                           // $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                            //$('#card-msg').show();
+
+                            //$('#formulario')[0].reset();                       
+
+
+                        } else {
+                            
+                            const $form = document.querySelector('#formulario');
+
+
+                    $form.addEventListener('submit', (event) => {
+
+                    event.preventDefault();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/persistir-registro-indicador',
+                        data: new FormData($form),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        beforeSend: function(data) {
+                            //console.log(data.status + ':' + data.statusText,data.responseText);
+                            $('#datos').html('<p>Procesando...</p>');
+
+                        },
+                        error: function(data) {
+
+                            console.log(data.responseText);
+                            //var err = data.responseText.slice(0, 9);
+
+                            $('#datos').html("<div style='float:center;' class='text-center'><i class='fa fa-exclamation-circle' aria-hidden='true' style='color:red;'> Ocurrio un Error! </i></div>" + data.responseText);
+
+                            setTimeout(function() {
+                                $('#datos').fadeOut('fast');
+                            }, 5000);
+
+                            $('#datos').show();
+
+                            //$('#formulario')[0].reset();
+
+                        },
+                        success: function(result) {
+
+
+                            //$('#datos').html('');
+                            //$('#btn-subir').attr("disabled", true);
+                            if (result['estado'] == '200') {
+                                $('#datos').html('<p><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:green">La operacion se ejecuto con exito...</i></p>');
+                                //console.log(JSON.stringify(result['respuesta']));
+                                var iframe = document.getElementById('iframe_arch');
+
+                                //$("#btn-subir").prop("disabled", true);
+                                //$('#files').attr("disabled", true);
+                                //$('#div_carga').hide();
+                                //estos datos se deben persistir en la bd --> tabla registros planos, para saber archivo y para que que se periodo se cargo
+                                //console.log("Se debe persistir en BD: id_ips " // $("#cbxips").attr("disabled", true);
+                                // $('#txtfecha_inicial').attr("disabled", true);
+                                // $('#txtfecha_fin').attr("disabled", true);
+
+                                //$('#btn-validar').attr("disabled", true); + $('#cbxips').val() + " fecha_inicial='" + $('#txtfecha_inicial').val() + "'fecha_fin='" + $('#txtfecha_fin').val() + "' mimetype: .txt");
+
+                                //$("#cbxips").attr("disabled", true);
+                                //$("#cbxips").attr("readonly", true);
+                                //$('#txtfecha_inicial').attr("readonly", true);
+                                //$('#txtfecha_fin').attr("readonly", true);
+
+
+                                const $file_ = document.querySelector('#files');
+                                $file_.value = '';
+
+                                alert("Los archivos se cargaron correctamente!");
+
+
+                                $('#formulario')[0].reset();
+
+
+
+
+                                $('#iframe_arch').attr("src", iframe.src);
+                                $("#iframe_arch").show();
+
+                                setTimeout(function() {
+                                    $('#datos').fadeOut('fast');
+                                }, 5000);
+
+
+
+
+                            } else {
+                                alert("ocurrio un error...");
+                            }
+
+                        }
+
+                    });
+
+                    });
+
+                      /*    var peticion = "/persistir-registro-indicador/" +
+                    "?vigencia=" + vigencia +
+                    "&periodo=" + periodo +
+                    "&area=" + area +
+                    "&profesional=" + profesional +
+                    "&indicador=" + indicador +
+                    "&vr_numerador=" + vr_numerador +
+                    "&vr_denominador=" + vr_denominador +
+                    "&observacion=" + observacion ;
+                    
+
+                $.ajax({
+                    type: 'post',
+                    url: peticion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function (result) {
+
+                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+                        
+                        if (result["status"] == 200) {
+
+                            alert(result["msg"]);
+
+                            $('#preview').show();
+
+                            $('#card-msg').html("<div style='' class='card-header text-white bg-success mb-3 container-fluid' id='btn-cerrar'><strong>Operación exitosa!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                            $('#card-msg').show();
+
+                            $('#formulario')[0].reset();
+
+                            //$('#select_linea').focus();
+
+
+                            setTimeout(function () {
+                                $('#preview').hide();
+                            }, 4000);
+
+
+                        } else {
+                            $('#preview').show();
+
+                            $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
+
+                            $('#card-msg').show();
+
+                            setTimeout(function () {
+                                $('#preview').hide();
+                            }, 5000);
+
+                            //$('#formulario')[0].reset();
+
+                            //$('#select_plan').focus();
+
+                        }
+
+                        //$('#body_ent').html(result);
+
+
+                    }
+
+                });*/
+
+                        }
+
+                        //$('#body_ent').html(result);
+
+
+                    }
+
+                });                    
+
+
+
+
+ 
+
+            }
+
+
+
+            function nuevo_indicador() {
+                //alert("OK");
+                $('#panel_nuevo_indicador').attr('hidden', false);
+                
+                $('#tbl_mis_registros').attr('hidden', true);
+
+            }
+
+            function lista_indicadores() {
+                //alert("OK");
+                /*$('#panel_nuevo_indicador').attr('hidden', true);
+                ///lista-ctm-indicadores
+                $('#tbl_mis_registros').attr("src","");
+                $('#tbl_mis_registros').attr('hidden', false);
+                $('#tbl_mis_registros').attr("src", '/lista_reg_indicadores_x_profesional/?id_profesional=<%= id_profesional %>');
+                $("#tbl_mis_registros").show();*/   
+                $('#panel_nuevo_indicador').attr('hidden', true);
+                $('#tbl_mis_registros').attr('hidden', false);             
+                var peticion_mis_registros = "/lista_reg_indicadores_x_profesional/?id_profesional=" +'<%= id_profesional %>';
+
+            $.ajax({
+
+                type: 'get',
+                url: peticion_mis_registros,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function (result) {
+                    $('#panel_nuevo_indicador').attr('hidden', true);
+                    
+                    $("#tbl_mis_registros").html(result);
+                }
+            }); 
+
+
+            }
+
+            $(document).ready(function () {
+
+                $('#select_vigencia').attr('disabled', true);
+            $('#select_periodo').attr('disabled', true);               
+            
+
+                //event.preventDefault();
+                var peticion = "/consultar-vigencia-anio-profesional/?profesional=" +'<%= id_profesional %>';
+
+            $.ajax({
+
+                type: 'get',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function (result) {
+                    $("#select_vigencia").html("");
+                    $("#select_vigencia").append('<option selected="selected">' + 'Seleccionar Vigencia' + '</option>');
+                    result.forEach(element => {
+                        $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
+                    });
+                }
+            }); 
+
+            //consulta de los registros de indicador por profesional o profesional en sesion
+
+            var peticion_mis_registros = "/lista_reg_indicadores_x_profesional/?id_profesional=" +'<%= id_profesional %>';
+
+            $.ajax({
+
+                type: 'get',
+                url: peticion_mis_registros,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function (result) {
+                    $('#panel_nuevo_indicador').attr('hidden', true);
+                    $("#tbl_mis_registros").html("");
+                    $("#tbl_mis_registros").html(result);
+                }
+            }); 
+
+
+            var peticion_indicador_Area = "/consultar-indicador-x-area/?id_area="+$('#select_area').val();
+
+            $.ajax({
+
+                type: 'get',
+                url: peticion_indicador_Area,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function (result) {
+                    $("#select_indicador").html("");
+                    $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+
+                    result.forEach(element => {
+                        $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + ' </option>');
+                    });
+
+                    
+                }
+            });
+            
+
+                //peticion de registro de indicador con subida de soportes
+                
+                const $form = document.querySelector('#formulario');
+
+
+                $form.addEventListener('submit', (event) => {
+
+                event.preventDefault();
+                var vigencia = $('#select_vigencia').val();
+                var periodo = $('#select_periodo').val();
+                var area = $('#select_area').val();
+                var profesional = $('#select_profesional').val();
+                var indicador = $('#select_indicador').val();
+                var vr_numerador = $('#txt_vr_numerador').val();
+                var vr_denominador = $('#txt_vr_denominador').val();
+                var observacion = $('#txt_observacion').val();
+
+                var peticion_validacion = "/validacion-insert-reg-indicadores/?vigencia=" + vigencia +
+                    "&periodo=" + periodo +
+                    "&area=" + area +
+                    "&profesional=" + profesional +
+                    "&indicador=" + indicador;
+                
+                $.ajax({
+                    type: 'get',
+                    url: peticion_validacion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function (result) {
+
+                        //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
+
+                        /*setTimeout(function() {
+                            window.location.reload(1);
+                        }, 5000);*/
+                        if (result["status"] == 200 && result["bandera"]) {
+
+                            alert(result["msg"]);                  
+
+                        } else {
+                            
+                            const $form = document.querySelector('#formulario');
+                    
+
+                        event.preventDefault();
+
+                         $.ajax({
+                         type: 'POST',
+                        url: '/persistir-registro-indicador',
+                         data: new FormData($form),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        beforeSend: function(data) {
+                        //console.log(data.status + ':' + data.statusText,data.responseText);
+                        $('#datos').html('<p>Procesando...</p>');
+
+                    },
+                    error: function(data) {
+
+                        console.log(data.responseText);
+                        //var err = data.responseText.slice(0, 9);
+
+                        /*$('#datos').html("<div style='float:center;' class='text-center'><i class='fa fa-exclamation-circle' aria-hidden='true' style='color:red;'> Ocurrio un Error! </i></div>" + data.responseText);
+
+                        setTimeout(function() {
+                            $('#datos').fadeOut('fast');
+                        }, 5000);
+
+                        $('#datos').show();*/
+                        alert(data.responseText);
+
+                        //$('#formulario')[0].reset();
+
+                    },
+                    success: function(result) {
+
+
+                        //$('#datos').html('');
+                        //$('#btn-subir').attr("disabled", true);
+                        if (result['status'] == '200') {
+                            //$('#datos').html('<p><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:green">La operacion se ejecuto con exito...</i></p>');
+                            //console.log(JSON.stringify(result['respuesta']));
+                            //var iframe = document.getElementById('iframe_arch');
+                            alert(result['msg']);
+                
+
+                            const $file_ = document.querySelector('#files_soporte');
+                            $file_.value = '';
+
+                            $('#panel_numerica').attr('hidden', true);
+                            $('#panel_descriptiva').attr('hidden', true);
+
+                            $('#select_vigencia').attr('disabled', true);
+                            $('#select_periodo').attr('disabled', true);
+                            
+                            $('#titulo_info_indicador').attr('hidden', true);  
+                            $('#info_tipo_meta').attr('hidden', true);  
+                            $('#panel_observacion').attr('hidden', true);
+                            $('#panel_soporte').attr('hidden', true);    
+                            $('#btn-guardar').attr('hidden', true);   
+                            $('#btn-volver').attr('hidden', true);   
+                            
+                            
+
+
+
+
+
+
+                            alert("Los archivos se cargaron correctamente!");
+                            $('#formulario')[0].reset();
+
+                        } else {
+                            alert("ocurrio un error...");
+                        }
+
+
+                    }
+
+                 });               
+
+                    }                
+
+                    }
+
+                });    
+            
+                });
+                           
+                                             
+
+                $("#select_vigencia").change(function () {
+
+                    var area = $('#select_area').val();
+                    var profesional = $('#select_profesional').val();
+                    var indicador = $('#select_indicador').val();
+
+                    var peticion = "consultar-periodo-x-anio/?año=" + $(this).val()+
+                    "&area="+area+"&profesional="+profesional +"&indicador="+indicador;
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+                            $("#select_periodo").html("");
+                            $('#select_periodo').attr('disabled', false);
+                             $("#select_periodo").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
+
+                            result.forEach(element => {
+                                $("#select_periodo").append('<option value=' + element.cod_mes + '>' + element.nombre_mes + '</option>');
+                            });
+                        }
+                    });
+                });
+
+                $("#select_periodo").change(function () {
+
+                    /*var peticion = "/consultar-indicador-x-periodo/?periodo=" + $(this).val().toString()+
+                    "&vigencia=" + $('#select_vigencia').val().toString() 
+                    + "&area=" + $('#select_area').val();
+                    
+
+                    $.ajax({
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (result) {
+                            $("#select_indicador").html("");
+                            $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                            $('#select_indicador').attr('disabled', false); 
+
+                            result.forEach(element => {
+                                $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + ' </option>');
+                            });
+                        }
+                    });*/
+
+                            $('#titulo_info_indicador').attr('hidden', false);  
+                            $('#info_tipo_meta').attr('hidden', false);  
+                            $('#panel_observacion').attr('hidden', false);
+                            $('#panel_soporte').attr('hidden', false);    
+                            $('#btn-guardar').attr('hidden', false);
+
+
+                    var peticion2 = "/consultar-detalle-indicador-x-indicador/?periodo=" + $(this).val()+
+                    "&vigencia=" + $('#select_vigencia').val().toString() + "&indicador=" + $('#select_indicador').val().toString() + "&area=" + $('#select_area').val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion2,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+                            $("#txt_tipo_meta").html("");
+                            $("#txt_meta_numerica").html("");
+                            $("#txt_meta_descriptiva").html("");
+                            $("#txt_fl_descriptiva").html("");
+                            $("#txt_fl_numerador").html("");
+                            $("#txt_fl_denominador").html("");
+
+                            
+
+                            if(result.length == 0){
+                                alert('No hay información asociada a este Indicador,por favor valide su parametrización');
+                            }else{
+
+                                
+                                //$("#txt_tipo_meta").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
+                                result.forEach(element => {
+                                    $("#txt_tipo_meta").append('<output value=' + element.tipo_meta +'>' + element.tipo_meta);
+                                    $("#txt_meta_numerica").append('<output value=' + element.meta_numerica + '>' + 'Superior al ' + element.meta_numerica + '%');
+                                    $("#txt_meta_descriptiva").append('<output value=' + element.meta_descriptiva + '>' + element.meta_descriptiva);
+                                    $("#txt_fl_descriptiva").append('<output value=' + element.formula_literal_descriptiva + '>' + element.formula_literal_descriptiva);
+                                    $("#txt_fl_numerador").append('<output value=' + element.formula_literal_numerador + '>' + element.formula_literal_numerador);
+                                    $("#txt_fl_denominador").append('<output value=' + element.formula_literal_denominador + '>' + element.formula_literal_denominador);
+
+                                });
+
+                                $('#contenedor_info_indicador').attr('hidden', false);
+
+                                if ($('#txt_tipo_meta').val() == "Descriptiva") {
+                                    $('#panel_numerica').attr('hidden', true);
+                                    $('#panel_descriptiva').attr('hidden', false);
+
+
+                                } else {
+                                    $('#panel_numerica').attr('hidden', false);
+                                    $('#panel_descriptiva').attr('hidden', true);
+
+
+                                }
+
+                            }
+                        }
+                    });
+               
+                });
+
+                $("#select_area").change(function () {
+
+                    var peticion = "/consultar-profesional-x-area/?area=" + $(this).val();
+                   $.ajax({
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (result) {
+                            $("#select_profesional").html("");                            
+                            $("#select_profesional").append('<option selected="selected">' + 'Seleccionar Profesional' + '</option>');
+                            result.forEach(element => {
+                                $("#select_profesional").append('<option value=' + element.id_profesional + '>' + element.nombre_profesional + '</option>');
+                            });
+                        }
+                    });
+
+                    });
+
+                 /*$("#select_profesional").change(function () {
+
+                    var peticion = "/consultar-vigencia-anio-profesional/?profesional=" + $(this).val();
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+                            $("#select_vigencia").html("");
+                             $("#select_vigencia").append('<option selected="selected">' + 'Seleccionar Vigencia' + '</option>');
+                            result.forEach(element => {
+                                $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
+                            });
+                        }
+                    });
+                });*/
+            
+                $("#select_indicador").change(function () {
+
+                    var profesional = $('#select_profesional').val();
+
+                    var peticion = "consultar-vigencia-anio-profesional/?indicador=" + $(this).val()+"&profesional="+profesional;
+
+                       $.ajax({
+
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (result) {
+                            $("#select_vigencia").attr("disabled", false);
+                            $("#select_vigencia").html("");
+                             $("#select_vigencia").append('<option selected="selected">' + 'Seleccionar Vigencia' + '</option>');
+                            result.forEach(element => {
+                                $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
+                            });
+                        }
+                    });
+
+                    
+
+                });
+
+
+               /* $("#files_soporte").change(function() {
+                  $("#btn-guardar").prop("disabled", this.files.length == 0);
+                });*/
+
+            });
+
+        </script>

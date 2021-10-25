@@ -8,7 +8,7 @@
 
             <!--<iframe src="/menu-ctm" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="60px" name="iframe_control_mando" id="iframe_control_mando">
                         </iframe>-->
-            <% if(rol == 'ROL_ADMIN' || rol == 'ROL_SUPER_ADMIN' || rol == 'ROL_COORDINADOR' || rol == 'ROL_USUARIO'){%>
+            <% if(rol=='ROL_ADMIN' || rol=='ROL_SUPER_ADMIN' || rol=='ROL_COORDINADOR' || rol=='ROL_USUARIO' || rol=='ROL_EVALUADOR' ){%>
                 <%- include("menu_cuadro_mando"); %>
 
                     <%}else{%>
@@ -22,16 +22,16 @@
 
     </div>
 
-    <% if(rol == 'ROL_ADMIN' || rol == 'ROL_SUPER_ADMIN' || rol == 'ROL_COORDINADOR'){%>
-        <% if(permisos.length > 0){%>
+    <% if(rol=='ROL_ADMIN' || rol=='ROL_SUPER_ADMIN' || rol=='ROL_COORDINADOR' || rol=='ROL_EVALUADOR' ){%>
+        <% if(permisos.length> 0){%>
 
             <% for(var i=0; i<permisos.length; i++){ %>
 
-                <% if(permisos[i].codigo == 'ctm_plan_general'){ %>
+                <% if(permisos[i].codigo=='ctm_plan_general' ){ %>
                     <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
                         <iframe src="/ctm-plan-general" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="800px" name="iframe_control_mando" id="iframe_control_mando">
-        </iframe>
+                        </iframe>
                     </div>
                     <%}%>
                         <%}%>
@@ -43,12 +43,12 @@
                                 <%}%>
                                     <%}%>
 
-                                        <% if( rol == 'ROL_USUARIO'){%>
+                                        <% if( rol=='ROL_USUARIO' ){%>
 
                                             <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
                                                 <iframe src="/ctm-reg-indicadores" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="800px" name="iframe_control_mando" id="iframe_control_mando">
-            </iframe>
+                                                </iframe>
                                             </div>
                                             <%}%>
 
