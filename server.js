@@ -281,7 +281,7 @@ app.get('/inicio/bips', auth, function(req, res) {
 })
 
 app.get('/login-data', auth, function(req, res) {
-    res.render("paginas/inicio", { user: req.session.username['nombre'] });
+    res.render("paginas/inicio", { user: req.session.username['nombre'], area: req.session.username['nombre_area'] });
     //res.setHeader('Content-type', 'text/html');
     //res.render("paginas/inicio", { user: req.session.user });
 
@@ -708,11 +708,11 @@ app.post('/file/validar/:name/archivo-bips', auth, function(req, res) {
 
 app.get("/reportes-2193", auth, (req, res) => {
 
-    res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"), { user: req.session.user, });
+    res.render(path.join(__dirname + "/src/vista/paginas/GeneradorReportes"), { user: req.session.user, area: req.session.username['nombre_area'] });
 });
 
 app.get("/olap-2193", auth, (req, res) => {
-    res.render(path.join(__dirname + "/src/vista/paginas/Olap_2193"), { user: req.session.user, });
+    res.render(path.join(__dirname + "/src/vista/paginas/Olap_2193"), { user: req.session.user, area: req.session.username['nombre_area'] });
 });
 
 app.get("/eliminar-popup/:name/archivo-bips", auth, (req, res) => {
@@ -1205,64 +1205,68 @@ app.post('/login-data', function(req, res) {
                         modelControlMando.consultarProfesionalXidUsuario(Number(user_ok[0].id)).then(result => {
                             console.log(result);
 
-                            modelControlMando.consultarPermisosRol(user_ok[0].rol).then(result_permisos => {
-                                console.log(result_permisos);
-                                var usuario = {
-                                    id_user: user_ok[0].id,
-                                    id_profesional: Number(result[0].id_profesional),
-                                    username: req.body.username,
-                                    id_area: user_ok[0].id_area,
-                                    nombre: user_ok[0].nombre,
-                                    nombre_rol: user_ok[0].nombre_rol,
-                                    rol: user_ok[0].rol,
-                                    permisos: result_permisos
-                                };
+                            modelControlMando.consultar_areaxid(result[0].id_area_trabajo).then(area => {
+
+                                modelControlMando.consultarPermisosRol(user_ok[0].rol).then(result_permisos => {
+                                    console.log(result_permisos);
+                                    var usuario = {
+                                        id_user: user_ok[0].id,
+                                        id_profesional: Number(result[0].id_profesional),
+                                        username: req.body.username,
+                                        id_area: user_ok[0].id_area,
+                                        nombre: user_ok[0].nombre,
+                                        nombre_rol: user_ok[0].nombre_rol,
+                                        rol: user_ok[0].rol,
+                                        permisos: result_permisos,
+                                        nombre_area: area[0].nombre_area
+                                    };
 
 
 
-                                req.session.user = user_ok[0].nombre_usuario;
-                                req.session.admin = true;
-                                req.session.web = "http://192.168.1.84:3000";
-                                req.session.username = usuario;
-                                //req.session. = user_ok[0].id;
-                                //console.log(req);
+                                    req.session.user = user_ok[0].nombre_usuario;
+                                    req.session.admin = true;
+                                    req.session.web = "http://192.168.1.84:3000";
+                                    req.session.username = usuario;
+                                    //req.session. = user_ok[0].id;
+                                    //console.log(req);
 
-                                //console.log(listaArchivos);    
-                                //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                                //res.setHeader('Content-type', 'text/html');
-                                //res.redirect("/config-entidades");                            
-                                //console.log(listaArchivos);    
+                                    //console.log(listaArchivos);    
+                                    //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                                    //res.setHeader('Content-type', 'text/html');
+                                    //res.redirect("/config-entidades");                            
+                                    //console.log(listaArchivos);    
 
-                                //console.log(listaArchivos);    
-                                req.flash('notify', 'Inicio de sesion con exito...');
-                                //res.setHeader('Content-type', 'text/html');
-                                //res.redirect("/config-entidades");
-                                res.render("paginas/inicio", { user: req.session.username['nombre'] });
-                                /*res.render("paginas/entidades", {
-                                    registroEntidades: listaentidades,
-                                    status: 200,
-                                    code: 0,
-                                    retorno: "0",
-                                    user: user_ok[0].nombre_usuario,
-                                });*/
-                                //res.setHeader('Content-type', 'text/html');
-                                //res.redirect("/config-entidades");
+                                    //console.log(listaArchivos);    
+                                    req.flash('notify', 'Inicio de sesion con exito...');
+                                    //res.setHeader('Content-type', 'text/html');
+                                    //res.redirect("/config-entidades");
 
-                                /*res.render("paginas/entidades", {
-                                    registroEntidades: listaentidades,
-                                    status: 200,
-                                    code: 0,
-                                    retorno: "0",
-                                    user: user_ok[0].nombre_usuario,
-                                });*/
+                                    res.render("paginas/inicio", { user: req.session.username['nombre'], area: req.session.username['nombre_area'] });
+                                    /*res.render("paginas/entidades", {
+                                        registroEntidades: listaentidades,
+                                        status: 200,
+                                        code: 0,
+                                        retorno: "0",
+                                        user: user_ok[0].nombre_usuario,
+                                    });*/
+                                    //res.setHeader('Content-type', 'text/html');
+                                    //res.redirect("/config-entidades");
+
+                                    /*res.render("paginas/entidades", {
+                                        registroEntidades: listaentidades,
+                                        status: 200,
+                                        code: 0,
+                                        retorno: "0",
+                                        user: user_ok[0].nombre_usuario,
+                                    });*/
 
 
 
 
+
+                                });
 
                             });
-
-
 
                         });
                     } else {
@@ -1528,7 +1532,7 @@ app.post('/file/delete-entidad/:name/archivo-bips', auth, function(req, res) {
 })
 
 app.get("/test-header", (req, res) => {
-    res.render("paginas/test_header_new");
+    res.render("paginas/test_header_new", { area: req.session.username['nombre_area'] });
 });
 
 app.get("/config-user-bips", auth, (req, res) => {
@@ -1564,7 +1568,8 @@ app.get("/control-mando", auth, (req, res) => {
         user: req.session.username['nombre'],
         nombre_rol: req.session.username['nombre_rol'],
         rol: req.session.username['rol'],
-        permisos: req.session.username['permisos']
+        permisos: req.session.username['permisos'],
+        area: req.session.username['nombre_area']
     });
 });
 
