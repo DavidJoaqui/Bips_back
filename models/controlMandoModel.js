@@ -196,6 +196,8 @@ module.exports = {
         return resultados;
     },
 
+    
+    
     async consultar_RegistroAreas() {
         const resultados = await conexion.query("select * from schema_control.areas");
         return resultados.rows;
@@ -416,9 +418,14 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_roles() {
+        const resultados = await conexion.query("select * from schema_seguridad.rol");
+        return resultados.rows;
+    },
+
     //insertar_Profesional
-    async insertar_Profesional(num_id_prof, nombres, apellidos, id_area) {
-        const resultados = await conexion.query('insert into schema_control.profesionales (num_identificacion,nombres,apellidos,id_area_trabajo) values ($1,$2,$3,$4)', [num_id_prof, nombres, apellidos, id_area]);
+    async insertar_Profesional(rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono) {
+        const resultados = await conexion.query('INSERT INTO schema_seguridad.user (id_rol_user, password_, fecha, nombre_usuario, id_area, nombre, apellido, es_profesional, num_identificacion, tipo_identificacion, es_activo, correo, telefono) VALUES($1, md5($2), current_date, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono]);
         return resultados;
     },
 
@@ -459,7 +466,7 @@ module.exports = {
 
     //------------------PERMISOS----------------------
     async consultarPermisosRol(rol) {
-        const resultados = await conexion.query("select p.id_permiso, p.nombre_permiso, p.codigo from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user=r.id_rol) inner join schema_seguridad.pemiso_rol pr on(r.id_rol=pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk=u.id_rol_user and pr.id_permiso_fk=p.id_permiso) where r.rol = $1", [rol]);
+        const resultados = await conexion.query("select p.id_permiso, p.nombre_permiso, p.codigo from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user=r.id_rol) inner join schema_seguridad.pemiso_rol pr on(r.id_rol=pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk=u.id_rol_user and pr.id_permiso_fk=p.id_permiso) where r.rol = $1 order by p.id_permiso ", [rol]);
         return resultados.rows;
     },
 

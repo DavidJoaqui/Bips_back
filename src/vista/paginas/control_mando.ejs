@@ -8,7 +8,7 @@
 
             <!--<iframe src="/menu-ctm" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="60px" name="iframe_control_mando" id="iframe_control_mando">
                         </iframe>-->
-            <% if(rol == 'ROL_ADMIN' || rol == 'ROL_SUPER_ADMIN' || rol == 'ROL_COORDINADOR' || rol == 'ROL_USUARIO'){%>
+            <% if(rol=='ROL_ADMIN' || rol=='ROL_SUPER_ADMIN' || rol=='ROL_COORDINADOR' || rol=='ROL_USUARIO' || rol=='ROL_EVALUADOR' ){%>
                 <%- include("menu_cuadro_mando"); %>
 
                     <%}else{%>
@@ -22,51 +22,53 @@
 
     </div>
 
-    <% if(rol == 'ROL_ADMIN' || rol == 'ROL_SUPER_ADMIN' || rol == 'ROL_COORDINADOR'){%>
-        <% if(permisos.length > 0){%>
+    <% if(rol=='ROL_ADMIN' || rol=='ROL_SUPER_ADMIN' || rol=='ROL_COORDINADOR' || rol=='ROL_EVALUADOR' ){%>
+        <% if(permisos.length> 0){%>
 
             <% for(var i=0; i<permisos.length; i++){ %>
 
-                <% if(permisos[i].codigo == 'ctm_plan_general'){ %>
+                <% if(permisos[i].codigo=='ctm_plan_general' ){ %>
                     <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
-                        <iframe src="/ctm-plan-general" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="800px" name="iframe_control_mando" id="iframe_control_mando">
-        </iframe>
+                        <iframe src="/ctm-plan-general" title="Archivos cargados" scrolling="si" onload=''
+                            frameBorder="0" class="embed-responsive-item" width="100%" height="800px"
+                            name="iframe_control_mando" id="iframe_control_mando">
+                        </iframe>
                     </div>
-                    <%} else{%>
-                        <div class="col-md-12" style=" margin-top: 0px; padding: 0px;margin-left: 0px;">
-                            <h2 class="text-center" style="color: #20488f;font-size: 20px">No hay permisos Suficientes
-                            </h2>
-                        </div>
+                    <%} %>
+
                         <%}%>
-                            <%}%>
-                                <%}else{%>
-                                    <div class="col-md-12" style=" margin-top: 0px; padding: 0px;margin-left: 0px;">
-                                        <h2 class="text-center" style="color: #20488f;font-size: 20px">No hay permisos Suficientes
-                                        </h2>
-                                    </div>
+                            <%}else{%>
+                                <div class="col-md-12" style=" margin-top: 0px; padding: 0px;margin-left: 0px;">
+                                    <h2 class="text-center" style="color: #20488f;font-size: 20px">No hay permisos
+                                        Suficientes 3
+                                    </h2>
+                                </div>
+                                <%}%>
                                     <%}%>
-                                        <%}%>
 
-                                            <% if( rol == 'ROL_USUARIO'){%>
+                                        <% if( rol=='ROL_USUARIO' ){%>
 
-                                                <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
+                                            <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
-                                                    <iframe src="/ctm-reg-indicadores" title="Archivos cargados" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="800px" name="iframe_control_mando" id="iframe_control_mando">
-            </iframe>
-                                                </div>
-                                                <%}%>
+                                                <iframe src="/ctm-reg-indicadores" title="Archivos cargados"
+                                                    scrolling="si" onload='' frameBorder="0"
+                                                    class="embed-responsive-item" width="100%" height="800px"
+                                                    name="iframe_control_mando" id="iframe_control_mando">
+                                                </iframe>
+                                            </div>
+                                            <%}%>
 
 
 </body>
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $('#preview').hide();
 
-        $('#btn-profesionales').click(function() {
+        $('#btn-profesionales').click(function () {
 
             //alert("OK");
 
@@ -77,7 +79,7 @@
 
         });
 
-        $('#btn-objetivos').click(function() {
+        $('#btn-objetivos').click(function () {
 
             //alert("OK");
 
@@ -87,7 +89,7 @@
 
         });
 
-        $('#btn-estrategias').click(function() {
+        $('#btn-estrategias').click(function () {
 
             //alert("OK");
 
@@ -97,7 +99,7 @@
 
         });
 
-        $('#btn-planes').click(function() {
+        $('#btn-planes').click(function () {
 
             //alert("OK");
 
@@ -108,7 +110,7 @@
         });
 
 
-        $('#btn-areas').click(function() {
+        $('#btn-areas').click(function () {
 
             //alert("OK");
 
@@ -118,7 +120,7 @@
 
         });
 
-        $('#btn-indicadores').click(function() {
+        $('#btn-indicadores').click(function () {
 
             //alert("OK");
 
@@ -129,7 +131,7 @@
 
         });
 
-        $('#btn-reg-indicadores').click(function() {
+        $('#btn-reg-indicadores').click(function () {
 
             //alert("OK");
 
@@ -140,7 +142,7 @@
 
         });
 
-        $('#btn-calificacion-indicadores').click(function() {
+        $('#btn-calificacion-indicadores').click(function () {
 
             //alert("OK");
 
@@ -152,7 +154,7 @@
         });
 
 
-        $('#btn-linea-accion').click(function() {
+        $('#btn-linea-accion').click(function () {
 
             //alert("OK");
 
@@ -163,7 +165,7 @@
         });
 
 
-        $('#btn-planGeneral-accion').click(function() {
+        $('#btn-planGeneral-accion').click(function () {
 
             //alert("OK");
 
