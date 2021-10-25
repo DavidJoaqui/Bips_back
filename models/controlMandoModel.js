@@ -403,7 +403,7 @@ module.exports = {
     //------------------------------------------------------------------------------//
     //consultar_RegistrosProfesionales
     async consultar_RegistrosProfesionales() {
-        const resultados = await conexion.query("select u.num_identificacion, u.nombre, u.apellido, a.nombre_area from schema_control.profesionales p inner join schema_seguridad.user u on (u.id_user = p.id_user) inner join schema_control.areas a on (u.id_area = a.id_area) where u.es_profesional = '1' order by p.id_profesional asc");
+        const resultados = await conexion.query("select u.num_identificacion, u.nombre_usuario, u.nombre, u.apellido, a.nombre_area from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) order by u.id_user");
         return resultados.rows;
     },
     async consultar_profesionalxarea(area) {
@@ -425,7 +425,7 @@ module.exports = {
 
     //insertar_Profesional
     async insertar_Profesional(rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono) {
-        const resultados = await conexion.query('INSERT INTO schema_seguridad.user (id_rol_user, password_, fecha, nombre_usuario, id_area, nombre, apellido, es_profesional, num_identificacion, tipo_identificacion, es_activo, correo, telefono) VALUES($1, md5($2), current_date, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono]);
+        const resultados = await conexion.query('INSERT INTO schema_seguridad.user (id_rol_user, password_, fecha, nombre_usuario, id_area, nombre, apellido, es_profesional, num_identificacion, tipo_identificacion, es_activo, correo, telefono) VALUES($1, $2, current_date, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono]);
         return resultados;
     },
 

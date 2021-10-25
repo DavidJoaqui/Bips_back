@@ -24,7 +24,7 @@
             </div>
 
             <div class="col-md-12" style="text-align: center;">
-                <h2 class="text-center" style="color: #20488f;font-size: 20px">Profesionales.
+                <h2 class="text-center" style="color: #20488f;font-size: 20px">Usuarios.
                 </h2>
             </div>
 
@@ -37,7 +37,7 @@
                             <button class="nav-link active btn btn-info" type="button"
                                 style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea"
                                 onclick="lista_profesionales()" data-toggle="pill" href="" role="tab" aria-controls=""
-                                aria-selected="true"><i class="fas fa-list"></i> Lista Profesionales</button>
+                                aria-selected="true"><i class="fas fa-list"></i> Lista Usuarios</button>
                         </div>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -45,7 +45,7 @@
                             <button class="nav-link active btn btn-success" type="button"
                                 style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof"
                                 onclick="nuevo_profesional()" data-toggle="pill" href="" role="tab" aria-controls=""
-                                aria-selected="true"><i class="fas fa-plus"></i> Profesional</button>
+                                aria-selected="true"><i class="fas fa-plus"></i> Usuario</button>
                         </div>
                     </li>
                 </ul>
@@ -70,7 +70,7 @@
 
                         <div class="card-heading" id="panel_heading">
                             <!--<a href="#" id="btn-cerrar-popup" class="btn-cerrar-popup" onclick="cerrar()"><i class="fas fa-times"></i></a>-->
-                            <h3>Nuevo Profesional</h3>
+                            <h3>Nuevo Usuario</h3>
                         </div>
 
                         <form id="formulario" enctype="multipart/form-data" method="POST">
@@ -100,24 +100,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+
                                     <label class="col-2 col-form-label" style="font-weight: bold;">
                                         Usuario: </label>
                                     <div class="col-4">
                                         <input class="form-control" type="text" placeholder="ingresar el usuario"
                                             name="txt_usuario" id="txt_usuario" value="">
                                     </div>
-                                    <label class="col-2 col-form-label" style="font-weight: bold;">
-                                        Password: </label>
-                                    <div class="col-4">
-                                        <input class="form-control" type="text" placeholder="ingresar contraseña"
-                                            name="txt_password" id="txt_password" value="">
-                                    </div>
 
-                                </div>
-                                <div class="form-group row">
                                     <label style="font-weight: bold;" class="col-2 col-form-label">Areá Trabajo:</label>
 
-                                    <div class="col-10">
+                                    <div class="col-4">
                                         <select class="form-control" name="select_area" id="select_area"
                                             data-toggle="tooltip" title="Seleccionar area de Trabajo!"
                                             data-placement="right" required>
@@ -130,6 +123,26 @@
                                                 <% }); %>
                                         </select>
                                     </div>
+                                </div>
+
+
+                                <div class="form-group row">
+
+                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                        Contraseña: </label>
+                                    <div class="col-4">
+                                        <input class="form-control password1" type="password"
+                                            placeholder="ingresar contraseña" name="txt_password" id="txt_password"
+                                            value=""><span class="fa fa-fw fa-eye password-icon show-password"></span>
+                                    </div>
+                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                        Repita Contraseña: </label>
+                                    <div class="col-4">
+                                        <input class="form-control password2" type="password"
+                                            placeholder="ingresar contraseña" name="txt_password2" id="txt_password2"
+                                            value=""><small id="message" ></small>
+                                    </div>
+
                                 </div>
 
                                 <div class="form-group row">
@@ -178,8 +191,8 @@
                                     <div class="form-check col-2">
                                         <input class="form-check-input  " type="checkbox" value="" id="is_profesional"
                                             name="is_profesional" checked>
-                                        <label style="font-weight: bold;" class="form-check-label" >
-                                            Profesional</label>
+                                        <label style="font-weight: bold;" class="form-check-label">
+                                            Usuario</label>
                                     </div>
 
                                 </div>
@@ -251,20 +264,24 @@
                 var activo = true;
                 var checkbox_profesional = document.getElementById('is_profesional');
                 var profesional = true;
-                
-                var password = $('#txt_password').val();
+
+                var password = CryptoJS.MD5($('#txt_password').val());
+                //var password_md5  = CryptoJS.MD5($('password');
+
+                //alert(password_md5);
+                //console.log(password_md5.toString());
 
 
 
                 if (checkbox_activo.checked) {
-                    
+
                     activo = true;
                 } else {
                     activo = false;
                 }
 
                 if (checkbox_profesional.checked) {
-                    
+
                     profesional = true;
                 } else {
                     profesional = false;
@@ -286,9 +303,9 @@
                                 "&correo=" + correo +
                                 "&telefono=" + telefono +
                                 "&nombre_usuario=" + nombre_usuario +
-                                "&profesional=" + profesional+
+                                "&profesional=" + profesional +
                                 "&activo=" + activo +
-                                "&password="+password;
+                                "&password=" + password;
 
                             $.ajax({
                                 type: 'post',
@@ -402,5 +419,55 @@
 
                 $('#preview').hide();
 
+
             });
+
+
+
+            window.addEventListener("load", function () {
+
+                // icono para mostrar contraseña
+                showPassword = document.querySelector('.show-password');
+                showPassword.addEventListener('click', () => {
+
+                    // elementos input de tipo clave
+                    password1 = document.querySelector('.password1');
+                    password2 = document.querySelector('.password2');
+
+                    if (password1.type === "text") {
+                        password1.type = "password"
+                        password2.type = "password"
+                        showPassword.classList.remove('fa-eye-slash');
+                    } else {
+                        password1.type = "text"
+                        password2.type = "text"
+                        showPassword.classList.toggle("fa-eye-slash");
+                    }
+
+                })
+
+
+
+            });
+
+
+
+            $('#txt_password, #txt_password2').on('keyup', function () {
+                if ($('#txt_password').val() == $('#txt_password2').val()) {
+                    $('#message').html('').css('color', 'green');
+                } else
+                    $('#message').html('Contraseñas no coinciden').css('color', 'red');
+            });
+
+
+
+            
         </script>
+        <style>
+            .password-icon {
+                float: right;
+                position: relative;
+                margin: -25px 10px 0 0;
+                cursor: pointer;
+            }
+        </style>

@@ -3329,6 +3329,9 @@ app.get("/listado-ctm-profesionales", auth, (req, res) => {
 app.post("/persistir-profesional/", auth, (req, res) => {
     //res.send("OK");
     console.log(req.query);
+
+    //console.log('2:'+req.query.password_md5);
+    
     //console.log(req.params);
 
     modelControlMando.insertar_Profesional(req.query.rol, req.query.password, req.query.nombre_usuario, req.query.area_trabajo, req.query.nombres, req.query.apellidos, req.query.profesional, req.query.num_identificacion, req.query.tipo_identificacion, req.query.activo, req.query.correo, req.query.telefono).then(respuesta => {
