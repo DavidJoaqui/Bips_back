@@ -466,7 +466,7 @@ module.exports = {
 
     //------------------PERMISOS----------------------
     async consultarPermisosRol(rol) {
-        const resultados = await conexion.query("select p.id_permiso, p.nombre_permiso, p.codigo from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user=r.id_rol) inner join schema_seguridad.pemiso_rol pr on(r.id_rol=pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk=u.id_rol_user and pr.id_permiso_fk=p.id_permiso) where r.rol = $1 order by p.id_permiso ", [rol]);
+        const resultados = await conexion.query("select p.id_permiso, p.nombre_permiso, p.codigo from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user = r.id_rol) inner join schema_seguridad.pemiso_rol pr on (r.id_rol = pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk = u.id_rol_user and pr.id_permiso_fk = p.id_permiso) where r.rol = $1 group by p.id_permiso, p.nombre_permiso, p.codigo order by p.id_permiso ", [rol]);
         return resultados.rows;
     },
 
