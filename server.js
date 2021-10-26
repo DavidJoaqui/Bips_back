@@ -1541,8 +1541,8 @@ app.get("/config-user-bips", auth, (req, res) => {
 
 app.get("/config-perfil-bips", auth, (req, res) => {
 
-    var url = path.join(__dirname + "/" + 'filesBipsUploads/' + 'example_pdf.pdf');
-    res.render("paginas/config_perfil", { user: req.session.user, url: url });
+
+    res.render("paginas/config_perfil", { user: req.session.user, area: req.session.username['nombre_area'] });
 });
 
 app.get("/file-view-pdf", auth, (req, res) => {
@@ -2757,6 +2757,58 @@ app.get("/eliminar-recurso-soporte/:id_soporte", auth, (req, res) => {
 
 
     });
+
+
+});
+
+app.get("/eliminar-recurso-temporal/:nombre_archivo", auth, (req, res) => {
+
+    const spawn = require('child_process').spawn;
+
+
+    msg = 'El Soporte temp  ' + req.params.nombre_archivo + ' se eliminó correctamente...';
+
+    console.log("respuesta de eliminacion: 1, Se elimino correctamente el soporte temp despues de descargar ...");
+    msg = 'El Soporte temp' + req.params.nombre_archivo + ' se eliminó correctamente despues de descargar...';
+
+
+    //se elimina el soporte (digital) del directorio                    
+    const spawn_del = spawn('cmd.exe', ['/c', "C://task_delete_file.bat", path.join(__dirname, 'filesBipsUploads'), req.params.nombre_archivo]);
+
+
+    spawn_del.stdout.on('data', (data) => {
+        console.log("std OUT");
+        console.log(data.toString())
+
+    });
+    spawn_del.stderr.on('data', (data) => {
+            console.log("std ERR");
+            console.error(data.toString());
+        })
+        //res.send(stdout);
+
+    spawn_del.on('close', (code) => {
+        console.log('OK.. code: ' + code);
+        var preText = `Child exited with code ${code} : `;
+        switch (code) {
+            case 1:
+                req.flash('notify_del_soporte', msg);
+                res.send({ status: 200, msg: msg });
+                break;
+            case 2:
+                console.info(preText + "The file already exists");
+                break;
+            case 3:
+                console.info(preText + "The file doesn't exists and now is created");
+                break;
+            case 4:
+                console.info(preText + "An error ocurred while creating the file");
+                break;
+        }
+    });;
+
+
+
 
 
 });
