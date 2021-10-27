@@ -3391,6 +3391,9 @@ app.get("/listado-ctm-profesionales", auth, (req, res) => {
 app.post("/persistir-profesional/", auth, (req, res) => {
     //res.send("OK");
     console.log(req.query);
+
+    //console.log('2:'+req.query.password_md5);
+
     //console.log(req.params);
 
     modelControlMando.insertar_Profesional(req.query.rol, req.query.password, req.query.nombre_usuario, req.query.area_trabajo, req.query.nombres, req.query.apellidos, req.query.profesional, req.query.num_identificacion, req.query.tipo_identificacion, req.query.activo, req.query.correo, req.query.telefono).then(respuesta => {
@@ -3414,6 +3417,50 @@ app.post("/persistir-profesional/", auth, (req, res) => {
         res.json({ status: 500, msg: 'ERROR!! El Profesional <b>' + req.query.nombres + ' ' + req.query.apellidos + ' </b> YA EXISTE...' });
     });
 })
+
+app.post("/actualizar-profesional", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.actualizar_profesional_x_id(req.query.id_user, req.query.rol, req.query.password, req.query.nombre_usuario, req.query.area_trabajo, req.query.txt_nombre, req.query.txt_apellido, req.query.profesional, req.query.txt_num_identificacion, req.query.tipo_identificacion, req.query.activo, req.query.correo, req.query.telefono).then(respuesta => {
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update usuario");
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            //req.flash('notify', 'La linea de acción' + req.query.linea_accion + ',' + ' se actualizo correctamente...');
+
+            res.send({ status: 200, msg: 'El usuario ' + req.query.nombre_usuario + ' fue actualizado correctamente...' });
+            //res.render("/config-entidades");
+
+        } else {
+
+            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' intente de nuevo...');
+            res.send({ status: 300, msg: 'ERROR al actualizar el usuario <b>' + req.query.nombre_usuario + '</b> ' + ' intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El usuario  <b>' + req.query.objetivo + '</b>, ' + +'NO se pudo actualizar...' });
+    });
+
+})
+
+app.post("/form-editar-ctm-profesional", auth, (req, res) => {
+
+    modelControlMando.consultarProfesionalXidUsuario(req.query.id_user).then(lista_usuarios => {
+
+        modelControlMando.consultar_RegistroAreas().then(lista_areas => {
+            modelControlMando.consultar_roles().then(lista_roles => {
+                console.log(lista_usuarios);
+                res.render("paginas/editar_profesional", { id_user: req.query.id_user, lista_usuarios: lista_usuarios, lista_areas: lista_areas, lista_roles: lista_roles });
+            });
+        });
+    });
+});
 
 app.get("/calcular-resultado-numerico", auth, (req, res) => {
 

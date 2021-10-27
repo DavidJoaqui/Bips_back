@@ -203,6 +203,14 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_roles() {
+        const resultados = await conexion.query("select * from schema_seguridad.rol");
+        return resultados.rows;
+    },
+
+
+
+
     async consultar_areaxid(id_area) {
         const resultados = await conexion.query('select * from schema_control.areas where id_area=$1 ', [id_area]);
         return resultados.rows;
@@ -403,7 +411,7 @@ module.exports = {
     //------------------------------------------------------------------------------//
     //consultar_RegistrosProfesionales
     async consultar_RegistrosProfesionales() {
-        const resultados = await conexion.query("select u.num_identificacion, u.nombre, u.apellido, a.nombre_area from schema_control.profesionales p inner join schema_seguridad.user u on (u.id_user = p.id_user) inner join schema_control.areas a on (u.id_area = a.id_area) where u.es_profesional = '1' order by p.id_profesional asc");
+        const resultados = await conexion.query("select u.*, a.nombre_area from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) order by u.id_user");
         return resultados.rows;
     },
     async consultar_profesionalxarea(area) {
@@ -425,13 +433,18 @@ module.exports = {
 
     //insertar_Profesional
     async insertar_Profesional(rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono) {
-        const resultados = await conexion.query('INSERT INTO schema_seguridad.user (id_rol_user, password_, fecha, nombre_usuario, id_area, nombre, apellido, es_profesional, num_identificacion, tipo_identificacion, es_activo, correo, telefono) VALUES($1, md5($2), current_date, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono]);
+        const resultados = await conexion.query('INSERT INTO schema_seguridad.user (id_rol_user, password_, fecha, nombre_usuario, id_area, nombre, apellido, es_profesional, num_identificacion, tipo_identificacion, es_activo, correo, telefono) VALUES($1, $2, current_date, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono]);
         return resultados;
     },
 
+
+    async actualizar_profesional_x_id(id_user,rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono) {
+        const resultados = await conexion.query('update schema_seguridad.user set id_rol_user = $2, password_ = $3, nombre_usuario = $4, id_area = $5, nombre = $6, apellido = $7, es_profesional = $8, num_identificacion = $9, tipo_identificacion = $10, es_activo = $11, correo = $12, telefono = $13 where id_user = $1', [id_user,rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono]);
+        return resultados;
+    },
     //consultarProfesionalXidUsuario
     async consultarProfesionalXidUsuario(id_user) {
-        const resultados = await conexion.query("select * from schema_control.profesionales where id_user = $1", [id_user]);
+        const resultados = await conexion.query("select u.*, u.id_area as id_area_trabajo, a.nombre_area,r.nombre_rol from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) inner join schema_seguridad.rol r on(r.id_rol=u.id_rol_user) where u.id_user = $1 order by u.id_user", [id_user]);
         return resultados.rows;
     },
 

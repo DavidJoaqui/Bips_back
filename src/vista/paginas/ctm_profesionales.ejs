@@ -7,7 +7,7 @@
                 overflow-x: auto;
                 overflow-y: auto;
             }
-
+            
             body::-webkit-scrollbar {
                 display: none;
                 overflow-y: hidden;
@@ -15,8 +15,7 @@
         </style>
 
         <body id="body_ent" style="margin-top: 0px;">
-            <div class="preview text-center" id="preview"
-                style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
                 <div class="card col-md-12" id="card-msg">
 
 
@@ -24,7 +23,7 @@
             </div>
 
             <div class="col-md-12" style="text-align: center;">
-                <h2 class="text-center" style="color: #20488f;font-size: 20px">Profesionales.
+                <h2 class="text-center" style="color: #20488f;font-size: 20px">Registro Usuarios.
                 </h2>
             </div>
 
@@ -34,18 +33,12 @@
                     <li class="nav-item" role="presentation">
                         <div class="form-group" style="padding-left: 0px;margin: 0px;">
 
-                            <button class="nav-link active btn btn-info" type="button"
-                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea"
-                                onclick="lista_profesionales()" data-toggle="pill" href="" role="tab" aria-controls=""
-                                aria-selected="true"><i class="fas fa-list"></i> Lista Profesionales</button>
+                            <button class="nav-link active btn btn-info" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nueva-linea" onclick="lista_profesionales()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-list"></i> Lista Usuarios</button>
                         </div>
                     </li>
                     <li class="nav-item" role="presentation">
                         <div class="form-group" style="padding-left: 0px;margin: 0px;">
-                            <button class="nav-link active btn btn-success" type="button"
-                                style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof"
-                                onclick="nuevo_profesional()" data-toggle="pill" href="" role="tab" aria-controls=""
-                                aria-selected="true"><i class="fas fa-plus"></i> Profesional</button>
+                            <button class="nav-link active btn btn-success" type="button" style="border: 0; padding-top: 0px;height: 20px;" id="btn-nuevo-prof" onclick="nuevo_profesional()" data-toggle="pill" href="" role="tab" aria-controls="" aria-selected="true"><i class="fas fa-plus"></i> Usuario</button>
                         </div>
                     </li>
                 </ul>
@@ -60,8 +53,7 @@
 
 
 
-            <div
-                style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
+            <div style="display: flex;justify-content: center;align-items: center;padding-bottom: 0px; margin-top: 0px;">
 
 
                 <div class="col-md-12 col-md-offset-3" style="padding-bottom: 0px">
@@ -70,10 +62,10 @@
 
                         <div class="card-heading" id="panel_heading">
                             <!--<a href="#" id="btn-cerrar-popup" class="btn-cerrar-popup" onclick="cerrar()"><i class="fas fa-times"></i></a>-->
-                            <h3>Nuevo Profesional</h3>
+                            <h3>Nuevo Usuario</h3>
                         </div>
 
-                        <form id="formulario" enctype="multipart/form-data" method="POST">
+                        <form id="formulario" enctype="multipart/form-data" method="POST" action="">
 
                             <div class="card container">
 
@@ -81,9 +73,7 @@
                                     <label class="col-2 col-form-label" style="font-weight: bold;">Tipo Identificación:
                                     </label>
                                     <div class="col-4">
-                                        <select class="form-control" name="select_tipo_identificacion"
-                                            id="select_tipo_identificacion" data-toggle="tooltip"
-                                            title="Seleccionar tipo Identificacion!" data-placement="right" required>
+                                        <select class="form-control" name="select_tipo_identificacion" id="select_tipo_identificacion" data-toggle="tooltip" title="Seleccionar tipo Identificacion!" data-placement="right" required>
                                             <option selected="selected" value="">Seleccionar Tipo Identificación
                                             </option>
                                             <option value="CC">Cédula de ciudadania</option>
@@ -92,35 +82,23 @@
 
                                         </select>
                                     </div>
-                                    <label class="col-3 col-form-label" for="txt_num_identificacion"
-                                        style="font-weight: bold;">Número de Identificación: </label>
+                                    <label class="col-3 col-form-label" for="txt_num_identificacion" style="font-weight: bold;">Número de Identificación: </label>
                                     <div class="col-3">
-                                        <input class="form-control" type="text" placeholder="número identificación"
-                                            name="txt_num_identificacion" id="txt_num_identificacion" value="">
+                                        <input class="form-control" type="text" placeholder="número identificación" name="txt_num_identificacion" id="txt_num_identificacion" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
+
                                     <label class="col-2 col-form-label" style="font-weight: bold;">
                                         Usuario: </label>
                                     <div class="col-4">
-                                        <input class="form-control" type="text" placeholder="ingresar el usuario"
-                                            name="txt_usuario" id="txt_usuario" value="">
-                                    </div>
-                                    <label class="col-2 col-form-label" style="font-weight: bold;">
-                                        Password: </label>
-                                    <div class="col-4">
-                                        <input class="form-control" type="text" placeholder="ingresar contraseña"
-                                            name="txt_password" id="txt_password" value="">
+                                        <input class="form-control" type="text" placeholder="ingresar el usuario" name="txt_usuario" id="txt_usuario" value="">
                                     </div>
 
-                                </div>
-                                <div class="form-group row">
                                     <label style="font-weight: bold;" class="col-2 col-form-label">Areá Trabajo:</label>
 
-                                    <div class="col-10">
-                                        <select class="form-control" name="select_area" id="select_area"
-                                            data-toggle="tooltip" title="Seleccionar area de Trabajo!"
-                                            data-placement="right" required>
+                                    <div class="col-4">
+                                        <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar area de Trabajo!" data-placement="right" required>
                                             <option selected="selected" value="">Seleccionar área de Trabajo
                                             </option>
                                             <% lista_areas.forEach(lista=> { %>
@@ -132,19 +110,33 @@
                                     </div>
                                 </div>
 
+
+                                <div class="form-group row">
+
+                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                        Contraseña: </label>
+                                    <div class="col-4">
+                                        <input class="form-control password1" type="password" placeholder="ingresar contraseña" name="txt_password" id="txt_password" value=""><span class="fa fa-fw fa-eye password-icon show-password"></span>
+                                    </div>
+                                    <label class="col-2 col-form-label" style="font-weight: bold;">
+                                        Repita Contraseña: </label>
+                                    <div class="col-4">
+                                        <input class="form-control password2" type="password" placeholder="ingresar contraseña" name="txt_password2" id="txt_password2" value=""><small id="message"></small>
+                                    </div>
+
+                                </div>
+
                                 <div class="form-group row">
                                     <label class="col-2 col-form-label" for="txt_nombre" style="font-weight: bold;">
                                         Nombres: </label>
                                     <div class="col-4">
-                                        <input class="form-control" type="text" placeholder="ingresa los nombres"
-                                            name="txt_nombre" id="txt_nombre" value="">
+                                        <input class="form-control" type="text" placeholder="ingresa los nombres" name="txt_nombre" id="txt_nombre" value="">
                                     </div>
 
                                     <label class="col-2 col-form-label" for="txt_apellido" style="font-weight: bold;">
                                         Apellidos:&nbsp; </label>
                                     <div class="col-4">
-                                        <input class="form-control" type="text" placeholder="ingresa los apellidos"
-                                            name="txt_apellido" id="txt_apellido" value="">
+                                        <input class="form-control" type="text" placeholder="ingresa los apellidos" name="txt_apellido" id="txt_apellido" value="">
                                     </div>
                                 </div>
 
@@ -155,9 +147,7 @@
                                     <label style="font-weight: bold;" class="col-2 col-form-label">Tipo de Rol:</label>
 
                                     <div class="col-3">
-                                        <select class="form-control" name="select_rol" id="select_rol"
-                                            data-toggle="tooltip" title="Seleccionar rol!" data-placement="right"
-                                            required>
+                                        <select class="form-control" name="select_rol" id="select_rol" data-toggle="tooltip" title="Seleccionar rol!" data-placement="right" required>
                                             <option selected="selected" value="">Seleccionar Rol
                                             </option>
                                             <% lista_roles.forEach(lista=> { %>
@@ -169,16 +159,14 @@
                                     </div>
 
                                     <div class="form-check col-2">
-                                        <input class="form-check-input  " type="checkbox" value="" id="is_active"
-                                            name="is_active" checked>
+                                        <input class="form-check-input  " type="checkbox" value="" id="is_active" name="is_active" checked>
                                         <label style="font-weight: bold;" class="form-check-label">
                                             Activo</label>
                                     </div>
 
                                     <div class="form-check col-2">
-                                        <input class="form-check-input  " type="checkbox" value="" id="is_profesional"
-                                            name="is_profesional" checked>
-                                        <label style="font-weight: bold;" class="form-check-label" >
+                                        <input class="form-check-input  " type="checkbox" value="" id="is_profesional" name="is_profesional" checked>
+                                        <label style="font-weight: bold;" class="form-check-label">
                                             Profesional</label>
                                     </div>
 
@@ -187,24 +175,19 @@
                                     <label class="col-2 col-form-label" for="txt_nombre" style="font-weight: bold;">
                                         Correo: </label>
                                     <div class="col-5">
-                                        <input class="form-control" type="text"
-                                            placeholder="ingresar correo electronico" name="txt_correo" id="txt_correo"
-                                            value="">
+                                        <input class="form-control" type="text" placeholder="ingresar correo electronico" name="txt_correo" id="txt_correo" value="">
                                     </div>
 
                                     <label class="col-2 col-form-label" for="txt_nombre" style="font-weight: bold;">
                                         Telefono: </label>
                                     <div class="col-3">
-                                        <input class="form-control" type="text" placeholder="ingresar telefono"
-                                            name="txt_telefono" id="txt_telefono" value="">
+                                        <input class="form-control" type="text" placeholder="ingresar telefono" name="txt_telefono" id="txt_telefono" value="">
                                     </div>
                                 </div>
 
 
-                                <div class="form-group col-sm-12 text-center"
-                                    style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-                                    <button style="font-weight: bold;" class="btn btn-success" id="btn-validar"
-                                        name="btn-validar" onclick="almacenar_registro()">Guardar</button>
+                                <div class="form-group col-sm-12 text-center" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                                    <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar" onclick="almacenar_registro()">Guardar</button>
                                     <a href="/ctm-profesionales" class="btn btn-default">volver</a>
                                 </div>
 
@@ -222,9 +205,7 @@
 
             <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
 
-                <iframe src="/listado-ctm-profesionales" title="iframe Vistas control de mando" scrolling="no" onload=''
-                    frameBorder="0" class="embed-responsive-item" width="100%" height="600px" name="iframe_prof"
-                    id="iframe_prof">
+                <iframe src="/listado-ctm-profesionales" title="iframe Vistas control de mando" scrolling="no" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="800px" name="iframe_prof" id="iframe_prof">
                 </iframe>
             </div>
         </body>
@@ -251,20 +232,24 @@
                 var activo = true;
                 var checkbox_profesional = document.getElementById('is_profesional');
                 var profesional = true;
-                
-                var password = $('#txt_password').val();
+
+                var password = CryptoJS.MD5($('#txt_password').val());
+                //var password_md5  = CryptoJS.MD5($('password');
+
+                //alert(password_md5);
+                //console.log(password_md5.toString());
 
 
 
                 if (checkbox_activo.checked) {
-                    
+
                     activo = true;
                 } else {
                     activo = false;
                 }
 
                 if (checkbox_profesional.checked) {
-                    
+
                     profesional = true;
                 } else {
                     profesional = false;
@@ -286,9 +271,9 @@
                                 "&correo=" + correo +
                                 "&telefono=" + telefono +
                                 "&nombre_usuario=" + nombre_usuario +
-                                "&profesional=" + profesional+
+                                "&profesional=" + profesional +
                                 "&activo=" + activo +
-                                "&password="+password;
+                                "&password=" + password;
 
                             $.ajax({
                                 type: 'post',
@@ -298,7 +283,7 @@
                                 cache: false,
                                 processData: false,
 
-                                success: function (result) {
+                                success: function(result) {
 
                                     //history.replaceState("/config-entidades", "Nueva Entidad Bips", "/config-entidades");
 
@@ -322,7 +307,7 @@
                                         $('#iframe_prof').attr("src", iframe.src);
                                         $("#iframe_prof").show();
 
-                                        setTimeout(function () {
+                                        setTimeout(function() {
                                             $('#preview').hide();
                                         }, 4000);
 
@@ -336,7 +321,7 @@
 
                                         $('#card-msg').show();
 
-                                        setTimeout(function () {
+                                        setTimeout(function() {
                                             $('#preview').hide();
                                         }, 5000);
 
@@ -398,9 +383,52 @@
 
             }
 
-            $(document).ready(function () {
+            $(document).ready(function() {
 
                 $('#preview').hide();
 
+
+            });
+
+
+
+            window.addEventListener("load", function() {
+
+                // icono para mostrar contraseña
+                showPassword = document.querySelector('.show-password');
+                showPassword.addEventListener('click', () => {
+
+                    // elementos input de tipo clave
+                    password1 = document.querySelector('.password1');
+                    password2 = document.querySelector('.password2');
+
+                    if (password1.type === "text") {
+                        password1.type = "password"
+                        password2.type = "password"
+                        showPassword.classList.remove('fa-eye-slash');
+                    } else {
+                        password1.type = "text"
+                        password2.type = "text"
+                        showPassword.classList.toggle("fa-eye-slash");
+                    }
+
+                })
+            });
+
+
+
+            $('#txt_password, #txt_password2').on('keyup', function() {
+                if ($('#txt_password').val() == $('#txt_password2').val()) {
+                    $('#message').html('').css('color', 'green');
+                } else
+                    $('#message').html('Contraseñas no coinciden').css('color', 'red');
             });
         </script>
+        <style>
+            .password-icon {
+                float: right;
+                position: relative;
+                margin: -25px 10px 0 0;
+                cursor: pointer;
+            }
+        </style>
