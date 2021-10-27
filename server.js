@@ -295,6 +295,7 @@ app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
             res.render("paginas/RegistrosPlanos", {
                 registroplanos: registroplanos,
                 user: req.session.user,
+                area: req.session.username['nombre_area']
             });
         })
         .catch(err => {
@@ -311,7 +312,7 @@ app.get('/cargar-plano', auth, function(req, res) {
             res.render("paginas/FormularioCarga", {
                 listaIps: listaIps,
                 user: req.session.user,
-
+                area: req.session.username['nombre_area']
             });
 
         })
@@ -3490,7 +3491,7 @@ app.get("/calcular-desviacion", auth, (req, res) => {
 ///resultados-financieros
 app.get("/resultados-financieros", auth, (req, res) => {
 
-    res.render(path.join(__dirname + "/src/vista/paginas/rpt_financiero_contabilidad"), { user: req.session.user, });
+    res.render(path.join(__dirname + "/src/vista/paginas/rpt_financiero_contabilidad"), { user: req.session.user, area: req.session.username['nombre_area'] });
 });
 
 app.get("/verPDF", auth, (req, res) => {
@@ -3594,6 +3595,16 @@ app.post("/eliminar-permiso/", auth, (req, res) => {
         res.json({ status: 500, msg: 'ERROR!! El Permiso no se pudo desactivar...' });
     });
 })
+
+app.get("/estadistica-financiera", auth, (req, res) => {
+
+
+    //console.log(lista_planes);
+    res.render(path.join(__dirname + "/src/vista/paginas/rpt_financiero_contabilidad"), { user: req.session.user, area: req.session.username['nombre_area'] });
+
+
+
+});
 
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));
