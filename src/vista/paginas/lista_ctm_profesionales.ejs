@@ -4,7 +4,7 @@
         <div class="col-md-12" id="" name="" style="margin-top: 10px;">
 
 
-            <div class="col-md-12">
+            <div class="col-md-12" id="body_ent" name="body_ent">
 
                 <div>
                     <span class="titulo-tabla" style="font-weight: bold;">
@@ -22,6 +22,7 @@
                         <thead class="head-tabla-reg">
                             <tr>
                                 <th>#</th>
+                                <th>Usuario</th>
                                 <th>N.Identificacion</th>
                                 <th>nombres</th>
                                 <th>Apellidos</th>
@@ -39,6 +40,9 @@
 
                                     </td>
                                     <td>
+                                        <%= lista_prof[i].nombre_usuario %>
+                                    </td>
+                                    <td>
                                         <%= lista_prof[i].num_identificacion %>
                                     </td>
                                     <td>
@@ -54,7 +58,8 @@
                                     </td>
 
                                     <td class="btns-acciones">
-                                        <a href="" title="Editar"><i class="fas fa-edit"></i></a>
+                                        <a href="" title="Editar" onclick="editar('<%= lista_prof[i].id_user %>')"><i class="fas fa-edit"></i></a>
+                                       
                                         <a href="" title="Eliminar" style="color: red;"><i class="far fa-trash-alt"></i></a>
                                     </td>
 
@@ -68,6 +73,45 @@
 
                 </div>
             </div>
+
+
+            
+            <script type="text/javascript">
+                $(document).ready(function() {
+
+                });
+
+
+                function editar(id_user) {
+
+                    event.preventDefault();
+
+                    //alert("ok desde lista plan general");
+
+                    const peticion = "/form-editar-ctm-profesional/?id_user=" + id_user;
+
+                    $.ajax({
+                        type: 'post',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function(result) {
+
+                            //history.replaceState("/form-editar-entidad", "Editar Entidad Bips", "/form-editar-entidad");
+                            $('#preview').hide();
+                            $('#body_ent').html(result);
+
+
+                        }
+
+                    });
+
+                }
+            </script>
+
 
 
             <style>
