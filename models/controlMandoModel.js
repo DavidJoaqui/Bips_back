@@ -466,9 +466,35 @@ module.exports = {
 
     //------------------PERMISOS----------------------
     async consultarPermisosRol(rol) {
-        const resultados = await conexion.query("select p.id_permiso, p.nombre_permiso, p.codigo from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user = r.id_rol) inner join schema_seguridad.pemiso_rol pr on (r.id_rol = pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk = u.id_rol_user and pr.id_permiso_fk = p.id_permiso) where r.rol = $1 group by p.id_permiso, p.nombre_permiso, p.codigo order by p.id_permiso ", [rol]);
+        const resultados = await conexion.query("select p.id_permiso, p.nombre_permiso, p.codigo, p.modulo, p.activo ,p.descripcion from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user = r.id_rol) inner join schema_seguridad.permiso_rol pr on (r.id_rol = pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk = u.id_rol_user and pr.id_permiso_fk = p.id_permiso) where r.rol = $1 group by p.id_permiso, p.nombre_permiso, p.codigo order by p.id_permiso ", [rol]);
         return resultados.rows;
     },
 
+    async consultarPermisosAsignar(rol) {
+        const resultados = await conexion.query("select p.descripcion , p.id_permiso, p.nombre_permiso, p.codigo, p.modulo, 0 as activo from schema_seguridad.permiso p where p.id_permiso not in ( select p2.id_permiso from schema_seguridad.user u2 inner join schema_seguridad.rol r2 on (u2.id_rol_user = r2.id_rol) inner join schema_seguridad.permiso_rol pr2 on (r2.id_rol = pr2.id_rol_fk) inner join schema_seguridad.permiso p2 on (pr2.id_rol_fk = u2.id_rol_user and pr2.id_permiso_fk = p2.id_permiso) where r2.id_rol = $1 group by p2.id_permiso, p2.nombre_permiso, p2.codigo ) union all select p.descripcion, p.id_permiso, p.nombre_permiso, p.codigo, p.modulo, 1 as activo from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user = r.id_rol) inner join schema_seguridad.permiso_rol pr on (r.id_rol = pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk = u.id_rol_user and pr.id_permiso_fk = p.id_permiso) where r.id_rol = $1 group by p.id_permiso, p.nombre_permiso, p.codigo order by id_permiso asc", [rol]);
+        return resultados.rows;
+    },
 
+    
+    async consultar_Permisos() {
+        const resultados = await conexion.query("select p.* from  schema_seguridad.permiso p order by p.id_permiso ", []);
+        return resultados.rows;
+    },
+    async insertarPermiso(id_permiso_fk, id_rol_fk) {
+        const resultados = await conexion.query('insert into schema_seguridad.permiso_rol (id_permiso_fk, id_rol_fk) values ($1,$2)', [id_permiso_fk, id_rol_fk]);
+        return resultados;
+    },
+
+    async eliminarPermiso(id_permiso_fk, id_rol_fk) {
+        const resultados = await conexion.query('delete from schema_seguridad.permiso_rol where id_permiso_fk = $1 and id_rol_fk = $2 ', [id_permiso_fk, id_rol_fk]);
+        return resultados;
+    },
+    
+
+    //----------------Roles -----------------------
+    
+    async consultarRoles() {
+        const resultados = await conexion.query("select * from schema_seguridad.rol r ", []);
+        return resultados.rows;
+    },
 }

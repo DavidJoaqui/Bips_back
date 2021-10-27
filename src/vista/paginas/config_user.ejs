@@ -18,15 +18,16 @@
 
     <div style="margin-top: 80px;padding-top: 10px;">
         <h1 style="color: #233dd2;" class="text-center">
-            Portal de Inteligencia de Negocio BIPS
+            Gestion de Permisos
         </h1>
     </div>
 
-    <div class="card">
-        <div class="card-header text-white bg-success mb-3 container-fluid">CONFIGURACIÓN
+    <%- include("menu_configuracion"); %>
 
+        <div class="col-md-12" id="" name="" style="padding-bottom: 30px">
+
+            <iframe src="/permisos-bips" title="Configuracion de permisos" scrolling="si" onload='' frameBorder="0" class="embed-responsive-item" width="100%" height="800px" name="iframe_control_mando" id="iframe_control_mando">
+        </iframe>
         </div>
-        <div class="card-body">test</div>
-    </div>
 
-    <%- include("footer"); %>
+        <%- include("footer"); %>

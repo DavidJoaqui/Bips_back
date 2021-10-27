@@ -1346,6 +1346,7 @@ app.get("/config-entidades", auth, (req, res) => {
                 code: 0,
                 retorno: "0",
                 user: req.session.user,
+                area: req.session.username['nombre_area']
             });
 
 
@@ -1536,7 +1537,7 @@ app.get("/test-header", (req, res) => {
 });
 
 app.get("/config-user-bips", auth, (req, res) => {
-    res.render("paginas/config_user", { user: req.session.user, });
+    res.render("paginas/config_user", { user: req.session.username['nombre'], rol: req.session.username['rol'], area: req.session.username['nombre_area'] });
 });
 
 app.get("/config-perfil-bips", auth, (req, res) => {
@@ -2761,10 +2762,10 @@ app.get("/eliminar-recurso-soporte/:id_soporte", auth, (req, res) => {
 
 });
 
-app.get("/eliminar-recurso-temporal/:nombre_archivo", auth, (req, res) => {
+app.get("/eliminar-recurso-temporal/:tipo/:nombre_archivo", auth, (req, res) => {
 
     const spawn = require('child_process').spawn;
-
+    var spawn_del = '';
 
     msg = 'El Soporte temp  ' + req.params.nombre_archivo + ' se eliminó correctamente...';
 
@@ -2772,8 +2773,17 @@ app.get("/eliminar-recurso-temporal/:nombre_archivo", auth, (req, res) => {
     msg = 'El Soporte temp' + req.params.nombre_archivo + ' se eliminó correctamente despues de descargar...';
 
 
-    //se elimina el soporte (digital) del directorio                    
-    const spawn_del = spawn('cmd.exe', ['/c', "C://task_delete_file.bat", path.join(__dirname, 'filesBipsUploads'), req.params.nombre_archivo]);
+    //se elimina el soporte (digital) del directorio 
+    //tipo 1 = DESCARGA
+    //tipo 2 = VISUALIZACION                   
+    if (req.params.tipo = 1) {
+        console.log('el archivo es accion tipo 1= DESCARGAR')
+        spawn_del = spawn('cmd.exe', ['/c', "C://task_delete_file.bat", path.join(__dirname, 'filesBipsUploads'), req.params.nombre_archivo]);
+    } else if (req.params.tipo = 2) {
+        console.log('el archivo es accion tipo 2= VISUALIZACION')
+        spawn_del = spawn('cmd.exe', ['/c', "C://task_delete_file.bat", dir_soportes_ctm, req.params.nombre_archivo]);
+    }
+
 
 
     spawn_del.stdout.on('data', (data) => {
@@ -3444,6 +3454,99 @@ app.get("/verPDF", auth, (req, res) => {
     res.render("paginas/ctm-iframeViewPDF", { user: req.session.user, });
 });
 
+
+app.get("/permisos-bips", auth, (req, res) => {
+
+    //consultarRoles
+    modelControlMando.consultarRoles().then(lista_roles => {
+
+        modelControlMando.consultar_Permisos().then(lista_permisos => {
+            res.render("paginas/permisos_bips", {
+                nombre_rol: req.session.username['nombre_rol'],
+                user: req.session.username['nombre'],
+                rol: req.session.username['rol'],
+                area: req.session.username['nombre_area'],
+                lista_roles: lista_roles,
+                lista_permisos: lista_permisos
+            });
+        });
+
+    });
+
+});
+
+
+//modelControlMando.consultarPermisosRol(user_ok[0].rol).then(result_permisos => {
+
+app.get("/ctm-lista-permisos-rol/:id_rol", auth, (req, res) => {
+
+    //consultarRoles
+    modelControlMando.consultarPermisosAsignar(Number(req.params.id_rol)).then(lista_permisos => {
+        console.log(lista_permisos);
+        res.render("paginas/lista_permisos", {
+
+            lista_permisos: lista_permisos
+        });
+    });
+
+
+
+});
+
+app.get("/listado-ctm-permisos", auth, (req, res) => {
+
+    modelControlMando.consultar_Permisos().then(lista_permisos => {
+        //console.log(lista_planes);
+        res.render("paginas/lista_permisos", { lista_permisos: lista_permisos });
+    });
+
+
+});
+
+
+app.post("/persistir-permiso/", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.insertarPermiso(req.query.id_permiso, req.query.rol).then(respuesta => {
+
+        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+            console.log("OK... insert Nuevo permiso");
+            res.json({ status: 200, msg: 'Permiso activado...' });
+        } else {
+
+            res.json({ status: 300, msg: 'ERROR al activar el Permiso , intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El Permiso no se pudo almacenar...' });
+    });
+})
+
+app.post("/eliminar-permiso/", auth, (req, res) => {
+    //res.send("OK");
+    console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.eliminarPermiso(req.query.id_permiso, req.query.rol).then(respuesta => {
+
+        if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+            console.log("OK... delete permiso");
+            res.json({ status: 200, msg: 'Permiso Desactivado ...' });
+        } else {
+
+            res.json({ status: 300, msg: 'ERROR al desactivar el Permiso , intente de nuevo...' });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El Permiso no se pudo desactivar...' });
+    });
+})
 
 
 app.listen(3000, () => console.log('El servidor se esta ejecutando...'));

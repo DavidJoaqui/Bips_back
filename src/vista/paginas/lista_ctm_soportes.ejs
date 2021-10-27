@@ -172,7 +172,7 @@
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     alert('peticion  200');
-                    const peticion_elim = "/eliminar-recurso-temporal/" + nombre_soporte;
+                    const peticion_elim = "/eliminar-recurso-temporal/1/" + nombre_soporte;
                     $.ajax({
                         method: 'get',
                         url: peticion_elim,
