@@ -5,8 +5,7 @@
 
         <div class="card border-dark container" style=" text-align: center;">
 
-            <div class="preview text-center" id="preview"
-                style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
+            <div class="preview text-center" id="preview" style="display: flex;justify-content: center;align-items: center; padding-top: 15px; padding-bottom: 15px;">
                 <div class="card col-md-12" id="card-msg">
 
 
@@ -20,8 +19,7 @@
 
             <form id="formulario" enctype="multipart/form-data" method="POST">
 
-                <input class="form-control" type="text" placeholder="" name="" id="id_user" value="<%=id_user %>"
-                    hidden>
+                <input class="form-control" type="text" placeholder="" name="" id="id_user" value="<%=id_user %>" hidden>
 
                 <div class="card container">
 
@@ -29,19 +27,14 @@
                         <label class="col-2 col-form-label" style="font-weight: bold;">Tipo Identificación:
                         </label>
                         <div class="col-4">
-                            <select class="form-control" name="select_tipo_identificacion"
-                                id="select_tipo_identificacion" data-toggle="tooltip"
-                                title="Seleccionar tipo Identificacion!" data-placement="right" required>
+                            <select class="form-control" name="select_tipo_identificacion" id="select_tipo_identificacion" data-toggle="tooltip" title="Seleccionar tipo Identificacion!" data-placement="right" required>
 
 
                             </select>
                         </div>
-                        <label class="col-3 col-form-label" for="txt_num_identificacion"
-                            style="font-weight: bold;">Número de Identificación: </label>
+                        <label class="col-3 col-form-label" for="txt_num_identificacion" style="font-weight: bold;">Número de Identificación: </label>
                         <div class="col-3">
-                            <input class="form-control" type="text" placeholder="número identificación"
-                                name="txt_num_identificacion" id="txt_num_identificacion"
-                                value="<%=lista_usuarios[0].num_identificacion %>">
+                            <input class="form-control" type="text" placeholder="número identificación" name="txt_num_identificacion" id="txt_num_identificacion" value="<%=lista_usuarios[0].num_identificacion %>">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -49,15 +42,13 @@
                         <label class="col-2 col-form-label" style="font-weight: bold;">
                             Usuario: </label>
                         <div class="col-4">
-                            <input class="form-control" type="text" placeholder="ingresar el usuario" name="txt_usuario"
-                                id="txt_usuario" value="<%=lista_usuarios[0].nombre_usuario %>">
+                            <input class="form-control" type="text" placeholder="ingresar el usuario" name="txt_usuario" id="txt_usuario" value="<%=lista_usuarios[0].nombre_usuario %>">
                         </div>
 
                         <label style="font-weight: bold;" class="col-2 col-form-label">Areá Trabajo:</label>
 
                         <div class="col-4">
-                            <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip"
-                                title="Seleccionar area de Trabajo!" data-placement="right" required>
+                            <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar area de Trabajo!" data-placement="right" required>
                                 <option selected="selected" value="<%= lista_usuarios[0].id_area_trabajo %>">
                                     <%= lista_usuarios[0].nombre_area %>
                                 </option>
@@ -78,16 +69,12 @@
                         <label class="col-2 col-form-label" style="font-weight: bold;">
                             Contraseña: </label>
                         <div class="col-4">
-                            <input class="form-control password1" type="password" placeholder="ingresar contraseña"
-                                name="txt_password" id="txt_password" value="<%=lista_usuarios[0].password_ %>"><span
-                                class="fa fa-fw fa-eye password-icon show-password"></span>
+                            <input class="form-control password1" type="password" placeholder="ingresar contraseña" name="txt_password" id="txt_password" value="<%=lista_usuarios[0].password_ %>"><span class="fa fa-fw fa-eye password-icon show-password"></span>
                         </div>
                         <label class="col-2 col-form-label" style="font-weight: bold;">
                             Repita Contraseña: </label>
                         <div class="col-4">
-                            <input class="form-control password2" type="password" placeholder="ingresar contraseña"
-                                name="txt_password2" id="txt_password2" value="<%=lista_usuarios[0].password_ %>"><small
-                                id="message"></small>
+                            <input class="form-control password2" type="password" placeholder="ingresar contraseña" name="txt_password2" id="txt_password2" value="<%=lista_usuarios[0].password_ %>"><small id="message"></small>
                         </div>
 
                     </div>
@@ -96,15 +83,13 @@
                         <label class="col-2 col-form-label" for="txt_nombre" style="font-weight: bold;">
                             Nombres: </label>
                         <div class="col-4">
-                            <input class="form-control" type="text" placeholder="ingresa los nombres" name="txt_nombre"
-                                id="txt_nombre" value="<%=lista_usuarios[0].nombre %>">
+                            <input class="form-control" type="text" placeholder="ingresa los nombres" name="txt_nombre" id="txt_nombre" value="<%=lista_usuarios[0].nombre %>">
                         </div>
 
                         <label class="col-2 col-form-label" for="txt_apellido" style="font-weight: bold;">
                             Apellidos:&nbsp; </label>
                         <div class="col-4">
-                            <input class="form-control" type="text" placeholder="ingresa los apellidos"
-                                name="txt_apellido" id="txt_apellido" value="<%=lista_usuarios[0].apellido %>">
+                            <input class="form-control" type="text" placeholder="ingresa los apellidos" name="txt_apellido" id="txt_apellido" value="<%=lista_usuarios[0].apellido %>">
                         </div>
                     </div>
 
@@ -115,8 +100,7 @@
                         <label style="font-weight: bold;" class="col-2 col-form-label">Tipo de Rol:</label>
 
                         <div class="col-3">
-                            <select class="form-control" name="select_rol" id="select_rol" data-toggle="tooltip"
-                                title="Seleccionar rol!" data-placement="right" required>
+                            <select class="form-control" name="select_rol" id="select_rol" data-toggle="tooltip" title="Seleccionar rol!" data-placement="right" required>
                                 <option selected="selected" value="<%= lista_usuarios[0].id_rol_user %>">
                                     <%= lista_usuarios[0].nombre_rol %>
                                 </option>
@@ -131,14 +115,12 @@
 
                         <div class="form-check col-2">
                             <% if (lista_usuarios[0].es_activo==true ) { %>
-                                <input class="form-check-input  " type="checkbox" value="" id="is_active"
-                                    name="is_active" checked>
+                                <input class="form-check-input  " type="checkbox" value="" id="is_active" name="is_active" checked>
                                 <label style="font-weight: bold;" class="form-check-label">
                                     Activo</label>
 
                                 <% }else{%>
-                                    <input class="form-check-input  " type="checkbox" value="" id="is_active"
-                                        name="is_active">
+                                    <input class="form-check-input  " type="checkbox" value="" id="is_active" name="is_active">
                                     <label style="font-weight: bold;" class="form-check-label">
                                         Activo</label>
                                     <%}%>
@@ -148,14 +130,12 @@
 
                         <div class="form-check col-2">
                             <% if (lista_usuarios[0].es_profesional==true ) { %>
-                                <input class="form-check-input  " type="checkbox" value="" id="is_profesional"
-                                    name="is_profesional" checked>
+                                <input class="form-check-input  " type="checkbox" value="" id="is_profesional" name="is_profesional" checked>
                                 <label style="font-weight: bold;" class="form-check-label">
                                     Profesional</label>
 
                                 <% }else{%>
-                                    <input class="form-check-input  " type="checkbox" value="" id="is_profesional"
-                                        name="is_profesional">
+                                    <input class="form-check-input  " type="checkbox" value="" id="is_profesional" name="is_profesional">
                                     <label style="font-weight: bold;" class="form-check-label">
                                         Profesional</label>
                                     <%}%>
@@ -168,26 +148,22 @@
                         <label class="col-2 col-form-label" for="txt_nombre" style="font-weight: bold;">
                             Correo: </label>
                         <div class="col-5">
-                            <input class="form-control" type="text" placeholder="ingresar correo" name="txt_correo"
-                                id="txt_correo" value="<%=lista_usuarios[0].correo %>">
+                            <input class="form-control" type="text" placeholder="ingresar correo" name="txt_correo" id="txt_correo" value="<%=lista_usuarios[0].correo %>">
                         </div>
 
                         <label class="col-2 col-form-label" for="txt_nombre" style="font-weight: bold;">
                             Telefono: </label>
                         <div class="col-3">
-                            <input class="form-control" type="text" placeholder="ingresar telefono" name="txt_telefono"
-                                id="txt_telefono" value="<%=lista_usuarios[0].telefono %>">
+                            <input class="form-control" type="text" placeholder="ingresar telefono" name="txt_telefono" id="txt_telefono" value="<%=lista_usuarios[0].telefono %>">
                         </div>
 
 
                     </div>
 
 
-                    <div class="form-group col-sm-12 text-center"
-                        style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
-                        <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar"
-                            onclick="actualizar_registro()">Guardar</button>
-                        <a href="/ctm-profesionales" class="btn btn-default">volver</a>
+                    <div class="form-group col-sm-12 text-center" style="display: flex;justify-content: center;align-items: center;margin-top: 10px;">
+                        <button style="font-weight: bold;" class="btn btn-success" id="btn-validar" name="btn-validar" onclick="actualizar_registro()">Guardar</button>
+                        <a href="/listado-ctm-profesionales" class="btn btn-default">volver</a>
                     </div>
 
 
@@ -200,7 +176,6 @@
 </div>
 
 <script type="text/javascript">
-
     function actualizar_registro() {
 
         event.preventDefault();
@@ -219,11 +194,25 @@
         var checkbox_profesional = document.getElementById('is_profesional');
         var profesional = true;
 
-        var password = '#txt_password'.val();
+        var password = $('#txt_password').val();
 
-        var peticion = "/actualizar-profesional/?id_user=" + id_user +
+        if (checkbox_activo.checked) {
+
+            activo = true;
+        } else {
+            activo = false;
+        }
+
+        if (checkbox_profesional.checked) {
+
+            profesional = true;
+        } else {
+            profesional = false;
+        }
+
+        var peticion = "/actualizar-profesional/?id_user=" + '<%=id_user %>' +
             "&rol=" + rol +
-            "&rol=" + password +
+            "&password=" + password +
             "&tipo_identificacion=" + tipo_identificacion +
             "&txt_num_identificacion=" + txt_num_identificacion +
             "&txt_nombre=" + txt_nombre +
@@ -232,15 +221,15 @@
             "&correo=" + correo +
             "&telefono=" + telefono +
             "&nombre_usuario=" + nombre_usuario +
-            "&checkbox_activo=" + checkbox_activo +
-            "&checkbox_profesional=" + checkbox_profesional;
+            "&activo=" + activo +
+            "&profesional=" + profesional;
 
         $.ajax({
             type: 'post',
             url: peticion,
             data: [],
 
-            success: function (result) {
+            success: function(result) {
                 if (result["status"] == 200) {
 
                     console.log("actualizado correctamente...");
@@ -251,7 +240,7 @@
 
                     alert(result["msg"]);
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('#preview').hide();
                     }, 5000);
 
@@ -265,7 +254,7 @@
     }
 
 
-    window.addEventListener("load", function () {
+    window.addEventListener("load", function() {
 
         // icono para poder interaccionar con el elemento
         showPassword = document.querySelector('.show-password');
@@ -286,7 +275,7 @@
             }
         })
     });
-    $(document).ready(function () {
+    $(document).ready(function() {
 
 
         // $('#preview').hide();
@@ -312,7 +301,7 @@
 
     });
 
-    window.addEventListener("load", function () {
+    window.addEventListener("load", function() {
 
         // icono para mostrar contraseña
         showPassword = document.querySelector('.show-password');
@@ -335,22 +324,12 @@
         })
     });
 
-    $('#txt_password, #txt_password2').on('keyup', function () {
+    $('#txt_password, #txt_password2').on('keyup', function() {
         if ($('#txt_password').val() == $('#txt_password2').val()) {
             $('#message').html('').css('color', 'green');
         } else
             $('#message').html('Contraseñas no coinciden').css('color', 'red');
     });
-
-
-
-
-
-
-
-
-
-
 </script>
 <style>
     .password-icon {

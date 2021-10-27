@@ -69,7 +69,7 @@ const storage = multer.diskStorage({
     destination: 'filesBipsUploads/',
     //req ->info peticion, file ->archivo que se sube, cb ->funcion finalizacion
 
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         //cb("",Date.now()+"_"+file.originalname +"." +mimeTypes.extension(file.mimetype));
 
         var numcarga = req.files.length;
@@ -207,7 +207,7 @@ const storage_soportes = multer.diskStorage({
     */
     destination: dir_soportes_ctm,
 
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         //console.log(req.files);
 
         var ext = path.extname(file.originalname);
@@ -236,7 +236,7 @@ const upload_soportes = multer({
 
 
 
-var auth = function (req, res, next) {
+var auth = function(req, res, next) {
     if (req.session && req.session.admin)
         return next();
     else
@@ -258,45 +258,45 @@ const { parse } = require('querystring');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.redirect("/login");
 })
 
-app.post('/login', function (req, res) {
+app.post('/login', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.render("paginas/login");
 })
 
-app.get('/login', function (req, res) {
+app.get('/login', function(req, res) {
     //res.redirect('/obtenerRegistrosPlanos');
     res.render("paginas/login");
 })
 
-app.get('/inicio/bips', auth, function (req, res) {
+app.get('/inicio/bips', auth, function(req, res) {
     res.redirect('/login-data');
     //res.setHeader('Content-type', 'text/html');
     //res.render("paginas/inicio", { user: req.session.user });
 
 })
 
-app.get('/login-data', auth, function (req, res) {
+app.get('/login-data', auth, function(req, res) {
     res.render("paginas/inicio", { user: req.session.username['nombre'], area: req.session.username['nombre_area'] });
     //res.setHeader('Content-type', 'text/html');
     //res.render("paginas/inicio", { user: req.session.user });
 
 })
 
-app.get('/obtenerRegistrosPlanos', auth, function (req, res) {
+app.get('/obtenerRegistrosPlanos', auth, function(req, res) {
     modelbips.obtenerRegistrosPlanos().then(registroplanos => {
 
-        console.log(registroplanos);
+            console.log(registroplanos);
 
-        res.render("paginas/RegistrosPlanos", {
-            registroplanos: registroplanos,
-            user: req.session.user,
-        });
-    })
+            res.render("paginas/RegistrosPlanos", {
+                registroplanos: registroplanos,
+                user: req.session.user,
+            });
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -304,24 +304,24 @@ app.get('/obtenerRegistrosPlanos', auth, function (req, res) {
 });
 
 
-app.get('/cargar-plano', auth, function (req, res) {
+app.get('/cargar-plano', auth, function(req, res) {
 
     modelbips.obtenerIps().then(listaIps => {
 
-        res.render("paginas/FormularioCarga", {
-            listaIps: listaIps,
-            user: req.session.user,
+            res.render("paginas/FormularioCarga", {
+                listaIps: listaIps,
+                user: req.session.user,
 
-        });
+            });
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
         });
 });
 
-app.get('/validar-registros-ap/:ips', auth, async function (req, res, next) {
+app.get('/validar-registros-ap/:ips', auth, async function(req, res, next) {
 
 
     modelbips.validarRegistrosAP(req.params.ips, req.query.fecha_inicial, req.query.fecha_fin).then(validaregistros => {
@@ -332,7 +332,7 @@ app.get('/validar-registros-ap/:ips', auth, async function (req, res, next) {
     });
 });
 
-app.get('/cargar', auth, function (req, res) {
+app.get('/cargar', auth, function(req, res) {
     //console.log(req);
     res.render("paginas/FormularioCarga");
 });
@@ -534,25 +534,25 @@ app.get("/listadoArchivos", auth, (req, res) => {
 
 });
 
-app.get('/recursos_marca', function (req, res) {
+app.get('/recursos_marca', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final.png");
 
 });
-app.get('/recursos_marca_bn', function (req, res) {
+app.get('/recursos_marca_bn', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/marca_final2.png");
 
 });
 
-app.get('/recursos_it', function (req, res) {
+app.get('/recursos_it', function(req, res) {
 
     res.sendFile(__dirname + "/src/vista/paginas/recursos/it.png");
 
 });
 
 
-app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/delete/:name/archivo-bips', auth, function(req, res) {
     let name = req.params.name;
     console.log(req.query);
     //console.log(name);
@@ -575,10 +575,10 @@ app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
 
                 modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
 
-                    req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
-                    res.redirect("/listadoArchivos");
+                        req.flash('notify', 'El archivo plano ' + array_nombre[2] + ' se eliminó correctamente...');
+                        res.redirect("/listadoArchivos");
 
-                })
+                    })
                     .catch(err => {
                         console.log(err);
                         return res.status(500).send("Error obteniendo registros");
@@ -589,7 +589,7 @@ app.post('/file/delete/:name/archivo-bips', auth, function (req, res) {
 });
 
 
-app.post('/file/validar/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/validar/:name/archivo-bips', auth, function(req, res) {
 
     let name_tmp = req.params.name;
     var array_nombre = name_tmp.split('_');
@@ -756,11 +756,11 @@ app.post("/delete-all/archivo-bips", auth, (req, res) => {
 
             modelplanos.eliminar_all_RegistrosPlanos_tmp().then(respuesta => {
 
-                if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
-                    console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
-                }
+                    if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+                        console.log("respuesta de eliminacion- Total eliminados:" + respuesta['rowCount']);
+                    }
 
-            })
+                })
                 .catch(err => {
                     console.log(err);
                 });
@@ -843,7 +843,7 @@ app.post("/enviar-trabajo/ejecucion/archivo-bips", auth, (req, res) => {
 
                     try {
                         //var ruta = path.join(__dirname, 'filesBipsUploads') + '/' + file;
-                        fs.unlinkSync(ruta, function (err) {
+                        fs.unlinkSync(ruta, function(err) {
                             if (err) {
                                 bandera = true;
                                 return console.error(err);
@@ -1056,8 +1056,8 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
                 console.log("===========================================================================");
                 console.log("resultado de la ejecucion: ");
                 console.log(code)
-                //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
-                //OK : 0
+                    //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
+                    //OK : 0
 
 
                 if (code == 0) {
@@ -1079,22 +1079,22 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
                     //console.log("numero de planos decrementando: " + num_planos);
 
                     modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-                        //console.log(listaArchivos);    
-                        req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                        //res.setHeader('Content-type', 'text/html');
-                        res.render("paginas/listaArchivos", {
-                            arr_files: listaArchivos,
-                            habilitar_envio_la: true,
-                            habilitar_carga: false,
-                            habilitar_eliminar: false,
-                            habilitar_btn_envio: true,
-                            status: 200,
-                            code: 0,
-                            retorno: "0",
-                        });
+                            //console.log(listaArchivos);    
+                            req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                            //res.setHeader('Content-type', 'text/html');
+                            res.render("paginas/listaArchivos", {
+                                arr_files: listaArchivos,
+                                habilitar_envio_la: true,
+                                habilitar_carga: false,
+                                habilitar_eliminar: false,
+                                habilitar_btn_envio: true,
+                                status: 200,
+                                code: 0,
+                                retorno: "0",
+                            });
 
 
-                    })
+                        })
                         .catch(err => {
                             console.log(err);
                             return res.status(500).send("Error obteniendo registros");
@@ -1167,7 +1167,7 @@ app.post("/enviar-carga/ejecucion-multiple/archivo-bips", auth, (req, res) => {
 });
 
 
-app.post('/login-data', function (req, res) {
+app.post('/login-data', function(req, res) {
 
     //console.log(req.body.username);
     console.log(req.query);
@@ -1326,7 +1326,7 @@ app.post('/login-data', function (req, res) {
 
 
 // Logout endpoint
-app.get('/logout', auth, function (req, res) {
+app.get('/logout', auth, function(req, res) {
     req.session.destroy();
     res.redirect("/login");
 });
@@ -1336,20 +1336,20 @@ app.get('/logout', auth, function (req, res) {
 app.get("/config-entidades", auth, (req, res) => {
 
     modelEntidad.consultar_registro_entidades().then(listaentidades => {
-        console.log(req.query);
+            console.log(req.query);
 
-        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-        //res.setHeader('Content-type', 'text/html');
-        res.render("paginas/entidades", {
-            registroEntidades: listaentidades,
-            status: 200,
-            code: 0,
-            retorno: "0",
-            user: req.session.user,
-        });
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            res.render("paginas/entidades", {
+                registroEntidades: listaentidades,
+                status: 200,
+                code: 0,
+                retorno: "0",
+                user: req.session.user,
+            });
 
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -1463,18 +1463,18 @@ app.post("/actualizar-entidad", auth, (req, res) => {
 app.post("/config-entidades", auth, (req, res) => {
 
     modelEntidad.consultar_registro_entidades().then(listaentidades => {
-        //console.log(listaArchivos);    
-        //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-        //res.setHeader('Content-type', 'text/html');
-        res.render("paginas/entidades", {
-            registroEntidades: listaentidades,
-            status: 200,
-            code: 0,
-            retorno: "0",
-        });
+            //console.log(listaArchivos);    
+            //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+            //res.setHeader('Content-type', 'text/html');
+            res.render("paginas/entidades", {
+                registroEntidades: listaentidades,
+                status: 200,
+                code: 0,
+                retorno: "0",
+            });
 
 
-    })
+        })
         .catch(err => {
             console.log(err);
             return res.status(500).send("Error obteniendo registros");
@@ -1491,7 +1491,7 @@ app.post("/eliminar-popup-entidad/:name/archivo-bips", auth, (req, res) => {
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-entidad"), { datos_entidad: req.params.name, regimen_: req.query.regimen, nombre_entidad: req.query.nombre_entidad });
 });
 
-app.post('/file/delete-entidad/:name/archivo-bips', auth, function (req, res) {
+app.post('/file/delete-entidad/:name/archivo-bips', auth, function(req, res) {
 
     if (req.query.regimen == "CONTRIBUTIVO") {
         var regimen = "C"
@@ -1652,7 +1652,7 @@ app.get("/eliminar-popup-plan-general/:id_plan/control-mando-bips", auth, (req, 
 
 //plan-general/delete/
 
-app.post('/plan-general/delete/:id/control-mando-bips', auth, function (req, res) {
+app.post('/plan-general/delete/:id/control-mando-bips', auth, function(req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -1753,7 +1753,7 @@ app.get("/eliminar-popup-linea-accion/:id_linea/control-mando-bips", auth, (req,
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-linea-accion"), { datos_linea: params });
 });
 
-app.post('/linea-accion/delete/:id/control-mando-bips', auth, function (req, res) {
+app.post('/linea-accion/delete/:id/control-mando-bips', auth, function(req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -1930,7 +1930,7 @@ app.get("/eliminar-popup-objetivo/:id_objetivo/control-mando-bips", auth, (req, 
 });
 
 
-app.post('/objetivo/delete/:id/control-mando-bips', auth, function (req, res) {
+app.post('/objetivo/delete/:id/control-mando-bips', auth, function(req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -2191,19 +2191,19 @@ app.post("/actualizar-indicador", auth, (req, res) => {
     modelControlMando.actualizar_indicador(req.query.id_indicador, req.query.nombre_indicador, req.query.id_plan_accion, req.query.id_area,
         req.query.tipo_meta, req.query.formula_literal_descriptiva, req.query.meta_descriptiva, req.query.meta_numerica,
         req.query.formula_literal_numerador, req.query.formula_literal_denominador, Number(req.query.periodo_evaluacion)).then(respuesta => {
-            console.log(respuesta);
-            if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
-                console.log("OK... update indicador");
-                res.send({ status: 200, msg: 'El indicador ' + req.query.nombre_indicador + ' fue actualizado correctamente...' });
-            } else {
-                res.send({ status: 300, msg: 'ERROR al actualizar el indicador <b>' + req.query.nombre_indicador + '</b> ' + ' intente de nuevo...' });
-            }
+        console.log(respuesta);
+        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+            console.log("OK... update indicador");
+            res.send({ status: 200, msg: 'El indicador ' + req.query.nombre_indicador + ' fue actualizado correctamente...' });
+        } else {
+            res.send({ status: 300, msg: 'ERROR al actualizar el indicador <b>' + req.query.nombre_indicador + '</b> ' + ' intente de nuevo...' });
+        }
 
-        }).catch(err => {
-            console.log(err);
-            //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
-            res.json({ status: 500, msg: 'ERROR!! El indicador ' + req.query.nombre_indicador + 'NO se pudo actualizar...' });
-        });
+    }).catch(err => {
+        console.log(err);
+        //req.flash('error', 'ERROR al crear la entidad ' + req.query.nombre_entidad + ', con codigo ' + req.query.cod_entidad + ' Ya existe...');
+        res.json({ status: 500, msg: 'ERROR!! El indicador ' + req.query.nombre_indicador + 'NO se pudo actualizar...' });
+    });
 
 })
 
@@ -2251,7 +2251,7 @@ app.get("/eliminar-popup-estrategia/:id_estrategia/control-mando-bips", auth, (r
 });
 
 
-app.post('/estrategia/delete/:id/control-mando-bips', auth, function (req, res) {
+app.post('/estrategia/delete/:id/control-mando-bips', auth, function(req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -2297,7 +2297,7 @@ app.get("/eliminar-popup-plan-accion/:id_plan_accion/control-mando-bips", auth, 
 });
 
 
-app.post('/plan-accion/delete/:id_plan/control-mando-bips', auth, function (req, res) {
+app.post('/plan-accion/delete/:id_plan/control-mando-bips', auth, function(req, res) {
 
     console.log(req.query);
     console.log(req.params.id_estrategia);
@@ -2640,10 +2640,10 @@ app.get("/descargar-recurso-soporte/:id_soporte", auth, (req, res) => {
 
         });
         spawn_cp.stderr.on('data', (data) => {
-            console.log("std ERR");
-            console.error(data.toString());
-        })
-        //res.send(stdout);
+                console.log("std ERR");
+                console.error(data.toString());
+            })
+            //res.send(stdout);
 
         spawn_cp.on('close', (code) => {
             console.log('OK.. code: ' + code);
@@ -2709,10 +2709,10 @@ app.get("/eliminar-recurso-soporte/:id_soporte", auth, (req, res) => {
 
                 });
                 spawn_del.stderr.on('data', (data) => {
-                    console.log("std ERR");
-                    console.error(data.toString());
-                })
-                //res.send(stdout);
+                        console.log("std ERR");
+                        console.error(data.toString());
+                    })
+                    //res.send(stdout);
 
                 spawn_del.on('close', (code) => {
                     console.log('OK.. code: ' + code);
@@ -2780,10 +2780,10 @@ app.get("/ver-recurso-soporte/:id_soporte", auth, (req, res) => {
 
         });
         spawn_cp.stderr.on('data', (data) => {
-            console.log("std ERR");
-            console.error(data.toString());
-        })
-        //res.send(stdout);
+                console.log("std ERR");
+                console.error(data.toString());
+            })
+            //res.send(stdout);
 
         spawn_cp.on('close', (code) => {
             console.log('OK.. code: ' + code);
@@ -2970,69 +2970,69 @@ app.post("/persistir-registro-indicador", auth, upload_soportes.array('files_sop
             req.body.txt_observacion,
             '0', version).then(respuesta => {
 
-                if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                    //console.log(respuesta);
-                    console.log(respuesta['rows'][0].id_registroindicador);
+            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                //console.log(respuesta);
+                console.log(respuesta['rows'][0].id_registroindicador);
 
 
 
-                    console.log(nombre_soporte);
+                console.log(nombre_soporte);
 
-                    /*Se debe de obtener el idRegistro Indicador recien insertado para realizar crear la relaciona en BD con el 
-                    soporte*/
-                    for (var i in req.files) {
+                /*Se debe de obtener el idRegistro Indicador recien insertado para realizar crear la relaciona en BD con el 
+                soporte*/
+                for (var i in req.files) {
 
-                        //let path_soporte = dir_soportes_ctm + "_" + fecha_completa_sinSeparador + hora + req.files[i].originalname;
-                        var ext = path.extname(req.files[i].originalname);
+                    //let path_soporte = dir_soportes_ctm + "_" + fecha_completa_sinSeparador + hora + req.files[i].originalname;
+                    var ext = path.extname(req.files[i].originalname);
 
-                        var id_registro_indicador = respuesta['rows'][0].id_registroindicador;
-                        var nombre_soporte = req.files[i].filename;
-                        var path_soporte = req.files[i].path;
-                        var es_habilitado = true;
-                        var extension = ext;
-                        var mime = req.files[i].mimetype;
-                        //var fecha_carga = date_;
-                        var es_valido = true;
-                        var peso = req.files[i].size;
-                        var nombre_original = req.files[i].originalname;
+                    var id_registro_indicador = respuesta['rows'][0].id_registroindicador;
+                    var nombre_soporte = req.files[i].filename;
+                    var path_soporte = req.files[i].path;
+                    var es_habilitado = true;
+                    var extension = ext;
+                    var mime = req.files[i].mimetype;
+                    //var fecha_carga = date_;
+                    var es_valido = true;
+                    var peso = req.files[i].size;
+                    var nombre_original = req.files[i].originalname;
 
 
-                        modelControlMando.insertar_SoporteRegistroIndicador(
+                    modelControlMando.insertar_SoporteRegistroIndicador(
 
-                            id_registro_indicador,
-                            nombre_soporte,
-                            path_soporte,
-                            es_habilitado,
-                            extension,
-                            mime,
-                            es_valido,
-                            peso,
-                            nombre_original
+                        id_registro_indicador,
+                        nombre_soporte,
+                        path_soporte,
+                        es_habilitado,
+                        extension,
+                        mime,
+                        es_valido,
+                        peso,
+                        nombre_original
 
-                        ).then(respuesta => {
-                            //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
-                            if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                                console.log(respuesta);
-                                console.log("OK... upload");
+                    ).then(respuesta => {
+                        //console.log(respuesta['command'] + " : " + respuesta['rowCount']);
+                        if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                            console.log(respuesta);
+                            console.log("OK... upload");
 
-                                //num_archivos--;
-                                //console.log("archivos insert "+num_archivos);
+                            //num_archivos--;
+                            //console.log("archivos insert "+num_archivos);
 
-                            }
-                        });
+                        }
+                    });
 
-                    }
-                    //console.log("OK... insert NEW Indicador");
-                    res.json({ status: 200, msg: 'El Registro Indicador , se creó correctamente...' });
-
-                } else {
-                    res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador , intente de nuevo...' });
                 }
+                //console.log("OK... insert NEW Indicador");
+                res.json({ status: 200, msg: 'El Registro Indicador , se creó correctamente...' });
 
-            }).catch(err => {
-                console.log(err);
-                res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador YA EXISTE...' });
-            });
+            } else {
+                res.json({ status: 300, msg: 'ERROR al crear el Registro Indicador , intente de nuevo...' });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            res.json({ status: 500, msg: 'ERROR!! El Registro  Indicador YA EXISTE...' });
+        });
 
 
         // res.json({ status: 200, msg: 'test ok' });
@@ -3058,7 +3058,7 @@ app.get("/eliminar-popup-reg-indicador/:id_reg_indicador/control-mando-bips", au
     res.render(path.join(__dirname + "/src/vista/paginas/popup-eliminar-reg-indicador"), { datos_plan: params });
 });
 
-app.post('/registro-indicador/delete/:id/control-mando-bips', auth, function (req, res) {
+app.post('/registro-indicador/delete/:id/control-mando-bips', auth, function(req, res) {
 
     console.log(req.query);
     console.log(req.params);
@@ -3358,9 +3358,10 @@ app.post("/persistir-profesional/", auth, (req, res) => {
 
 app.post("/actualizar-profesional", auth, (req, res) => {
     //res.send("OK");
-    console.log('param:'+ req.query);
-    
-    modelControlMando.actualizar_profesional_x_id(req.query.id_user,req.query.rol, req.query.password, req.query.nombre_usuario, req.query.area_trabajo, req.query.nombres, req.query.apellidos, req.query.profesional, req.query.num_identificacion, req.query.tipo_identificacion, req.query.activo, req.query.correo, req.query.telefono).then(respuesta => {
+    console.log(req.query);
+    //console.log(req.params);
+
+    modelControlMando.actualizar_profesional_x_id(req.query.id_user, req.query.rol, req.query.password, req.query.nombre_usuario, req.query.area_trabajo, req.query.txt_nombre, req.query.txt_apellido, req.query.profesional, req.query.txt_num_identificacion, req.query.tipo_identificacion, req.query.activo, req.query.correo, req.query.telefono).then(respuesta => {
         console.log(respuesta);
         if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
             console.log("OK... update usuario");
@@ -3393,7 +3394,7 @@ app.post("/form-editar-ctm-profesional", auth, (req, res) => {
         modelControlMando.consultar_RegistroAreas().then(lista_areas => {
             modelControlMando.consultar_roles().then(lista_roles => {
                 console.log(lista_usuarios);
-                res.render("paginas/editar_profesional", { id_user: req.query.id_user, lista_usuarios: lista_usuarios, lista_areas: lista_areas, lista_roles:lista_roles });
+                res.render("paginas/editar_profesional", { id_user: req.query.id_user, lista_usuarios: lista_usuarios, lista_areas: lista_areas, lista_roles: lista_roles });
             });
         });
     });

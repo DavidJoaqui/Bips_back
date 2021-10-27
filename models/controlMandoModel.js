@@ -439,7 +439,7 @@ module.exports = {
 
 
     async actualizar_profesional_x_id(id_user,rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono) {
-        const resultados = await conexion.query('UPDATE schema_seguridad.user SET id_rol_user=$2, password_=$3, fecha=$4, id_area=$5, nombre=$6, apellido=$7, es_profesional=$8, num_identificacion=$9, tipo_identificacion=$10, es_activo=$11, correo=$12, telefono=$13 WHERE id_user=$1;', [id_user,rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono]);
+        const resultados = await conexion.query('update schema_seguridad.user set id_rol_user = $2, password_ = $3, nombre_usuario = $4, id_area = $5, nombre = $6, apellido = $7, es_profesional = $8, num_identificacion = $9, tipo_identificacion = $10, es_activo = $11, correo = $12, telefono = $13 where id_user = $1', [id_user,rol, password,nombre_usuario,area_trabajo, nombres,apellidos,profesional,num_identificacion, tipo_identificacion,activo,correo,telefono]);
         return resultados;
     },
     //consultarProfesionalXidUsuario
@@ -479,7 +479,7 @@ module.exports = {
 
     //------------------PERMISOS----------------------
     async consultarPermisosRol(rol) {
-        const resultados = await conexion.query("select p.id_permiso, p.nombre_permiso, p.codigo from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user = r.id_rol) inner join schema_seguridad.pemiso_rol pr on (r.id_rol = pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk = u.id_rol_user and pr.id_permiso_fk = p.id_permiso) where r.rol = $1 group by p.id_permiso, p.nombre_permiso, p.codigo order by p.id_permiso ", [rol]);
+        const resultados = await conexion.query("select p.id_permiso, p.nombre_permiso, p.codigo from schema_seguridad.user u inner join schema_seguridad.rol r on (u.id_rol_user = r.id_rol) inner join schema_seguridad.permiso_rol pr on (r.id_rol = pr.id_rol_fk) inner join schema_seguridad.permiso p on (pr.id_rol_fk = u.id_rol_user and pr.id_permiso_fk = p.id_permiso) where r.rol = $1 group by p.id_permiso, p.nombre_permiso, p.codigo order by p.id_permiso ", [rol]);
         return resultados.rows;
     },
 
