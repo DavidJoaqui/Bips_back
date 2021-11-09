@@ -1,0 +1,72 @@
+<form  id="formEditEntity">
+    <input type="text" name="id_ent" style="display: none;" value="<%= res_id_entidad %>">
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Código de entidad
+        </span>
+        <input  value="<%= res_cod_ent %>" name="cod_entidad" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Código de entidad">
+      </label>
+
+
+      <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Nombre de entidad
+        </span>
+        <input  name="nombre_entidad" value="<%= res_nombre_ent %>"  class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Nombre de entidad">
+      </label>
+
+      <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Regimen que aplica a la entidad:
+        </span>
+        <select  name="tipo_reg" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <% if (res_tipo_reg=="C" ) { %>
+                <option selected="selected" value="C">Contributivo</option>
+                <option value="S">Subsidiado</option>
+                <option value="V">Vinculado</option>
+                <option value="E">Especial</option>
+                <option value="O">Otro</option>
+                <% }else if(res_tipo_reg=="S" ){ %>
+                    <option value="C">Contributivo</option>
+                    <option selected="selected" value="S">Subsidiado</option>
+                    <option value="V">Vinculado</option>
+                    <option value="E">Especial</option>
+                    <option value="O">Otro</option>
+                    <% }else if(res_tipo_reg=="V" ){%>
+                        <option value="C">Contributivo</option>
+                        <option value="S">Subsidiado</option>
+                        <option selected="selected" value="V">Vinculado</option>
+                        <option value="E">Especial</option>
+                        <option value="O">Otro</option>
+
+                        <% }else if(res_tipo_reg=="E" ){%>
+                            <option value="C">Contributivo</option>
+                            <option value="S">Subsidiado</option>
+                            <option value="V">Vinculado</option>
+                            <option selected="selected" value="E">Especial</option>
+                            <option value="O">Otro</option>
+                            <% }else {%>
+                                <option value="C">Contributivo</option>
+                                <option value="S">Subsidiado</option>
+                                <option value="V">Vinculado</option>
+                                <option value="E">Especial</option>
+                                <option selected="selected" value="O">Otro</option>
+
+                                <%}%>
+        </select>
+      </label>
+    <button hidden id="btnForm" type="submit">Subscribe</button>
+</form>
+
+<script>
+
+const form = document.querySelector("#formEditEntity");
+form.addEventListener("submit", function (event) {
+	// Stop form submission
+	event.preventDefault();
+    const data=Object.fromEntries(new FormData(form));
+    updateAjax('/actualizar-entidad',data)
+
+});
+</script>

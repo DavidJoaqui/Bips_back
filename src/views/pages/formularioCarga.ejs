@@ -1,0 +1,13 @@
+Cargar plano
+<br/>
+<br/>
+<div class="grid gap-6 mb-8 md:grid-cols-12 xl:grid-cols-12">
+    
+       <%- include("../partials/cargaPlano/cargaPLano"); %>
+
+       <div id="container-carga-data" class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"></div>
+
+</div>
+<script>
+  loadContentHtml('/listado-archivos','#container-carga-data')
+</script>
