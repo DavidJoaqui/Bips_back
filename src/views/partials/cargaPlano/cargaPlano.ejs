@@ -50,32 +50,26 @@
                     Selecciona los planos a cargar
                 </span>
                 <input name="files" type="file" id="files" multiple
-                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                    placeholder="Nombre de entidad">
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" disabled>
             </label>
         </div>
 
-        <button
-            onclick="validarRegisros()"
-            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Consultar
+        <button onclick="validarRegisros()" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Consultar
             registros</button>
-        <button onclick="upload()"
-            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Subir</button>
+        <button onclick="upload()" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Subir</button>
 
     </div>
 
 </div>
 
 <script>
-
-
     function validIputs() {
         const listaIps = $('#listaIps');
         const fechaInicial = $('#fechaInicial');
         const fechaFinal = $('#fechaFinal');
 
         if (listaIps.val() == "") {
-            setTimeout(function () {
+            setTimeout(function() {
                 listaIps.focus();
             })
             return false;
@@ -98,7 +92,11 @@
             return false;
         }
 
-        return { listaIps: listaIps.val(), fechaInicial: fechaInicial.val(), fechaFinal: fechaFinal.val() };
+        return {
+            listaIps: listaIps.val(),
+            fechaInicial: fechaInicial.val(),
+            fechaFinal: fechaFinal.val()
+        };
     }
 
     function upload() {
@@ -128,7 +126,7 @@
             data: formData,
             contentType: false,
             processData: false,
-            success: function (result) {
+            success: function(result) {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -136,9 +134,11 @@
                     showConfirmButton: false,
                     timer: 1500
                 })
-                setTimeout(function () { loadContentHtml('/listado-archivos', '#container-carga-data') }, 1500);
+                setTimeout(function() {
+                    loadContentHtml('/listado-archivos', '#container-carga-data')
+                }, 1500);
             },
-            error: function (request, msg, error) {
+            error: function(request, msg, error) {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
@@ -165,24 +165,29 @@
         $.ajax({
             url,
             method: 'GET',
-            success: function (result) {
+            success: function(result) {
 
-                let msg = "La IPS " + data.listaIps + " tiene Registros de Archivos Planos para el Rango de Fecha: " + data.fechaInicial + " hasta " + data.fechaFinal;
-                let icon="success";
+                let msg = "";
+                let icon = "";
 
                 if (result <= 0) {
-                    msg = "La IPS ";
-                    icon="warning";
+                    msg = "la IPS " + data.listaIps + " No tiene datos asociados, puede cargar los planos"
+                    icon = "success";
+                    $('#files').attr('disabled', false);
+                } else {
+                    msg = "La IPS " + data.listaIps + " tiene Registros de Archivos Planos para el Rango de Fecha: " + data.fechaInicial + " hasta " + data.fechaFinal;
+                    icon = "warning";
                 }
+
                 Swal.fire({
                     position: 'top-end',
                     icon,
                     title: msg,
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 5000
                 })
             },
-            error: function (request, msg, error) {
+            error: function(request, msg, error) {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
@@ -193,5 +198,4 @@
             }
         })
     }
-
 </script>
