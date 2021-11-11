@@ -7,6 +7,7 @@ const authMiddleware = require("../middlewares/auth");
 // Declaracion de variables para los modelos
 const modelplanos = require("../models/archivosPlanosModel");
 const modelbips = require("../models/modelModel");
+const modelvalidaciones = require("../models/validacionModel");
 
 const storage = multer.diskStorage({
   destination: config.rutaFile + "/",
@@ -292,16 +293,15 @@ router.post(
             path_ins
           )
           .then((respuesta) => {
+            
             if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
-              return res
-                .status(200)
-                .send("La operación se ejecuto con exito..");
+              return res.send("La operación se ejecuto con exito..");
             } else {
-              return res.status(400).send("Error guardar los archivos Bd");
+              return res.send("Error guardar los archivos Bd");
             }
           });
       } catch (error) {
-        return res.status(500).send("Error guardar los archivos");
+        return res.send("Error guardar los archivos");
       }
     }
   }
@@ -323,6 +323,148 @@ router.get(
       });
   }
 );
+
+router.post(
+  "/file/validar/:name/archivo-bips",
+  authMiddleware,
+  function (req, res) {
+    let name_tmp = req.params.name;
+    var array_nombre = name_tmp.split("_");
+    let nombre_txt = array_nombre[2];
+
+    var nombre_plano = nombre_txt.slice(0, 2);
+    var habilita_eliminar_todos = false;
+
+    modelplanos.contar_Planos_Validados().then((cont_planos_val) => {
+      if (cont_planos_val.total_validados >= 1) {
+        habilita_eliminar_todos = true;
+      }
+    });
+
+    modelvalidaciones
+      .validarPlano(name_tmp, nombre_plano)
+      .then((rsta_validacion) => {
+        //si la respuesta de validacion del plano, retorna la respuesta vacia ""
+        //significa que el plano se valido CORRECTAMENTE.
+        if (rsta_validacion == "") {
+          modelplanos
+            .validar_RegistrosPlanos_tmp(req.query.id_ips, name_tmp)
+            .then((respuesta) => {
+              if (
+                respuesta["command"] == "UPDATE" &&
+                respuesta["rowCount"] > 0
+              ) {
+                //Aqui se valida por cada iteracion de validacion de planos si todos se encuentran validados,
+                //esto con el fin de habilitar el boton de envio de los planos ya validados, tener en cuenta los planos
+                //que son necesarios AP, AC, AT, AH, AU , AF
+
+                modelplanos.ObtenerPlanos_validos().then((planos_val) => {
+                  modelplanos
+                    .validarPlanosNecesarios(planos_val)
+                    .then((rsta) => {
+                      //Si la validacion de los planos necesarios resulta con exito "1" -> rsta = 1, el sistema debera habilitar el boton de
+                      //envio para el trabajo, habilitar_envio: true
+
+                      if (rsta == 1) {
+                        //despues de realizar la validacion del plano y la carga con su transformacion, se debera responder a la vista
+                        //validando que la transformacion se ha ejecutado con EXITO cod_estado = o
+                        return res.send("El archivo plano "+nombre_plano+ " fue validado correctamente!");
+                        /*
+                        req.flash(
+                          "notify",
+                          "El Archivo Plano " +
+                            nombre_plano +
+                            " fue validado correctamente..."
+                        );
+                        res.json({
+                          respuesta: "OK",
+                          status: 200,
+                          habilitar_envio: true,
+                          habilitar_elim_all: habilita_eliminar_todos,
+                          descripcion:
+                            "El plano " +
+                            nombre_plano +
+                            " fue validado correctamente...",
+                        });*/
+                        // } else {
+                        // console.error("Ocurrio un problema con la ejecucion del comando/tranformacion_ rspta de retorno: ");
+                        //}
+                      } else {
+                        //despues de realizar la validacion del plano y la carga con su transformacion, se debera responder a la vista
+                        //validando que la transformacion se ha ejecutado con EXITO
+                        //Se debe validar la respuesta
+                        return res.send("El archivo plano "+nombre_plano+ " fue validado correctamente!");
+                        
+
+                       /* req.flash(
+                          "notify",
+                          "El Archivo Plano " +
+                            nombre_plano +
+                            " fue validado correctamente..."
+                        );
+                        res.json({
+                          respuesta: "OK",
+                          status: 200,
+                          habilitar_envio: false,
+                          habilitar_elim_all: habilita_eliminar_todos,
+                          descripcion:
+                            "El plano " +
+                            nombre_plano +
+                            " fue validado correctamente...",
+                        });*/
+                        // }else {
+                        //console.error("Ocurrio un problema con la ejecucion del comando/tranformacion_ rspta de retorno: " );
+                        //}
+                      }
+                    });
+                });
+              } else {
+                return res.send("El Archivo Plano " + nombre_plano + "No se logro actualizar en BD, error actualizando, validado NO");
+                
+                /*req.flash(
+                  "error",
+                  "El Archivo Plano " +
+                    nombre_plano +
+                    "No se logro actualizar en BD, error actualizando, validado NO"
+                );
+                res.json({
+                  error: 500,
+                  respuesta:
+                    "El Archivo Plano " +
+                    nombre_plano +
+                    " tiene los siguientes errores:" +
+                    rsta_validacion,
+                });*/
+              }
+            })
+            .catch((err) => {
+              return res.status(500).send("Error obteniendo registros");
+            });
+        } else {
+          //si la respuesta de validacion NO esta vacia, se retornan los errores encontrados
+ 
+          return res.send("El archivo plano "+nombre_plano+ " contiene los siguientes Errores --> "+rsta_validacion );
+
+         /* req.flash(
+            "error",
+            "El Archivo Plano " +
+              nombre_plano +
+              " tiene los siguientes errores:" +
+              rsta_validacion
+          );
+          res.json({
+            error: 500,
+            respuesta:
+              "El Archivo Plano " +
+              nombre_plano +
+              " tiene los siguientes errores:" +
+              rsta_validacion,
+          });*/
+        }
+      });
+  }
+);
+
 
 router.delete("/delete-all/archivo-bips", authMiddleware, (req, res) => {
   // Método para eliminar todos los archivos planos cargados

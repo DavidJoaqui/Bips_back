@@ -31,7 +31,7 @@ router.get("/obtenerRegistrosPlanos", authMiddleware, function (req, res) {
 
 
 
-
+/*
 router.post(
   "/file/validar/:name/archivo-bips",
   authMiddleware,
@@ -166,7 +166,7 @@ router.post(
   }
 );
 
-
+*/
 
 
 router.post(

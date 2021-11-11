@@ -113,14 +113,17 @@
                                                     <td class="px-4 py-3">
                                                         <div class="flex items-center space-x-4 text-sm">
 
-                                                            <button onclick="validarPlano('<%= file.nombre_tmp %>','<%= file.id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                                                aria-label="Edit">
-                           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
-                           </svg>
-                        </button>
+
 
                                                             <% if (!file.validado) { %>
+
+                                                                <button onclick="validarPlano('<%= file.nombre_tmp %>','<%= file.id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                                    aria-label="Edit">
+                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                             </svg>
+                          </button>
+
                                                                 <button onclick="openPopupDelete('/file/delete/<%= file.nombre_tmp %>/archivo-bips/?id_ips=<%= file.id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                                     aria-label="Delete">
                               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -130,7 +133,9 @@
                               </svg>
                            </button>
 
-                                                                <% } %>
+                                                                <% }else {%>
+                                                                    - -
+                                                                    <% } %>
 
                                                         </div>
                                                     </td>
@@ -178,7 +183,11 @@
 
                                         success: function(result) {
                                             alert(result);
-                                            console.log(result["status"]);
+                                            console.log(result);
+
+
+                                            // window.location.reload(1);
+
                                             /*
                                               $('#loading').fadeOut('fast');
 
