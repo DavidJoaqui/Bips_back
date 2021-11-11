@@ -54,7 +54,7 @@
             </label>
         </div>
 
-        <button onclick="validarRegisros()" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Consultar
+        <button onclick="validarRegisros()" id="btn-validar" name="btn-validar" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Consultar
             registros</button>
         <button onclick="upload()" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Subir</button>
 
@@ -63,6 +63,23 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $("#files").change(function() {
+            $("#btn-subir").prop("disabled", this.files.length == 0);
+        });
+
+        $("#listaIps").change(function() {
+            $("#btn-subir").prop("disabled", true);
+            $('#files').attr("disabled", true);
+            $('#nombre_ips').text($("#listaIps option:selected").text().trim());
+            $('#nombre_ips').val($("#listaIps option:selected").text().trim());
+
+
+        });
+
+    });
+
+
     function validIputs() {
         const listaIps = $('#listaIps');
         const fechaInicial = $('#fechaInicial');
@@ -116,7 +133,7 @@
         });
 
         formData.append("cbxips", data.listaIps);
-        formData.append("nombre_ips", $("#cbxips option:selected").text().trim());
+        formData.append("nombre_ips", $("#listaIps option:selected").text().trim());
         formData.append("txtfecha_inicial", data.fechaInicial);
         formData.append("txtfecha_final", data.fechaFinal);
 
@@ -174,6 +191,13 @@
                     msg = "la IPS " + data.listaIps + " No tiene datos asociados, puede cargar los planos"
                     icon = "success";
                     $('#files').attr('disabled', false);
+                    //$('#nombre_ips').text($("#listaIps option:selected").text().trim());
+                    //$('#nombre_ips').val($("#listaIps option:selected").text().trim());
+                    $("#listaIps").attr('disabled', true);
+                    $('#btn-validar').attr("disabled", true);
+                    $('#fechaInicial').attr("disabled", true);
+                    $('#fechaFinal').attr("disabled", true);
+
                 } else {
                     msg = "La IPS " + data.listaIps + " tiene Registros de Archivos Planos para el Rango de Fecha: " + data.fechaInicial + " hasta " + data.fechaFinal;
                     icon = "warning";

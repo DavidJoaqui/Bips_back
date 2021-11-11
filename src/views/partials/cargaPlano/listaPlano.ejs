@@ -1,88 +1,128 @@
+<%- include("btnDeleteAll"); %>
+    <%- include("btnValidAll"); %>
 
-   <%- include("btnDeleteAll"); %>
-   <%- include("btnValidAll"); %>
+        <hr class="py-2" />
 
-<hr class="py-2"/>
+        <% const m=getMessages() %>
 
-<div class="w-full overflow-hidden rounded-lg shadow-xs">
-   <div class="w-full overflow-x-auto">
-      <table class="w-full whitespace-no-wrap" id="table-cargar-planos">
-         <thead>
-            <tr
-               class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-               <th>Nombre plano</th>
-               <th>Nombre IPS</th>
-               <th>Periodo cargado</th>
-               <th>Fecha de carga</th>
-               <th>Validado</th>
-               <th>Acciones</th>
-            </tr>
-         </thead>
-         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <% if (m.notify) { %>
+
+                <div class="card" style="margin-top: 20px;" id="card-success">
+                    <div class="card-header text-white bg-success mb-3 container-fluid" id="btn-cerrar-ok">
+                        <strong>OK!</strong>
+                        <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                    </div>
+
+                    <div class="card-body">
+
+                        <% m.notify.forEach((element)=> { %>
+
+                            <%= element %>
+                                <% }) %> %>
+                    </div>
 
 
+                </div>
 
+                <% } %>
+                    <% if (m.error) { %>
 
-            <% arr_files.forEach(file=> { %>
+                        <div class="card " style="margin-top: 20px;">
+                            <div class="card-header text-white bg-danger mb-3 container-fluid" id="btn-cerrar-err">
+                                <strong>Error!</strong>
+                                <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                            </div>
 
-               <tr class="text-gray-700 dark:text-gray-400">
+                            <div class="card-body">
 
-                  <td class="px-4 py-3 text-sm">
-                     <%= file.nombre_original %>
-                  </td>
-                  <td class="px-4 py-3 text-sm">
-                     <strong>
-                        <%= file.descripcion_ips %>
-                     </strong>
-                  </td>
-                  <td class="px-4 py-3 text-sm">
-                     <p><i class="far fa-clock" style="color: cadetblue;"></i>
-                        <%= file.periodo_cargado %>
-                     </p>
+                                <% m.error.forEach((element)=> { %>
 
-                  </td>
-
-                  <td class="px-4 py-3 text-sm">
-
-                     <%= file.fecha_carga %>
-                  </td>
-                  <td class="px-4 py-3 text-sm">
-                     <% if (!file.validado) { %>
-                        <div>
-                           <p><i class="far fa-times-circle" style="color: red;"></i>
-                              <%= "No" %>
-                           </p>
+                                    <%= element %>
+                                        <% }) %> %>
+                            </div>
 
                         </div>
 
-                        <% } else { %>
-                           <p><i class="far fa-check-circle" style="color: green;"></i>
-                              <%= "Si" %>
-                           </p>
+                        <% } %>
 
-                           <% } %>
+                            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                                <div class="w-full overflow-x-auto">
+                                    <table class="w-full whitespace-no-wrap" id="table-cargar-planos">
+                                        <thead>
+                                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                                <th>Nombre plano</th>
+                                                <th>Nombre IPS</th>
+                                                <th>Periodo cargado</th>
+                                                <th>Fecha de carga</th>
+                                                <th>Validado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
 
-                  </td>
 
 
-                  <td class="px-4 py-3">
-                     <div class="flex items-center space-x-4 text-sm">
+                                            <% arr_files.forEach(file=> { %>
 
-                        <button
-                           onclick="validarPlano('/file/delete-entidad/<%= file.nombre_original %>','/config-entidades')"
-                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                           aria-label="Edit">
+                                                <tr class="text-gray-700 dark:text-gray-400">
+
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <%= file.nombre_original %>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <strong>
+                        <%= file.descripcion_ips %>
+                     </strong>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <p><i class="far fa-clock" style="color: cadetblue;"></i>
+                                                            <%= file.periodo_cargado %>
+                                                        </p>
+
+                                                    </td>
+
+                                                    <td class="px-4 py-3 text-sm">
+
+                                                        <%= file.fecha_carga %>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <% if (!file.validado) { %>
+                                                            <div>
+                                                                <p><i class="far fa-times-circle" style="color: red;"></i>
+                                                                    <%= "No" %>
+                                                                </p>
+
+                                                            </div>
+
+                                                            <% } else { %>
+                                                                <p><i class="far fa-check-circle" style="color: green;"></i>
+                                                                    <%= "Si" %>
+                                                                </p>
+
+                                                                <% } %>
+
+
+                                                    </td>
+
+
+                                                    <td class="px-4 py-3">
+                                                        <div class="flex items-center space-x-4 text-sm">
+
+                                                            <button onclick="validarPlano('<%= file.nombre_tmp %>','<%= file.id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                                aria-label="Edit">
                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                            </svg>
                         </button>
 
-                        <% if (!file.validado) { %>
-                           <button
-                              onclick="openPopupDelete('/file/delete/<%= file.nombre_original %>/archivo-bips/?id_ips=<%= file.id_ips %>')"
-                              class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                              aria-label="Delete">
+                                                            <% if (!file.validado) { %>
+                                                                <button onclick="openPopupDelete('/file/delete/<%= file.nombre_tmp %>/archivo-bips/?id_ips=<%= file.id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                                    aria-label="Delete">
                               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                  <path fill-rule="evenodd"
                                     d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
@@ -90,23 +130,98 @@
                               </svg>
                            </button>
 
-                           <% } %>
+                                                                <% } %>
 
-                     </div>
-                  </td>
-               </tr>
-               <% })%>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% })%>
 
-         </tbody>
-      </table>
-   </div>
-   <%- include("../../partials/pagination"); %>
-</div>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <%- include("../../partials/pagination"); %>
+                            </div>
 
-<script>
-   getPagination('#table-cargar-planos');
+                            <script>
+                                getPagination('#table-cargar-planos');
 
-   function validarPlano(url) {
+                                function validarPlano(nombre_tmp, id_ips) {
 
-   }
-</script>
+                                    //event.preventDefault();
+
+                                    $('html, body').animate({
+                                        scrollTop: 0
+                                    }, 'slow'); //seleccionamos etiquetas,clase o identificador destino, creamos animación hacia top de la página.
+
+                                    var array_nombre = nombre_tmp.split('_');
+                                    nombre_plano = array_nombre[2];
+
+                                    // $("#loading").attr("hidden", false);
+
+                                    //$('#loading').html('<div class="text-center"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando plano<b> ' + nombre_plano + '</b> para la ips <b>' + nombre_ips + '</b> ... <br>Esto puede tomar algun tiempo ... </strong></div>');
+
+                                    const peticion = '/file/validar/' + nombre_tmp + "/archivo-bips/?id_ips=" + id_ips;
+
+                                    $.ajax({
+                                        type: 'post',
+                                        url: peticion,
+                                        data: [],
+                                        contentType: false,
+                                        cache: false,
+                                        processData: false,
+
+
+                                        /* error: function () {
+                                             $('#datos_val').html('<p>Error intente de nuevo...</p>');
+                                         },*/
+
+                                        success: function(result) {
+                                            alert(result);
+                                            console.log(result["status"]);
+                                            /*
+                                              $('#loading').fadeOut('fast');
+
+                                              console.log(result["habilitar_envio"]);
+
+                                              if (result["habilitar_envio"] == true) {
+
+                                                  $('html, body').animate({
+                                                      scrollTop: 0
+                                                  }, 'slow');
+                                                  //alert("se puede enviar la transformacion");
+
+                                              }
+
+
+                                              if (result["habilitar_elim_all"] == false) {
+
+                                                  setTimeout(function() {
+                                                      window.location.reload(1);
+                                                  }, 1000);
+                                              }
+
+
+
+
+
+                                              $('#panel_errores').attr("hidden", false);
+                                              $('#panel_errores').html(result);
+
+                                              */
+
+                                            //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
+                                            //alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
+                                            //$('#btn-subir').attr("disabled", true);                                            
+
+
+
+
+
+
+
+                                        }
+                                    });
+
+                                }
+                            </script>

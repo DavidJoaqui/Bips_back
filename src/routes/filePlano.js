@@ -41,7 +41,7 @@ const storage = multer.diskStorage({
 
             cb(
               "",
-              req.body.cbxips + "_" + fecha_completa + "_" + file.originalname
+              "_" + fecha_completa + "_" + file.originalname
             );
           }
         } else {
@@ -71,7 +71,7 @@ const storage = multer.diskStorage({
                 date_.getFullYear();
               cb(
                 "",
-                req.body.cbxips + "_" + fecha_completa + "_" + file.originalname
+                "_" + fecha_completa + "_" + file.originalname
               );
             }
           });
@@ -201,7 +201,7 @@ router.delete(
     let name = req.params.name;
 
     fs.unlink(
-      path.join(__dirname + "/" + config.rutaFile + "/" + name),
+      path.join(config.rutaFile + "/" + name),
       (err) => {
         if (err) {
           console.log(
@@ -266,18 +266,14 @@ router.post(
     let fecha_hora = fecha_completa + " " + hora;
 
     for (var i in req.files) {
-      let path_ins = path.join(
-        __dirname +
-          "/" +
+      let path_ins = path.join(       
           config.rutaFile +
-          "/" +
-          req.body.cbxips +
+          "/" +          
           "_" +
           fecha_completa_sinSeparador +
           req.files[i].originalname
       );
-      let nombre_temp =
-        req.body.cbxips +
+      let nombre_temp =        
         "_" +
         fecha_completa_sinSeparador +
         req.files[i].originalname;
