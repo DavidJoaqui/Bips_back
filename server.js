@@ -45,6 +45,8 @@ app.use(flash());
   require("./src/routes/profesional"),
   require("./src/routes/indicador"),
   require("./src/routes/filePlano"),
+  require("./src/routes/lineaAccion"),
+  require("./src/routes/objetivo"),
 ].forEach((route) => {
   app.use(route);
 });

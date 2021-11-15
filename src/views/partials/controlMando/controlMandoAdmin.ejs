@@ -1,0 +1,80 @@
+<div class="bg-white">
+    <nav class="flex flex-col flex-wrap sm:flex-row" id="tabs-admin">
+        <button
+            class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 border-l border-t border-r"
+            onclick="loadTab(this,'/ctm-plan-general')">
+            Plan General
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'/ctm-lineas-accion')">
+            Lineas de Acción
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'/ctm-objetivos')">
+            Objetivos
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'')">
+            Estrategias
+        </button>
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'')">
+            Planes
+        </button>
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'')">
+            Indicadores
+        </button>
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'')">
+            Registro
+        </button>
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'')">
+            Calificación
+        </button>
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'')">
+            Areas
+        </button>
+        </button>
+        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+            onclick="loadTab(this,'')">
+            Usuarios
+        </button>
+    </nav>
+</div>
+
+
+
+<div id="container-admin">
+
+</div>
+
+<script>
+    const tabActiveClass = "text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 border-l border-t border-r"
+    const tabClass = "text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+
+    function loadTab(btn,url) {
+        toggleTab(btn,url);
+        loadContentHtml(url, '#container-admin')
+    }
+
+    
+    function toggleTab(btn,url) {
+        const button=$(btn);
+        $("#tabs-admin button").each(function (index) {
+            $(this).removeClass().addClass( tabClass );
+            if($(this).text()===button.text()){
+                button.removeClass().addClass( tabActiveClass );
+            }
+        });
+    }
+
+    loadContentHtml('/ctm-plan-general', '#container-admin')
+</script>
