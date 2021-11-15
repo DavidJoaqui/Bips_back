@@ -54,11 +54,11 @@ router.get("/form-ctm-linea-accion/:id", authMiddleware, (req, res) => {
     .then((listaPlanes_grales) => {
       modelControlMando
         .consultar_LineasAccionXId(req.params.id)
-        .then((info_linea) => {
+        .then((item) => {
           return res.render(config.rutaPartials + "lineaAccion/form", {
             layout: false,
             id_linea: req.params.id,
-            info_linea: info_linea,
+            item: item,
             planes_generales: listaPlanes_grales,
           });
         });

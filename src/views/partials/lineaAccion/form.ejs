@@ -8,7 +8,7 @@
             Linea de acción:
         </span>
         <input name="linea_accion"
-            value="<%= info_linea.length && info_linea[0].linea_accion? info_linea[0].linea_accion:'' %>"
+            value="<%= item.length && item[0].linea_accion? item[0].linea_accion:'' %>"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
             placeholder="Nombre plan" required>
     </label>
@@ -29,15 +29,15 @@
             
    
     
-                <% if (info_linea.length && info_linea[0].id_plangeneral == x.id_plangeneral) { %>
+                <% if (item.length && item[0].id_plangeneral == x.id_plangeneral) { %>
 
                     <% if (!x.estado) { %>
-                        <option selected="selected" value="<%= info_linea[0].id_plangeneral %>">
-                            <%= info_linea[0].plan_general+' (Inactivo)' %>
+                        <option selected="selected" value="<%= item[0].id_plangeneral %>">
+                            <%= item[0].plan_general+' (Inactivo)' %>
                         </option>
                     <% }else{ %>
-                        <option selected="selected" value="<%= info_linea[0].id_plangeneral %>">
-                            <%= info_linea[0].plan_general %>
+                        <option selected="selected" value="<%= item[0].id_plangeneral %>">
+                            <%= item[0].plan_general %>
                         </option>
                         <% } %>
                     

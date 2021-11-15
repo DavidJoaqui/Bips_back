@@ -8,7 +8,7 @@ router.get("/ctm-plan-general", authMiddleware, (req, res) => {
   modelControlMando.consultar_RegistrosPlan_General().then((lista_planes) => {
     res.render(config.rutaPartials + "planGeneral/list", { 
       layout: false,
-      lista_planes: lista_planes });
+      list: lista_planes });
   });
 });
 
@@ -16,11 +16,11 @@ router.get("/ctm-plan-general", authMiddleware, (req, res) => {
 router.get("/form-ctm-plan-general/:id", authMiddleware, (req, res) => {
   modelControlMando
     .consultar_RegistrosPlan_General_x_id(req.params.id)
-    .then((info_plan) => {
+    .then((item) => {
       return res.render(config.rutaPartials + "planGeneral/form", {
         layout: false,
         id_plan: req.params.id,
-        info_plan: info_plan,
+        item: item,
       });
     })
 });

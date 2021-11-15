@@ -61,7 +61,7 @@ router.delete(
 router.get("/form-ctm-objetivo/:id", authMiddleware, (req, res) => {
   modelControlMando
     .consultar_RegistroObjetivos_x_id(req.params.id)
-    .then((objetivo_info) => {
+    .then((item) => {
       modelControlMando
         .consultar_RegistrosPlan_General()
         .then((listaPlanes_grales) => {
@@ -72,7 +72,7 @@ router.get("/form-ctm-objetivo/:id", authMiddleware, (req, res) => {
                 layout: false,
                 id_objetivo:req.params.id,
                 planes_generales: listaPlanes_grales,
-                objetivo_info: objetivo_info,
+                item: item,
                 lineas_accion: lineas_accion,
               });
             });

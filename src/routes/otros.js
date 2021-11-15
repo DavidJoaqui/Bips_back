@@ -491,23 +491,6 @@ router.get("/menu-ctm", authMiddleware, (req, res) => {
 });
 
 
-
-router.get("/ctm-areas", authMiddleware, (req, res) => {
-  res.render("paginas/ctm_areas");
-});
-
-router.get("/lista-ctm-areas", authMiddleware, (req, res) => {
-  modelControlMando.consultar_RegistroAreas().then((lista_areas) => {
-    res.render("paginas/lista_ctm_areas", { lista_areas: lista_areas });
-  });
-});
-
-
-
-
-
-
-
 router.post("/form-editar-ctm-plan-accion", authMiddleware, (req, res) => {
   console.log("id_plan:" + req.query.id_plan);
   modelControlMando
@@ -1627,40 +1610,7 @@ router.post("/persistir-estrategia/", authMiddleware, (req, res) => {
     });
 });
 
-router.post("/persistir-area/", authMiddleware, (req, res) => {
-  modelControlMando
-    .insertar_area(req.query.nombre_area)
-    .then((respuesta) => {
-      if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
-        console.log("OK... insert NEW");
-        res.json({
-          status: 200,
-          msg:
-            " el area <b>" +
-            req.query.nombre_area +
-            "</b>, se creó correctamente...",
-        });
-      } else {
-        //req.flash('error', 'ERROR al crear el area ' + req.query.nombre_area + ', con codigo ' + req.query.id_area + ' intente de nuevo...');
-        res.json({
-          status: 300,
-          msg:
-            "ERROR al crear  el area <b>" +
-            req.query.nombre_area +
-            "</b>, intente de nuevo...",
-        });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      //req.flash('error', 'ERROR al crear el area ' + req.query.nombre_area + ', con codigo ' + req.query.id_area + ' Ya existe...');
-      res.json({
-        status: 500,
-        msg:
-          "ERROR!!  el area <b>" + req.query.nombre_area + " </b> YA EXISTE...",
-      });
-    });
-});
+
 
 router.post("/persistir-plan-accion/", authMiddleware, (req, res) => {
   modelControlMando

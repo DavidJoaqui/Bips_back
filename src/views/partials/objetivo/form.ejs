@@ -10,7 +10,7 @@
         <textarea name="objetivo"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
             placeholder="Objetivo"
-            required><%= objetivo_info.length && objetivo_info[0].objetivo? objetivo_info[0].objetivo:'' %></textarea>
+            required><%= item.length && item[0].objetivo? item[0].objetivo:'' %></textarea>
     </label>
 
 
@@ -23,7 +23,7 @@
 
             <% planes_generales.forEach(lista=> { %>
                 <% if (lista.estado) { %>
-                    <% if (objetivo_info.length && lista.id_plangeneral==objetivo_info[0].id_plan_general) { %>
+                    <% if (item.length && lista.id_plangeneral==item[0].id_plan_general) { %>
 
                         <option selected="selected" value="<%= lista.id_plangeneral %>">
                             <%= lista.plan_general %>
@@ -86,9 +86,9 @@
                     $("#select_linea").html("");
                     $("#select_linea").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
 
-                } else {
+                } else if(result) {
                     result.forEach(element => {
-                        if (element.id_linea == '<%= objetivo_info.length && objetivo_info[0].id_linea_accion? objetivo_info[0].id_linea_accion:0 %>') {
+                        if (element.id_linea == '<%= item.length && item[0].id_linea_accion? item[0].id_linea_accion:0 %>') {
                             $("#select_linea").append('<option value=' + element.id_linea + ' selected="selected">' + element.linea_accion + '</option>');
                         } else {
                             $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
@@ -103,6 +103,6 @@
         loadLineasAccionPlan("/consultar-lineas-accion_x_plan_general?id_plan_gral=" + $(this).val())
     });
 
-    loadLineasAccionPlan("/consultar-lineas-accion_x_plan_general?id_plan_gral=" + '<%= objetivo_info.length && objetivo_info[0].id_plan_general?objetivo_info[0].id_plan_general:0 %>')
+    loadLineasAccionPlan("/consultar-lineas-accion_x_plan_general?id_plan_gral=" + '<%= item.length && item[0].id_plan_general?item[0].id_plan_general:0 %>')
 
 </script>

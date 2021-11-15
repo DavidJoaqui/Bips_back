@@ -47,6 +47,12 @@ app.use(flash());
   require("./src/routes/filePlano"),
   require("./src/routes/lineaAccion"),
   require("./src/routes/objetivo"),
+  require("./src/routes/area"),
+  require("./src/routes/calificacion"),
+  require("./src/routes/estrategia"),
+  require("./src/routes/plan"),
+  require("./src/routes/registro"),
+  require("./src/routes/usuario"),
 ].forEach((route) => {
   app.use(route);
 });
