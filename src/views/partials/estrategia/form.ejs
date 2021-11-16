@@ -1,16 +1,16 @@
-<form id="formObjetivo">
+<form id="formEstrategia">
 
 
-    <input type="text" name="id_objetivo" style="display: none;" value="<%= id_objetivo %>">
+    <input type="text" name="id_estrategia" style="display: none;" value="<%= id_estrategia %>">
 
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
-            Objetivo
+            Estrategia
         </span>
-        <textarea name="objetivo"
+        <textarea name="estrategia"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
             placeholder="Objetivo"
-            required><%= item.length && item[0].objetivo? item[0].objetivo:'' %></textarea>
+            required><%= item.length && item[0].estrategia? item[0].estrategia:'' %></textarea>
     </label>
 
 
@@ -42,6 +42,7 @@
     </label>
 
 
+
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
             Linea acción:
@@ -51,26 +52,36 @@
         </select required>
     </label>
 
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Objetivo:
+        </span>
+        <select name="plan_general" id="select_objetivo"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+        </select required>
+    </label>
+
 
     <button hidden id="btnForm" type="submit"></button>
 </form>
 
 <script>
-    const form = document.querySelector("#formObjetivo");
+    const form = document.querySelector("#formEstrategia");
 
     form.addEventListener("submit", function (event) {
         // Stop form submission
         event.preventDefault();
         const data = Object.fromEntries(new FormData(form));
 
-        if (data.id_objetivo != '0') {
-            updateAjax('/actualizar-linea-accion', data, reloadContainer)
+        if (data.id_estrategia != '0') {
+            updateAjax('/actualizar-estrategia', data, reloadContainer)
         } else {
-            createdAjax('/persistir-linea-accion', data, reloadContainer)
+            createdAjax('/persistir-estrategia', data, reloadContainer)
         }
 
     });
 
+    /*
     function loadLineasAccionPlan(url){
         $.ajax({
             type: 'get',
@@ -104,5 +115,5 @@
     });
 
     loadLineasAccionPlan("/consultar-lineas-accion_x_plan_general?id_plan_gral=" + '<%= item.length && item[0].id_plan_general?item[0].id_plan_general:0 %>')
-
+*/
 </script>

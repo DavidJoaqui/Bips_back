@@ -51,7 +51,7 @@ router.delete(
         if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {
           return res.status(200).send("Ok");
         } else {
-          return res.status(500).send("Error al guardar datos");
+          return res.status(400).send("Error al guardar datos");
         }
       });
   }

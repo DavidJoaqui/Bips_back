@@ -1,18 +1,18 @@
-<button @click="openModalNew('/form-ctm-plan-general/0')"
+<button @click="openModalNew('/form-ctm-estrategia/0')"
     class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-    Nuevo plan general
+    Nuevo estrategia
 </button>
 <hr class="py-2" />
 <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
-        <table class="w-full whitespace-no-wrap" id="table-plan-general">
+        <table class="table-auto" id="table-estrategia">
             <thead>
                 <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                    <th>Nombre plan</th>
-                    <th>Fecha inicio</th>
-                    <th>Fecha fin</th>
-                    <th>Activo</th>
+                    <th>Estrategia</th>
+                    <th>Objetivo</th>
+                    <th>Linea Acción</th>
+                    <th>Plan General</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -23,28 +23,22 @@
                     <tr class="text-gray-700 dark:text-gray-400">
 
                         <td class="px-4 py-3 text-sm">
+                            <%= item.estrategia %>
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            <%= item.objetivo %>
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            <%= item.linea_accion %>
+                        </td>
+                        <td class="px-4 py-3 text-sm">
                             <%= item.plan_general %>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.fecha_inicial %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.fecha_final %>
-                        </td>
-
-                        <td class="px-4 py-3 text-sm">
-                            <% if (item.estado) { %>
-                                <i class='fas fa-check-circle' style='color: green;'></i>Si
-                                <% } else { %>
-                                    <i class="fas fa-minus-circle" style='color: red;'></i>No
-                                    <% } %>
-                        </td>
-
-
+         
                         <td class="px-4 py-3">
                             <div class="flex items-center space-x-4 text-sm">
 
-                                <button @click="openModalEdit('/form-ctm-plan-general/<%= item.id_plangeneral %>')"
+                                <button @click="openModalEdit('/form-ctm-estrategia/<%= item.id_estrategia %>')"
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -56,7 +50,7 @@
 
 
                                 <button
-                                    onclick="openPopupDelete('/plan-general/delete/<%= item.id_plangeneral %>/control-mando-bips',reloadContainer)"
+                                    onclick="openPopupDelete('/estrategia/delete/<%= item.id_estrategia %>/control-mando-bips',reloadContainer)"
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Delete">
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -79,12 +73,12 @@
 
 <script>
     function reloadContainer(action) {
-        loadContentHtml('/ctm-plan-general', '#container-tab')
+        loadContentHtml('/ctm-estrategias', '#container-tab')
         if (action == 'update') {
             document.querySelector("#closeModalEdit").click();
         } else if (action == 'created') {
             document.querySelector("#closeModalNew").click();
         }
     }
-    getPagination('#table-plan-general');
+    getPagination('#table-estrategia');
 </script>
