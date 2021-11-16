@@ -47,40 +47,35 @@
 
 
 
-                        <% arr_files.forEach(file=> { %>
+                        <% for (let index = 0; index < arr_files.length; index++){ %>
 
                             <tr class="text-gray-700 dark:text-gray-400">
 
                                 <td class="px-4 py-3 text-sm">
-                                    <%= file.nombre_original %>
+                                    <%= arr_files[index].nombre_original %>
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     <strong>
-                        <%= file.descripcion_ips %>
+                        <%= arr_files[index].descripcion_ips %>
                      </strong>
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     <p><i class="far fa-clock" style="color: cadetblue;"></i>
-                                        <%= file.periodo_cargado %>
+                                        <%= arr_files[index].periodo_cargado %>
                                     </p>
 
                                 </td>
 
                                 <td class="px-4 py-3 text-sm">
 
-                                    <%= file.fecha_carga %>
+                                    <%= arr_files[index].fecha_carga %>
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    <% if (!file.validado) { %>
+                                    <% if (!arr_files[index].validado) { %>
                                         <div>
                                             <p><i class="far fa-times-circle" style="color: red;"></i>
                                                 <%= "No" %>
                                             </p>
-
-                                            <div style="font-size: 10px; float: right; color: blue;" class="exportar-acc" id="exportar-acc" hidden>
-
-                                                <a href="" for=""> <i class="fas fa-file-excel" style="color: green;"></i> <b>Exportar Excel</b> </a>
-                                            </div>
 
                                         </div>
 
@@ -100,16 +95,16 @@
 
 
 
-                                        <% if (!file.validado) { %>
+                                        <% if (!arr_files[index].validado) { %>
 
-                                            <button onclick="validarPlano('<%= file.nombre_tmp %>','<%= file.id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                            <button onclick="validarPlano('<%= arr_files[index].nombre_tmp %>','<%= arr_files[index].id_ips %>','<%= index %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                 aria-label="Edit">
                              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                              </svg>
                           </button>
 
-                                            <button onclick="openPopupDelete('/file/delete/<%= file.nombre_tmp %>/archivo-bips/?id_ips=<%= file.id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                            <button onclick="openPopupDelete('/file/delete/<%= arr_files[index].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[index].id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                 aria-label="Delete">
                               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                  <path fill-rule="evenodd"
@@ -118,6 +113,12 @@
                               </svg>
                            </button>
 
+                                            <div style="font-size: 10px; float: right; color: blue;" class="<%= index %>" id="<%= index %>" hidden>
+
+                                                <a href="" for=""> <i class="fas fa-file-excel" style="color: green;"></i> <b>Exportar Excel</b> </a>
+                                            </div>
+
+
                                             <% }else {%>
                                                 - -
                                                 <% } %>
@@ -125,7 +126,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <% })%>
+                            <% }%>
 
                     </tbody>
                 </table>
@@ -136,7 +137,7 @@
         <script type="text/javascript">
             getPagination('#table-cargar-planos');
 
-            function validarPlano(nombre_tmp, id_ips) {
+            function validarPlano(nombre_tmp, id_ips, index) {
 
                 //event.preventDefault();
                 //$("#loading").attr("hidden", false);
@@ -218,7 +219,7 @@
 
 
                             $('#exportar').attr("hidden", false);
-                            $('#exportar-acc').attr("hidden", false);
+                            $('#' + index).attr("hidden", false);
 
                             /*const users = [{
                                 id: 0,
@@ -244,7 +245,7 @@
                                     console.log("OK se ha generado el archivo excel de los errrores...");
                                     ///descrgar-xlsx-errores/:nombre/bips-planos
                                     $('.exportar a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
-                                    $('.exportar-acc a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
+                                    $('.' + index + ' a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
                                     console.log('Enlace puesto para descargar archivo xlsx ...');
 
 
