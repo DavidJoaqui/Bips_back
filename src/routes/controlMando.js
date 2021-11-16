@@ -14,38 +14,19 @@ router.get("/control-mando", authMiddleware, (req, res) => {
 });
 
 
-router.post(
-  "/objetivo/delete/:id/control-mando-bips",
-  authMiddleware,
-  function (req, res) {
+router.get("/control-mando-admin", authMiddleware, (req, res) => {
+  res.render(config.rutaPartials + "controlMando/controlMandoAdmin", {
+    layout: false,
+  });
+});
 
-    var msg = "";
 
-    modelControlMando
-      .eliminar_RegistroObjetivo(req.params.id)
-      .then((respuesta) => {
-        if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {
-          console.log(
-            "respuesta de eliminacion: 1, Se elimino correctamenteel objetivo..."
-          );
-          msg =
-            "El objetivo " +
-            req.query.nombre_objetivo +
-            " se eliminó correctamente...";
-        } else {
-          console.log(
-            "respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar El objetivo " +
-              req.query.nombre_objetivo
-          );
-          msg =
-            " ocurrio un problema al eliminar El objetivo... " +
-            req.query.nombre_objetivo;
-        }
-        req.flash("notify_del_objetivo", msg);
-        res.redirect("/listado-ctm-objetivos");
-      });
-  }
-);
+router.get("/control-mando-user", authMiddleware, (req, res) => {
+  res.render(config.rutaPartials + "controlMando/controlMandoUser", {
+    layout: false,
+  });
+});
+
 
 
 
