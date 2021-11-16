@@ -8,6 +8,7 @@ const authMiddleware = require("../middlewares/auth");
 const modelplanos = require("../models/archivosPlanosModel");
 const modelbips = require("../models/modelModel");
 const modelvalidaciones = require("../models/validacionModel");
+const exportErrorsToExcel = require('./exportService');
 
 const storage = multer.diskStorage({
     destination: config.rutaFile + "/",
@@ -440,9 +441,19 @@ router.post(
                         });
                 } else {
                     //si la respuesta de validacion NO esta vacia, se retornan los errores encontrados
-
-                    //return res.send("El archivo plano "+nombre_plano+ " contiene los siguientes Errores --> "+rsta_validacion );
-                    return res.render();
+                    console.log("Número de errores encontrados en el plano: " + rsta_validacion.length);
+                    res.json({
+                        status: 500,
+                        respuesta: rsta_validacion,
+                        msg: "Error! el plano " + nombre_plano + " contiene errores en su estructura, por favor valide la lista de errores",
+                    });
+                    //return res.status(200).send(rsta_validacion);
+                    /*return res.render(config.rutaPartials + 'cargaPlano/tabla-errores', {
+                        rsta_validacion: rsta_validacion,
+                        nombre_plano: nombre_plano,
+                        user: req.session.user,
+                        area: req.session.username["nombre_area"],
+                    });*/
                     /* req.flash(
                        "error",
                        "El Archivo Plano " +
@@ -494,6 +505,56 @@ router.delete("/delete-all/archivo-bips", authMiddleware, (req, res) => {
             res.json({ resultado: "OK", status: 200 });
         }
     });
+});
+
+router.get("/generar-xlsx-err/:nombre_plano/archivo-bips", authMiddleware, (req, res) => {
+
+    const workSheetColumnName = [
+        "#",
+        "Descripción",
+    ];
+
+    //console.log(req.params);
+    //console.log(req.body);
+    //console.log(req.query);
+    /*const workSheetColumnName = [
+        "ID",
+        "Name",
+        "Age"
+    ];*/
+
+    var workSheetName = 'xlsx_errores_plano_' + req.params.nombre_plano;
+    //var filePath = './outputFiles/excel-from-js.xlsx';
+    var filePath = path.join(config.rutaFile + '/xlsx_errores_plano_' + req.params.nombre_plano + '.xlsx');
+
+    exportErrorsToExcel(req.query.err, workSheetColumnName, workSheetName, filePath);
+
+    res.send("ok");
+
+});
+
+router.get("/descargar-xlsx-errores/:nombre/descarga-errores-xlsx", authMiddleware, (req, res) => {
+
+    var file = fs.readFileSync(
+        path.join(
+            config.rutaFile +
+            "/xlsx_errores_plano_" + req.params.nombre + '.xlsx'
+
+        ),
+        "binary"
+    );
+
+    //res.download(path.join(__dirname, "/filesBipsUploads/", lista_soportes[0].nombre_soporte));
+    //res.setHeader('Content-Length', 10000000000000000);
+    res.setHeader(
+        "Content-disposition",
+        "attachment; filename=" + "xlsx_errores_plano_" + req.params.nombre + '.xlsx'
+    );
+    res.setHeader("Content-Type", 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+    res.write(file, "binary");
+    res.end();
+
 });
 
 module.exports = router;

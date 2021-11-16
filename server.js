@@ -21,36 +21,36 @@ app.set("layout", "./layouts/dashboard");
 app.set("view engine", "ejs");
 // Session
 app.use(
-  session({
-    secret: config.sesionSecret,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 6000000,
-    },
-  })
+    session({
+        secret: config.sesionSecret,
+        resave: true,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 6000000,
+        },
+    })
 );
 app.use(flash());
 
 // Rutas
 [
-  require("./src/routes/login"),
-  require("./src/routes/otros"),
-  require("./src/routes/olap2193"),
-  require("./src/routes/reporte2193"),
-  require("./src/routes/configEntidades"),
-  require("./src/routes/controlMando"),
-  require("./src/routes/planGeneral"),
-  require("./src/routes/permiso"),
-  require("./src/routes/profesional"),
-  require("./src/routes/indicador"),
-  require("./src/routes/filePlano"),
+    require("./src/routes/login"),
+    require("./src/routes/otros"),
+    require("./src/routes/olap2193"),
+    require("./src/routes/reporte2193"),
+    require("./src/routes/configEntidades"),
+    require("./src/routes/controlMando"),
+    require("./src/routes/planGeneral"),
+    require("./src/routes/permiso"),
+    require("./src/routes/profesional"),
+    require("./src/routes/indicador"),
+    require("./src/routes/filePlano"),
 ].forEach((route) => {
-  app.use(route);
+    app.use(route);
 });
 
 // Init servidor
 app.listen(config.port, () =>
-  console.log("El servidor se esta ejecutando..." + config.port)
+    console.log("El servidor se esta ejecutando..." + config.port)
 );
 module.exports = app;
