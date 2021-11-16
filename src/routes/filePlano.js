@@ -477,15 +477,15 @@ router.post(
 
 router.delete("/delete-all/archivo-bips", authMiddleware, (req, res) => {
     // Método para eliminar todos los archivos planos cargados
-    fs.readdir(path.join(__dirname, config.rutaFile), (err, files) => {
+    fs.readdir(config.rutaFile, (err, files) => {
         if (err) {
             res.json({ resultado: err });
         } else if (files.length == 0) {
-            res.json({ resultado: "DATA_NOT_FOUND" });
+            res.json({ resultado: "DATA_NOT_FOUND", msg: "No hay planos para eliminar. !!" });
         } else {
             files.forEach((file) => {
                 try {
-                    var ruta = path.join(__dirname, config.rutaFile) + "/" + file;
+                    var ruta = path.join(config.rutaFile, "/", file);
                     fs.unlinkSync(ruta);
                 } catch (error) {
                     console.error("Something wrong hrouterened removing the file", error);
@@ -495,14 +495,16 @@ router.delete("/delete-all/archivo-bips", authMiddleware, (req, res) => {
             modelplanos
                 .eliminar_all_RegistrosPlanos_tmp()
                 .then((respuesta) => {
-                    if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {}
+                    if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {
+                        console.log("Eliminacion de todos los planos OK...");
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
                 });
 
-            req.flash("notify", "Los archivos fueron eliminados correctamente..");
-            res.json({ resultado: "OK", status: 200 });
+            //req.flash("notify", "Los archivos fueron eliminados correctamente..");
+            res.json({ resultado: "OK", status: 200, msg: "Los archivos fueron eliminados correctamente.." });
         }
     });
 });
