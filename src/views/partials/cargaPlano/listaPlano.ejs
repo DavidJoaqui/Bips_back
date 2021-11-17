@@ -17,6 +17,10 @@
 
         </head>
 
+        <div class="div-envio" id="div-envio" hidden>
+            <%- include("btnEnvioAllPlanos"); %>
+        </div>
+
         <hr class="py-2" />
 
         <p id="loading" class="loading" style="display: none;">Procesando...</p>
@@ -254,20 +258,39 @@
 
 
                         } else {
+
+
+
                             $('#loading').fadeOut('fast');
                             //alert(result);
                             Swal.fire({
                                 position: 'top-end',
                                 icon: "success",
-                                title: result,
+                                title: result['msg'],
                                 showConfirmButton: false,
                                 timer: 5000
                             })
 
+                            //loadContentHtml('/listado-archivos', '#container-carga-data')
                             setTimeout(function() {
                                 window.location.reload(1);
                             }, 5000);
 
+                            if (result['habilitar_elim_all'] == false) {
+
+
+                                $("#elim-all").attr("hidden", true);
+                                $("#btn-valid-all").attr("hidden", true);
+
+                            }
+
+                            if (result['habilitar_envio'] == true) {
+
+                                $("#div-envio").attr("hidden", false);
+                                $("#btn-cargar").attr("disabled", false);
+
+
+                            }
                         }
                         console.log(result);
 
@@ -323,4 +346,43 @@
                 });
 
             }
+
+            $(document).ready(function() {
+
+                var peticion_validacion = "/validacion-carga-envio";
+                $.ajax({
+                    type: 'get',
+                    url: peticion_validacion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(result) {
+
+                        if (result['habilitar_elim_all'] == false) {
+
+
+                            $("#elim-all").attr("hidden", true);
+                            $("#btn-valid-all").attr("hidden", true);
+                            //$("#btn-valid-all").attr("hidden", true);                            
+
+                        } else {
+                            $("#elim-all").attr("hidden", false);
+
+                            //$("#div-envio").attr("hidden", true);
+                        }
+
+                        if (result['habilitar_envio'] == false) {
+
+                            $("#div-envio").attr("hidden", true);
+
+                        } else {
+                            $("#div-envio").attr("hidden", false);
+                            $("#btn-cargar").attr("disabled", false);
+                        }
+
+                    }
+                });
+
+            });
         </script>
