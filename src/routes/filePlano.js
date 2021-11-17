@@ -367,24 +367,23 @@ router.post(
                                             if (rsta == 1) {
                                                 //despues de realizar la validacion del plano y la carga con su transformacion, se debera responder a la vista
                                                 //validando que la transformacion se ha ejecutado con EXITO cod_estado = o
-                                                return res.send("El archivo plano " + nombre_plano + " fue validado correctamente!");
+                                                //return res.send("El archivo plano " + nombre_plano + " fue validado correctamente!");
                                                 /*
                                                 req.flash(
                                                   "notify",
                                                   "El Archivo Plano " +
                                                     nombre_plano +
                                                     " fue validado correctamente..."
-                                                );
+                                                );*/
                                                 res.json({
-                                                  respuesta: "OK",
-                                                  status: 200,
-                                                  habilitar_envio: true,
-                                                  habilitar_elim_all: habilita_eliminar_todos,
-                                                  descripcion:
-                                                    "El plano " +
-                                                    nombre_plano +
-                                                    " fue validado correctamente...",
-                                                });*/
+                                                    respuesta: "OK",
+                                                    status: 200,
+                                                    habilitar_envio: true,
+                                                    habilitar_elim_all: habilita_eliminar_todos,
+                                                    msg: "El plano " +
+                                                        nombre_plano +
+                                                        " fue validado correctamente...",
+                                                });
                                                 // } else {
                                                 // console.error("Ocurrio un problema con la ejecucion del comando/tranformacion_ rspta de retorno: ");
                                                 //}
@@ -392,7 +391,7 @@ router.post(
                                                 //despues de realizar la validacion del plano y la carga con su transformacion, se debera responder a la vista
                                                 //validando que la transformacion se ha ejecutado con EXITO
                                                 //Se debe validar la respuesta
-                                                return res.send("El archivo plano " + nombre_plano + " fue validado correctamente!");
+                                                //return res.send("El archivo plano " + nombre_plano + " fue validado correctamente!");
 
 
                                                 /* req.flash(
@@ -400,17 +399,16 @@ router.post(
                                                    "El Archivo Plano " +
                                                      nombre_plano +
                                                      " fue validado correctamente..."
-                                                 );
-                                                 res.json({
-                                                   respuesta: "OK",
-                                                   status: 200,
-                                                   habilitar_envio: false,
-                                                   habilitar_elim_all: habilita_eliminar_todos,
-                                                   descripcion:
-                                                     "El plano " +
-                                                     nombre_plano +
-                                                     " fue validado correctamente...",
-                                                 });*/
+                                                 );*/
+                                                res.json({
+                                                    respuesta: "OK",
+                                                    status: 200,
+                                                    habilitar_envio: false,
+                                                    habilitar_elim_all: habilita_eliminar_todos,
+                                                    msg: "El plano " +
+                                                        nombre_plano +
+                                                        " fue validado correctamente...",
+                                                });
                                                 // }else {
                                                 //console.error("Ocurrio un problema con la ejecucion del comando/tranformacion_ rspta de retorno: " );
                                                 //}
@@ -418,22 +416,18 @@ router.post(
                                         });
                                 });
                             } else {
-                                return res.send("El Archivo Plano " + nombre_plano + "No se logro actualizar en BD, error actualizando, validado NO");
+                                //return res.send("El Archivo Plano " + nombre_plano + "No se logro actualizar en BD, error actualizando, PLANO NO VALIDADO");
 
                                 /*req.flash(
                                   "error",
                                   "El Archivo Plano " +
                                     nombre_plano +
                                     "No se logro actualizar en BD, error actualizando, validado NO"
-                                );
+                                );*/
                                 res.json({
-                                  error: 500,
-                                  respuesta:
-                                    "El Archivo Plano " +
-                                    nombre_plano +
-                                    " tiene los siguientes errores:" +
-                                    rsta_validacion,
-                                });*/
+                                    error: 500,
+                                    msg: "El Archivo Plano " + nombre_plano + "No se logro actualizar en BD, error actualizando, PLANO NO VALIDADO"
+                                });
                             }
                         })
                         .catch((err) => {
@@ -556,6 +550,62 @@ router.get("/descargar-xlsx-errores/:nombre/descarga-errores-xlsx", authMiddlewa
 
     res.write(file, "binary");
     res.end();
+
+});
+
+router.get("/validacion-carga-envio", authMiddleware, (req, res) => {
+
+    // validacion de planos SI todos se encuentran validados,
+    //esto con el fin de habilitar el boton de envio de los planos ya validados, tener en cuenta los planos
+    //que son necesarios TODOS
+    var habilita_eliminar_todos = false;
+
+    modelplanos.contar_Planos_Validados().then((cont_planos_val) => {
+        if (cont_planos_val.total_validados >= 1) {
+            habilita_eliminar_todos = true;
+
+        }
+
+        modelplanos.ObtenerPlanos_validos().then((planos_val) => {
+            /*
+            validacion de los planos necesarios, si alguno NO esta validado se evalua en la sig condicion:
+
+            Si la validacion de los planos necesarios resulta con exito "1" -> rsta = 1, el sistema debera habilitar el boton de
+            envio para el trabajo, habilitar_envio: true
+            
+            */
+            console.log(planos_val);
+            console.log(planos_val.length);
+
+
+            modelplanos.validarPlanosNecesarios(planos_val)
+                .then((rsta) => {
+                    console.log(rsta);
+                    if (rsta == 1) {
+
+                        res.json({
+                            respuesta: "OK",
+                            status: 200,
+                            habilitar_envio: true,
+                            habilitar_elim_all: habilita_eliminar_todos,
+                        });
+                    } else {
+
+                        res.json({
+                            respuesta: "OK",
+                            status: 200,
+                            habilitar_envio: false,
+                            habilitar_elim_all: habilita_eliminar_todos,
+                        });
+
+                    }
+
+                })
+        });
+    });
+
+
+
 
 });
 
