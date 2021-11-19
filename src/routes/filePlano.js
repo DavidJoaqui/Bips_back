@@ -574,13 +574,13 @@ router.get("/validacion-carga-envio", authMiddleware, (req, res) => {
             envio para el trabajo, habilitar_envio: true
             
             */
-            console.log(planos_val);
-            console.log(planos_val.length);
+            //console.log(planos_val);
+            //console.log(planos_val.length);
 
 
             modelplanos.validarPlanosNecesarios(planos_val)
                 .then((rsta) => {
-                    console.log(rsta);
+                    //console.log(rsta);
                     if (rsta == 1) {
 
                         res.json({
