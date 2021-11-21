@@ -1,155 +1,89 @@
-
 const router = require("express").Router();
 const authMiddleware = require("../middlewares/auth");
 const config = require("../config/config");
 const modelControlMando = require("../models/controlMandoModel");
 
-// Ctm-profesionales
-
 router.get("/ctm-profesionales", authMiddleware, (req, res) => {
-    modelControlMando.consultar_roles().then((lista_roles) => {
+  modelControlMando.consultar_RegistrosProfesionales().then((lista_prof) => {
+    res.render(config.rutaPartials + "profesional/list", { 
+      layout: false,
+      list: lista_prof });
+  });
+});
+
+router.post("/persistir-profesional/", authMiddleware, (req, res) => {
+  modelControlMando
+    .insertar_Profesional(
+      req.body.rol,
+      req.body.password,
+      req.body.nombre_usuario,
+      req.body.area_trabajo,
+      req.body.nombres,
+      req.body.apellidos,
+      req.body.profesional,
+      req.body.num_identificacion,
+      req.body.tipo_identificacion,
+      req.body.activo,
+      req.body.correo,
+      req.body.telefono
+    )
+    .then((respuesta) => {
+      if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
+        return res.status(200).send("Ok");
+      } else {
+        return res.status(400).send("Error al guardarla entidad");
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send("Error al guardar datos");
+    });
+});
+
+router.post("/actualizar-profesional", authMiddleware, (req, res) => {
+  modelControlMando
+    .actualizar_profesional_x_id(
+      req.body.id_user,
+      req.body.rol,
+      req.body.password,
+      req.body.nombre_usuario,
+      req.body.area_trabajo,
+      req.body.txt_nombre,
+      req.body.txt_apellido,
+      req.body.profesional,
+      req.body.txt_num_identificacion,
+      req.body.tipo_identificacion,
+      req.body.activo,
+      req.body.correo,
+      req.body.telefono
+    )
+    .then((respuesta) => {
+      if (respuesta["command"] == "UPDATE" && respuesta["rowCount"] > 0) {
+        return res.status(200).send("Ok");
+      } else {
+        return res.status(400).send("Error al guardarla entidad");
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send("Error al guardar datos");
+    });
+});
+
+router.get("/form-ctm-profesional/:id", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultarProfesionalXidUsuario(req.params.id)
+    .then((lista_usuarios) => {
       modelControlMando.consultar_RegistroAreas().then((lista_areas) => {
-        res.render("paginas/ctm_profesionales", {
-          user: req.session.user,
-          lista_areas: lista_areas,
-          lista_roles: lista_roles,
+        modelControlMando.consultar_roles().then((lista_roles) => {
+          res.render(config.rutaPartials + "profesional/form", {
+            layout: false,
+            id_user: req.params.id,
+            item: lista_usuarios,
+            lista_areas: lista_areas,
+            lista_roles: lista_roles,
+          });
         });
       });
     });
-  });
-  
-  router.get("/listado-ctm-profesionales", authMiddleware, (req, res) => {
-    modelControlMando.consultar_RegistrosProfesionales().then((lista_prof) => {
-      res.render("paginas/lista_ctm_profesionales", { lista_prof: lista_prof });
-    });
-  });
-  
-  router.post("/persistir-profesional/", authMiddleware, (req, res) => {
+});
 
-  
-    modelControlMando
-      .insertar_Profesional(
-        req.query.rol,
-        req.query.password,
-        req.query.nombre_usuario,
-        req.query.area_trabajo,
-        req.query.nombres,
-        req.query.apellidos,
-        req.query.profesional,
-        req.query.num_identificacion,
-        req.query.tipo_identificacion,
-        req.query.activo,
-        req.query.correo,
-        req.query.telefono
-      )
-      .then((respuesta) => {
-        if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
-          res.json({
-            status: 200,
-            msg:
-              "El Profesional <b>" +
-              req.query.nombres +
-              " " +
-              req.query.apellidos +
-              "</b>, se creó correctamente...",
-          });
-        } else {
-
-          res.json({
-            status: 300,
-            msg:
-              "ERROR al crear el Profesional <b>" +
-              req.query.nombres +
-              " " +
-              req.query.apellidos +
-              "</b>, intente de nuevo...",
-          });
-        }
-      })
-      .catch((err) => {
-        res.json({
-          status: 500,
-          msg:
-            "ERROR!! El Profesional <b>" +
-            req.query.nombres +
-            " " +
-            req.query.apellidos +
-            " </b> YA EXISTE...",
-        });
-      });
-  });
-  
-  router.post("/actualizar-profesional", authMiddleware, (req, res) => {
-
-    modelControlMando
-      .actualizar_profesional_x_id(
-        req.query.id_user,
-        req.query.rol,
-        req.query.password,
-        req.query.nombre_usuario,
-        req.query.area_trabajo,
-        req.query.txt_nombre,
-        req.query.txt_apellido,
-        req.query.profesional,
-        req.query.txt_num_identificacion,
-        req.query.tipo_identificacion,
-        req.query.activo,
-        req.query.correo,
-        req.query.telefono
-      )
-      .then((respuesta) => {
-
-        if (respuesta["command"] == "UPDATE" && respuesta["rowCount"] > 0) {
-
-          res.send({
-            status: 200,
-            msg:
-              "El usuario " +
-              req.query.nombre_usuario +
-              " fue actualizado correctamente...",
-          });
-
-        } else {
-
-          res.send({
-            status: 300,
-            msg:
-              "ERROR al actualizar el usuario <b>" +
-              req.query.nombre_usuario +
-              "</b> " +
-              " intente de nuevo...",
-          });
-        }
-      })
-      .catch((err) => {
-        res.json({
-          status: 500,
-          msg:
-            "ERROR!! El usuario  <b>" +
-            req.query.objetivo +
-            "</b>, " +
-            +"NO se pudo actualizar...",
-        });
-      });
-  });
-  
-  router.post("/form-editar-ctm-profesional", authMiddleware, (req, res) => {
-    modelControlMando
-      .consultarProfesionalXidUsuario(req.query.id_user)
-      .then((lista_usuarios) => {
-        modelControlMando.consultar_RegistroAreas().then((lista_areas) => {
-          modelControlMando.consultar_roles().then((lista_roles) => {
-
-            res.render("paginas/editar_profesional", {
-              id_user: req.query.id_user,
-              lista_usuarios: lista_usuarios,
-              lista_areas: lista_areas,
-              lista_roles: lista_roles,
-            });
-          });
-        });
-      });
-  });
-
-
-  module.exports = router;
+module.exports = router;

@@ -35,7 +35,6 @@ app.use(flash());
 // Rutas
 [
   require("./src/routes/login"),
-  require("./src/routes/otros"),
   require("./src/routes/olap2193"),
   require("./src/routes/reporte2193"),
   require("./src/routes/configEntidades"),
@@ -48,11 +47,10 @@ app.use(flash());
   require("./src/routes/lineaAccion"),
   require("./src/routes/objetivo"),
   require("./src/routes/area"),
-  require("./src/routes/calificacion"),
+  require("./src/routes/calificacionIndicador"),
   require("./src/routes/estrategia"),
   require("./src/routes/plan"),
-  require("./src/routes/registro"),
-  require("./src/routes/usuario"),
+  require("./src/routes/registroIndicador"),
 ].forEach((route) => {
   app.use(route);
 });

@@ -62,55 +62,6 @@ const upload_soportes = multer({
 });
 
 
-// Persistir-indicador
-router.post("/persistir-indicador", authMiddleware, (req, res) => {
-
-  
-    modelControlMando
-      .insertar_indicador(
-        req.query.nombre_indicador,
-        req.query.plan_accion,
-        req.query.area,
-        req.query.tipo_meta,
-        req.query.formula_descriptiva,
-        req.query.meta_descriptiva,
-        Number(req.query.periodo_evaluacion),
-        req.query.meta_numerica,
-        req.query.formula_literal_num,
-        req.query.form_literal_den
-      )
-      .then((respuesta) => {
-        if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
-
-          res.json({
-            status: 200,
-            msg:
-              "El Indicador <b>" +
-              req.query.nombre_indicador +
-              "</b>, se creó correctamente...",
-          });
-        } else {
-
-          res.json({
-            status: 300,
-            msg:
-              "ERROR al crear el Indicador <b>" +
-              req.query.nombre_indicador +
-              "</b>, intente de nuevo...",
-          });
-        }
-      })
-      .catch((err) => {
-
-        res.json({
-          status: 500,
-          msg:
-            "ERROR!! El Indicador <b>" +
-            req.query.nombre_indicador +
-            " </b> YA EXISTE...",
-        });
-      });
-  });
   
   router.post(
     "/persistir-registro-indicador",
@@ -198,229 +149,29 @@ router.post("/persistir-indicador", authMiddleware, (req, res) => {
                       respuesta["command"] == "INSERT" &&
                       respuesta["rowCount"] > 0
                     ) {
-                      console.log(respuesta);
-                      console.log("OK... upload");
-  
-                  
+                      return res.status(200).send("Ok");
+                    }else{
+                      return res.status(400).send("Error al guardarla entidad");
                     }
                   });
               }
         
-              res.json({
-                status: 200,
-                msg: "El Registro Indicador , se creó correctamente...",
-              });
+              return res.status(200).send("Ok");
             } else {
-              res.json({
-                status: 300,
-                msg: "ERROR al crear el Registro Indicador , intente de nuevo...",
-              });
+              return res.status(400).send("Error al guardarla entidad");
             }
           })
           .catch((err) => {
-            console.log(err);
-            res.json({
-              status: 500,
-              msg: "ERROR!! El Registro  Indicador YA EXISTE...",
-            });
+            return res.status(500).send("Error al guardar datos");
           });
   
 
       } catch (error) {
-        console.log("err " + error);
+        return res.status(500).send("Error al guardar datos");
       }
     }
   );
   
-  router.get(
-    "/eliminar-popup-reg-indicador/:id_reg_indicador/control-mando-bips",
-    authMiddleware,
-    (req, res) => {
-
-  
-      let params = [
-        req.params.id_reg_indicador,
-        req.query.nombre_indicador,
-        req.query.periodo,
-        req.query.vigencia,
-        req.query.version,
-        req.query.id_profesional,
-      ];
-      res.render(
-        path.join(__dirname + "/src/vista/paginas/popup-eliminar-reg-indicador"),
-        { datos_plan: params }
-      );
-    }
-  );
-  
-  router.post(
-    "/registro-indicador/delete/:id/control-mando-bips",
-    authMiddleware,
-    function (req, res) {
-      var msg = "";
-  
-      //primero se eliminan los soportes asociados al registro de indicador recibido en la peticion
-      modelControlMando
-        .eliminar_soporte_x_idRegistroIndicador(req.params.id)
-        .then((rspta_eliminacion) => {
-          console.log(rspta_eliminacion);
-          if (
-            rspta_eliminacion["command"] == "DELETE" &&
-            rspta_eliminacion["rowCount"] > 0
-          ) {
-            //eliminar_Registro_RegIndicador
-            console.log(
-              "Para el registro de indicador: " +
-                req.params.id +
-                " se Eliminaron: " +
-                rspta_eliminacion["rowCount"] +
-                " Soportes q estaban Adjuntos "
-            );
-            modelControlMando
-              .eliminar_Registro_RegIndicador(req.params.id)
-              .then((respuesta) => {
-                msg =
-                  "El Registro de indicador para el indicador " +
-                  req.query.nombre_indicador +
-                  " se eliminó correctamente...";
-                if (
-                  respuesta["command"] == "DELETE" &&
-                  respuesta["rowCount"] > 0
-                ) {
-                  console.log(
-                    "respuesta de eliminacion: 1, Se elimino correctamente el registro de indicador..."
-                  );
-                  msg =
-                    "El Registro de indicador para el indicador " +
-                    req.query.nombre_indicador +
-                    " se eliminó correctamente...";
-                } else {
-                  console.log(
-                    "respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el registro de indicador " +
-                      req.query.nombre_indicador
-                  );
-                  msg =
-                    " ocurrio un problema al eliminar el registro de Indicador... " +
-                    req.query.nombre_indicador;
-                }
-  
-                req.flash("notify_del_reg_indicador", msg);
-                res.redirect("/ctm-reg-indicadores");
-              });
-          }
-
-        });
-    }
-  );
-  
-  router.post(
-    "/actualizar-reg-indicador",
-    authMiddleware,
-    upload_soportes.array("files_soporte"),
-    (req, res) => {
-
-  
-      modelControlMando
-        .actualizar_reg_indicador(
-          req.body.id_registroindicador,
-          Number(req.body.txt_vr_numerador),
-          Number(req.body.txt_vr_denominador),
-          req.body.txt_observacion
-        )
-        .then((respuesta) => {
-          console.log(respuesta);
-          if (respuesta["command"] == "UPDATE" && respuesta["rowCount"] > 0) {
-
-  
-            let fech_now = Date.now();
-            let date_ = new Date(fech_now);
-  
-            let fecha_completa_sinSeparador =
-              date_.getDate() +
-              "" +
-              (date_.getMonth() + 1) +
-              "" +
-              date_.getFullYear() +
-              "_";
-            let hora = date_.getHours() + "_" + date_.getMinutes() + "_";
-  
-
-  
-            for (var i in req.files) {
-
-              try {
-                var ext = path.extname(req.files[i].originalname);
-  
-                var id_registro_indicador = req.body.id_registroindicador;
-                var nombre_soporte = req.files[i].filename;
-                var path_soporte = req.files[i].path;
-                var es_habilitado = true;
-                var extension = ext;
-                var mime = req.files[i].mimetype;
-                var fecha_carga = date_;
-                var es_valido = true;
-                var peso = req.files[i].size;
-                var nombre_original = req.files[i].originalname;
-
-                modelControlMando
-                  .insertar_SoporteRegistroIndicador(
-                    id_registro_indicador,
-                    nombre_soporte,
-                    path_soporte,
-                    es_habilitado,
-                    extension,
-                    mime,
-                    es_valido,
-                    peso,
-                    nombre_original
-                  )
-                  .then((respuesta) => {
-                    if (
-                      respuesta["command"] == "INSERT" &&
-                      respuesta["rowCount"] > 0
-                    ) {
-                      console.log(respuesta);
-                      console.log("OK... upload");
-                    }
-                  });
-                res.json({
-                  status: 200,
-                  msg: "El Registro Indicador , se actualizo correctamente...",
-                });
-              } catch (error) {
-                console.log("err " + error);
-              }
-            }
-  
-            res.send({
-              status: 200,
-              msg:
-                "El registro del indicador " +
-                req.body.nombre_indicador +
-                " fue actualizado correctamente...",
-            });
-          } else {
-            res.send({
-              status: 300,
-              msg:
-                "ERROR al actualizar el registro del indicador <b>" +
-                req.body.nombre_indicador +
-                "</b> " +
-                " intente de nuevo...",
-            });
-          }
-        })
-        .catch((err) => {
-          res.json({
-            status: 500,
-            msg:
-              "ERROR!! El regisitro para el indicador " +
-              req.body.nombre_indicador +
-              "NO se pudo actualizar...",
-          });
-        });
-    }
-  );
   
   router.post("/persistir-calificacion-indicador", authMiddleware, (req, res) => {
     modelControlMando
@@ -478,19 +229,6 @@ router.post("/persistir-indicador", authMiddleware, (req, res) => {
   });
 
 
-  router.get("/form-ctm-indicador", authMiddleware, (req, res) => {
-    modelControlMando
-      .consultar_areaxid(Number(req.session.username["id_area"]))
-      .then((lista_area) => {
-        res.render(config.rutaPartials + "controlMando/formCtmIndicador", {
-          layout: false,
-          user: req.session.user,
-          id_profesional: Number(req.session.username["id_profesional"]),
-          lista_areas: lista_area,
-          nombre: req.session.username["nombre"],
-        });
-      });
-  });
 
   router.get(
     "/obtener-reg-indicadores_xvigencia_xperiodo_xarea",
@@ -568,27 +306,8 @@ router.post("/persistir-indicador", authMiddleware, (req, res) => {
     });
   });
   
-  router.get("/lista-ctm-indicadores", authMiddleware, (req, res) => {
-    modelControlMando
-      .consultar_RegistrosIndicadores()
-      .then((lista_Indicadores) => {
-        //console.log(lista_Estrategias);lista_Estrategias
-        res.render("paginas/lista_ctm_indicadores", {
-          lista_Indicadores: lista_Indicadores,
-        });
-      });
-  });
   
-  router.get("/lista-ctm-reg-indicadores", authMiddleware, (req, res) => {
-    modelControlMando
-      .consultar_reg_indicadores()
-      .then((lista_registro_indicadores) => {
-        //console.log(lista_Estrategias);lista_Estrategias
-        res.render("paginas/lista_ctm_reg_indicadores", {
-          lista_registro_indicadores: lista_registro_indicadores,
-        });
-      });
-  });
+
   //consultar_reg_indicadores_x_profesional
   router.get(
     "/lista_reg_indicadores_x_profesional",
@@ -616,19 +335,110 @@ router.post("/persistir-indicador", authMiddleware, (req, res) => {
       });
   });
 
+//-------------------------------------------------------------------
 
-  router.post("/form-editar-ctm-reg-indicador", authMiddleware, (req, res) => {
-    console.log("id_indicador:" + req.query.id_reg_indicador);
-    //console.log('id_area:' + req.query.id_area);
+// Persistir-indicador
+router.post("/persistir-indicador", authMiddleware, (req, res) => {
+  modelControlMando
+    .insertar_indicador(
+      req.body.nombre_indicador,
+      req.body.plan_accion,
+      req.body.area,
+      req.body.tipo_meta,
+      req.body.formula_descriptiva,
+      req.body.meta_descriptiva,
+      Number(req.body.periodo_evaluacion),
+      req.body.meta_numerica,
+      req.body.formula_literal_num,
+      req.body.form_literal_den
+    )
+    .then((respuesta) => {
+      if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
+        return res.status(200).send("Ok");
+      } else {
+        return res.status(400).send("Error al guardarla entidad");
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send("Error al guardar datos");
+    });
+});
+
+router.post(
+  "/indicador/delete/:id/control-mando-bips",
+  authMiddleware,
+  function (req, res) {
+    var msg = "";
+
+    //primero se eliminan los soportes asociados al registro de indicador recibido en la peticion
     modelControlMando
-      .consultar_det_reg_ind_evaluacion(req.query.id_reg_indicador)
+      .eliminar_soporte_x_idRegistroIndicador(req.params.id)
+      .then((rspta_eliminacion) => {
+        console.log(rspta_eliminacion);
+        if (
+          rspta_eliminacion["command"] == "DELETE" &&
+          rspta_eliminacion["rowCount"] > 0
+        ) {
+
+          modelControlMando
+            .eliminar_Registro_RegIndicador(req.params.id)
+            .then((respuesta) => {
+              msg =
+                "El Registro de indicador para el indicador " +
+                req.query.nombre_indicador +
+                " se eliminó correctamente...";
+              if (
+                respuesta["command"] == "DELETE" &&
+                respuesta["rowCount"] > 0
+              ) {
+                return res.status(200).send("Ok");
+              } else {
+                return res.status(500).send("Error al guardar datos");
+              }
+            });
+        }
+
+      });
+  }
+);
+
+
+
+router.get("/form-ctm---indicador/:id", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultar_areaxid(Number(req.session.username["id_area"]))
+    .then((lista_area) => {
+      res.render(config.rutaPartials + "indicador/form", {
+        layout: false,
+        user: req.session.user,
+        id_profesional: Number(req.session.username["id_profesional"]),
+        item: lista_area,
+      });
+    });
+});
+
+  router.get("/form-ctm-indicador/:id", authMiddleware, (req, res) => {
+    modelControlMando
+      .consultar_det_reg_ind_evaluacion(req.params.id)
       .then((indicador_info) => {
-        res.render("paginas/editar_reg_indicadores", {
-          id_reg_indicador: req.query.id_reg_indicador,
-          indicador_info: indicador_info,
+        res.render(config.rutaPartials + "indicador/form", {
+          layout: false,
+          id_reg_indicador: req.params.id,
+          item: indicador_info,
         });
       });
   });
   
+
+  router.get("/ctm-indicadores", authMiddleware, (req, res) => {
+    modelControlMando
+      .consultar_RegistrosIndicadores()
+      .then((lista_Indicadores) => {
+        res.render(config.rutaPartials + "indicador/list", {
+          layout: false,
+          list: lista_Indicadores,
+        });
+      });
+  });
 
   module.exports = router;

@@ -14,32 +14,7 @@
     </label>
 
 
-    <label class="block mt-4 text-sm">
-        <span class="text-gray-700 dark:text-gray-400">
-            Plan general:
-        </span>
-        <select name="plan_general" id="select_plan"
-            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
 
-            <% planes_generales.forEach(lista=> { %>
-                <% if (lista.estado) { %>
-                    <% if (item.length && lista.id_plangeneral==item[0].id_plan_general) { %>
-
-                        <option selected="selected" value="<%= lista.id_plangeneral %>">
-                            <%= lista.plan_general %>
-                        </option>
-                        <% }else{ %>
-
-                            <option value="<%= lista.id_plangeneral %>">
-                                <%= lista.plan_general %>
-                            </option>
-                            <% }} %>
-
-
-
-                                <% }); %>
-        </select required>
-    </label>
 
 
 
@@ -81,7 +56,7 @@
 
     });
 
-    /*
+ 
     function loadLineasAccionPlan(url){
         $.ajax({
             type: 'get',
@@ -115,5 +90,5 @@
     });
 
     loadLineasAccionPlan("/consultar-lineas-accion_x_plan_general?id_plan_gral=" + '<%= item.length && item[0].id_plan_general?item[0].id_plan_general:0 %>')
-*/
+
 </script>

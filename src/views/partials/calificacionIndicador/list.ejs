@@ -1,27 +1,23 @@
-<button @click="openModalNew('/form-ctm-indicador/0')"
+<button @click="openModalNew('/form-ctm-calificacion-indicador/0')"
     class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-    Nuevo indicador
+    Nueva calificación indicador
 </button>
 <hr class="py-2" />
 <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
-        <table class="table-auto" id="table-indicador">
+        <table class="w-full whitespace-no-wrap" id="table-calificacion-indicador">
             <thead>
                 <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                    <th>Fecha</th>
+                    <th>Vigencia</th>
+                    <th>Periodo</th>
                     <th>Indicador</th>
-                    <th>Plan Gral</th>
-                    <th>Linea Acción</th>
-                    <th>Objetivo</th>
-                    <th>Estrategia</th>
-                    <th>Plan Accion</th>
+                    <th>Tipo Meta</th>
+                    <th>Comentario</th>
+                    <th>Aprobado</th>
                     <th>Area</th>
-                    <th>Tipo meta</th>
-                    <th>Meta Númerica</th>
-                    <th>Formula Literal Numerador</th>
-                    <th>Formula Literal Denominador</th>
-                    <th>Meta Descriptiva</th>
-                    <th>Formula Literal Descriptiva</th>
+                    <th>Profesional</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -32,55 +28,38 @@
                     <tr class="text-gray-700 dark:text-gray-400">
 
                         <td class="px-4 py-3 text-sm">
+                            <%= item.fecha_calificacion %>
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            <%= item.vigencia %>
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            <%= item.nombre_mes %>
+                        </td>
+                        <td class="px-4 py-3 text-sm">
                             <%= item.nombre_indicador %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.plan_general %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.linea_accion %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.objetivo %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.estrategia %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.plan %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.nombre_area %>
                         </td>
                         <td class="px-4 py-3 text-sm">
                             <%= item.tipo_meta %>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            <% if (item.meta_numerica != 0) { %>
-                                <%= item.meta_numerica %>
-                                    <% }else{ %>
-                                        <%= '' %>
-
-                                            <% } %>
+                            <%= item.comentario %>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            <%= item.formula_literal_numerador %>
+                            <%= item.estado %>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            <%= item.formula_literal_denominador %>
+                            <%= item.nombre_area %>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            <%= item.meta_descriptiva %>
+                            <%= item.nombre_profesional %>
                         </td>
-
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.formula_literal_descriptiva %>
-                        </td>
+         
          
                         <td class="px-4 py-3">
                             <div class="flex items-center space-x-4 text-sm">
 
-                                <button @click="openModalEdit('/form-ctm-indicador/<%= item.id_indicador %>')"
+                                <button @click="openModalEdit('/form-ctm-calificacion-indicador/<%= item.id_calificacion_indicador %>')"
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -92,7 +71,7 @@
 
 
                                 <button
-                                    onclick="openPopupDelete('/indicador/delete/<%= item.indicador%>/control-mando-bips',reloadContainer)"
+                                    onclick="openPopupDelete('/calificacion-indicador/delete/<%= item.id_calificacion_indicador %>/control-mando-bips',reloadContainer)"
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Delete">
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -115,12 +94,12 @@
 
 <script>
     function reloadContainer(action) {
-        loadContentHtml('/ctm-indicadores', '#container-tab')
+        loadContentHtml('/ctm-calificacion-indicadores', '#container-tab')
         if (action == 'update') {
             document.querySelector("#closeModalEdit").click();
         } else if (action == 'created') {
             document.querySelector("#closeModalNew").click();
         }
     }
-    getPagination('#table-indicador');
+    getPagination('#table-calificacion-indicador');
 </script>

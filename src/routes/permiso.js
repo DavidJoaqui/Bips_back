@@ -46,20 +46,13 @@ router.get("/permisos-bips", authMiddleware, (req, res) => {
       .insertarPermiso(req.query.id_permiso, req.query.rol)
       .then((respuesta) => {
         if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
-          console.log("OK... insert Nuevo permiso");
-          res.json({ status: 200, msg: "Permiso activado..." });
+          return res.status(200).send("Ok");
         } else {
-          res.json({
-            status: 300,
-            msg: "ERROR al activar el Permiso , intente de nuevo...",
-          });
+          return res.status(400).send("Error al guardarla entidad");
         }
       })
       .catch((err) => {
-        res.json({
-          status: 500,
-          msg: "ERROR!! El Permiso no se pudo almacenar...",
-        });
+        return res.status(500).send("Error al guardar datos");
       });
   });
   
@@ -69,20 +62,13 @@ router.get("/permisos-bips", authMiddleware, (req, res) => {
       .eliminarPermiso(req.query.id_permiso, req.query.rol)
       .then((respuesta) => {
         if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {
-          console.log("OK... delete permiso");
-          res.json({ status: 200, msg: "Permiso Desactivado ..." });
+          return res.status(200).send("Ok");
         } else {
-          res.json({
-            status: 300,
-            msg: "ERROR al desactivar el Permiso , intente de nuevo...",
-          });
+          return res.status(400).send("Error al guardarla entidad");
         }
       })
       .catch((err) => {
-        res.json({
-          status: 500,
-          msg: "ERROR!! El Permiso no se pudo desactivar...",
-        });
+        return res.status(500).send("Error al guardar datos");
       });
   });
   

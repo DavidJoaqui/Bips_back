@@ -1,27 +1,19 @@
-<button @click="openModalNew('/form-ctm-indicador/0')"
+<button @click="openModalNew('/form-ctm-profesional/0')"
     class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-    Nuevo indicador
+    Nuevo usuario
 </button>
 <hr class="py-2" />
 <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
-        <table class="table-auto" id="table-indicador">
+        <table class="w-full whitespace-no-wrap" id="table-profesional">
             <thead>
                 <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                    <th>Indicador</th>
-                    <th>Plan Gral</th>
-                    <th>Linea Acción</th>
-                    <th>Objetivo</th>
-                    <th>Estrategia</th>
-                    <th>Plan Accion</th>
-                    <th>Area</th>
-                    <th>Tipo meta</th>
-                    <th>Meta Númerica</th>
-                    <th>Formula Literal Numerador</th>
-                    <th>Formula Literal Denominador</th>
-                    <th>Meta Descriptiva</th>
-                    <th>Formula Literal Descriptiva</th>
+                    <th>Usuario</th>
+                    <th>N.Identificacion</th>
+                    <th>nombres</th>
+                    <th>Apellidos</th>
+                    <th>Area de trabajo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -32,55 +24,26 @@
                     <tr class="text-gray-700 dark:text-gray-400">
 
                         <td class="px-4 py-3 text-sm">
-                            <%= item.nombre_indicador %>
+                            <%= item.nombre_usuario %>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            <%= item.plan_general %>
+                            <%= item.num_identificacion %>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            <%= item.linea_accion %>
+                            <%= item.nombre %>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            <%= item.objetivo %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.estrategia %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.plan %>
+                            <%= item.apellido %>
                         </td>
                         <td class="px-4 py-3 text-sm">
                             <%= item.nombre_area %>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.tipo_meta %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <% if (item.meta_numerica != 0) { %>
-                                <%= item.meta_numerica %>
-                                    <% }else{ %>
-                                        <%= '' %>
-
-                                            <% } %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.formula_literal_numerador %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.formula_literal_denominador %>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.meta_descriptiva %>
-                        </td>
-
-                        <td class="px-4 py-3 text-sm">
-                            <%= item.formula_literal_descriptiva %>
-                        </td>
+         
          
                         <td class="px-4 py-3">
                             <div class="flex items-center space-x-4 text-sm">
 
-                                <button @click="openModalEdit('/form-ctm-indicador/<%= item.id_indicador %>')"
+                                <button @click="openModalEdit('/form-ctm-profesional/<%= item.id_user %>')"
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Edit">
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -92,7 +55,7 @@
 
 
                                 <button
-                                    onclick="openPopupDelete('/indicador/delete/<%= item.indicador%>/control-mando-bips',reloadContainer)"
+                                    onclick="openPopupDelete('/profesional/delete/<%= item.id_user %>/control-mando-bips',reloadContainer)"
                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     aria-label="Delete">
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -115,12 +78,12 @@
 
 <script>
     function reloadContainer(action) {
-        loadContentHtml('/ctm-indicadores', '#container-tab')
+        loadContentHtml('/ctm-profesionales', '#container-tab')
         if (action == 'update') {
             document.querySelector("#closeModalEdit").click();
         } else if (action == 'created') {
             document.querySelector("#closeModalNew").click();
         }
     }
-    getPagination('#table-indicador');
+    getPagination('#table-profesional');
 </script>
