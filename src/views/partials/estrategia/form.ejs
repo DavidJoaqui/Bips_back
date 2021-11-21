@@ -1,0 +1,94 @@
+<form id="formEstrategia">
+
+
+    <input type="text" name="id_estrategia" style="display: none;" value="<%= id_estrategia %>">
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Estrategia
+        </span>
+        <textarea name="estrategia"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Objetivo"
+            required><%= item.length && item[0].estrategia? item[0].estrategia:'' %></textarea>
+    </label>
+
+
+
+
+
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Linea acción:
+        </span>
+        <select name="plan_general" id="select_linea"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+        </select required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Objetivo:
+        </span>
+        <select name="plan_general" id="select_objetivo"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+        </select required>
+    </label>
+
+
+    <button hidden id="btnForm" type="submit"></button>
+</form>
+
+<script>
+    const form = document.querySelector("#formEstrategia");
+
+    form.addEventListener("submit", function (event) {
+        // Stop form submission
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(form));
+
+        if (data.id_estrategia != '0') {
+            updateAjax('/actualizar-estrategia', data, reloadContainer)
+        } else {
+            createdAjax('/persistir-estrategia', data, reloadContainer)
+        }
+
+    });
+
+ 
+    function loadLineasAccionPlan(url){
+        $.ajax({
+            type: 'get',
+            url,
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (result) {
+                //select_linea
+                $("#select_linea").html("");
+                if (result.length == 0) {
+                    $("#select_linea").html("");
+                    $("#select_linea").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+
+                } else if(result) {
+                    result.forEach(element => {
+                        if (element.id_linea == '<%= item.length && item[0].id_linea_accion? item[0].id_linea_accion:0 %>') {
+                            $("#select_linea").append('<option value=' + element.id_linea + ' selected="selected">' + element.linea_accion + '</option>');
+                        } else {
+                            $("#select_linea").append('<option value=' + element.id_linea + '>' + element.linea_accion + '</option>');
+                        }
+                    });
+                }
+            }
+        });   
+    }
+
+    $("#select_plan").change(function () {
+        loadLineasAccionPlan("/consultar-lineas-accion_x_plan_general?id_plan_gral=" + $(this).val())
+    });
+
+    loadLineasAccionPlan("/consultar-lineas-accion_x_plan_general?id_plan_gral=" + '<%= item.length && item[0].id_plan_general?item[0].id_plan_general:0 %>')
+
+</script>

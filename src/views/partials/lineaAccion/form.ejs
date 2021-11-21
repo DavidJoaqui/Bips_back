@@ -1,0 +1,77 @@
+<form id="formLineaAccion">
+
+
+    <input type="text" name="id_linea" style="display: none;" value="<%= id_linea %>">
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Linea de acción:
+        </span>
+        <input name="linea_accion"
+            value="<%= item.length && item[0].linea_accion? item[0].linea_accion:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Nombre plan" required>
+    </label>
+
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Plan general:
+        </span>
+        <select name="plan_general"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+
+
+            <%
+            let data = planes_generales;
+            
+            for(let x of data){%>
+            
+   
+    
+                <% if (item.length && item[0].id_plangeneral == x.id_plangeneral) { %>
+
+                    <% if (!x.estado) { %>
+                        <option selected="selected" value="<%= item[0].id_plangeneral %>">
+                            <%= item[0].plan_general+' (Inactivo)' %>
+                        </option>
+                    <% }else{ %>
+                        <option selected="selected" value="<%= item[0].id_plangeneral %>">
+                            <%= item[0].plan_general %>
+                        </option>
+                        <% } %>
+                    
+                <% }else{ %>
+                    <% if (x.estado) { %>
+                <option value="<%= x.id_plangeneral %>">
+                    <%= x.plan_general %>
+                </option>   
+                <% } %>
+                
+            <% } %> 
+            
+            <%}%>
+        </select required>
+    </label>
+
+
+    <button hidden id="btnForm" type="submit"></button>
+</form>
+
+<script>
+    const form = document.querySelector("#formLineaAccion");
+
+    form.addEventListener("submit", function (event) {
+        // Stop form submission
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(form));
+
+        if (data.id_linea != '0') {
+            updateAjax('/actualizar-linea-accion', data, reloadContainer)
+        } else {
+            createdAjax('/persistir-linea-accion', data, reloadContainer)
+        }
+
+    });
+
+</script>

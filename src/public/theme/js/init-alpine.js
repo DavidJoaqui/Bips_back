@@ -77,3 +77,5 @@ function data() {
     },
   };
 }
+
+window.alpine = data()

@@ -5,7 +5,6 @@ Control mando
 
     <% if(rol=='ROL_ADMIN' || rol=='ROL_SUPER_ADMIN' || rol=='ROL_COORDINADOR' || rol=='ROL_USUARIO' ||
         rol=='ROL_EVALUADOR' ){%>
-        <%- include("../partials/controlMando/menuMando"); %>
 
             <%}else{%>
                 <div class="
@@ -36,8 +35,9 @@ Control mando
 
                 <%}%>
 
+</div>
 
-                    <div id="container-carga-data"></div>
+<div id="container" class="grid gap-6 mb-8 md:grid-cols-12 xl:grid-cols-12">
 
 </div>
 
@@ -49,7 +49,7 @@ Control mando
 
             <% if(permisos[i].codigo=='ctm_plan_general' ){ %>
                 <script>
-                    alert('plan general')
+                    loadContentHtml('/control-mando-admin', '#container')
                 </script>
                 <%}%>
                     <%}%>
@@ -65,6 +65,6 @@ Control mando
                                     <% if( rol=='ROL_USUARIO' ){%>
 
                                         <script>
-                                            loadContentHtml('/form-ctm-indicador', '#container-carga-data')
+                                            loadContentHtml('/control-mando-user', '#container')
                                         </script>
                                         <%}%>
