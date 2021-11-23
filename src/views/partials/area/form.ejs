@@ -1,0 +1,32 @@
+<form id="formArea">
+
+
+    <input type="text" name="id_area" style="display: none;" value="<%= id_area %>">
+
+      <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Nombre del area:
+        </span>
+        <input  name="nombre_area" value="<%= item.length && item[0].nombre_area? item[0].nombre_area:'' %>"  class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Nombre area"  required>
+      </label>
+
+    <button hidden id="btnForm" type="submit"></button>
+</form>
+
+<script>
+const form = document.querySelector("#formArea");
+
+form.addEventListener("submit", function (event) {
+	// Stop form submission
+	event.preventDefault();
+    const data=Object.fromEntries(new FormData(form));
+    data.activo? data.activo=true: data.activo=false;
+    if(data.id_area!='0'){
+        updateAjax('/actualizar-area',data,reloadContainer)
+    }else{
+        createdAjax('/persistir-area',data,reloadContainer)
+    }
+
+});
+
+</script>

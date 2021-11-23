@@ -1,7 +1,7 @@
 
 
 
-   function openPopupDelete(url) {
+   function openPopupDelete(url,callback) {
     Swal.fire({
        title: 'Estas seguro?',
        text: "¡No podrás revertir esto!",
@@ -13,12 +13,12 @@
        cancelButtonText: 'Cancelar'
     }).then((result) => {
        if (result.isConfirmed) {
-          deleteAjax(url)
+          deleteAjax(url,callback)
        }
     })
  }
 
- function deleteAjax(url) {
+ function deleteAjax(url,callback) {
     $.ajax({
        url: url,
        method: 'DELETE',
@@ -30,7 +30,13 @@
             showConfirmButton: false,
             timer: 1500
           })
-          setTimeout(function(){  location.reload(); }, 1500);
+          setTimeout(function(){
+            if(callback){
+               callback('') 
+            }else{
+               location.reload()
+            }
+         }, 1500);
        },
        error: function (request, msg, error) {
         Swal.fire({
@@ -44,7 +50,7 @@
     })
  }
 
- function createAjax(url,data) {
+ function createdAjax(url,data,callback) {
    $.ajax({
       url: url,
       method: 'POST',
@@ -57,7 +63,13 @@
            showConfirmButton: false,
            timer: 1500
          })
-         setTimeout(function(){  location.reload(); }, 1500);
+         setTimeout(function(){
+            if(callback){
+               callback('created') 
+            }else{
+               location.reload()
+            }
+         }, 1500);
       },
       error: function (request, msg, error) {
        Swal.fire({
@@ -72,7 +84,7 @@
 }
 
 
-function updateAjax(url,data) {
+function updateAjax(url,data,callback) {
    $.ajax({
       url: url,
       method: 'PUT',
@@ -85,7 +97,13 @@ function updateAjax(url,data) {
            showConfirmButton: false,
            timer: 1500
          })
-         setTimeout(function(){  location.reload(); }, 1500);
+         setTimeout(function(){
+            if(callback){
+               callback('update') 
+            }else{
+               location.reload()
+            }
+         }, 1500);
       },
       error: function (request, msg, error) {
        Swal.fire({
