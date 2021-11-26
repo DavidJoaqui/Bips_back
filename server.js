@@ -51,6 +51,7 @@ app.use(flash());
     require("./src/routes/estrategia"),
     require("./src/routes/plan"),
     require("./src/routes/registroIndicador"),
+    require("./src/routes/soporte"),
 ].forEach((route) => {
     app.use(route);
 });
