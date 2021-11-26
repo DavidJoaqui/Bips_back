@@ -189,28 +189,33 @@
                         </div>
 
                         <div class="" id="panel_descriptiva" style=" text-align: center;" hidden>
-                            <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+                            <div class="">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="font-weight: bold;" for="txt_meta_descriptiva" style="font-weight: bold;">
                                         Meta descriptiva: </label>
                                 <div class="">
-                                    <input class="text-center" type="text" placeholder="" name="txt_meta_descriptiva" id="txt_meta_descriptiva" value=' <%= lista_calificacion_indicadores[0].meta_descriptiva %>' disabled>
-                                       
-                                        
+                                    <input class="text-center" type="text" placeholder="" name="txt_meta_descriptiva" id="txt_meta_descriptiva" value=' <%= lista_calificacion_indicadores[0].meta_descriptiva %>' disabled>                                                                               
                                 </div>
+
+                                
                             </div>
 
                             <div class="">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="font-weight: bold;" for="txt_fl_descriptiva" style="font-weight: bold;">Descripcion: </label>
-                                <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-                                    <output class="" type="text" name="txt_fl_descriptiva" id="txt_fl_descriptiva" value='<%= lista_calificacion_indicadores[0].formula_literal_descriptiva %>'>
-                                        <%= lista_calificacion_indicadores[0].formula_literal_descriptiva %>
-                                        </output>
+                                <div class="">
+                                    <input class="text-center" type="text" name="txt_fl_descriptiva" id="txt_fl_descriptiva" value='<%= lista_calificacion_indicadores[0].formula_literal_descriptiva %>' disabled>                                        
+                                        
                                 </div>
                             </div>
+                            
 
                             <div class="">
-                                <label for="txt_onjetivo" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                            Observaciones: </label>
+                                <div class="">
+
+
+                                    <label class="" style="color: darkblue;">
+                                        Oobservaciones Ingresadas para el Indicador </label>
+        
+                                </div>
                                 <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
                                     <output class="" type="text" name="txt_observacion" id="txt_observacion">
                                         <%= lista_calificacion_indicadores[0].observaciones %>
@@ -335,15 +340,15 @@
 
                         <% if (lista_calificacion_indicadores[0].tipo_meta == 'Descriptiva') { %>
 
-                            <div class="form-group row">
+                            <div class="">
 
-                                <label class="col-12 col-form-label" style="font-weight: bold;color: blue;">
-                                        Calificación </label>
+                                <label class="" style="font-weight: bold;color: blue;">
+                                        Calificación </label><br>
 
                                 <label class="col-2 col-form-label" style="font-weight: bold;">
                                         Resultado: </label>
                                 <div class="col-4">
-                                    <select class="form-control" name="select_resultado_descriptivo" id="select_resultado_descriptivo" data-toggle="tooltip" title="Seleccionar Resultado!" data-placement="right" required>
+                                    <select class="form-select block w-full mt-1 justify-center Items-Center" name="select_resultado_descriptivo" id="select_resultado_descriptivo" data-toggle="tooltip" title="Seleccionar Resultado!" data-placement="right" required>
                                             <option selected="selected" value="">Seleccionar</option>
                                             <option value=1>Cumple</option>
                                             <option value=0>No Cumple</option>
@@ -367,7 +372,7 @@
                                     <div class="">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="max-width: 400px">
                                         <span class="text-gray-700">Aprobado</span>
-                                        <select class="form-select block w-full mt-1 justify-center Items-Center">
+                                        <select id="select_aprobar" name="select_aprobar" class="form-select block w-full mt-1 justify-center Items-Center">
                                             <option value="1">Si</option>
                                             <option value="0">No</option>
                                         </select>
@@ -377,7 +382,7 @@
 
                                 <div class="">
                                     <div class="text-center">
-                                        <button id="" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                                        <button id="" onclick="almacenar_registro()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                                             Guardar Calificación Indicador
                                           </button>
                                     </div>
@@ -449,7 +454,15 @@
                 success: function(result) {
                     if (result["status"] == 200) {
 
-                        alert(result["msg"]);
+                        Swal.fire({
+                    position: 'top-end',
+                    icon : "success",
+                    title: result["msg"],
+                    showConfirmButton: false,
+                    timer: 5000
+                })
+                        
+                        /*alert(result["msg"]);
 
                         $('#preview').show();
 
@@ -460,9 +473,18 @@
                         $('#formulario')[0].reset();
                         setTimeout(function() {
                             $('#preview').hide();
-                        }, 4000);
+                        }, 4000);*/
 
                     } else {
+                        Swal.fire({
+                    position: 'top-end',
+                    icon : "warning",
+                    title: result["msg"],
+                    showConfirmButton: false,
+                    timer: 5000
+                })
+
+                        /*
                         $('#preview').show();
 
                         $('#card-msg').html("<div style='' class='card-header text-white bg-danger mb-3 container-fluid' id='btn-cerrar'><strong>Error!</strong><button type='button' class='close' aria-label='Close'> <span aria-hidden='true'>&times;</span></button></div><div class='card-body-ok' id='card-body-ok'>" + result["msg"] + "</div>");
@@ -471,7 +493,7 @@
 
                         setTimeout(function() {
                             $('#preview').hide();
-                        }, 5000);
+                        }, 5000);*/
                     }
                 }
 

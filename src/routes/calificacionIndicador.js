@@ -49,4 +49,38 @@ router.get("/calcular-desviacion", authMiddleware, (req, res) => {
 
 });
 
+//persistir-calificacion-indicador
+router.post("/persistir-calificacion-indicador", authMiddleware, (req, res) => {
+
+
+  modelControlMando.insertar_calificacion_indicador(Number(req.query.reg_indicador), parseFloat(req.query.vr_numerador), parseFloat(req.query.vr_denominador), parseFloat(req.query.resultado_numerico), Number(req.query.resultado_descriptivo), parseFloat(req.query.desviacion), req.query.comentario, Number(req.query.estado)).then(respuesta => {
+
+
+      if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+
+          //actualizarRegIndicador
+          modelControlMando.actualizar_RegIndicador_calificado(req.query.reg_indicador).then(calificado => {
+
+              if (calificado['command'] == "UPDATE" && calificado['rowCount'] > 0) {
+                  console.log("OK... insert NEW Indicador, update registro de indicador --> calificado: 1");
+                  res.json({ status: 200, msg: 'La Calificación del Indicador se registro correctamente...' });
+              } else {
+                  console.log("Ocurrio un Error al generar la calificacion el registro de Indicador");
+                  res.json({ status: 300, msg: 'Ocurrio un Error al generar la calificación del registro de Indicador' });
+              }
+
+
+
+          });
+
+
+      } else {
+          res.json({ status: 300, msg: 'ERROR al crear al calificar el Indicador, intente de nuevo...' });
+      }
+  }).catch(err => {
+      console.log(err);
+      res.json({ status: 500, msg: 'ERROR!! Ocurrio un problema al realizar la Calificación del Indicador, contacte con el administrador! ...' });
+  });
+})
+
 module.exports = router;
