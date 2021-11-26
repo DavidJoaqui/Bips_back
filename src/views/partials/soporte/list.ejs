@@ -155,19 +155,17 @@
                                     </td>
 
                                     <td class="">
-                                        <%if(lista_soportes[i].extension != '.pdf' ){%>
-                                            <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].nombre_soporte %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
-                                            <span class="vertical-line"></span>
-                                            <a href="" title="Eliminar"><i class="fa fa-minus-circle" style="color: #de1f21;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>','<%= lista_soportes[i].id_registro_indicador %>')"></i></a>
-                                            <span class="vertical-line"></span>
-                                            <%}else{%>
-                                                <a href="" title="Ver"><i class="fas fa-eye" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
+                                        <%if(lista_soportes[i].extension == '.pdf' ){%>                                            
+                                            <a href="" title="Ver"><i class="fas fa-eye" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
                                                 <span class="vertical-line"></span>
+                                            <%}%>
+                                                                                                
+                                                
                                                 <a href="" title="Descargar"><i class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].nombre_soporte %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
                                                 <span class="vertical-line"></span>
                                                 <a href="" title="Eliminar"><i class="fa fa-minus-circle" style="color: #de1f21;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>','<%= lista_soportes[i].id_registro_indicador %>')"></i></a>
                                                 <span class="vertical-line"></span>
-                                                <%}%>
+                                            
                                     </td>
 
 
@@ -212,7 +210,7 @@
 
         function RealizarAccionDescargar(id_soporte, nombre_original, nombre_soporte, mime, extension) {
             event.preventDefault();
-            const peticion = "/descargar-recurso-soporte/" + id_soporte;
+            const peticion = "/descargar-recurso/" + id_soporte;
 
             var xhr = new XMLHttpRequest();
             xhr.open('GET', peticion, true);
@@ -233,7 +231,7 @@
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                    alert('peticion  200');
+                    //alert('peticion  200');
                     const peticion_elim = "/eliminar-recurso-temporal/1/" + nombre_soporte;
                     $.ajax({
                         method: 'get',
