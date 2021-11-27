@@ -1,34 +1,6 @@
     <div class="" id="panel_soportes_">
 
-        <!-- Trigger the modal with a button 
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-        -->
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="document" aria-labelledby="myModalLabel" aria-hidden="true" hidden>
-
-            <div class="" role="document" style="width: 100%;">
-
-                <!-- Modal content-->
-                <div class="modal-content" style="width: 100%;">
-
-                    <div class="modal-header">
-                        <h4 class="modal-title text-center"><small>visor pdf</small> </h4>
-                        <button type="button" class="close" id="cerrar-visor" data-dismiss="modal">&times;</button>
-
-                    </div>
-                    <div class="modal-body mb-0 p-0">
-
-                        <div class="" id="viewerPdf">
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
+        
 
         <div class="" id="" name="" style="margin-top: 10px;">
 
@@ -72,6 +44,16 @@
                                 uppercase
                                 tracking-wider
                               "
+              >Ext</th>
+                                <th                 class="
+                                px-6
+                                py-3
+                                text-left text-xs
+                                font-medium
+                                text-gray-500
+                                uppercase
+                                tracking-wider
+                              "
               >Habilitado</th>
                                 <th                 class="
                                 px-6
@@ -105,7 +87,7 @@
               >Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="" class="bg-white divide-y divide-gray-200">
+                        <tbody id="" class="bg-white divide-y divide-gray-300">
                             <% for(var i=0; i<lista_soportes.length; i++) { %>
 
                                 <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
@@ -116,21 +98,27 @@
                                     </td>
 
 
-                                    <td class="">
-                                        <%if(lista_soportes[i].extension == '.docx' ){%>
-                                            <i class="far fa-file-word" style="color: blue;"></i>
+                                    <td class="text-left">
+                                        
+                                            
                                             <%= lista_soportes[i].nombre_original %>
-                                                <%}else if(lista_soportes[i].extension == '.pdf'){%>
-                                                    <i class="fas fa-file-pdf" style="color: red;"></i>
-                                                    <%= lista_soportes[i].nombre_original %>
-                                                        <%}else if(lista_soportes[i].extension == '.xlsx'){%>
-                                                            <i class="fas fa-file-excel" style="color: green;"></i>
-                                                            <%= lista_soportes[i].nombre_original %>
-                                                                <%}else if(lista_soportes[i].extension == '.txt'){%>
-                                                                    <i class="fas fa-file-alt" style="color: gray;"></i>
-                                                                    <%= lista_soportes[i].nombre_original %>
-                                                                        <%}%>
+                                                
 
+                                    </td>
+                                    <td class="text-center">
+
+                                        <%if(lista_soportes[i].extension == '.docx' ){%>
+                                            <i class="far fa-file-word" title=".docx" style="color: blue;"></i>
+                                            
+                                                <%}else if(lista_soportes[i].extension == '.pdf'){%>
+                                                    <i class="fas fa-file-pdf" title=".pdf" style="color: red;"></i>
+                                                    
+                                                        <%}else if(lista_soportes[i].extension == '.xlsx'){%>
+                                                            <i class="fas fa-file-excel" title=".xlsx" style="color: green;"></i>
+                                                            
+                                                                <%}else if(lista_soportes[i].extension == '.txt'){%>
+                                                                    <i class="fas fa-file-alt" title=".txt" style="color: gray;"></i>                                                                    
+                                                                        <%}%>
                                     </td>
 
                                     <td class="">
@@ -154,32 +142,39 @@
                                         <%= lista_soportes[i].fecha %>
                                     </td>
 
-                                    <td class="">
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center space-x-4 text-sm">
+
+                                        
                                         <%if(lista_soportes[i].extension == '.pdf' ){%>                                            
-                                            <a href="" title="Ver"><i class="fas fa-eye" style="color: rgb(0, 27, 180);" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
-                                            <span class="vertical-line"></span>
+                                            <a href="" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                            aria-label="Ver" title="Ver"><i class="fas fa-eye" style="color: rgb(0, 27, 180);" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
+                                                                                             
                                             <%}%>
                                                                                                 
                                                 
-                                                <a href="" title="Descargar"><i style="color: rgb(4, 151, 248);" class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].nombre_soporte %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
-                                                <span class="vertical-line"></span>
+                                                <a href="" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                aria-label="Descargar"  title="Descargar"><i style="color: rgb(4, 151, 248);" class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].nombre_soporte %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
+                                                
 
-
-                                            <!--<button
-                                                onclick="openPopupDelete('/eliminar-recurso-soporte/<%= lista_soportes[i].id_soporte %>',reloadContainer)"
-                                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                                aria-label="Delete">
-                                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd"
-                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                            </button>-->
+                                            
+                                                <a title="Eliminar"
+                                                    onclick="openPopupDelete('/eliminar-recurso-soporte/<%= lista_soportes[i].id_soporte %>',reloadContainer)"
+                                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                    aria-label="Delete">
+                                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd"
+                                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                </a>
+                                            
                                                
-                                                <a href="" title="Eliminar"><i class="fa fa-minus-circle" style="color: #de1f21;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>','<%= lista_soportes[i].id_registro_indicador %>')"></i></a>
-                                                <span class="vertical-line"></span>
+                                                <!--<a href="" title="Eliminar"><i class="fa fa-minus-circle" style="color: #de1f21;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>','<%= lista_soportes[i].id_registro_indicador %>')"></i></a>
+                                                <span class="vertical-line"></span>-->
                                             
                                     </td>
+                                </div>
 
 
 
@@ -189,7 +184,7 @@
                         <tfoot>
 
                         </tfoot>
-                    </table>
+                    </table>                    
 
                 </div>
 
@@ -198,16 +193,17 @@
 
         </div>
     </div>
-    <script type="text/javascript">
-        $(document).ready(function() {
+    <script type="text/javascript">      
 
-        });
+        function toggleModal() {
+        document.getElementById('modal').classList.toggle('hidden')
+        }
 
         function reloadContainer(action) {
         var peticion_soportes = "/obtener_soportesxreg_indicador/<%= id_reg_indicador %>";
         loadContentHtml(peticion_soportes, '#panel_soportes')
         
-    }
+        }
     getPagination('#tbl_soportes');
 
         function RealizarAccionVer(id_soporte) {
@@ -317,7 +313,8 @@
                             timer: 5000
                         })
                        
-
+                        var peticion_soportes = "/obtener_soportesxreg_indicador/<%= id_reg_indicador %>";
+                        loadContentHtml(peticion_soportes, '#panel_soportes')
                         //Se actualiza la lista de los soportes
                         /*
                         var peticion_soportes = "/obtener_soportesxreg_indicador/?id_reg_indicador=" + id_reg_indicador;
