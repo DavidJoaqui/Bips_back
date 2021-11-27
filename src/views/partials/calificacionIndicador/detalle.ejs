@@ -2,7 +2,10 @@
 
     <body id="body_ent">
 
-
+        <style>
+            
+        </style>
+        
 
         <div style="">
 
@@ -340,7 +343,7 @@
                         <div class="form-group row">
                             <label for="panel_soportes" class="col-2 col-form-label" style="font-weight: bold;color: blue">
                                     Soportes: </label>
-                            <div class="form-group row col-10" id="panel_soportes">
+                            <div class="" id="panel_soportes">
 
                             </div>
                         </div>
@@ -367,15 +370,19 @@
                             <% }%>
 
                                 <br>
-                            <div class="">
-                                <label for="txt_comentario" class="" style="font-weight: bold; color: darkblue;">
-                                    Comentario acerca de Calificación: </label>
-                                <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-                                    <textarea class="block text-left appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" name="txt_comentario" id="txt_comentario">
-                                        
-                                    </textarea>
+                            
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full">
+        
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            Comentario acerca de la calificación: </label>                                                            
+                                        <textarea id="txt_comentario" class="form-textarea mt-1 block w-full" rows="3" placeholder="Ingresa un comentario" name="txt_tipo_meta" id="txt_tipo_meta" value=''></textarea>
+                                    </div>
+        
                                 </div>
-                            </div>
+                                
+                                
+                            
                                 <div class="">                                    
                                     <div class="">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="max-width: 400px">
@@ -390,7 +397,7 @@
 
                                 <div class="">
                                     <div class="text-center">
-                                        <button id="" onclick="almacenar_registro()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                                        <button id="btn-save" onclick="almacenar_registro()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                                             Guardar Calificación Indicador
                                           </button>
                                     </div>
@@ -409,6 +416,9 @@
 
 
     <script type="text/javascript">
+     var peticion_soportes = "/obtener_soportesxreg_indicador/<%= lista_calificacion_indicadores[0].id_registroindicador %>";   
+    loadContentHtml(peticion_soportes, '#panel_soportes');
+
         function almacenar_registro() {
 
             event.preventDefault();
@@ -469,7 +479,11 @@
                     showConfirmButton: false,
                     timer: 5000
                 })
-                        
+                $('#btn-save').prop('hidden',true);
+                $('#txt_comentario').prop('disabled',true);
+                $('#select_aprobar').prop('disabled',true);
+                
+                
                         /*alert(result["msg"]);
 
                         $('#preview').show();
@@ -569,7 +583,7 @@
             }
 
 
-            var peticion_soportes = "/obtener_soportesxreg_indicador/<%= lista_calificacion_indicadores[0].id_registroindicador %>";
+           /* var peticion_soportes = "/obtener_soportesxreg_indicador/<%= lista_calificacion_indicadores[0].id_registroindicador %>";
             $.ajax({
                 type: 'get',
                 url: peticion_soportes,
@@ -584,7 +598,7 @@
                     loadContentHtml(peticion_soportes, '#panel_soportes')
 
                 }
-            });
+            });*/
 
 
         });

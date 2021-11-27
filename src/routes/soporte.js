@@ -11,7 +11,7 @@ router.get("/obtener_soportesxreg_indicador/:id", authMiddleware, (req, res) => 
     modelControlMando.consultar_soportes_x_regIndicador(req.params.id).then(lista_soportes => {
         console.log(lista_soportes);
 
-        res.render(config.rutaPartials +"soporte/list", {layout:false, lista_soportes: lista_soportes });
+        res.render(config.rutaPartials +"soporte/list", {layout:false, lista_soportes: lista_soportes, id_reg_indicador: req.params.id });
     });
 
 
@@ -79,4 +79,82 @@ router.get("/descargar-recurso/:id_soporte", authMiddleware, (req, res) => {
 
 });
 
+
+router.delete("/eliminar-recurso-soporte/:id_soporte", authMiddleware, (req, res) => {
+
+    const spawn = require('child_process').spawn;
+    modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
+
+        modelControlMando.eliminar_soporte_x_idSoporte(req.params.id_soporte).then(rspta_eliminacion => {
+
+
+
+            msg = 'El Soporte ' + lista_soportes[0].nombre_original + ' se eliminó correctamente...';
+            if (rspta_eliminacion['command'] == "DELETE" && rspta_eliminacion['rowCount'] > 0) {
+
+                console.log("respuesta de eliminacion: 1, Se elimino correctamente el soporte...");
+                msg = 'El Soporte ' + lista_soportes[0].nombre_original + ' se eliminó correctamente...';
+
+
+                //se elimina el soporte (digital) del directorio                    
+                const spawn_del = spawn('cmd.exe', ['/c', "C://task_delete_file.bat", config.rutaSoportesCtm, lista_soportes[0].nombre_soporte]);
+
+
+                spawn_del.stdout.on('data', (data) => {
+                    console.log("std OUT");
+                    console.log(data.toString())
+
+                });
+                spawn_del.stderr.on('data', (data) => {
+                        console.log("std ERR");
+                        console.error(data.toString());
+                    })
+                    //res.send(stdout);
+
+                spawn_del.on('close', (code) => {
+                    console.log('OK.. code: ' + code);
+                    var preText = `Child exited with code ${code} : `;
+                    switch (code) {
+                        case 1:
+                            //req.flash('notify_del_soporte', msg);
+                            res.status(200).send({ status: 200, msg: msg });
+                            break;
+                        case 2:
+                            console.info(preText + "The file already exists");
+                            break;
+                        case 3:
+                            console.info(preText + "The file doesn't exists and now is created");
+                            break;
+                        case 4:
+                            console.info(preText + "An error ocurred while creating the file");
+                            break;
+                    }
+                });;
+
+
+            } else {
+                console.log("respuesta de eliminacion: ERROR... 0, ocurrio un problema al eliminar el Soporte " + lista_soportes[0].nombre_original);
+                msg = ' ocurrio un problema al eliminar el soporte... ' + lista_soportes[0].nombre_original;
+                //req.flash('notify_del_soporte', msg);
+                res.status(300).send({ status: 300, msg: msg });
+
+            }
+
+
+
+
+
+
+
+        })
+
+
+
+
+
+
+    });
+
+
+});
 module.exports = router;
