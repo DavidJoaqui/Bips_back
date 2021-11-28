@@ -277,6 +277,11 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_reg_indicadores_x_id(id_indicador) {
+        const resultados = await conexion.query("select CAST(r.vigencia AS varchar) periodo_año, p.cod_mes periodo_mes, r.*, i.tipo_meta from schema_control.registroindicadores r inner join schema_control.indicadores i on (r.id_indicador = i.id_indicador) inner join schema_control.periodo_mes p on (r.periodoevaluado=p.id_mes) where r.id_registroindicador = $1", [id_indicador]);
+        return resultados.rows;
+    },
+
     async consultar_reg_indicadores_x_profesional(idprof) {
         var version = '"version"';
         const resultados = await conexion.query("select c.id_profesional, a.version, a.id_indicador, a.periodoevaluado, a.id_registroindicador, to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, a.calificado, e.nombre_mes, e.id_mes , b.nombre_indicador, b.tipo_meta , a.formula_cifras_numerador, a.formula_cifras_denominador, a.observaciones, d.nombre_area , concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional, (case when f.estado=true then 'Si' else 'No' end)::text as estado from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) left join schema_control.calificacion_registro_indicadores f on (a.id_registroindicador=f.id_registro_indicador) where c.id_profesional = $1 and a.id_registroindicador in ( select reg_ind.id_registroindicador from schema_control.registroindicadores reg_ind inner join ( select a2.id_indicador, a2.periodoevaluado, a2.vigencia, a2.id_profesional, max(a2.version) as "+version+" from schema_control.registroindicadores a2 inner join schema_control.indicadores b2 on (a2.id_indicador = b2.id_indicador) inner join schema_control.profesionales c2 on (a2.id_profesional = c2.id_profesional) inner join schema_seguridad.user u2 on (c2.id_user = u2.id_user) inner join schema_control.areas d2 on (b2.id_area = d2.id_area) inner join schema_control.periodo_mes e2 on (a2.periodoevaluado = e2.id_mes) where a2.id_profesional = $2 group by a2.id_indicador, a2.periodoevaluado, a2.vigencia, a2.id_profesional)t1 on (t1.id_indicador = reg_ind.id_indicador) and (t1.periodoevaluado = reg_ind.periodoevaluado) and (t1.vigencia = reg_ind.vigencia) and (t1.id_profesional = reg_ind.id_profesional) and (t1.version = reg_ind.version) ) order by a.vigencia, e.id_mes, a.id_registroindicador asc", [idprof, idprof]);
@@ -337,7 +342,7 @@ module.exports = {
 
 
     async consultar_indicadorxarea(area) {
-        const resultados = await conexion.query("select b.id_indicador,b.nombre_indicador from schema_control.indicadores b where b.id_area =$1 ", [area]);
+        const resultados = await conexion.query("select b.id_indicador,b.nombre_indicador,b.tipo_meta from schema_control.indicadores b where b.id_area =$1 ", [area]);
         return resultados.rows;
     },
 
@@ -459,7 +464,7 @@ module.exports = {
     },
     //consultarProfesionalXidUsuario
     async consultarProfesionalXidUsuario(id_user) {
-        const resultados = await conexion.query("select u.*, u.id_area as id_area_trabajo, a.nombre_area,r.nombre_rol from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) inner join schema_seguridad.rol r on(r.id_rol=u.id_rol_user) where u.id_user = $1 order by u.id_user", [id_user]);
+        const resultados = await conexion.query("select u.*, u.id_area as id_area_trabajo, a.nombre_area, r.nombre_rol, p.id_profesional from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) inner join schema_seguridad.rol r on (r.id_rol = u.id_rol_user) inner join schema_control.profesionales p on (p.id_user=u.id_user) where u.id_user = $1 order by u.id_user", [id_user]);
         return resultados.rows;
     },
 
