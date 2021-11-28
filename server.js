@@ -55,7 +55,8 @@ app.use(flash());
     require("./src/routes/registroIndicador"),
     require("./src/routes/soporte"),
     require("./src/routes/viewPdf"),
-    require("./src/routes/listData")
+    require("./src/routes/listData"),
+    require("./src/routes/reportePentaho")
 ].forEach((route) => {
     app.use(route);
 });
