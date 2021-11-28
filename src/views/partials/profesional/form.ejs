@@ -1,0 +1,225 @@
+<form id="formProfesional">
+
+
+    <input type="text" name="id_user" style="display: none;" value="<%= id_user %>">
+
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Tipo Identificación:
+        </span>
+        <select name="tipo_identificacion" id="select_tipo_identificacion"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option selected="selected" value="">Seleccionar Tipo Identificación
+            </option>
+            <option value="CC">Cédula de ciudadania</option>
+            <option value="CE">Cédula de Extranjeria</option>
+            <option value="PEP">Pasaporte</option>
+        </select required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Número de Identificación:
+        </span>
+        <input name="num_identificacion"
+            value="<%= item.length && item[0].num_identificacion? item[0].num_identificacion:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Número de Identificación" required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Nombre:
+        </span>
+        <input name="nombre" value="<%= item.length && item[0].nombre? item[0].nombre:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Nombre" required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Apellido:
+        </span>
+        <input name="apellido" value="<%= item.length && item[0].apellido? item[0].apellido:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Apellido" required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Usuario:
+        </span>
+        <input name="apellido" value="<%= item.length && item[0].nombre_usuario? item[0].nombre_usuario:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Apellido" required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Correo:
+        </span>
+        <input name="correo" value="<%= item.length && item[0].correo? item[0].correo:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Correo" type="email" required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Telefono:
+        </span>
+        <input name="telefono" value="<%= item.length && item[0].correo? item[0].telefono:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Telefono" required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Contraseña: <span id="show-password" class="fa fa-fw fa-eye"></span>
+        </span>
+        <input name="password" id="txt_password" value="<%= item.length && item[0].password? item[0].password:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            type="password" required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Repita Contraseña: <span id="msg-password"></span>
+        </span>
+        <input name="repitPassword" id="txt_password2"
+            value="<%= item.length && item[0].password? item[0].password:'' %>"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            type="password" required>
+    </label>
+
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Tipo rol:
+        </span>
+        <select name="rol" id="select_rol"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+
+
+
+            <% if(item.length){ %>
+                <option selected="selected" value="<%= item[0].id_rol_user %>">
+                    <%= item[0].nombre_rol %>
+                </option>
+                <% } %>
+
+
+                    <% lista_roles.forEach(lista=> { %>
+                        <option value="<%= lista.id_rol %>">
+                            <%= lista.nombre_rol %>
+                        </option>
+                        <% }); %>
+        </select required>
+    </label>
+
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Areá Trabajo:
+        </span>
+        <select name="area_trabajo" id="select_area"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+
+            <% if(item.length){ %>
+                <option selected="selected" value="<%= item[0].id_area_trabajo %>">
+                    <%= item[0].nombre_area %>
+                </option>
+                <% } %>
+
+                    <% lista_areas.forEach(lista=> { %>
+                        <option value="<%= lista.id_area %>">
+                            <%= lista.nombre_area %>
+                        </option>
+                        <% }); %>
+
+        </select required>
+    </label>
+
+
+    <label class="flex items-center dark:text-gray-400">
+        <% if (item.length && item.es_activo==true ) { %>
+            <input type="checkbox" name="activo" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" checked>
+         <% }else{%>
+            <input type="checkbox" name="activo" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+        <%}%>
+        <span class="ml-2">
+            Activo
+        </span>
+      </label>
+
+      <label class="flex items-center dark:text-gray-400">
+        <% if (item.length && item.es_profesional==true ) { %>
+            <input type="checkbox" name="profesional" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" checked>
+         <% }else{%>
+            <input type="checkbox" name="profesional" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+        <%}%>
+
+        <span class="ml-2">
+            Profesional
+        </span>
+      </label>
+
+    <button hidden id="btnForm" type="submit"></button>
+</form>
+
+<script>
+    const form = document.querySelector("#formProfesional");
+
+    form.addEventListener("submit", function (event) {
+        // Stop form submission
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(form));
+
+        data.activo? data.activo=true: data.activo=false;
+        data.profesional? data.profesional=true: data.profesional=false;
+        console.log(validationForm(data,'id_user'))
+        return;
+        if (data.id_user != '0') {
+            updateAjax('/actualizar-profesional', data, reloadContainer)
+        } else {
+            createdAjax('/persistir-profesional', data, reloadContainer)
+        }
+
+    });
+
+
+    function checkPassword() {
+        $('#txt_password, #txt_password2').on('keyup', function () {
+            if ($('#txt_password').val() == $('#txt_password2').val()) {
+                $('#msg-password').html('').css('color', 'green');
+            } else
+                $('#msg-password').html('Contraseñas no coinciden').css('color', 'red');
+        });
+    }
+
+    function eventShowPassword() {
+        const eye = document.getElementById('show-password')
+        eye.addEventListener('click', () => {
+            const password = document.getElementById('txt_password');
+            const password2 = document.getElementById('txt_password2');
+            if (password.type === "text") {
+                password.type = "password"
+                password2.type = "password"
+                eye.classList.remove('fa-eye-slash');
+            } else {
+                password.type = "text"
+                password2.type = "text"
+                eye.classList.toggle("fa-eye-slash");
+            }
+        })
+    }
+
+
+    function selectTipoIdentifaction() {
+        const tipoIdentification = "<%= item.length && item[0].tipo_identificacion? item[0].tipo_identificacion:'0' %>"
+        $("#select_tipo_identificacion option[value="+tipoIdentification+"]").attr("selected", true);
+     
+    }
+    eventShowPassword();
+    selectTipoIdentifaction();
+    checkPassword();
+</script>
