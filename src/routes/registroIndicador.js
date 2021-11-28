@@ -4,6 +4,7 @@ const config = require("../config/config");
 const modelControlMando = require("../models/controlMandoModel");
 const multer = require("multer");
 const { consultarRoles } = require("../models/controlMandoModel");
+const session = require("express-session");
 
 router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
     modelControlMando
@@ -121,9 +122,11 @@ const upload_soportes = multer({
 
 
 router.get("/ctm-registro-indicadores", authMiddleware, (req, res) => {
-    modelControlMando
-      .consultar_reg_indicadores()
+  
+  modelControlMando
+      .consultar_reg_indicadores_x_profesional(req.session.username["id_profesional"])
       .then((lista_registro_indicadores) => {
+        console.log(lista_registro_indicadores);
         res.render(config.rutaPartials + "registroIndicador/list", {
           layout: false,
           list: lista_registro_indicadores,

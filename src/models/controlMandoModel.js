@@ -449,7 +449,7 @@ module.exports = {
     },
     //consultarProfesionalXidUsuario
     async consultarProfesionalXidUsuario(id_user) {
-        const resultados = await conexion.query("select u.*, u.id_area as id_area_trabajo, a.nombre_area,r.nombre_rol from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) inner join schema_seguridad.rol r on(r.id_rol=u.id_rol_user) where u.id_user = $1 order by u.id_user", [id_user]);
+        const resultados = await conexion.query("select u.*, u.id_area as id_area_trabajo, a.nombre_area, r.nombre_rol, p.id_profesional from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) inner join schema_seguridad.rol r on (r.id_rol = u.id_rol_user) inner join schema_control.profesionales p on (p.id_user=u.id_user) where u.id_user = $1 order by u.id_user", [id_user]);
         return resultados.rows;
     },
 
