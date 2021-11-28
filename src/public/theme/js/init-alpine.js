@@ -51,10 +51,13 @@ function data() {
     // Modal edit
     isModalOpenEdit: false,
     trapCleanupEdit: null,
-    openModalEdit(url) {
+    openModalEdit(url,classSize) {
+      const modalId="#modalEdit";
+      removeClassModal(modalId)
+      addClassModal(classSize,modalId);
       loadContentHtml(url,'#contentEditModal')
       this.isModalOpenEdit = true;
-      this.trapCleanupEdit = focusTrap(document.querySelector("#modalEdit"));
+      this.trapCleanupEdit = focusTrap(document.querySelector(modalId));
     },
     closeModalEdit() {
       $('#contentEditModal').html('');
@@ -65,10 +68,13 @@ function data() {
     // Modal  new
     isModalOpenNew: false,
     trapCleanupNew: null,
-    openModalNew(url) {
+    openModalNew(url,classSize) {
+      const modalId="#modalNew";
+      removeClassModal(modalId)
+      addClassModal(classSize,modalId);
       loadContentHtml(url,'#contentNewModal')
       this.isModalOpenNew = true;
-      this.trapCleanupNew = focusTrap(document.querySelector("#modalNew"));
+      this.trapCleanupNew = focusTrap(document.querySelector(modalId));
     },
     closeModalNew() {
       $('#contentNewModal').html('');
@@ -80,10 +86,13 @@ function data() {
     // Modal detail
     isModalOpenDetail: false,
     trapCleanupDetail: null,
-    openModalDetail(url) {
+    openModalDetail(url,classSize) {
+      const modalId="#modalDetail";
+      removeClassModal(modalId)
+      addClassModal(classSize,modalId);
       loadContentHtml(url,'#contentDetailModal')
       this.isModalOpenDetail = true;
-      this.trapCleanupDetail = focusTrap(document.querySelector("#modalDetail"));
+      this.trapCleanupDetail = focusTrap(document.querySelector(modalId));
     },
     closeModalDetail() {
       $('#contentDetailModal').html('');
@@ -93,4 +102,22 @@ function data() {
   };
 }
 
+function removeClassModal(htmlModal){
+  $(htmlModal).removeClass( "sm:m-4 sm:max-w-xl xl:max-w-xl" )
+}
+function addClassModal(classSize,htmlModal){
+  if(classSize){
+    if(classSize=='sm'){
+      $(htmlModal).addClass( "myClass yourClass" );
+    }else if(classSize=='ms'){
+      $(htmlModal).addClass( "myClass yourClass" );
+    }else if(classSize=='xl'){
+      $(htmlModal).addClass("sm:m-4 xl:max-w-xl");
+    }
+  }else{
+    $(htmlModal).addClass( "sm:m-4 sm:max-w-xl" );
+  }
+}
+
 window.alpine = data()
+
