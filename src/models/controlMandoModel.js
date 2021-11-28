@@ -364,7 +364,7 @@ module.exports = {
     },
 
     async consultar_reg_ind_xcal_filtrado(vigencia, mes, area, indicador) {
-        const resultados = await conexion.query("select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, b.tipo_meta,b.meta_numerica, b.meta_descriptiva, b.formula_literal_descriptiva, b.formula_literal_numerador, b.formula_literal_denominador, a.observaciones, a.formula_cifras_numerador ,a.formula_cifras_denominador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional, d.nombre_area from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on(c.id_user = u.id_user) inner join schema_control.areas d on(u.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 and b.id_indicador = $4 order by a.id_registroindicador ", [vigencia, mes, area, indicador]);
+        const resultados = await conexion.query("select a.id_registroindicador, a.vigencia, e.nombre_mes, b.id_indicador, b.nombre_indicador, b.tipo_meta,b.meta_numerica, b.meta_descriptiva, b.formula_literal_descriptiva, b.formula_literal_numerador, b.formula_literal_denominador, a.observaciones, a.formula_cifras_numerador ,a.formula_cifras_denominador, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional, d.nombre_area from schema_control.registroindicadores a inner join schema_control.indicadores b on(a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on(a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on(c.id_user = u.id_user) inner join schema_control.areas d on(u.id_area = d.id_area) inner join schema_control.periodo_mes e on(a.periodoevaluado = e.id_mes) where a.vigencia = $1 and e.id_mes = $2 and d.id_area = $3 and b.id_indicador = $4 and a.calificado = '0' order by a.id_registroindicador ", [vigencia, mes, area, indicador]);
         return resultados.rows;
     },
 
@@ -522,7 +522,7 @@ module.exports = {
         const resultados = await conexion.query('delete from schema_seguridad.permiso_rol where id_permiso_fk = $1 and id_rol_fk = $2 ', [id_permiso_fk, id_rol_fk]);
         return resultados;
     },
-    
+   
 
     //----------------Roles -----------------------
     

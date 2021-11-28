@@ -1,92 +1,186 @@
 <hr class="py-2" />
-    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+<div > 
+    <div class="">
+        <%# include("../../partials/calificacionIndicador/find", {lista_años}); %>
+        <div style="">
 
-            <div class="w-full overflow-x-auto">
 
-                <table class="w-full whitespace-no-wrap" id="table-calificacion-indicador">
-
-
-                    <thead class="">
-                        <tr  class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                            <th>#</th>
-                            <th>Vigencia</th>
-                            <th>Periodo</th>
-                            <th>Indicador</th>
-                            <th>Tipo meta</th>
-                            <th>Area</th>
-                            <th>Profesional</th>
-                            <th>Fecha Registro</th>
-                            <th>Versión</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        <% for(var i=0; i<lista_calificacion_indicadores.length; i++) { %>
-
-                            <tr class="text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3 text-sm">
-                                    <%= i+1 %>
-
-                                </td>
-
-                                <td class="px-4 py-3 text-sm">
-                                    <%= lista_calificacion_indicadores[i].vigencia %>
-                                </td>
-
-                                <td class="px-4 py-3 text-sm">
-                                    <%= lista_calificacion_indicadores[i].nombre_mes %>
-                                </td>
-
-                                <td class="px-4 py-3 text-sm">
-                                    <%= lista_calificacion_indicadores[i].nombre_indicador %>
-                                </td>
-                                <td class="px-4 py-3 text-sm">
-                                    <%= lista_calificacion_indicadores[i].tipo_meta %>
-                                </td>
-
-                                <td class="px-4 py-3 text-sm">
-                                    <%= lista_calificacion_indicadores[i].nombre_area %>
-                                </td>
-                                <td class="px-4 py-3 text-sm">
-                                    <%= lista_calificacion_indicadores[i].nombre_profesional %>
-                                </td>
-                                <td class="px-4 py-3 text-sm">
-                                    <%= lista_calificacion_indicadores[i].fecharegistro %>
-                                </td>
-                                <td class="px-4 py-3 text-sm">
-                                    <%= lista_calificacion_indicadores[i].version %>
-                                </td>
-
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center space-x-4 text-sm">
+            <div class="" style="">
         
-                                        <!--<a href="" title="Calificar"><i class="fas fa-edit flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" onclick="RealizarCalificacion('<%= lista_calificacion_indicadores[i].id_registroindicador %>')"></i></a>-->
-                                        <button href="" @click="openModalNew('/form-ctm-calificacion-reg-indicador/<%= lista_calificacion_indicadores[i].id_registroindicador %>')"
-                                            class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                            aria-label="Calificación">
-                                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                                                </path>
-                                            </svg>
-                                        </button>                                            
-                                    </div>
-                                </td>
-
-
-
-                            </tr>
-                            <% }%>
-                    </tbody>
-                    <tfoot>
-
-                    </tfoot>
-                </table>
-
+                <div class="" id="panel_nuevo_indicador" style="">
+        
+                    <form id="formulario" enctype="multipart/form-data" method="POST">
+        
+                        <div class="" id="panel_reg_indicador">
+                            <h2 class="text-center" style="">Buscar Registro Indicador
+                            </h2>
+        
+                            <div class="">
+        
+                                <label class="col-2 col-form-label " style="font-weight: bold;" for="select_objetivo">Vigencia:</label>
+                                <div class="col-2">
+                                    <select class="" name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required>
+                                    <option selected="selected" value="">Seleccionar año
+                                    </option>
+                                    <% lista_años.forEach(lista=> { %>
+                                        <option value="<%= lista.año %>">
+                                            <%= lista.año %>
+                                        </option>
+                                        <% }); %>
+                                </select>
+        
+                                </div>
+        
+                                <label class="col-form-label" style="font-weight: bold;">
+                                Periodo Evaluado:</label>
+        
+                                <div class="col-3">
+                                    <select class="" name="select_periodo" id="select_periodo" data-toggle="" title="Seleccionar Periodo!" data-placement="right" required>
+                                    <option selected="selected" value="">Seleccionar Mes
+                                    </option>
+        
+        
+        
+                                </select>
+                                </div>
+        
+                                <label class="col-form-label" style="font-weight: bold;" for="select_objetivo">Area:
+                            </label>
+                                <div class="col-3">
+                                    <select class="form-control" name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar Area!" data-placement="right" required>
+                                    <option selected="selected" value="">Seleccionar area
+                                    </option>
+        
+                                </select>
+        
+                                </div>
+                            </div>
+                            <!--<div class="form-group row">
+                            <label class="col-2 col-form-label" style="font-weight: bold;">
+                            Profesional:</label>
+                            <div class="col-5">
+                                <select class="form-control" name="select_profesional" id="select_profesional" data-toggle="tooltip" title="Seleccionar Profesional!" data-placement="right" required>
+                                <option selected="selected" value="">Seleccionar Profesional</option>
+                            </select>
+                            </div>
+                            </div>-->
+                            <div class="">
+                                <label class="" style="font-weight: bold;">
+                                Nombre Indicador: </label>
+                                <div class="">
+                                    <select class="" name="select_indicador" id="select_indicador" data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right" required>
+                                    <option selected="selected" value="">Seleccionar Indicador</option>
+        
+                                </select>
+                                </div>
+                                <div class="">
+        
+                                    <button type="button" id="btn-all" class="" onclick="verTodos()" disabled>
+                                        Ver todos
+                                    </button>
+        
+                                </div>
+        
+                            </div>
+                        </div>
+                                
+                    </form>        
+                </div>        
+        
             </div>
-            <%- include("../../partials/pagination"); %>
         </div>
+    </div>
+        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+
+                <div class="w-full overflow-x-auto">
+
+                    <table class="w-full whitespace-no-wrap" id="table-calificacion-indicador">
+
+
+                        <thead class="">
+                            <tr  class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                <th>#</th>
+                                <th>Vigencia</th>
+                                <th>Periodo</th>
+                                <th>Indicador</th>
+                                <th>Tipo meta</th>
+                                <th>Area</th>
+                                <th>Profesional</th>
+                                <th>Fecha Registro</th>
+                                <th>Versión</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                            <% for(var i=0; i<lista_calificacion_indicadores.length; i++) { %>
+
+                                <tr class="text-gray-700 dark:text-gray-400">
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= i+1 %>
+
+                                    </td>
+
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= lista_calificacion_indicadores[i].vigencia %>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= lista_calificacion_indicadores[i].nombre_mes %>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= lista_calificacion_indicadores[i].nombre_indicador %>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= lista_calificacion_indicadores[i].tipo_meta %>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= lista_calificacion_indicadores[i].nombre_area %>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= lista_calificacion_indicadores[i].nombre_profesional %>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= lista_calificacion_indicadores[i].fecharegistro %>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <%= lista_calificacion_indicadores[i].version %>
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center space-x-4 text-sm">
+            
+                                            <!--<a href="" title="Calificar"><i class="fas fa-edit flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" onclick="RealizarCalificacion('<%= lista_calificacion_indicadores[i].id_registroindicador %>')"></i></a>-->
+                                            <button href="" @click="openModalNew('/form-ctm-calificacion-reg-indicador/<%= lista_calificacion_indicadores[i].id_registroindicador %>')"
+                                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                aria-label="Calificación">
+                                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                                                    </path>
+                                                </svg>
+                                            </button>                                            
+                                        </div>
+                                    </td>
+
+
+
+                                </tr>
+                                <% }%>
+                        </tbody>
+                        <tfoot>
+
+                        </tfoot>
+                    </table>
+
+                </div>
+                <%- include("../../partials/pagination"); %>
+        </div>
+
+</div>        
 <script>
+    
     function reloadContainer(action) {
         loadContentHtml('/ctm-calificacion-indicadores', '#container-tab')
         if (action == 'update') {
@@ -115,4 +209,118 @@
                     }
                 });
             }
+
+
+            $(document).ready(function() {
+                
+                $("#select_vigencia").change(function() {
+                    var peticion = "/consultar-periodo-x-anio-calificacion/?año=" + $(this).val();
+                    $.ajax({
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            $("#select_periodo").attr('disabled', false);
+                            $("#select_periodo").html("");
+                            $("#select_periodo").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
+                            result.forEach(element => {
+                                $("#select_periodo").append('<option value=' + element.id_mes + '>' + element.nombre_mes + '</option>');
+                            });
+                        }
+                    });
+                });
+                $("#select_periodo").change(function() {
+                    var peticion = "/consultar-area-x-periodo-calificacion/?periodo=" + $(this).val() +
+                        "&vigencia=" + $('#select_vigencia').val();
+                    $.ajax({
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            $("#select_periodo").attr('disabled', false);
+                            $("#select_area").attr('disabled', false);
+                            $("#select_indicador").attr('disabled', true);
+                            $("#btn-all").attr('disabled', false);
+                            $("#select_area").html("");
+                            $("#select_area").append('<option selected="selected">' + 'Seleccionar Area' + '</option>');
+                            result.forEach(element => {
+                                $("#select_area").append('<option value=' + element.id_area + '>' + element.nombre_area + '</option>');
+                            });
+                        }
+                    });
+                });
+                $("#select_area").change(function() {
+                    $("#select_indicador").attr('disabled', true);
+                    var peticion_indicadores = "/obtener-reg-indicadores_xvigencia_xperiodo_xarea/?vigencia=" +
+                        $('#select_vigencia').val() +
+                        "&periodo=" + $('#select_periodo').val() +
+                        "&area=" + $(this).val();
+                    /* var peticion = "/consultar-indicador-x-periodo-area/?area=" + $(this).val() +
+                         "&vigencia=" + $('#select_vigencia').val() + "&periodo=" + $('#select_periodo').val();*/
+                    $.ajax({
+                        type: 'get',
+                        url: peticion_indicadores,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            $("#select_indicador").attr('disabled', false);
+                            $("#select_indicador").html("");
+                            $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                            result.forEach(element => {
+                                $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + ' </option>');
+                            });
+                        }
+                    });
+                });
+                $("#select_indicador").change(function() {
+
+                    
+                    //iframe_res_reg_indicadores
+                    /* $('#iframe_res_reg_indicadores').attr('hidden', false);
+                $('#iframe_res_reg_indicadores').attr("src", '/lista-ctm-reg-ind-xcal-filtrado/?vigencia='+$("#select_vigencia").val()+
+                "&periodo="+$("#select_periodo").val()+"&area="+$("#select_area").val()+"&indicador="+ $(this).val());
+                $("#iframe_res_reg_indicadores").show();*/
+                    /*var peticion = "/consultar-detalle-indicador-x-indicador/?indicador=" + $(this).val() +
+                        "&vigencia=" + $('#select_vigencia').val() + "&periodo=" + $('#select_periodo').val() + "&area=" + $('#select_area').val();*/
+                    var peticion_busqueda = '/lista-ctm-reg-ind-xcal-filtrado/?vigencia=' + $("#select_vigencia").val() +
+                        "&periodo=" + $("#select_periodo").val() + "&area=" + $("#select_area").val() + "&indicador=" + $(this).val();                        
+                        
+                        $("#list-reg-indicadores").html("");
+                        loadContentHtml(peticion_busqueda, '#table-calificacion-indicador');
+                    
+                      /*$.ajax({
+                        type: 'get',
+                        url: peticion_busqueda,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            //tabla_reg_ind_xcal_filtrados
+                            $("#list-reg-indicadores").html("");
+                            //$("#list-reg-indicadores").html(result);
+                            loadContentHtml(peticion_busqueda, '#list-reg-indicadores');
+                            
+
+                            $("#select_vigencia").attr('disabled', false);
+                            $("#select_periodo").attr('disabled', true);
+                            $("#select_area").attr('disabled', true);
+                            $("#select_indicador").attr('disabled', true);
+                            $("#btn-all").attr('disabled', false);
+                        }
+                    });*/
+                });
+                $("#select_profesional").change(function() {
+                    //var peticion = "/consultar-profesional-x-area/?area=" + $(this).val();
+                })
+            });
+
 </script>
