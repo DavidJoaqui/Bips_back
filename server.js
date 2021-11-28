@@ -54,7 +54,8 @@ app.use(flash());
     require("./src/routes/plan"),
     require("./src/routes/registroIndicador"),
     require("./src/routes/soporte"),
-    require("./src/routes/pdf")
+    require("./src/routes/viewPdf"),
+    require("./src/routes/listData")
 ].forEach((route) => {
     app.use(route);
 });
