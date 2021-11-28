@@ -3,6 +3,62 @@ const authMiddleware = require("../middlewares/auth");
 const config = require("../config/config");
 const modelControlMando = require("../models/controlMandoModel");
 const multer = require("multer");
+const { consultarRoles } = require("../models/controlMandoModel");
+
+router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
+    modelControlMando
+    .consultar_reg_indicadores_x_id(req.params.id)
+    .then((item) => {
+      modelControlMando
+        .consultar_indicadorxarea(12)
+        .then((listaIndicadores) => {
+         
+              
+              res.render(config.rutaPartials + "registroIndicador/form", {
+                layout: false,
+                id_reg_indicador:req.params.id,
+                listaIndicadores: listaIndicadores,
+                item: item
+              });
+            
+        });
+    });
+});
+
+router.get("/consultar-vigencia-anio-profesional",
+  authMiddleware,
+  (req, res) => {
+    modelControlMando
+          .consultar_vigencia_año(Number(req.query.profesional), Number(req.query.indicador))
+      .then((lista_años) => {
+        return res.send(lista_años);
+      });
+  }
+);
+
+router.get("/consultar-periodo-x-anio",
+  authMiddleware,
+  (req, res) => {
+    modelControlMando
+          .consultar_periodoxaño(req.query.año)
+      .then((lista_periodo) => {
+      return res.send(lista_periodo);
+        
+      });
+  }
+);
+
+router.get("/consultar-detalle-indicador-x-indicador",
+  authMiddleware,
+  (req, res) => {
+    modelControlMando
+          .consultar_det_indicador(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador)
+      .then((lista_detalle_indicador) => {
+        
+        return res.send(lista_detalle_indicador);
+      });
+  }
+);
 
 
 //metodo de almacenamiento para los sportes cargados a un registro de indicador
@@ -17,7 +73,10 @@ const storage_soportes = multer.diskStorage({
     */
   destination: config.rutaSoportesCtm,
 
+  
+
   filename: function (req, file, cb) {
+    console.log('fdfdf...')
     var ext = path.extname(file.originalname);
 
     if (
@@ -73,8 +132,56 @@ router.get("/ctm-registro-indicadores", authMiddleware, (req, res) => {
   });
 
 
-router.put(
-    "/actualizar-reg-indicador",
+  router.post("/persistir-registro-indicador/", authMiddleware, (req, res) => {
+    let fech_now = Date.now();
+    let date_ = new Date(fech_now);
+   console.log('fdfdf')
+
+    console.log(req.files);
+
+    console.log("version:" + Number(req.body.select_version));
+    console.log("numerador:" + (req.body.txt_vr_numerador));
+    console.log("denominador:" + (req.body.txt_vr_denominador));
+
+    var numerador = parseFloat(req.body.txt_vr_numerador);
+    var denominador = parseFloat(req.body.txt_vr_denominador);
+    if (req.body.txt_vr_numerador == '') {
+        numerador = 0;
+    }
+    if (req.body.txt_vr_denominador == '') {
+        denominador = 0;
+
+    }
+    try {
+
+      modelControlMando.insertar_registro_indicador(
+        Number(req.body.select_indicador),
+        Number(req.body.select_profesional),
+        req.body.select_vigencia,
+        Number(req.body.select_periodo),
+        numerador,
+        denominador,
+        req.body.txt_observacion,
+        '0', version)
+        .then((respuesta) => {
+          if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
+            return res.status(200).send("Ok");
+          } else {
+            return res.status(400).send("Error al guardarla Registro Indicador");
+          }
+        })
+        .catch((err) => {
+          return res.status(500).send("Error al guardar datos");
+        });
+
+    }catch (err) {
+      return res.status(500).send("Error al guardar datos");
+    }
+    
+  });
+
+
+router.put("/actualizar-registro-indicador",
     authMiddleware,
     upload_soportes.array("files_soporte"),
     (req, res) => {
@@ -156,6 +263,37 @@ router.put(
           return res.status(500).send("Error al guardar datos");
         });
     }
+  );
+
+  router.delete("/plan-general/delete/:id/control-mando-bips",
+    authMiddleware,
+    function (req, res) {
+  
+      modelControlMando
+        .consultar_LineasAccionXplangral(req.params.id)
+        .then((rspta_eliminacion) => {
+          if (rspta_eliminacion.length == 0) {
+            modelControlMando
+              .eliminar_RegistroPlan_General(req.params.id)
+              .then((respuesta) => {
+                if (
+                  respuesta["command"] == "DELETE" &&
+                  respuesta["rowCount"] > 0
+                ) {
+                  return res.status(200).send("Ok");
+                } else {
+                  return res.status(400).send("Error al guardarla entidad");
+                }
+              });
+          } else {
+            return res.status(500).send("Error al guardar datos");
+          }
+        });
+    }
+
+    
+    
+
   );
 
 
