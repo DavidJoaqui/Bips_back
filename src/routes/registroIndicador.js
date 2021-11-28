@@ -26,6 +26,26 @@ router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
     });
 });
 
+router.get("/form-ctm-detalle-registro-indicador/:id", authMiddleware, (req, res) => {
+  modelControlMando
+  .consultar_reg_indicadores_x_id(req.params.id)
+  .then((item) => {
+    modelControlMando
+      .consultar_indicadorxarea(12)
+      .then((listaIndicadores) => {
+       
+            
+            res.render(config.rutaPartials + "registroIndicador/formDetalle", {
+              layout: false,
+              id_reg_indicador:req.params.id,
+              listaIndicadores: listaIndicadores,
+              item: item
+            });
+          
+      });
+  });
+});
+
 router.get("/consultar-vigencia-anio-profesional",
   authMiddleware,
   (req, res) => {
