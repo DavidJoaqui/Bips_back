@@ -54,7 +54,7 @@ router.put("/actualizar-plan", authMiddleware, (req, res) => {
     .actualizar_plan_accion_x_id(
       req.body.id_plan,
       req.body.plan,
-      req.body.id_estrategia
+      req.body.estrategia
     )
     .then((respuesta) => {
       console.log(respuesta);
