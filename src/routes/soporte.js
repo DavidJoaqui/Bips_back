@@ -26,11 +26,20 @@ router.get("/descargar-recurso/:id_soporte", authMiddleware, (req, res) => {
 
 
     modelControlMando.consultar_soporte(req.params.id_soporte).then(lista_soportes => {
-        console.log("" + lista_soportes[0].ruta_digital);
-        //const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"], { shell: true }, { stdio: 'inherit' });
-        const spawn_cp = spawn('cmd.exe', ['/c', "C://bat_copy.bat", lista_soportes[0].ruta_digital, config.rutaSoportesCtm]);
+        //console.log("de " + lista_soportes[0].ruta_digital +" a "+path.join(config.rutaSoportes_tmp_Ctm));
 
-        spawn_cp.stdout.on('data', (data) => {
+        var file = fs.readFileSync(path.join(config.rutaSoportesCtm, lista_soportes[0].nombre_soporte), 'binary');
+
+        res.setHeader('Content-disposition', 'attachment; filename=' + lista_soportes[0].nombre_soporte);
+        res.setHeader('Content-Type', lista_soportes[0].mime_type);
+
+        res.write(file, 'binary');
+        res.end();
+        
+        //const spawn_cp = spawn('cmd.exe', ['/c', "C://test.bat"], { shell: true }, { stdio: 'inherit' });
+        //const spawn_cp = spawn('cmd.exe', ['/c', "C://bat_copy.bat", lista_soportes[0].ruta_digital, path.join(config.rutaSoportes_tmp_Ctm)]);
+
+        /*spawn_cp.stdout.on('data', (data) => {
             console.log("std OUT");
             console.log(data.toString())
 
@@ -71,7 +80,7 @@ router.get("/descargar-recurso/:id_soporte", authMiddleware, (req, res) => {
                     console.info(preText + "An error ocurred while creating the file");
                     break;
             }
-        });;
+        });;*/
 
 
     });
@@ -157,4 +166,67 @@ router.delete("/eliminar-recurso-soporte/:id_soporte", authMiddleware, (req, res
 
 
 });
+
+
+router.delete("/eliminar-recurso-temporal/:tipo/:nombre_archivo", authMiddleware, (req, res) => {
+
+    const spawn = require('child_process').spawn;
+    var spawn_del = '';
+
+    msg = 'El Soporte temp  ' + req.params.nombre_archivo + ' se eliminó correctamente...';
+
+    console.log("respuesta de eliminacion: 1, Se elimino correctamente el soporte temp despues de descargar ...");
+    msg = 'El Soporte temp' + req.params.nombre_archivo + ' se eliminó correctamente despues de descargar...';
+
+
+    //se elimina el soporte (digital) del directorio 
+    //tipo 1 = DESCARGA
+    //tipo 2 = VISUALIZACION                   
+    if (req.params.tipo = 1) {
+        console.log('el archivo es accion tipo 1= DESCARGAR')
+        spawn_del = spawn('cmd.exe', ['/c', "C://task_delete_file.bat", config.rutaSoportes_tmp_Ctm , req.params.nombre_archivo]);
+    } else if (req.params.tipo = 2) {
+        console.log('el archivo es accion tipo 2= VISUALIZACION')
+        spawn_del = spawn('cmd.exe', ['/c', "C://task_delete_file.bat", config.rutaPublicPdfjs, req.params.nombre_archivo]);
+    }
+
+
+
+    spawn_del.stdout.on('data', (data) => {
+        console.log("std OUT");
+        console.log(data.toString())
+
+    });
+    spawn_del.stderr.on('data', (data) => {
+            console.log("std ERR");
+            console.error(data.toString());
+        })
+        //res.send(stdout);
+
+    spawn_del.on('close', (code) => {
+        console.log('OK.. code: ' + code);
+        var preText = `Child exited with code ${code} : `;
+        switch (code) {
+            case 1:
+                //req.flash('notify_del_soporte', msg);
+                res.send({ status: 200, msg: msg });
+                break;
+            case 2:
+                console.info(preText + "The file already exists");
+                break;
+            case 3:
+                console.info(preText + "The file doesn't exists and now is created");
+                break;
+            case 4:
+                console.info(preText + "An error ocurred while creating the file");
+                break;
+        }
+    });;
+
+
+
+
+
+});
+
 module.exports = router;

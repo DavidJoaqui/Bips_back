@@ -7,7 +7,7 @@ router.get("/ctm-calificacion-indicadores", authMiddleware, (req, res) => {
   modelControlMando
     .consultar_reg_ind_xcalificar()
     .then((lista_calificacion_indicadores) => {
-      res.render(config.rutaPartials + "calificacionIndicador/registro_indicador_x_calificar", {
+      res.render(config.rutaPartials + "calificacionIndicador/list", {
         layout:false,
         lista_calificacion_indicadores: lista_calificacion_indicadores,
       });
