@@ -56,7 +56,15 @@ router.delete(
   "/area/delete/:id/control-mando-bips",
   authMiddleware,
   function (req, res) {
-    return res.status(500).send("Error al guardar datos");
+    modelControlMando
+        .eliminar_area(req.params.id)
+        .then((respuesta) => {
+          if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {
+            return res.status(200).send("Ok");
+          } else {
+            return res.status(500).send("Error al guardar datos");
+          }
+        });
   }
 );
 

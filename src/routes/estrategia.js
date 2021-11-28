@@ -31,7 +31,7 @@ const modelControlMando = require("../models/controlMandoModel");
                       layout: false,
                       id_estrategia: req.params.id,
                       planes_generales: listaPlanes_grales,
-                      estrategia_info: estrategia_info,
+                      item: estrategia_info,
                       lineas_accion: lineas_accion,
                       lista_objetivos: lista_objetivos,
                     });

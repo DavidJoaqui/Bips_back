@@ -148,8 +148,9 @@
                                         
                                         <%if(lista_soportes[i].extension == '.pdf' ){%>           
                                                                                         
-                                            <a href="" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                            aria-label="Ver" title="Ver"><i class="fas fa-eye" style="color: rgb(0, 27, 180);" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
+                                            <span href="" @click="openModalDetail('/pdf/view/soporte/<%= lista_soportes[i].id_soporte %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                aria-label="Ver" title="Ver"><i class="fas fa-eye" style="color: rgb(0, 27, 180);" data-toggle="modal" data-target="#myModal" ></i>
+                                            </span>
                                                                                              
                                             <%}%>
                                                                                                 
@@ -206,27 +207,7 @@
         
         }
     getPagination('#tbl_soportes');
-
-        function RealizarAccionVer(id_soporte) {
-            event.preventDefault();
-
-            //                $('#modal-diag').addClass('modal-dialog');
-
-            const peticion = "/ver-recurso-soporte/" + id_soporte;
-            $.ajax({
-                type: 'get',
-                url: peticion,
-                data: [],
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function(result) {
-                    $('#viewerPdf').html(result);
-
-                }
-            });
-        }
-
+        
         function RealizarAccionDescargar(id_soporte, nombre_original, nombre_soporte, mime, extension) {
             event.preventDefault();
             const peticion = "/descargar-recurso/" + id_soporte;

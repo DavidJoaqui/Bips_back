@@ -11,6 +11,8 @@ const app = express();
 app.use(express.static(path.join(__dirname, config.rutaFile)));
 app.use(express.static(path.join(__dirname, config.rutaPublic)));
 app.use(express.static(config.rutaSoportesCtm));
+app.use(express.static(config.rutaPublicPdfjs));
+app.use(express.static(config.rutaPublicPdfjs+"/filespublic"));
 // Body parse
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -52,6 +54,7 @@ app.use(flash());
     require("./src/routes/plan"),
     require("./src/routes/registroIndicador"),
     require("./src/routes/soporte"),
+    require("./src/routes/pdf")
 ].forEach((route) => {
     app.use(route);
 });

@@ -152,6 +152,16 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_RegistroEstrategia_x_id(id_est) {
+        const resultados = await conexion.query("select est.*,obj.id_objetivo, obj.objetivo,la.id_linea,la.linea_accion,pg.id_plangeneral,pg.plan_general from schema_control.estrategias est inner join schema_control.objetivos obj on (est.id_objetivo=obj.id_objetivo) inner join schema_control.lineas_acciones la on (obj.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on (la.id_plan_general=pg.id_plangeneral) where est.id_estrategia = $1", [id_est]);
+        return resultados.rows;
+
+    },
+
+    async eliminar_RegistroEstrategia(id) {
+        const resultados = await conexion.query("delete from schema_control.estrategias where id_estrategia= $1", [id]);
+        return resultados;
+    },
 
 
     //---------------------------Metodos PLanes--------------------------------------//
@@ -218,6 +228,11 @@ module.exports = {
 
     async actualizar_area_x_id(id_area, area) {
         const resultados = await conexion.query('update schema_control.areas set nombre_area=$2 where id_area=$1 ', [id_area, area]);
+        return resultados;
+    },
+
+    async eliminar_area(id) {
+        const resultados = await conexion.query("delete from schema_control.area where id_area = $1", [id]);
         return resultados;
     },
 

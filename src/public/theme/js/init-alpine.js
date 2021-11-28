@@ -71,9 +71,24 @@ function data() {
       this.trapCleanupNew = focusTrap(document.querySelector("#modalNew"));
     },
     closeModalNew() {
-      $('#contentEditModal').html('');
+      $('#contentNewModal').html('');
       this.isModalOpenNew = false;
       this.trapCleanupNew();
+    },
+
+
+    // Modal detail
+    isModalOpenDetail: false,
+    trapCleanupDetail: null,
+    openModalDetail(url) {
+      loadContentHtml(url,'#contentDetailModal')
+      this.isModalOpenDetail = true;
+      this.trapCleanupDetail = focusTrap(document.querySelector("#modalDetail"));
+    },
+    closeModalDetail() {
+      $('#contentDetailModal').html('');
+      this.isModalOpenDetail = false;
+      this.trapCleanupDetail();
     },
   };
 }
