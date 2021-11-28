@@ -558,11 +558,11 @@ router.get("/validacion-carga-envio", authMiddleware, (req, res) => {
     // validacion de planos SI todos se encuentran validados,
     //esto con el fin de habilitar el boton de envio de los planos ya validados, tener en cuenta los planos
     //que son necesarios TODOS
-    var habilita_eliminar_todos = false;
+    var habilita_eliminar_todos = true;
 
     modelplanos.contar_Planos_Validados().then((cont_planos_val) => {
         if (cont_planos_val.total_validados >= 1) {
-            habilita_eliminar_todos = true;
+            habilita_eliminar_todos = false;
 
         }
 

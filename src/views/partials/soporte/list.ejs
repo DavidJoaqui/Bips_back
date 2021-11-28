@@ -1,0 +1,378 @@
+    <div class="" id="panel_soportes_">
+
+        
+
+        <div class="" id="" name="" style="margin-top: 10px;">
+
+
+            <div class="">
+
+                <div class="">
+
+                    <table class="min-w-full divide-y divide-gray-200" id="tbl_soportes" id="tbl_soportes">
+
+
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th                 class="
+                                px-6
+                                py-3
+                                text-left text-xs
+                                font-medium
+                                text-gray-500
+                                uppercase
+                                tracking-wider
+                              "
+              >#</th>
+                                <th                 class="
+                                px-6
+                                py-3
+                                text-center text-xs
+                                font-medium
+                                text-gray-500
+                                uppercase
+                                tracking-wider
+                              "
+              >Soporte</th>
+                                <!--nombre origeinal-->
+                                <th                 class="
+                                px-6
+                                py-3
+                                text-left text-xs
+                                font-medium
+                                text-gray-500
+                                uppercase
+                                tracking-wider
+                              "
+              >Ext</th>
+                                <th                 class="
+                                px-6
+                                py-3
+                                text-left text-xs
+                                font-medium
+                                text-gray-500
+                                uppercase
+                                tracking-wider
+                              "
+              >Habilitado</th>
+                                <th                 class="
+                                px-6
+                                py-3
+                                text-left text-xs
+                                font-medium
+                                text-gray-500
+                                uppercase
+                                tracking-wider
+                              "
+              >Valido</th>
+                                <th                 class="
+                                px-6
+                                py-3
+                                text-left text-xs
+                                font-medium
+                                text-gray-500
+                                uppercase
+                                tracking-wider
+                              "
+              >fecha Carga</th>
+                                <th                 class="
+                                px-6
+                                py-3
+                                text-left text-xs
+                                font-medium
+                                text-gray-500
+                                uppercase
+                                tracking-wider
+                              "
+              >Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="" class="bg-white divide-y divide-gray-300">
+                            <% for(var i=0; i<lista_soportes.length; i++) { %>
+
+                                <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
+                                    <td class="">
+                                        <input type="text" id="id_reg_indicador" value="<%= lista_soportes[i].id_registro_indicador %>" hidden>
+                                        <%= i+1 %>
+
+                                    </td>
+
+
+                                    <td class="text-left">
+                                        
+                                            
+                                            <%= lista_soportes[i].nombre_original %>
+                                                
+
+                                    </td>
+                                    <td class="text-center">
+
+                                        <%if(lista_soportes[i].extension == '.docx' ){%>
+                                            <i class="far fa-file-word" title=".docx" style="color: blue;"></i>
+                                            
+                                                <%}else if(lista_soportes[i].extension == '.pdf'){%>
+                                                    <i class="fas fa-file-pdf" title=".pdf" style="color: red;"></i>
+                                                    
+                                                        <%}else if(lista_soportes[i].extension == '.xlsx'){%>
+                                                            <i class="fas fa-file-excel" title=".xlsx" style="color: green;"></i>
+                                                            
+                                                                <%}else if(lista_soportes[i].extension == '.txt'){%>
+                                                                    <i class="fas fa-file-alt" title=".txt" style="color: gray;"></i>                                                                    
+                                                                        <%}%>
+                                    </td>
+
+                                    <td class="">
+                                        <% if (lista_soportes[i].es_habilitado) { %>
+                                            SI
+                                        <% }else{ %>
+                                            NO
+                                            <% }%>
+                                        
+                                    </td>
+
+                                    <td class="">
+                                        <% if (lista_soportes[i].es_valido) { %>
+                                            SI
+                                        <% }else{ %>
+                                            NO
+                                            <% }%>
+                                        
+                                    </td>
+                                    <td class="">
+                                        <%= lista_soportes[i].fecha %>
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center space-x-4 text-sm">
+
+                                        
+                                        <%if(lista_soportes[i].extension == '.pdf' ){%>           
+                                                                                        
+                                            <a href="" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                            aria-label="Ver" title="Ver"><i class="fas fa-eye" style="color: rgb(0, 27, 180);" data-toggle="modal" data-target="#myModal" onclick="RealizarAccionVer('<%= lista_soportes[i].id_soporte %>')"></i></a>
+                                                                                             
+                                            <%}%>
+                                                                                                
+                                                
+                                                <a href="" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                aria-label="Descargar"  title="Descargar"><i style="color: rgb(4, 151, 248);" class="fas fa-download" onclick="RealizarAccionDescargar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].nombre_soporte %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>')"></i></a>
+                                                
+
+                                            
+                                                <a title="Eliminar"
+                                                    onclick="openPopupDelete('/eliminar-recurso-soporte/<%= lista_soportes[i].id_soporte %>',reloadContainer)"
+                                                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                    aria-label="Delete">
+                                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd"
+                                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                </a>
+                                            
+                                               
+                                                <!--<a href="" title="Eliminar"><i class="fa fa-minus-circle" style="color: #de1f21;" onclick="RealizarAccionEliminar('<%= lista_soportes[i].id_soporte %>','<%= lista_soportes[i].nombre_original %>','<%= lista_soportes[i].mime_type %>','<%= lista_soportes[i].extension %>','<%= lista_soportes[i].id_registro_indicador %>')"></i></a>
+                                                <span class="vertical-line"></span>-->
+                                            
+                                    </td>
+                                </div>
+
+
+
+                                </tr>
+                                <% }%>
+                        </tbody>
+                        <tfoot>
+
+                        </tfoot>
+                    </table>                    
+
+                </div>
+
+                <%- include("../../partials/pagination"); %>
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript">      
+
+        function toggleModal() {
+        document.getElementById('modal').classList.toggle('hidden')
+        }
+
+        function reloadContainer(action) {
+        var peticion_soportes = "/obtener_soportesxreg_indicador/<%= id_reg_indicador %>";
+        loadContentHtml(peticion_soportes, '#panel_soportes')
+        
+        }
+    getPagination('#tbl_soportes');
+
+        function RealizarAccionVer(id_soporte) {
+            event.preventDefault();
+
+            //                $('#modal-diag').addClass('modal-dialog');
+
+            const peticion = "/ver-recurso-soporte/" + id_soporte;
+            $.ajax({
+                type: 'get',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(result) {
+                    $('#viewerPdf').html(result);
+
+                }
+            });
+        }
+
+        function RealizarAccionDescargar(id_soporte, nombre_original, nombre_soporte, mime, extension) {
+            event.preventDefault();
+            const peticion = "/descargar-recurso/" + id_soporte;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', peticion, true);
+            xhr.responseType = 'blob';
+
+            xhr.onload = function(e) {
+
+                var blob = new Blob([this.response], {
+                    type: mime
+                });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = nombre_original;
+                link.click();
+
+            };
+
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    //alert('peticion  200');
+                    console.log(" descarga OK");
+                    /*const peticion_elim = "/eliminar-recurso-temporal/1/" + nombre_soporte;
+                    $.ajax({
+                        method: 'delete',
+                        url: peticion_elim,
+                        contentType: mime,
+
+                        success: function(result) {
+                            //alert("OK");
+                            if (result['status'] == '200') {
+
+
+                                //Imprime la respuesta del servidor cuando estado es 200
+                                //alert(result['msg']);
+                                console.log(result['msg']);
+
+                            } else {
+                                console.log(result['msg']);
+                            }
+
+                        }
+                    });*/
+
+
+                }
+            }
+
+            xhr.send();
+
+
+        }
+
+
+        function RealizarAccionEliminar(id_soporte, nombre_original, mime, extension, id_reg_indicador) {
+            event.preventDefault();
+            const peticion = "/eliminar-recurso-soporte/" + id_soporte;
+
+            /*var dtype = "";
+            if (extension == '.pdf') {
+                dtype = "pdf"
+            } else {
+                dtype = ""
+            }*/
+
+            $.ajax({
+                method: 'delete',
+                url: peticion,
+                contentType: mime,
+
+                success: function(result) {
+                    //alert("OK");
+                    if (result['status'] == '200') {
+
+
+                        //Imprime la respuesta del servidor cuando estado es 200
+                        //alert(result['msg']);
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon : "success",
+                            title: result["msg"],
+                            showConfirmButton: false,
+                            timer: 5000
+                        })
+                       
+                        var peticion_soportes = "/obtener_soportesxreg_indicador/<%= id_reg_indicador %>";
+                        loadContentHtml(peticion_soportes, '#panel_soportes')
+                        //Se actualiza la lista de los soportes
+                        /*
+                        var peticion_soportes = "/obtener_soportesxreg_indicador/?id_reg_indicador=" + id_reg_indicador;
+                        $.ajax({
+                            type: 'get',
+                            url: peticion_soportes,
+                            data: [],
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function(result) {
+                                $("#panel_soportes_").html("");
+                                //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                                $("#panel_soportes_").html(result);
+
+                            }
+                        });*/
+
+
+
+                    } else {
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon : "warning",
+                            title: result["msg"],
+                            showConfirmButton: false,
+                            timer: 5000
+                        })
+                        
+                        //alert(result['msg']);
+                    }
+
+                }
+            });
+
+            /*
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', peticion, true);
+            xhr.responseType = 'blob';
+
+            xhr.onload = function(e) {
+
+                var blob = new Blob([this.response], {
+                    type: mime
+                });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = nombre_original;
+                link.click();
+
+            };
+
+            xhr.send();*/
+        }
+    </script>
+
+
