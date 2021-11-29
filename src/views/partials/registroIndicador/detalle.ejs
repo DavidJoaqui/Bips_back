@@ -54,32 +54,32 @@
                                                         &nbsp;&nbsp;
                                                         <%}%>
 
-                                                        <%if(item[0].estado==false || item[0].calificacion==true ){%>
-                                                            <script>
-                                                                alert('Tenga en cuenta que el registro no está Aprobado, debe generar uno nuevo en "Responder Indicador"');
-                                                              </script>
-                                                            
-                                                           
-        
+                                                            <%if(item[0].estado==false || item[0].calificacion==true
+                                                                ){%>
+
+
+
                                                                 <button
-                                                                @click="openModalNew('/form-ctm-registro-indicador/0')"
-                                                                onclick="closeModal()"
-                                                                class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                                                Responder Indicador
-                                                            </button>
-                                                            &nbsp;
-                                                            </label>
-        
-                                                            <%}else{%>
-                                                                &nbsp;&nbsp;
-                                                                <%}%>
+                                                                    @click="openModalNew('/form-ctm-registro-indicador/<%= item[0].id_registroindicador %>')"
+                                                                    onclick="closeModal()"
+                                                                    class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                                                    Responder Indicador
 
-
-
-
-                                                           
-
+                                                                </button>
+                                                                &nbsp;
                 </label>
+
+
+                <%}else{%>
+                    &nbsp;&nbsp;
+                    <%}%>
+
+
+
+
+
+
+                        </label>
 
             </div>
         </div>
@@ -286,27 +286,56 @@
 
 <script type="text/javascript">
 
+    function closeModal() {
+        document.querySelector("#closeModalDetail").click();
+    }
+
     var peticion_soportes = "/obtener_soportesxreg_indicador/<%= item[0].id_registroindicador %>";
     loadContentHtml(peticion_soportes, '#panel_soportes');
 
     const form = document.querySelector("#formDetalle");
 
-     if ("<%= item.length && item[0].tipo_meta? item[0].tipo_meta:'Numerica' %>") {
+    if ("<%= item.length && item[0].tipo_meta? item[0].tipo_meta:'Numerica' %>") {
         $('#panel_descriptiva').attr('hidden', true);
         $('#panel_numerica').attr('hidden', false);
-        
+
     } if ("<%= item.length && item[0].tipo_meta? item[0].tipo_meta:'Descriptiva' %>") {
         $('#panel_descriptiva').attr('hidden', false);
         $('#panel_numerica').attr('hidden', true);
-        
+
+
     }
 
-   /* if ("<%= item[0].estado==false | item[0].calificacion==true %>") {
-        alert('Tenga en cuenta que el registro no está Aprobado, debe generar uno nuevo en "Responder"');
-    
-    }*/
-    
+    const check = '<%= item.length && (item[0].estado==false || item[0].calificacion==true) %>';
+
+    if (check == 'true') {
+        loadToast();
+    }
 
 
-
+    function loadToast() {
+        let timerInterval
+        Swal.fire({
+            title: 'Atencion!',
+            html: 'Tenga en cuenta que el registro no está Aprobado, generar un nuevo registro en "Responder Indicador"',
+            icon: 'warning',
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading()
+                
+                timerInterval = setInterval(() => {
+                    
+                }, 100)
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+                console.log('I was closed by the timer')
+            }
+        })
+    }
 </script>
