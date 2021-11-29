@@ -6,6 +6,7 @@ const multer = require("multer");
 const { consultarRoles } = require("../models/controlMandoModel");
 const session = require("express-session");
 
+
 router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
     modelControlMando
     .consultar_reg_indicadores_x_id(req.params.id)
@@ -28,22 +29,19 @@ router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
 
 router.get("/form-ctm-detalle-registro-indicador/:id", authMiddleware, (req, res) => {
   modelControlMando
-  .consultar_reg_indicadores_x_id(req.params.id)
+  .consultar_det_reg_ind_evaluacion(req.params.id)
   .then((item) => {
-    modelControlMando
-      .consultar_indicadorxarea(12)
-      .then((listaIndicadores) => {
+   
        
             
-            res.render(config.rutaPartials + "registroIndicador/formDetalle", {
+            res.render(config.rutaPartials + "registroIndicador/detalle", {
               layout: false,
               id_reg_indicador:req.params.id,
-              listaIndicadores: listaIndicadores,
               item: item
             });
           
       });
-  });
+  
 });
 
 router.get("/consultar-vigencia-anio-profesional",
