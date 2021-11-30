@@ -19,7 +19,6 @@ router.post("/actualizar-indicador", authMiddleware, (req, res) => {
       Number(req.body.periodo_evaluacion)
     )
     .then((respuesta) => {
-      console.log(respuesta);
       if (respuesta["command"] == "UPDATE" && respuesta["rowCount"] > 0) {
         return res.status(200).send("Ok");
       } else {
@@ -68,7 +67,6 @@ router.post(
     modelControlMando
       .eliminar_soporte_x_idRegistroIndicador(req.params.id)
       .then((rspta_eliminacion) => {
-        console.log(rspta_eliminacion);
         if (
           rspta_eliminacion["command"] == "DELETE" &&
           rspta_eliminacion["rowCount"] > 0

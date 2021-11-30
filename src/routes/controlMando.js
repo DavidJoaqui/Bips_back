@@ -17,6 +17,8 @@ router.get("/control-mando", authMiddleware, (req, res) => {
 router.get("/control-mando-admin", authMiddleware, (req, res) => {
   res.render(config.rutaPartials + "controlMando/controlMandoAdmin", {
     layout: false,
+    permisos: req.session.username['permisos'],
+    rol: req.session.username['rol'],
   });
 });
 
@@ -24,6 +26,8 @@ router.get("/control-mando-admin", authMiddleware, (req, res) => {
 router.get("/control-mando-user", authMiddleware, (req, res) => {
   res.render(config.rutaPartials + "controlMando/controlMandoUser", {
     layout: false,
+    permisos: req.session.username['permisos'],
+    rol: req.session.username['rol'],
   });
 });
 

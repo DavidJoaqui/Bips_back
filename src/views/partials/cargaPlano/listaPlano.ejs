@@ -1,7 +1,6 @@
 <%- include("btnDeleteAll"); %>
     <%- include("btnValidAll"); %>
 
-        <!--PENDIENTE PARA MODAL DE TABLA DE ERRORES-->
         <style>
             .div-err {
                 height: 160px;
@@ -10,8 +9,6 @@
                 border: black 1px solid;
             }
         </style>
-
-        <!--HASTA AQUI, maximo entrega VIERNES 26 NOVIEMBRE 2021 7 pm-->
 
         <div class="div-envio" id="div-envio" hidden>
             <%- include("btnEnvioAllPlanos"); %>
@@ -33,7 +30,8 @@
             <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap" id="table-cargar-planos">
                     <thead>
-                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                        <tr
+                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th>Nombre plano</th>
                             <th>Nombre IPS</th>
                             <th>Periodo cargado</th>
@@ -47,7 +45,7 @@
 
 
 
-                        <% for (let index = 0; index < arr_files.length; index++){ %>
+                        <% for (let index=0; index < arr_files.length; index++){ %>
 
                             <tr class="text-gray-700 dark:text-gray-400">
 
@@ -56,8 +54,8 @@
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     <strong>
-                        <%= arr_files[index].descripcion_ips %>
-                     </strong>
+                                        <%= arr_files[index].descripcion_ips %>
+                                    </strong>
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     <p><i class="far fa-clock" style="color: cadetblue;"></i>
@@ -97,25 +95,34 @@
 
                                         <% if (!arr_files[index].validado) { %>
 
-                                            <button onclick="validarPlano('<%= arr_files[index].nombre_tmp %>','<%= arr_files[index].id_ips %>','<%= index %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                            <button
+                                                onclick="validarPlano('<%= arr_files[index].nombre_tmp %>','<%= arr_files[index].id_ips %>','<%= index %>')"
+                                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                 aria-label="Edit">
-                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
-                             </svg>
-                          </button>
+                                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                                                </svg>
+                                            </button>
 
-                                            <button onclick="openPopupDelete('/file/delete/<%= arr_files[index].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[index].id_ips %>')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                            <button
+                                                onclick="openPopupDelete('/file/delete/<%= arr_files[index].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[index].id_ips %>')"
+                                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                 aria-label="Delete">
-                              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                 <path fill-rule="evenodd"
-                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                    clip-rule="evenodd"></path>
-                              </svg>
-                           </button>
+                                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                    viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
 
-                                            <div style="font-size: 10px; float: right; color: blue;" class="<%= index %>" id="<%= index %>" hidden>
+                                            <div style="font-size: 10px; float: right; color: blue;"
+                                                class="<%= index %>" id="<%= index %>" hidden>
 
-                                                <a href="" for=""> <i class="fas fa-file-excel" style="color: green;"></i> <b>Exportar Excel</b> </a>
+                                                <a href="" for=""> <i class="fas fa-file-excel"
+                                                        style="color: green;"></i> <b>Exportar Excel</b> </a>
                                             </div>
 
                                             <% }else {%>
@@ -137,26 +144,12 @@
             getPagination('#table-cargar-planos');
 
             function validarPlano(nombre_tmp, id_ips, index) {
-
-                //event.preventDefault();
-                //$("#loading").attr("hidden", false);
                 $('html, body').animate({
                     scrollTop: 0
                 }, 'slow'); //seleccionamos etiquetas,clase o identificador destino, creamos animación hacia top de la página.
 
                 var array_nombre = nombre_tmp.split('_');
                 nombre_plano = array_nombre[2];
-
-                //document.getElementById('loading').style.display = 'block';
-                //document.getElementById('loading').innerHTML('<div class="text-center"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando plano<b> ' + nombre_plano + '</b> para la ips <b>' + nombre_ips + '</b> ... <br>Esto puede tomar algun tiempo ... </strong></div>');
-
-                //$("#loading").attr("hidden", false);
-
-                //$('#loading').append('<div class="text-center"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando plano<b> ' + nombre_plano + '</b> para la ips <b>' + nombre_ips + '</b> ... <br>Esto puede tomar algun tiempo ... </strong></div>');
-
-
-                //$("#loading").html('<div class="text-center"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando plano<b> ' + nombre_plano + '</b> para la ips <b>' + nombre_ips + '</b> ... <br>Esto puede tomar algun tiempo ... </strong></div>');
-
                 const peticion = '/file/validar/' + nombre_tmp + "/archivo-bips/?id_ips=" + id_ips;
 
                 $.ajax({
@@ -164,17 +157,8 @@
                     url: peticion,
                     data: [],
 
-
-
-                    /* error: function () {
-                         $('#datos_val').html('<p>Error intente de nuevo...</p>');
-                     },*/
-                    beforeSend: function(result) {
-                        //alert("OK antes de envio");
+                    beforeSend: function (result) {
                         document.getElementById('loading').style.display = 'block';
-                        //document.getElementById('loading').textContent('<div class="text-center"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando plano<b> ' + nombre_plano + '</b> para la ips <b>' + nombre_ips + '</b> ... <br>Esto puede tomar algun tiempo ... </strong></div>');
-                        //console.log(data.status + ':' + data.statusText,data.responseText);
-                        //$('.loading').html('<div class="text-center"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando plano<b> ' + nombre_plano + '</b> para la ips <b>' + nombre_ips + '</b> ... <br>Esto puede tomar algun tiempo ... </strong></div>');
                         var load = $('.loading');
                         load.html("");
                         var text = load.children();
@@ -184,13 +168,10 @@
 
                     },
 
-                    success: function(result) {
-
-
+                    success: function (result) {
 
                         if (result['status'] == 500) { //se presentan errores en la validacion del plano
                             $('#loading').fadeOut('fast');
-
 
                             Swal.fire({
                                 position: 'top-end',
@@ -206,12 +187,8 @@
                             var str = "";
                             var item = 0;
                             for (let i = 0; i < result["respuesta"].length; i++) {
-
-                                //$('#item').html(i + 1);
                                 item = item + 1;
                                 str = str + '<tr><td>' + item + '</td><td>' + result["respuesta"][i] + '</td></tr>';
-                                //$('#descripcion').inhtml(result["respuesta"][i]);
-                                //document.getElementById('descripcion').innerHTML('<td>' + result["respuesta"][i] + '</td>')
 
                             }
                             $('#developers').html(str);
@@ -219,16 +196,6 @@
 
                             $('#exportar').attr("hidden", false);
                             $('#' + index).attr("hidden", false);
-
-                            /*const users = [{
-                                id: 0,
-                                name: 'Peter',
-                                age: 31
-                            }, {
-                                id: 1,
-                                name: 'John',
-                                age: 23
-                            }];*/
                             nombre = nombre_plano.split(".");
                             $.ajax({
                                 type: 'get',
@@ -240,14 +207,9 @@
                                 },
 
 
-                                success: function(result) {
-                                    console.log("OK se ha generado el archivo excel de los errrores...");
-                                    ///descrgar-xlsx-errores/:nombre/bips-planos
+                                success: function (result) {
                                     $('.exportar a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
                                     $('.' + index + ' a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
-                                    console.log('Enlace puesto para descargar archivo xlsx ...');
-
-
                                 }
 
                             })
@@ -255,10 +217,8 @@
 
                         } else {
 
-
-
                             $('#loading').fadeOut('fast');
-                            //alert(result);
+
                             Swal.fire({
                                 position: 'top-end',
                                 icon: "success",
@@ -267,8 +227,7 @@
                                 timer: 5000
                             })
 
-                            //loadContentHtml('/listado-archivos', '#container-carga-data')
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 window.location.reload(1);
                             }, 5000);
 
@@ -288,62 +247,13 @@
 
                             }
                         }
-                        console.log(result);
-
-
-                        //$('#panel_errores').attr("hidden", false);
-                        //$('#panel_errores'). html(result);
-
-
-                        // window.location.reload(1);
-
-                        /*
-                          $('#loading').fadeOut('fast');
-
-                          console.log(result["habilitar_envio"]);
-
-                          if (result["habilitar_envio"] == true) {
-
-                              $('html, body').animate({
-                                  scrollTop: 0
-                              }, 'slow');
-                              //alert("se puede enviar la transformacion");
-
-                          }
-
-
-                          if (result["habilitar_elim_all"] == false) {
-
-                              setTimeout(function() {
-                                  window.location.reload(1);
-                              }, 1000);
-                          }
-
-
-
-
-
-                          $('#panel_errores').attr("hidden", false);
-                          $('#panel_errores').html(result);
-
-                          */
-
-                        //alert("<div class='alert alert-success' role='alert'>Tiene registros!</div>");
-                        //alert("La IPS " + $('#cbxips').val() + " tiene Registros de Archivos Planos para el Rango de Fecha: " + $('#txtfecha_inicial').val() + " hasta " + $('#txtfecha_fin').val());
-                        //$('#btn-subir').attr("disabled", true);                                            
-
-
-
-
-
-
 
                     }
                 });
 
             }
 
-            $(document).ready(function() {
+            $(document).ready(function () {
 
                 var peticion_validacion = "/validacion-carga-envio";
                 $.ajax({
@@ -353,19 +263,14 @@
                     contentType: false,
                     cache: false,
                     processData: false,
-                    success: function(result) {
+                    success: function (result) {
 
                         if (result['habilitar_elim_all'] == false) {
 
-
                             $("#elim-all").attr("hidden", true);
-                            //$("#btn-valid-all").attr("hidden", true);
-                            //$("#btn-valid-all").attr("hidden", true);                            
 
                         } else {
-                            $("#elim-all").attr("hidden", false);
-                            
-                            //$("#div-envio").attr("hidden", true);
+                            $("#elim-all").attr("hidden", false)
                         }
 
                         if (result['habilitar_envio'] == false) {

@@ -55,6 +55,8 @@
       url: url,
       method: 'POST',
       data,
+      contentType: false,
+      processData: false,
       success: function (result) {
          Swal.fire({
            position: 'top-end',
@@ -89,6 +91,8 @@ function updateAjax(url,data,callback) {
       url: url,
       method: 'PUT',
       data,
+      contentType: false,
+      processData: false,
       success: function (result) {
          Swal.fire({
            position: 'top-end',
