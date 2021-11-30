@@ -6,11 +6,13 @@ const multer = require("multer");
 const path = require("path");
 
 router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
+
+  
   modelControlMando
     .consultar_reg_indicadores_x_id(req.params.id)
     .then((item) => {
       modelControlMando
-        .consultar_indicadorxarea(12)
+        .consultar_indicadorxarea(req.session.username["id_area"])
         .then((listaIndicadores) => {
           res.render(config.rutaPartials + "registroIndicador/form", {
             layout: false,
@@ -22,8 +24,7 @@ router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
     });
 });
 
-router.get(
-  "/form-ctm-detalle-registro-indicador/:id",
+router.get("/form-ctm-detalle-registro-indicador/:id",
   authMiddleware,
   (req, res) => {
     modelControlMando
@@ -38,13 +39,12 @@ router.get(
   }
 );
 
-router.get(
-  "/consultar-vigencia-anio-profesional",
+router.get("/consultar-vigencia-anio-profesional",
   authMiddleware,
   (req, res) => {
     modelControlMando
       .consultar_vigencia_año(
-        Number(req.query.profesional),
+        req.session.username["id_profesional"],
         Number(req.query.indicador)
       )
       .then((lista_años) => {
@@ -54,23 +54,30 @@ router.get(
 );
 
 router.get("/consultar-periodo-x-anio", authMiddleware, (req, res) => {
+
+  
+
   modelControlMando
-    .consultar_periodoxaño(req.query.año)
+    .consultar_periodoxaño(req.query.año,
+      Number(req.session.username["id_area"]),
+      Number(req.session.username["id_profesional"]),
+      req.query.indicador
+      )
     .then((lista_periodo) => {
+      console.log(lista_periodo);
       return res.send(lista_periodo);
     });
 });
 
-router.get(
-  "/consultar-detalle-indicador-x-indicador",
+router.get("/consultar-detalle-indicador-x-indicador",
   authMiddleware,
   (req, res) => {
     modelControlMando
       .consultar_det_indicador(
         req.query.vigencia,
         req.query.periodo,
-        req.query.area,
-        req.query.indicador
+        req.session.username["id_area"],
+        Number(req.query.indicador)
       )
       .then((lista_detalle_indicador) => {
         return res.send(lista_detalle_indicador);
@@ -125,9 +132,7 @@ const upload_soportes = multer({
 
 router.get("/ctm-registro-indicadores", authMiddleware, (req, res) => {
   modelControlMando
-    .consultar_reg_indicadores_x_profesional(
-      req.session.username["id_profesional"]
-    )
+    .consultar_reg_indicadores_x_profesional(req.session.username["id_profesional"])
     .then((lista_registro_indicadores) => {
       res.render(config.rutaPartials + "registroIndicador/list", {
         layout: false,
@@ -136,12 +141,12 @@ router.get("/ctm-registro-indicadores", authMiddleware, (req, res) => {
     });
 });
 
-router.post(
-  "/persistir-registro-indicador/",
+router.post("/persistir-registro-indicador/",
   authMiddleware,
   upload_soportes.array("files_soporte"),
   (req, res) => {
     const version = '0';
+    
     let numerador = parseFloat(req.body.txt_vr_numerador);
     let denominador = parseFloat(req.body.txt_vr_denominador);
     if (req.body.txt_vr_numerador == "") {
@@ -154,7 +159,7 @@ router.post(
       modelControlMando
         .insertar_registro_indicador(
           Number(req.body.select_indicador),
-          Number(req.body.select_profesional),
+          req.session.username["id_profesional"],
           req.body.select_vigencia,
           Number(req.body.select_periodo),
           numerador,
@@ -183,14 +188,12 @@ router.post(
   }
 );
 
-router.put(
-  "/actualizar-registro-indicador",
-  authMiddleware,
-  upload_soportes.array("files_soporte"),
+router.put("/actualizar-registro-indicador", authMiddleware,upload_soportes.array("files_soporte"),
   (req, res) => {
+    console.log(req.body);
     modelControlMando
       .actualizar_reg_indicador(
-        req.body.id_registroindicador,
+        Number(req.body.id_reg_indicador),
         Number(req.body.txt_vr_numerador),
         Number(req.body.txt_vr_denominador),
         req.body.txt_observacion

@@ -39,7 +39,7 @@
         </span>
         <select name="select_periodo" id="select_periodo"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-
+       
         </select required>
     </label>
 
@@ -57,7 +57,6 @@
         <label class="col-2 col-form-label" for="txt_meta_numerica" style="font-weight: bold;">
             Periodo Evaluación: </label>
         <label class="col-2 " name="txt_periodo_evaluacion" id="txt_periodo_evaluacion" value=""></label>
-
 
         <div class="container" id="panel_descriptiva">
 
@@ -176,7 +175,7 @@
         event.preventDefault();
         const data= new FormData(form);
         const obj = Object.fromEntries(data);
-        console.log(obj)
+        //console.log(obj)
 
         if (obj.id_reg_indicador != '0') {
             updateAjax('/actualizar-registro-indicador', data, reloadContainer)
@@ -316,23 +315,25 @@
 
 
     $("#select_indicador").change(function () {
-        loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + $(this).val() + "&profesional=178");
+        loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + $(this).val());
     });
 
     $("#select_vigencia").change(function () {
-        loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + $(this).val());
+        loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + $(this).val()+ "&indicador=" + $('#select_indicador').val().toString());
     });
 
     $("#select_periodo").change(function () {
-        loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?periodo=" + $(this).val() + "&vigencia=" + $('#select_vigencia').val().toString() + "&indicador=" + $('#select_indicador').val().toString() + "&area=12");
+        loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?periodo=" + $(this).val() + "&vigencia=" + $('#select_vigencia').val().toString() + "&indicador=" + $('#select_indicador').val().toString());
         $('#contenedor_info_indicador').attr('hidden', false);
     });
 
-    loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + '<%= item.length && item[0].id_indicador %>' + '&profesional=178')
+    loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + '<%= item.length && item[0].id_indicador %>')
 
-    loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + '<%= item.length && item[0].periodo_año %>');
+    loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + '<%= item.length && item[0].periodo_año %>' 
+    + '&id_area=' + '<%= item.length && item[0].id_area %>' + '&id_profesional=' + '<%= item.length && item[0].id_profesional %>'
+    + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
 
-    loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?vigencia=" + '<%= item.length && item[0].periodo_año %>' + '&periodo=' + '<%= item.length && item[0].periodo_mes %>' + '&area=12' + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
+    loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?vigencia=" + '<%= item.length && item[0].periodo_año %>' + '&periodo=' + '<%= item.length && item[0].periodo_mes %>' + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
 
 
 

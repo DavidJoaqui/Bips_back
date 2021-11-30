@@ -278,7 +278,7 @@ module.exports = {
     },
 
     async consultar_reg_indicadores_x_id(id_indicador) {
-        const resultados = await conexion.query("select CAST(r.vigencia AS varchar) periodo_año, p.cod_mes periodo_mes, r.*, i.tipo_meta from schema_control.registroindicadores r inner join schema_control.indicadores i on (r.id_indicador = i.id_indicador) inner join schema_control.periodo_mes p on (r.periodoevaluado=p.id_mes) where r.id_registroindicador = $1", [id_indicador]);
+        const resultados = await conexion.query("select CAST(r.vigencia AS varchar) periodo_año, p.cod_mes periodo_mes, r.*, i.tipo_meta,i.id_area from schema_control.registroindicadores r inner join schema_control.indicadores i on (r.id_indicador = i.id_indicador) inner join schema_control.periodo_mes p on (r.periodoevaluado=p.id_mes) where r.id_registroindicador = $1", [id_indicador]);
         return resultados.rows;
     },
 
