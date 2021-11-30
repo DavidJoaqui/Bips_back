@@ -1,52 +1,116 @@
 <div class="bg-white">
     <nav class="flex flex-col flex-wrap sm:flex-row" id="tabs-base">
-        <button
-            class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 border-l border-t border-r"
-            onclick="loadTab(this,'/ctm-plan-general')">
-            Plan General
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-lineas-accion')">
-            Lineas de Acción
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-objetivos')">
-            Objetivos
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-estrategias')">
-            Estrategias
-        </button>
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-planes')">
-            Planes
-        </button>
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-indicadores')">
-            Indicadores
-        </button>
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-registro-indicadores')">
-            Registro
-        </button>
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-calificacion-indicadores')">
-            Calificación
-        </button>
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-areas')">
-            Areas
-        </button>
-        </button>
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-profesionales')">
-            Usuarios
-        </button>
+
+
+        <% if(rol=='ROL_ADMIN' || rol=='ROL_SUPER_ADMIN' || rol=='ROL_COORDINADOR' || rol=='ROL_USUARIO' || rol=='ROL_EVALUADOR' ){%>
+
+            <% for(var i=0; i<permisos.length; i++){ %>
+                <% if(permisos[i].codigo=='ctm_plan_general' ){ %>
+                    <button
+                        class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 border-l border-t border-r"
+                        onclick="loadTab(this,'/ctm-plan-general')">
+                        Plan
+                        General
+                    </button>
+                    <%}%>
+
+                        <% if(permisos[i].codigo=='ctm_lineas_acciones' ){ %>
+                            <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                onclick="loadTab(this,'/ctm-lineas-accion')">
+                                Lineas
+                                de
+                                Acción
+                            </button>
+                            <%}%>
+
+
+                                <% if(permisos[i].codigo=='ctm_objetivos' ){ %>
+
+                                    <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                        onclick="loadTab(this,'/ctm-objetivos')">
+                                        Objetivos
+                                    </button>
+                                    <%}%>
+
+                                        <% if(permisos[i].codigo=='ctm_estrategias' ){ %>
+                                            <button
+                                                class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                                onclick="loadTab(this,'/ctm-estrategias')">
+                                                Estrategias
+                                            </button>
+                                            <%}%>
+
+                                                <% if(permisos[i].codigo=='ctm_profesionales' ){ %>
+                                                    <button
+                                                        class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                                        onclick="loadTab(this,'/ctm-profesionales')">
+                                                        Usuarios
+                                                    </button>
+                                                    <%}%>
+                                                        <% if(permisos[i].codigo=='ctm_planes' ){ %>
+
+                                                            <button
+                                                                class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                                                onclick="loadTab(this,'/ctm-planes')">
+                                                                Planes
+                                                            </button>
+
+                                                            <%}%>
+                                                                <% if(permisos[i].codigo=='ctm_indicadores' ){ %>
+
+                                                                    <button
+                                                                        class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                                                        onclick="loadTab(this,'/ctm-indicadores')">
+                                                                        Indicadores
+                                                                    </button>
+
+                                                                    <%}%>
+                                                                        <% if(permisos[i].codigo=='ctm_registroindicadores'
+                                                                            ){ %>
+                                                                            <button
+                                                                                class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                                                                onclick="loadTab(this,'/ctm-registro-indicadores')">
+                                                                                Registro
+                                                                            </button>
+
+                                                                            <%}%>
+                                                                                <% if(permisos[i].codigo=='ctm_calificacion_registro_indicadores'
+                                                                                    ){ %>
+                                                                                    <button
+                                                                                        class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                                                                        onclick="loadTab(this,'/ctm-calificacion-indicadores')">
+                                                                                        Calificación
+                                                                                    </button>
+                                                                                    <%}%>
+                                                                                        <% if(permisos[i].codigo=='ctm_areas'
+                                                                                            ){ %>
+                                                                                            <button
+                                                                                                class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+                                                                                                onclick="loadTab(this,'/ctm-areas')">
+                                                                                                Areas
+                                                                                            </button>
+                                                                                            <%}%>
+
+                                                                                                <%}%>
+                                                                                                    <%}else{%>
+
+                                                                                                        <div class="col-md-12"
+                                                                                                            style=" margin-top: 0px; padding: 0px;margin-left: 0px;">
+                                                                                                            <h2 class="text-center"
+                                                                                                                style="color: #20488f;font-size: 20px">
+                                                                                                                No
+                                                                                                                Tienes
+                                                                                                                Permisos
+                                                                                                                para
+                                                                                                                ingresar
+                                                                                                                a este
+                                                                                                                recurso.
+                                                                                                            </h2>
+                                                                                                        </div>
+                                                                                                        <%}%>
+
+
+
     </nav>
 </div>
 
@@ -60,18 +124,18 @@
     const tabActiveClass = "text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 border-l border-t border-r"
     const tabClass = "text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
 
-    function loadTab(btn,url) {
-        toggleTab(btn,url);
+    function loadTab(btn, url) {
+        toggleTab(btn, url);
         loadContentHtml(url, '#container-tab')
     }
 
-    
-    function toggleTab(btn,url) {
-        const button=$(btn);
+
+    function toggleTab(btn, url) {
+        const button = $(btn);
         $("#tabs-base button").each(function (index) {
-            $(this).removeClass().addClass( tabClass );
-            if($(this).text()===button.text()){
-                button.removeClass().addClass( tabActiveClass );
+            $(this).removeClass().addClass(tabClass);
+            if ($(this).text() === button.text()) {
+                button.removeClass().addClass(tabActiveClass);
             }
         });
     }

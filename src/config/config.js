@@ -15,7 +15,7 @@ config = {
         user: "postgres",
         host: "127.0.0.1",
         database: "bips_bd",
-        password: "bipsbd",
+        password: "root",
         //password: "root",
         port: 5432,
     },
