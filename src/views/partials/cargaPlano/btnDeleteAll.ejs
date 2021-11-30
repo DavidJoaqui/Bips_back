@@ -1,2 +1,46 @@
-<button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-purple">Eliminar todos</button>
+<button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-purple" id="elim-all" onclick="eliminar_all()">Eliminar todos</button>
 
+<script>
+    function eliminar_all() {
+
+        $.ajax({
+            type: 'delete',
+            url: "/delete-all/archivo-bips",
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+
+            success: function(result) {
+                console.log("Success ... " + result["resultado"]);
+
+                if (result["resultado"] == "DATA_NOT_FOUND") {
+                    //alert("No hay planos a eliminar");
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: "warning",
+                        title: result['msg'],
+                        showConfirmButton: false,
+                        timer: 5000
+                    })
+                } else if (result["resultado"] == "OK" && result["status"] == 200) {
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: "success",
+                        title: result['msg'],
+                        showConfirmButton: false,
+                        timer: 5000
+                    })
+
+                    setTimeout(function() {
+                        window.location.reload(1);
+                    }, 3000);
+                }
+
+            }
+
+        });
+
+    }
+</script>

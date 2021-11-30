@@ -11,6 +11,8 @@ const app = express();
 app.use(express.static(path.join(__dirname, config.rutaFile)));
 app.use(express.static(path.join(__dirname, config.rutaPublic)));
 app.use(express.static(config.rutaSoportesCtm));
+app.use(express.static(config.rutaPublicPdfjs));
+app.use(express.static(config.rutaPublicPdfjs+"/filespublic"));
 // Body parse
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -21,42 +23,46 @@ app.set("layout", "./layouts/dashboard");
 app.set("view engine", "ejs");
 // Session
 app.use(
-  session({
-    secret: config.sesionSecret,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 6000000,
-    },
-  })
+    session({
+        secret: config.sesionSecret,
+        resave: true,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 6000000,
+        },
+    })
 );
 app.use(flash());
 
 // Rutas
 [
-  require("./src/routes/login"),
-  require("./src/routes/olap2193"),
-  require("./src/routes/reporte2193"),
-  require("./src/routes/configEntidades"),
-  require("./src/routes/controlMando"),
-  require("./src/routes/planGeneral"),
-  require("./src/routes/permiso"),
-  require("./src/routes/profesional"),
-  require("./src/routes/indicador"),
-  require("./src/routes/filePlano"),
-  require("./src/routes/lineaAccion"),
-  require("./src/routes/objetivo"),
-  require("./src/routes/area"),
-  require("./src/routes/calificacionIndicador"),
-  require("./src/routes/estrategia"),
-  require("./src/routes/plan"),
-  require("./src/routes/registroIndicador"),
+    require("./src/routes/login"),
+    require("./src/routes/olap2193"),
+    require("./src/routes/reporte2193"),
+    require("./src/routes/configEntidades"),
+    require("./src/routes/controlMando"),
+    require("./src/routes/planGeneral"),
+    require("./src/routes/permiso"),
+    require("./src/routes/profesional"),
+    require("./src/routes/indicador"),
+    require("./src/routes/filePlano"),
+    require("./src/routes/lineaAccion"),
+    require("./src/routes/objetivo"),
+    require("./src/routes/area"),
+    require("./src/routes/calificacionIndicador"),
+    require("./src/routes/estrategia"),
+    require("./src/routes/plan"),
+    require("./src/routes/registroIndicador"),
+    require("./src/routes/soporte"),
+    require("./src/routes/viewPdf"),
+    require("./src/routes/listData"),
+    require("./src/routes/reportePentaho")
 ].forEach((route) => {
-  app.use(route);
+    app.use(route);
 });
 
 // Init servidor
 app.listen(config.port, () =>
-  console.log("El servidor se esta ejecutando..." + config.port)
+    console.log("El servidor se esta ejecutando..." + config.port)
 );
 module.exports = app;

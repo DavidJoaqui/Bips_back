@@ -1,46 +1,66 @@
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="window.alpine" lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BIPS - Dashboard</title>
     <script src="theme/js/jquery-1.12.4.js"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="theme/css/tailwind.output.css" />
-    <script
-      src="theme/js/alpine.min.js"
-      defer
-    ></script>
+    <script src="theme/js/alpine.min.js" defer></script>
     <script src="theme/js/sweetalert2@11.js"></script>
     <script src="theme/js/crud.js"></script>
+    <script src="theme/js/loadCmb.js"></script>
+    <script src="theme/js/validation.js"></script>
     <script src="theme/js/pagination.js"></script>
     <script src="theme/js/focus-trap.js"></script>
     <script src="theme/js/init-alpine.js"></script>
 
 
 
-  </head>
-  <body>
-    <div
-      class="flex h-screen bg-gray-50 dark:bg-gray-900"
-      :class="{ 'overflow-hidden': isSideMenuOpen}"
-    >
-    <%- include("desktopSidebar"); %>
-      <!-- Mobile sidebar -->
-      <!-- Backdrop -->
-    <%- include("mobileSidebar"); %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" />
+    <style>
+        .modal-custom {
+            max-height: 85vh;
+            overflow-y: auto;
+        }
 
-       <!-- Login -->
+        #reporte-title {
+            color: blue;
+            font-size: bold;
+        }
+
+        #reporte-title::first-letter {
+            text-transform: uppercase;
+        }
+
+        .textarea-td {
+            background-color: #fafafa;
+            border: 1px solid gainsboro;
+            border-radius: 5px;
+            width: 100%;
+            min-width: 100px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}">
+        <%- include("desktopSidebar"); %>
+            <!-- Mobile sidebar -->
+            <!-- Backdrop -->
+            <%- include("mobileSidebar"); %>
+
+                <!-- Login 
     <iframe style="display: none;" src="http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&userid=admin&password=password&dimension_prefetch=false" scrolling="si" onload='' frameBorder="0" title="Login Pentaho" class="embed-responsive-item">
-    </iframe>
-    
-      <div class="flex flex-col flex-1">
-        <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
-          <div
-            class="
+    </iframe>-->
+
+                <div class="flex flex-col flex-1">
+                    <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+                        <div class="
               container
               flex
               items-center
@@ -50,41 +70,40 @@
               mx-auto
               text-purple-600
               dark:text-purple-300
-            "
-          >
-            <!-- Mobile hamburger -->
-            <%- include("mobileHamburger.ejs"); %>
-            <!-- Search input -->
-            <%- include("search"); %>
-            <ul class="flex items-center flex-shrink-0 space-x-6">
-              <!-- Theme toggler -->
-              <%- include("themeToggler"); %>
-              <!-- Notifications menu -->
-              <%- include("notificationsMenu"); %>
-              <!-- Profile menu -->
-              <%- include("profile"); %>
-            </ul>
-          </div>
-        </header>
-        <main class="h-full pb-16 overflow-y-auto">
-          <!-- Remove everything INSIDE this div to a really blank page -->
-          <div class="container px-6 mx-auto grid">
-            <h2
-              class="
+            ">
+                            <!-- Mobile hamburger -->
+                            <%- include("mobileHamburger.ejs"); %>
+                                <!-- Search input -->
+                                <%- include("search"); %>
+                                    <ul class="flex items-center flex-shrink-0 space-x-6">
+                                        <!-- Theme toggler -->
+                                        <%- include("themeToggler"); %>
+                                            <!-- Notifications menu -->
+                                            <%- include("notificationsMenu"); %>
+                                                <!-- Profile menu -->
+                                                <%- include("profile"); %>
+                                    </ul>
+                        </div>
+                    </header>
+                    <main class="h-full pb-16 overflow-y-auto">
+                        <!-- Remove everything INSIDE this div to a really blank page -->
+                        <div class="container-fluid px-6 grid">
+                            <h2 class="
                 my-6
                 text-2xl
                 font-semibold
                 text-gray-700
                 dark:text-gray-200
-              "
-            >
-              <%- body %>
-            </h2>
-          </div>
-        </main>
-      </div>
+              ">
+                                <%- body %>
+                            </h2>
+                        </div>
+                    </main>
+                </div>
     </div>
     <%- include("../partials/editModal"); %>
-    <%- include("../partials/newModal"); %>
-  </body>
+        <%- include("../partials/newModal"); %>
+            <%- include("../partials/detailModal"); %>
+</body>
+
 </html>

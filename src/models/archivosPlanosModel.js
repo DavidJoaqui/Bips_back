@@ -90,7 +90,7 @@ module.exports = {
 
     async validarPlanosNecesarios(planos_val) {
         var cont_obligatorios = 0;
-        if (planos_val.length = 10) {
+        if (planos_val.length == 10) {
             // son necesarios AP, AC, AT, AH, AU, AF, no entra US, AN,CT,AM
             planos_val.forEach(plano => {
 
@@ -122,6 +122,8 @@ module.exports = {
             if (cont_obligatorios = 10) {
                 // 1: cumple, estan los archivos necesarios 
                 return 1;
+            } else {
+                return 0;
             }
 
         } else {

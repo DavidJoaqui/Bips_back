@@ -1,112 +1,289 @@
+<%- include("btnDeleteAll"); %>
+    <%- include("btnValidAll"); %>
 
-   <%- include("btnDeleteAll"); %>
-   <%- include("btnValidAll"); %>
+        <style>
+            .div-err {
+                height: 160px;
+                width: 100%;
+                overflow: scroll;
+                border: black 1px solid;
+            }
+        </style>
 
-<hr class="py-2"/>
+        <div class="div-envio" id="div-envio" hidden>
+            <%- include("btnEnvioAllPlanos"); %>
+        </div>
 
-<div class="w-full overflow-hidden rounded-lg shadow-xs">
-   <div class="w-full overflow-x-auto">
-      <table class="w-full whitespace-no-wrap" id="table-cargar-planos">
-         <thead>
-            <tr
-               class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-               <th>Nombre plano</th>
-               <th>Nombre IPS</th>
-               <th>Periodo cargado</th>
-               <th>Fecha de carga</th>
-               <th>Validado</th>
-               <th>Acciones</th>
-            </tr>
-         </thead>
-         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+        <hr class="py-2" />
 
+        <p id="loading" class="loading" style="display: none;">Procesando...</p>
 
+        <div style="font-size: 10px; float: right; color: blue;" class="exportar" id="exportar" hidden>
 
+            <a href="" for=""> <i class="fas fa-file-excel" style="color: green;"></i> <b>Exportar Excel</b> </a>
+        </div>
+        <div id="panel_errores" class="div-err" hidden>
 
-            <% arr_files.forEach(file=> { %>
-
-               <tr class="text-gray-700 dark:text-gray-400">
-
-                  <td class="px-4 py-3 text-sm">
-                     <%= file.nombre_original %>
-                  </td>
-                  <td class="px-4 py-3 text-sm">
-                     <strong>
-                        <%= file.descripcion_ips %>
-                     </strong>
-                  </td>
-                  <td class="px-4 py-3 text-sm">
-                     <p><i class="far fa-clock" style="color: cadetblue;"></i>
-                        <%= file.periodo_cargado %>
-                     </p>
-
-                  </td>
-
-                  <td class="px-4 py-3 text-sm">
-
-                     <%= file.fecha_carga %>
-                  </td>
-                  <td class="px-4 py-3 text-sm">
-                     <% if (!file.validado) { %>
-                        <div>
-                           <p><i class="far fa-times-circle" style="color: red;"></i>
-                              <%= "No" %>
-                           </p>
-
-                        </div>
-
-                        <% } else { %>
-                           <p><i class="far fa-check-circle" style="color: green;"></i>
-                              <%= "Si" %>
-                           </p>
-
-                           <% } %>
+            <%- include("../cargaPlano/tabla-errores"); %>
+        </div>
+        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+            <div class="w-full overflow-x-auto">
+                <table class="w-full whitespace-no-wrap" id="table-cargar-planos">
+                    <thead>
+                        <tr
+                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                            <th>Nombre plano</th>
+                            <th>Nombre IPS</th>
+                            <th>Periodo cargado</th>
+                            <th>Fecha de carga</th>
+                            <th>Validado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
 
-                  </td>
 
 
-                  <td class="px-4 py-3">
-                     <div class="flex items-center space-x-4 text-sm">
+                        <% for (let index=0; index < arr_files.length; index++){ %>
 
-                        <button
-                           onclick="validarPlano('/file/delete-entidad/<%= file.nombre_original %>','/config-entidades')"
-                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                           aria-label="Edit">
-                           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
-                           </svg>
-                        </button>
+                            <tr class="text-gray-700 dark:text-gray-400">
 
-                        <% if (!file.validado) { %>
-                           <button
-                              onclick="openPopupDelete('/file/delete/<%= file.nombre_original %>/archivo-bips/?id_ips=<%= file.id_ips %>')"
-                              class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                              aria-label="Delete">
-                              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                 <path fill-rule="evenodd"
-                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                    clip-rule="evenodd"></path>
-                              </svg>
-                           </button>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= arr_files[index].nombre_original %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <strong>
+                                        <%= arr_files[index].descripcion_ips %>
+                                    </strong>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <p><i class="far fa-clock" style="color: cadetblue;"></i>
+                                        <%= arr_files[index].periodo_cargado %>
+                                    </p>
 
-                           <% } %>
+                                </td>
 
-                     </div>
-                  </td>
-               </tr>
-               <% })%>
+                                <td class="px-4 py-3 text-sm">
 
-         </tbody>
-      </table>
-   </div>
-   <%- include("../../partials/pagination"); %>
-</div>
+                                    <%= arr_files[index].fecha_carga %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <% if (!arr_files[index].validado) { %>
+                                        <div>
+                                            <p><i class="far fa-times-circle" style="color: red;"></i>
+                                                <%= "No" %>
+                                            </p>
 
-<script>
-   getPagination('#table-cargar-planos');
+                                        </div>
 
-   function validarPlano(url) {
+                                        <% } else { %>
+                                            <p><i class="far fa-check-circle" style="color: green;"></i>
+                                                <%= "Si" %>
+                                            </p>
 
-   }
-</script>
+                                            <% } %>
+
+
+                                </td>
+
+
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center space-x-4 text-sm">
+
+
+
+                                        <% if (!arr_files[index].validado) { %>
+
+                                            <button
+                                                onclick="validarPlano('<%= arr_files[index].nombre_tmp %>','<%= arr_files[index].id_ips %>','<%= index %>')"
+                                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                aria-label="Edit">
+                                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                                                </svg>
+                                            </button>
+
+                                            <button
+                                                onclick="openPopupDelete('/file/delete/<%= arr_files[index].nombre_tmp %>/archivo-bips/?id_ips=<%= arr_files[index].id_ips %>')"
+                                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                aria-label="Delete">
+                                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                    viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+
+                                            <div style="font-size: 10px; float: right; color: blue;"
+                                                class="<%= index %>" id="<%= index %>" hidden>
+
+                                                <a href="" for=""> <i class="fas fa-file-excel"
+                                                        style="color: green;"></i> <b>Exportar Excel</b> </a>
+                                            </div>
+
+                                            <% }else {%>
+                                                - -
+                                                <% } %>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }%>
+
+                    </tbody>
+                </table>
+            </div>
+            <%- include("../../partials/pagination"); %>
+        </div>
+
+        <script type="text/javascript">
+            getPagination('#table-cargar-planos');
+
+            function validarPlano(nombre_tmp, id_ips, index) {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 'slow'); //seleccionamos etiquetas,clase o identificador destino, creamos animación hacia top de la página.
+
+                var array_nombre = nombre_tmp.split('_');
+                nombre_plano = array_nombre[2];
+                const peticion = '/file/validar/' + nombre_tmp + "/archivo-bips/?id_ips=" + id_ips;
+
+                $.ajax({
+                    type: 'post',
+                    url: peticion,
+                    data: [],
+
+                    beforeSend: function (result) {
+                        document.getElementById('loading').style.display = 'block';
+                        var load = $('.loading');
+                        load.html("");
+                        var text = load.children();
+                        load.html('<small> Validando información para el plano: <b>' +
+                            nombre_plano + '</b> Esto puede tomar un tiempo</small> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div>');
+                        load.append(text);
+
+                    },
+
+                    success: function (result) {
+
+                        if (result['status'] == 500) { //se presentan errores en la validacion del plano
+                            $('#loading').fadeOut('fast');
+
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: "warning",
+                                title: result['msg'],
+                                showConfirmButton: false,
+                                timer: 5000
+                            })
+                            $('#panel_errores').attr("hidden", false);
+
+                            $('#plano-err').html(nombre_plano);
+
+                            var str = "";
+                            var item = 0;
+                            for (let i = 0; i < result["respuesta"].length; i++) {
+                                item = item + 1;
+                                str = str + '<tr><td>' + item + '</td><td>' + result["respuesta"][i] + '</td></tr>';
+
+                            }
+                            $('#developers').html(str);
+
+
+                            $('#exportar').attr("hidden", false);
+                            $('#' + index).attr("hidden", false);
+                            nombre = nombre_plano.split(".");
+                            $.ajax({
+                                type: 'get',
+                                url: '/generar-xlsx-err/' + nombre[0] + '/archivo-bips',
+                                contentType: "application/json",
+                                dataType: "text",
+                                data: {
+                                    err: result["respuesta"]
+                                },
+
+
+                                success: function (result) {
+                                    $('.exportar a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
+                                    $('.' + index + ' a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
+                                }
+
+                            })
+
+
+                        } else {
+
+                            $('#loading').fadeOut('fast');
+
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: "success",
+                                title: result['msg'],
+                                showConfirmButton: false,
+                                timer: 5000
+                            })
+
+                            setTimeout(function () {
+                                window.location.reload(1);
+                            }, 5000);
+
+                            if (result['habilitar_elim_all'] == false) {
+
+
+                                $("#elim-all").attr("hidden", true);
+                                $("#btn-valid-all").attr("hidden", true);
+
+                            }
+
+                            if (result['habilitar_envio'] == true) {
+
+                                $("#div-envio").attr("hidden", false);
+                                $("#btn-cargar").attr("disabled", false);
+
+
+                            }
+                        }
+
+                    }
+                });
+
+            }
+
+            $(document).ready(function () {
+
+                var peticion_validacion = "/validacion-carga-envio";
+                $.ajax({
+                    type: 'get',
+                    url: peticion_validacion,
+                    data: [],
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (result) {
+
+                        if (result['habilitar_elim_all'] == false) {
+
+                            $("#elim-all").attr("hidden", true);
+
+                        } else {
+                            $("#elim-all").attr("hidden", false)
+                        }
+
+                        if (result['habilitar_envio'] == false) {
+
+                            $("#div-envio").attr("hidden", true);
+
+                        } else {
+                            $("#div-envio").attr("hidden", false);
+                            $("#btn-cargar").attr("disabled", false);
+                        }
+
+                    }
+                });
+
+            });
+        </script>

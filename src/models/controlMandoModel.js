@@ -152,6 +152,16 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_RegistroEstrategia_x_id(id_est) {
+        const resultados = await conexion.query("select est.*,obj.id_objetivo, obj.objetivo,la.id_linea,la.linea_accion,pg.id_plangeneral,pg.plan_general from schema_control.estrategias est inner join schema_control.objetivos obj on (est.id_objetivo=obj.id_objetivo) inner join schema_control.lineas_acciones la on (obj.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on (la.id_plan_general=pg.id_plangeneral) where est.id_estrategia = $1", [id_est]);
+        return resultados.rows;
+
+    },
+
+    async eliminar_RegistroEstrategia(id) {
+        const resultados = await conexion.query("delete from schema_control.estrategias where id_estrategia= $1", [id]);
+        return resultados;
+    },
 
 
     //---------------------------Metodos PLanes--------------------------------------//
@@ -221,6 +231,11 @@ module.exports = {
         return resultados;
     },
 
+    async eliminar_area(id) {
+        const resultados = await conexion.query("delete from schema_control.area where id_area = $1", [id]);
+        return resultados;
+    },
+
     //-----------------------Metodos Indicadores--------------------------------------//
     //------------------------------------------------------------------------------//
     async insertar_indicador(nombre_indicador, id_plan, id_area, tipo_meta, formula_literal_descriptiva, meta_descriptiva, periodo_evaluacion,meta_numerica, formula_literal_numerador, formula_literal_denominador) {
@@ -259,6 +274,11 @@ module.exports = {
 
     async consultar_reg_indicadores() {
         const resultados = await conexion.query("select a.id_registroindicador, to_char(a.fecharegistro, 'DD/MM/YYYY') as fecharegistro, a.vigencia, e.nombre_mes, b.nombre_indicador, b.tipo_meta , a.formula_cifras_numerador, a.formula_cifras_denominador, a.observaciones, d.nombre_area , concat(u.nombre, ' ', u.apellido, ' ', u.num_identificacion) as nombre_profesional from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user=u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) order by a.id_registroindicador");
+        return resultados.rows;
+    },
+
+    async consultar_reg_indicadores_x_id(id_indicador) {
+        const resultados = await conexion.query("select CAST(r.vigencia AS varchar) periodo_año, p.cod_mes periodo_mes, r.*, i.tipo_meta from schema_control.registroindicadores r inner join schema_control.indicadores i on (r.id_indicador = i.id_indicador) inner join schema_control.periodo_mes p on (r.periodoevaluado=p.id_mes) where r.id_registroindicador = $1", [id_indicador]);
         return resultados.rows;
     },
 
@@ -322,7 +342,7 @@ module.exports = {
 
 
     async consultar_indicadorxarea(area) {
-        const resultados = await conexion.query("select b.id_indicador,b.nombre_indicador from schema_control.indicadores b where b.id_area =$1 ", [area]);
+        const resultados = await conexion.query("select b.id_indicador,b.nombre_indicador,b.tipo_meta from schema_control.indicadores b where b.id_area =$1 ", [area]);
         return resultados.rows;
     },
 
@@ -361,7 +381,7 @@ module.exports = {
     },
 
     async consultar_det_reg_ind_evaluacion(id_reg_indicador) {
-        const resultados = await conexion.query("select a.id_registroindicador,a.periodoevaluado,a.id_profesional,a.id_indicador, to_char(a.fecharegistro, 'MON-DD-YYYY HH12:MIPM') as fecharegistro, a.vigencia, a.periodoevaluado, a.formula_cifras_numerador , a.formula_cifras_denominador, a.observaciones , a.calificado, a.version , e.nombre_mes, b.*, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional, d.nombre_area  from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.id_registroindicador = $1", [id_reg_indicador]);
+        const resultados = await conexion.query("select a.id_registroindicador, a.periodoevaluado, a.id_profesional, a.id_indicador, to_char(a.fecharegistro, 'MON-DD-YYYY HH12:MIPM') as fecharegistro, a.vigencia, a.periodoevaluado, a.formula_cifras_numerador , a.formula_cifras_denominador, a.observaciones , a.calificado, a.version , e.nombre_mes, b.*, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional, d.nombre_area, cri.estado, to_char(cri.fecha_calificacion, 'MON-DD-YYYY HH12:MIPM') as fecha_calificacion from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) left join schema_control.calificacion_registro_indicadores cri on (cri.id_registro_indicador= a.id_registroindicador) where a.id_registroindicador = $1", [id_reg_indicador]);
         return resultados.rows;
     },
 
@@ -444,7 +464,7 @@ module.exports = {
     },
     //consultarProfesionalXidUsuario
     async consultarProfesionalXidUsuario(id_user) {
-        const resultados = await conexion.query("select u.*, u.id_area as id_area_trabajo, a.nombre_area,r.nombre_rol from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) inner join schema_seguridad.rol r on(r.id_rol=u.id_rol_user) where u.id_user = $1 order by u.id_user", [id_user]);
+        const resultados = await conexion.query("select u.*, u.id_area as id_area_trabajo, a.nombre_area, r.nombre_rol, p.id_profesional from schema_seguridad.user u inner join schema_control.areas a on (u.id_area = a.id_area) inner join schema_seguridad.rol r on (r.id_rol = u.id_rol_user) inner join schema_control.profesionales p on (p.id_user=u.id_user) where u.id_user = $1 order by u.id_user", [id_user]);
         return resultados.rows;
     },
 
