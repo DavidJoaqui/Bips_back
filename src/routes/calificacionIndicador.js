@@ -20,10 +20,7 @@ router.get("/ctm-calificacion-indicadores", authMiddleware, (req, res) => {
 });
 
 router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
-  modelControlMando
-    .consultar_reg_ind_xcalificar()
-    .then((lista_calificacion_indicadores) => {
-      
+        
       modelControlMando.consultar_registros_Calificados().then(lista_calificacion_indicadores => {
         //console.log(lista_Estrategias);lista_Estrategias
         res.render(config.rutaPartials + "calificacionIndicador/listcalificados", {
@@ -32,7 +29,7 @@ router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
         });
     });
     
-    });
+    
 });
 
 router.get("/form-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res) => {
