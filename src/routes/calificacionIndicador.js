@@ -154,7 +154,7 @@ router.get("/lista-ctm-reg-ind-xcal-filtrado", authMiddleware, (req, res) => {
 
   modelControlMando.consultar_reg_ind_xcal_filtrado(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_reg_indicadores => {    
    
-      res.render(config.rutaPartials + "calificacionIndicador/listfiltro", {layout: false, lista_calificacion_indicadores: lista_reg_indicadores });
+      res.render(config.rutaPartials + "calificacionIndicador/listtable", {layout: false, lista_calificacion_indicadores: lista_reg_indicadores });
     
   });
 
