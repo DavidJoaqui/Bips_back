@@ -19,6 +19,22 @@ router.get("/ctm-calificacion-indicadores", authMiddleware, (req, res) => {
     });
 });
 
+router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultar_reg_ind_xcalificar()
+    .then((lista_calificacion_indicadores) => {
+      
+      modelControlMando.consultar_registros_Calificados().then(lista_calificacion_indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        res.render(config.rutaPartials + "calificacionIndicador/listcalificados", {
+          layout:false,
+          lista_calificacion_indicadores: lista_calificacion_indicadores,        
+        });
+    });
+    
+    });
+});
+
 router.get("/form-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res) => {
 
   modelControlMando.consultar_det_reg_ind_xcalificar(req.params.id).then(lista_reg_indicadores => {
@@ -26,6 +42,21 @@ router.get("/form-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res
       //console.log(lista_reg_indicadores);
       //res.setHeader('Content-type', 'text/html');
       res.render(config.rutaPartials +"calificacionIndicador/detalle", {layout:false, lista_calificacion_indicadores: lista_reg_indicadores });
+  });
+
+
+
+});
+
+router.get("/edit-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res) => {
+
+  modelControlMando.consultar_calificacion_reg_indicador(req.params.id).then(lista_reg_indicadores => {
+    
+      res.render(
+        config.rutaPartials +"calificacionIndicador/detalle", 
+        {layout:false, 
+          lista_calificacion_indicadores: lista_reg_indicadores,          
+        });    
   });
 
 
