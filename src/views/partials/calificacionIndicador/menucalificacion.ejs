@@ -1,0 +1,30 @@
+
+    <a href="" onclick="listaPendientes()"  title="Calificar">
+        <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+        <i class="fas fa-list " ></i><label for="">Pendientes Calificar</label>
+    </button>
+</a>
+
+<a href="" onclick="listaCalificados()" title="Calificar">
+    <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+    <i class="fas fa-list " ></i><label  for="">Calificados</label>
+</button>
+</a>
+
+<script>
+
+    function listaPendientes() {
+        event.preventDefault();
+        const peticion = "/ctm-calificacion-indicadores";                
+         loadContentHtml(peticion, '#container-tab')
+                            
+    }
+
+    function listaCalificados() {
+        event.preventDefault();
+        const peticion = "/ctm-lista-calificados";                
+         loadContentHtml(peticion, '#container-tab')
+                            
+    }
+
+</script>
