@@ -7,7 +7,7 @@ const path = require("path");
 
 router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
 
-  
+
   modelControlMando
     .consultar_reg_indicadores_x_id(req.params.id)
     .then((item) => {
@@ -55,14 +55,14 @@ router.get("/consultar-vigencia-anio-profesional",
 
 router.get("/consultar-periodo-x-anio", authMiddleware, (req, res) => {
 
-  
+
 
   modelControlMando
     .consultar_periodoxaño(req.query.año,
       Number(req.session.username["id_area"]),
       Number(req.session.username["id_profesional"]),
       req.query.indicador
-      )
+    )
     .then((lista_periodo) => {
       console.log(lista_periodo);
       return res.send(lista_periodo);
@@ -146,7 +146,7 @@ router.post("/persistir-registro-indicador/",
   upload_soportes.array("files_soporte"),
   (req, res) => {
     const version = '0';
-    
+
     let numerador = parseFloat(req.body.txt_vr_numerador);
     let denominador = parseFloat(req.body.txt_vr_denominador);
     if (req.body.txt_vr_numerador == "") {
@@ -170,11 +170,41 @@ router.post("/persistir-registro-indicador/",
         )
         .then((respuesta) => {
           if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
+            for (var i in req.files) {
+              var ext = path.extname(req.files[i].originalname);
+              var id_registro_indicador = respuesta['rows'][0].id_registroindicador;
+              var nombre_soporte = req.files[i].filename;
+              var path_soporte = req.files[i].path;
+              var es_habilitado = true;
+              var extension = ext;
+              var mime = req.files[i].mimetype;
+              //var fecha_carga = date_;
+              var es_valido = true;
+              var peso = req.files[i].size;
+              var nombre_original = req.files[i].originalname;
+
+              modelControlMando.insertar_SoporteRegistroIndicador(
+                id_registro_indicador,
+                nombre_soporte,
+                path_soporte,
+                es_habilitado,
+                extension,
+                mime,
+                es_valido,
+                peso,
+                nombre_original
+              ).then(respuesta => {
+                if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
+                  console.log(respuesta);
+                  console.log("OK... upload");
+                }
+              });
+            }
             return res.status(200).send("Ok");
           } else {
             return res
               .status(400)
-              .send("Error al guardarla Registro Indicador");
+              .send("Error al guardar Registro Indicador");
           }
         })
         .catch((err) => {
@@ -188,7 +218,7 @@ router.post("/persistir-registro-indicador/",
   }
 );
 
-router.put("/actualizar-registro-indicador", authMiddleware,upload_soportes.array("files_soporte"),
+router.put("/actualizar-registro-indicador", authMiddleware, upload_soportes.array("files_soporte"),
   (req, res) => {
     console.log(req.body);
     modelControlMando
@@ -204,7 +234,7 @@ router.put("/actualizar-registro-indicador", authMiddleware,upload_soportes.arra
             try {
               let ext = path.extname(req.files[i].originalname);
 
-              let id_registro_indicador = req.body.id_registroindicador;
+              let id_registro_indicador = Number(req.body.id_reg_indicador);
               let nombre_soporte = req.files[i].filename;
               let path_soporte = req.files[i].path;
               let es_habilitado = true;
