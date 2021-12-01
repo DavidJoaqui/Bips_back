@@ -216,9 +216,12 @@
 
 
                                 success: function (result) {                                    
-                                    //$('#num_errores').html("");                                                                        
+                                    //$('#num_errores').html("");  
+                                    alert("enlaces de descarga xlsx OK");                                                                      
                                     $('.exportar a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
                                     $('.' + index + ' a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
+
+                                    //se debe guardar estado de error y el path del archivo xlsx de errores
                                 }
 
                             })
