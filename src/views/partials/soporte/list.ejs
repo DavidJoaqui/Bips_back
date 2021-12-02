@@ -161,7 +161,7 @@
 
                                             
                                                 <a title="Eliminar"
-                                                    onclick="openPopupDelete('/eliminar-recurso-soporte/<%= lista_soportes[i].id_soporte %>',reloadContainer)"
+                                                    onclick="openPopupDelete('/eliminar-recurso-soporte/<%= lista_soportes[i].id_soporte %>',reloadContainerSoporte)"
                                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                     aria-label="Delete">
                                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -201,7 +201,7 @@
         document.getElementById('modal').classList.toggle('hidden')
         }
 
-        function reloadContainer(action) {
+        function reloadContainerSoporte(action) {
         var peticion_soportes = "/obtener_soportesxreg_indicador/<%= id_reg_indicador %>";
         loadContentHtml(peticion_soportes, '#panel_soportes')
         
@@ -231,32 +231,8 @@
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                    //alert('peticion  200');
                     console.log(" descarga OK");
-                    /*const peticion_elim = "/eliminar-recurso-temporal/1/" + nombre_soporte;
-                    $.ajax({
-                        method: 'delete',
-                        url: peticion_elim,
-                        contentType: mime,
-
-                        success: function(result) {
-                            //alert("OK");
-                            if (result['status'] == '200') {
-
-
-                                //Imprime la respuesta del servidor cuando estado es 200
-                                //alert(result['msg']);
-                                console.log(result['msg']);
-
-                            } else {
-                                console.log(result['msg']);
-                            }
-
-                        }
-                    });*/
-
-
-                }
+                    }
             }
 
             xhr.send();

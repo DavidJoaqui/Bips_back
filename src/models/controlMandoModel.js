@@ -278,7 +278,7 @@ module.exports = {
     },
 
     async consultar_reg_indicadores_x_id(id_indicador) {
-        const resultados = await conexion.query("select CAST(r.vigencia AS varchar) periodo_año, p.cod_mes periodo_mes, r.*, i.tipo_meta from schema_control.registroindicadores r inner join schema_control.indicadores i on (r.id_indicador = i.id_indicador) inner join schema_control.periodo_mes p on (r.periodoevaluado=p.id_mes) where r.id_registroindicador = $1", [id_indicador]);
+        const resultados = await conexion.query("select CAST(r.vigencia AS varchar) periodo_año, p.cod_mes periodo_mes, r.*, i.tipo_meta,i.id_area from schema_control.registroindicadores r inner join schema_control.indicadores i on (r.id_indicador = i.id_indicador) inner join schema_control.periodo_mes p on (r.periodoevaluado=p.id_mes) where r.id_registroindicador = $1", [id_indicador]);
         return resultados.rows;
     },
 
@@ -310,6 +310,10 @@ module.exports = {
 
     async consultar_periodoxaño(año, area, profesional, id_indicador) {
         const resultados = await conexion.query("select b.cod_mes, b.nombre_mes,b.id_mes  from schema_control.fecha a inner join schema_control.periodo_mes b on (to_char(fecha, 'MM')= b.cod_mes) where to_char(fecha, 'YYYY') = $5 and b.cod_mes not in( select e.cod_mes from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and d.id_area = $2 and a.id_profesional = $3 and a.id_indicador =$4 order by a.id_registroindicador ) group by b.id_mes, b.nombre_mes order by b.id_mes asc", [año, area, profesional, id_indicador, año]);
+        return resultados.rows;
+    },
+    async consultar_periodoxañoedit(año, area, profesional, id_indicador) {
+        const resultados = await conexion.query("select b.cod_mes, b.nombre_mes,b.id_mes  from schema_control.fecha a inner join schema_control.periodo_mes b on (to_char(fecha, 'MM')= b.cod_mes) where to_char(fecha, 'YYYY') = $5 and b.cod_mes  in( select e.cod_mes from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (b.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) where a.vigencia = $1 and d.id_area = $2 and a.id_profesional = $3 and a.id_indicador =$4 order by a.id_registroindicador ) group by b.id_mes, b.nombre_mes order by b.id_mes asc", [año, area, profesional, id_indicador, año]);
         return resultados.rows;
     },
 

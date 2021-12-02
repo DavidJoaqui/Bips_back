@@ -1,6 +1,8 @@
 <form id="formRegistroIndicador">
 
     <input type="text" name="id_reg_indicador" style="display: none;" value="<%= id_reg_indicador %>">
+    <input type="text" id="txt_version" name="txt_version"
+        value="<%= item.length && item[0].version? item[0].version:''  %>">
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
             Indicador:
@@ -43,109 +45,157 @@
         </select required>
     </label>
 
-    <div class="" id="contenedor_info_indicador" name="contenedor_info_indicador">
-        <div class="col-10">
-            <h3 class="text-center col-12" id="titulo_info_indicador">Información del Indicador Seleccionado</h3>
+    <div class="" id="contenedor_info_indicador" name="contenedor_info_indicador" style=" text-align: center;">
+
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    for="txt_meta_numerica" style="font-weight: bold;">
+                    Información del Indicador Seleccionado </label>
+            </div>
         </div>
 
-        <div class="form-group row" id="info_tipo_meta">
-            <label class="col-2 col-form-label" style="font-weight: bold;">
-                Tipo Meta: </label>
-            <output type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value="">
+        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
+            <div class="flex items-center p-2 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3"
+                    style="font-weight: bold;">
+                    Tipo Meta </label>&nbsp;
+                <output name="txt_tipo_meta" id="txt_tipo_meta"
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    value="">
+
+            </div>
+
+            <div class="flex items-center p-2 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    style="font-weight: bold;" style="font-weight: bold;">
+                    Periodo Evaluación</label>
+                <output name="txt_periodo_evaluacion" id="txt_periodo_evaluacion"
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    value="">
+
+            </div>
+
+
+
+
         </div>
-        <label class="col-2 " name="txt_tipo_meta2" id="txt_tipo_meta2" value=""></label>
-        <label class="col-2 col-form-label" for="txt_meta_numerica" style="font-weight: bold;">
-            Periodo Evaluación: </label>
-        <label class="col-2 " name="txt_periodo_evaluacion" id="txt_periodo_evaluacion" value=""></label>
 
 
         <div class="container" id="panel_descriptiva">
 
 
 
-            <div class="form-group row">
-                <label class="col-2 col-form-label" for="txt_meta_descriptiva" style="font-weight: bold;">
-                    Meta descriptiva: </label>
-                <div class="col-10">
-                    <input class="form-control" type="text" placeholder="Meta Descriptiva" name="txt_meta_descriptiva"
-                        id="txt_meta_descriptiva" value="">
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-first-name">
+                        Meta descriptiva
+                    </label>
+                    <output name="txt_meta_descriptiva" id="txt_meta_descriptiva"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name" type="text" placeholder="" value=""></output>
+
+                </div>
+                <div class="w-full md:w-1/2 px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-last-name">
+                        Descripción
+
+                    </label>
+                    <output name="txt_fl_descriptiva" id="txt_fl_descriptiva"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name" type="text" placeholder="" value=""></output>
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col-2 col-form-label" for="txt_fl_descriptiva" style="font-weight: bold;">Descripcion:
-                </label>
-                <div class="col-10">
-                    <input class="form-control" type="text" name="txt_fl_descriptiva" id="txt_fl_descriptiva" value="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-2 col-form-label" style="font-weight: bold;">
-                    - </label>
 
 
-                <div class="col-10">
-                    <h3 class="text-center col-12" style="font-weight: bold;">Ingreso de Registros.</h3>
-                </div>
-
-            </div>
 
         </div>
 
-        <div class="container" id="panel_numerica" style=" text-align: center;">
+        <div id="panel_numerica" style=" text-align: center;">
 
-            <div class="form-group row">
-                <label class="col-2 col-form-label" for="txt_meta_numerica" style="font-weight: bold;">
-                    Meta Númerica: </label>
-                <input class="col-2 " name="txt_meta_numerica" id="txt_meta_numerica" value="">
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full">
+
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        Meta Númerica </label>
+                    <output name="txt_meta_numerica" id="txt_meta_numerica"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        type="text" value="" disabled>
+                </div>
+
             </div>
 
-            <div class="form-group row">
-                <label class="col-2 col-form-label" for="txt_fl_numerador" style="font-weight: bold;">
-                    Numerador: </label>
-                <input class="col-2 " name="txt_fl_numerador" id="txt_fl_numerador" value="">
-            </div>
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-first-name">
+                        Numerador
+                    </label>
+                    <output name="txt_fl_numerador" id="txt_fl_numerador"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name" type="text" placeholder="" value="">
 
-            <div class="form-group row">
-                <label class="col-2 col-form-label" for="txt_fl_denominador" style="font-weight: bold;">
-                    Denominador: </label>
-                <input class="col-2 " name="txt_fl_denominador" id="txt_fl_denominador" value="">
-            </div>
-
-            <div class="form-group row">
-                <label class="col-2 col-form-label" style="font-weight: bold;">
-                    - </label>
-                <div class="col-10">
-                    <h3 class="text-center col-12" style="font-weight: bold;">Ingreso de Registros.</h3>
+                </div>
+                <div class="w-full md:w-1/2 px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-last-name">
+                        Denominador
+                    </label>
+                    <output name="txt_fl_denominador" id="txt_fl_denominador"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name" type="text" placeholder="" value="" disabled>
                 </div>
             </div>
-            <div class="form-group row">
-                <label class="col-2 col-form-label" style="font-weight: bold;"> Numerador:
-                </label>
-                <input class="form-control" type="text" placeholder="Ingresar Valor" name="txt_vr_numerador" style="border: 1px solid black;width: 100px;"
-                    id="txt_vr_numerador"
-                    value="<%= item.length && item[0].formula_cifras_numerador? item[0].formula_cifras_numerador:'' %>">
 
-                <label class="col-2 col-form-label" style="font-weight: bold;"> Denominador:
-                </label>
-                <input class="form-control" type="text" placeholder="Ingresar Valor" name="txt_vr_denominador" style="border: 1px solid black;width: 100px;"
-                    id="txt_vr_denominador"
-                    value="<%= item.length && item[0].formula_cifras_denominador? item[0].formula_cifras_denominador:'' %>">
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-first-name">
+                        Valor Numerador
+                    </label>
+                    <input name="txt_vr_numerador" id="txt_vr_numerador"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name" type="text" placeholder="Ingresar Valor"
+                        value='<%= item.length && item[0].formula_cifras_numerador? item[0].formula_cifras_numerador:"" %>'>
+
+                </div>
+                <div class="w-full md:w-1/2 px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-last-name">
+                        Valor Denominador
+                    </label>
+                    <input name="txt_vr_denominador" id="txt_vr_denominador"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name" type="text" placeholder="Ingresar Valor"
+                        value='<%= item.length && item[0].formula_cifras_denominador? item[0].formula_cifras_denominador:"" %>'>
+
+
+                </div>
             </div>
+
+
         </div>
 
-        <div class="form-group row" id="panel_observacion">
-            <label for="txt_observacion" class="col-2 col-form-label" style="font-weight: bold;">
+
+
+        <div class="flex flex-wrap -mx-3 mb-6" id="panel_observacion" hidden>
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="txt_observacion">
                 Observaciones: </label>
-            <div class="col-10">
+            <div class="w-full">
 
-                <textarea class="form-control" type="text" name="txt_observacion" id="txt_observacion"
+                <textarea
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    type="text" name="txt_observacion" id="txt_observacion"
                     value=""><%= item.length && item[0].observaciones? item[0].observaciones:'' %></textarea>
 
 
 
             </div>
         </div>
+
 
         <div class="form-group row" id="panel_soporte">
             <label for="txt_soporte" class="col-2 col-form-label" style="font-weight: bold;">
@@ -156,6 +206,15 @@
                     multiple>
             </div>
         </div>
+
+        <div class="form-group row">
+            <label for="panel_soportes" class="col-2 col-form-label" style="font-weight: bold;color: blue">
+                Soportes: </label>
+            <div class="" id="panel_soportes">
+
+            </div>
+        </div>
+
     </div>
 
 
@@ -163,7 +222,17 @@
 </form>
 
 <script>
+    function closeModal() {
+        document.querySelector("#closeModalNew").click();
+    }
+
     const form = document.querySelector("#formRegistroIndicador");
+
+
+
+    var peticion_soportes = "/obtener_soportesxreg_indicador/<%= item.length && item[0].id_registroindicador? item[0].id_registroindicador:0 %>";
+    loadContentHtml(peticion_soportes, '#panel_soportes');
+
 
     if ("<%= item.length && item[0].tipo_meta? item[0].tipo_meta:'' %>") {
         $('#contenedor_info_indicador').attr('hidden', false);
@@ -171,21 +240,29 @@
         $('#contenedor_info_indicador').attr('hidden', true);
     }
 
+
+
+
     form.addEventListener("submit", function (event) {
         // Stop form submission
         event.preventDefault();
-        const data= new FormData(form);
+        const data = new FormData(form);
         const obj = Object.fromEntries(data);
-        console.log(obj)
+        const checkIdIndicador = '<%= item.length && item[0].id_registroindicador? item[0].id_registroindicador:"0"%>';
+        //const validacion = '<%= item.length && item[0].version? item[0].version:"0"%>';
+        const check = '<%= respuesta?respuesta:"0" %>';
 
-        if (obj.id_reg_indicador != '0') {
-            updateAjax('/actualizar-registro-indicador', data, reloadContainer)
-        } else {
+        if (obj.id_reg_indicador == '0' || check == '1') {
             createdAjax('/persistir-registro-indicador', data, reloadContainer)
+            
+
+        } else if (obj.id_reg_indicador != '0' && check == '0') {
+            updateAjax('/actualizar-registro-indicador', data, reloadContainer)
+
         }
 
-    });
 
+    });
 
 
     function loadVigenciaIndicador(url) {
@@ -209,7 +286,7 @@
                         if (element.periodo_año == '<%= item.length && item[0].periodo_año? item[0].periodo_año:0 %>') {
 
                             $("#select_vigencia").append('<option value=' + element.periodo_año + ' selected="selected">' + element.periodo_año + '</option>');
-         
+
                         } else {
 
                             $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
@@ -316,23 +393,25 @@
 
 
     $("#select_indicador").change(function () {
-        loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + $(this).val() + "&profesional=178");
+        loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + $(this).val());
     });
 
     $("#select_vigencia").change(function () {
-        loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + $(this).val());
+        loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + $(this).val() + "&indicador=" + $('#select_indicador').val().toString());
     });
 
     $("#select_periodo").change(function () {
-        loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?periodo=" + $(this).val() + "&vigencia=" + $('#select_vigencia').val().toString() + "&indicador=" + $('#select_indicador').val().toString() + "&area=12");
+        loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?periodo=" + $(this).val() + "&vigencia=" + $('#select_vigencia').val().toString() + "&indicador=" + $('#select_indicador').val().toString());
         $('#contenedor_info_indicador').attr('hidden', false);
     });
 
-    loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + '<%= item.length && item[0].id_indicador %>' + '&profesional=178')
+    loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + '<%= item.length && item[0].id_indicador %>')
 
-    loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + '<%= item.length && item[0].periodo_año %>');
+    loadPeriodoVigencia("/consultar-periodo-x-anio-edit/?año=" + '<%= item.length && item[0].periodo_año %>'
+        + '&id_area=' + '<%= item.length && item[0].id_area %>' + '&id_profesional=' + '<%= item.length && item[0].id_profesional %>'
+        + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
 
-    loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?vigencia=" + '<%= item.length && item[0].periodo_año %>' + '&periodo=' + '<%= item.length && item[0].periodo_mes %>' + '&area=12' + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
+    loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?vigencia=" + '<%= item.length && item[0].periodo_año %>' + '&periodo=' + '<%= item.length && item[0].periodo_mes %>' + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
 
 
 
