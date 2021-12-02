@@ -248,16 +248,18 @@
         event.preventDefault();
         const data = new FormData(form);
         const obj = Object.fromEntries(data);
-        const checkIdIndicador = '<%= item.length && item[0].id_registroindicador? item[0].id_registroindicador:"0"%>';
-        //const validacion = '<%= item.length && item[0].version? item[0].version:"0"%>';
         const check = '<%= respuesta?respuesta:"0" %>';
+        const formDataAjax = {
+            contentType: false,
+            processData: false,
+        }
 
         if (obj.id_reg_indicador == '0' || check == '1') {
-            createdAjax('/persistir-registro-indicador', data, reloadContainer)
+            createdAjax('/persistir-registro-indicador', data, reloadContainer, formDataAjax)
             
 
         } else if (obj.id_reg_indicador != '0' && check == '0') {
-            updateAjax('/actualizar-registro-indicador', data, reloadContainer)
+            updateAjax('/actualizar-registro-indicador', data, reloadContainer, formDataAjax)
 
         }
 
