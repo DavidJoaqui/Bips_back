@@ -7,7 +7,7 @@ const path = require("path");
 
 router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
 
-
+  
   modelControlMando
     .consultar_reg_indicadores_x_id(req.params.id)
     .then((item) => {
@@ -16,6 +16,7 @@ router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
         .then((listaIndicadores) => {
           res.render(config.rutaPartials + "registroIndicador/form", {
             layout: false,
+            respuesta:req.query.respuesta,
             id_reg_indicador: req.params.id,
             listaIndicadores: listaIndicadores,
             item: item,
@@ -64,10 +65,29 @@ router.get("/consultar-periodo-x-anio", authMiddleware, (req, res) => {
       req.query.indicador
     )
     .then((lista_periodo) => {
-      console.log(lista_periodo);
+
       return res.send(lista_periodo);
     });
 });
+
+router.get("/consultar-periodo-x-anio-edit", authMiddleware, (req, res) => {
+
+
+
+  modelControlMando
+    .consultar_periodoxañoedit(req.query.año,
+      Number(req.session.username["id_area"]),
+      Number(req.session.username["id_profesional"]),
+      req.query.indicador
+    )
+    .then((lista_periodo) => {
+
+      return res.send(lista_periodo);
+    });
+});
+
+
+
 
 router.get("/consultar-detalle-indicador-x-indicador",
   authMiddleware,
@@ -145,7 +165,7 @@ router.post("/persistir-registro-indicador/",
   authMiddleware,
   upload_soportes.array("files_soporte"),
   (req, res) => {
-    const version = '0';
+    //const version = '0';
 
     let numerador = parseFloat(req.body.txt_vr_numerador);
     let denominador = parseFloat(req.body.txt_vr_denominador);
@@ -156,6 +176,17 @@ router.post("/persistir-registro-indicador/",
       denominador = 0;
     }
     try {
+      let version = Number(req.body.txt_version);
+        if (version == 0) {
+
+            version = 1;
+
+        } else {
+            version = version + 1;
+        }
+
+
+
       modelControlMando
         .insertar_registro_indicador(
           Number(req.body.select_indicador),
@@ -195,7 +226,7 @@ router.post("/persistir-registro-indicador/",
                 nombre_original
               ).then(respuesta => {
                 if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
-                  console.log(respuesta);
+                  
                   console.log("OK... upload");
                 }
               });
@@ -220,7 +251,7 @@ router.post("/persistir-registro-indicador/",
 
 router.put("/actualizar-registro-indicador", authMiddleware, upload_soportes.array("files_soporte"),
   (req, res) => {
-    console.log(req.body);
+
     modelControlMando
       .actualizar_reg_indicador(
         Number(req.body.id_reg_indicador),
@@ -283,30 +314,29 @@ router.put("/actualizar-registro-indicador", authMiddleware, upload_soportes.arr
   }
 );
 
-router.delete(
-  "/plan-general/delete/:id/control-mando-bips",
-  authMiddleware,
+router.delete("/registro-indicador/delete/:id/control-mando-bips", authMiddleware,
   function (req, res) {
-    modelControlMando
-      .consultar_LineasAccionXplangral(req.params.id)
-      .then((rspta_eliminacion) => {
-        if (rspta_eliminacion.length == 0) {
-          modelControlMando
-            .eliminar_RegistroPlan_General(req.params.id)
-            .then((respuesta) => {
-              if (
-                respuesta["command"] == "DELETE" &&
-                respuesta["rowCount"] > 0
-              ) {
-                return res.status(200).send("Ok");
-              } else {
-                return res.status(400).send("Error al guardarla entidad");
-              }
-            });
-        } else {
-          return res.status(500).send("Error al guardar datos");
-        }
-      });
+   
+    modelControlMando.eliminar_soporte_x_idRegistroIndicador(Number(req.params.id)).then(rspta_eliminacion => {
+
+
+      if (rspta_eliminacion['command'] == "DELETE" && rspta_eliminacion['rowCount'] > 0) {
+        modelControlMando.eliminar_Registro_RegIndicador(Number(req.params.id)).then(respuesta => {
+
+
+          if (respuesta['command'] == "DELETE" && respuesta['rowCount'] > 0) {
+            return res.status(200).send("Dato Eliminado");
+          } else {
+            return res.status(400).send("Error al Eliminar");
+          }
+        })
+
+      } else {
+
+        return res.status(400).send("Error al Eliminar 2");
+      }
+
+    })
   }
 );
 

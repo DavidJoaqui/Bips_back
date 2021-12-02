@@ -60,7 +60,7 @@
 
 
                                                                 <button
-                                                                    @click="openModalNew('/form-ctm-registro-indicador/<%= item[0].id_registroindicador %>')"
+                                                                    @click="openModalNew('/form-ctm-registro-indicador/<%= item[0].id_registroindicador %>/?respuesta=1','xl')"
                                                                     onclick="closeModal()"
                                                                     class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                                                     Responder Indicador
@@ -86,10 +86,6 @@
     </div>
 
 
-
-
-
-
     <div class="" id="contenedor_info_indicador" name="contenedor_info_indicador" style=" text-align: center;">
 
         <div class="flex flex-wrap -mx-3 mb-6">
@@ -100,66 +96,77 @@
             </div>
         </div>
 
-        <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                    Tipo Meta
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    id="grid-first-name" type="text" placeholder="" value='<%= item[0].tipo_meta %>' disabled>
-
+        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+            <div class="flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;">
+                Tipo Meta  </label>&nbsp;                               
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value='<%= item[0].tipo_meta %>' disabled>  
+                
             </div>
-            <div class="w-full md:w-1/2 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                    Periodo Evaluación
-                </label>
-
-                <%if(item[0].periodo_meta_num==1){%>
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name" type="text" value="Mensual" disabled>
-
-                    <%} else if(item[0].periodo_meta_num==2){%>
-                        <input
-                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                            id="grid-first-name" type="text" value="Bimensual" disabled>
-
-                        <%}else if(item[0].periodo_meta_num==3){%>
-                            <input
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                id="grid-first-name" type="text" value="Trimestral" disabled>
-
-                            <%}else if(item[0].periodo_meta_num==4){%>
+            
+            <div class="flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-first-name">
+                Vigencia
+                </label>&nbsp;
+                 <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="" value='<%= item[0].vigencia %>' disabled>
+                  
+            </div>
+            <div class="flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="font-weight: bold;" style="font-weight: bold;">
+                            Periodo Evaluación</label>
+        
+                            <%if(item[0].periodo_meta_num==1){%>
                                 <input
                                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                    id="grid-first-name" type="text" value="Cuatrimestral" disabled>
-
-                                <%}else if(item[0].periodo_meta_num==6){%>
+                                    id="grid-first-name" type="text" value="Mensual" disabled>
+            
+                                <%} else if(item[0].periodo_meta_num==2){%>
                                     <input
                                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        id="grid-first-name" type="text" value="Semestral" disabled>
-
-                                    <%} else if(item[0].periodo_meta_num==12){%>
+                                        id="grid-first-name" type="text" value="Bimensual" disabled>
+            
+                                    <%}else if(item[0].periodo_meta_num==3){%>
                                         <input
                                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            id="grid-first-name" type="text" value="Anual" disabled>
-
-                                        <%} else {%>
+                                            id="grid-first-name" type="text" value="Trimestral" disabled>
+            
+                                        <%}else if(item[0].periodo_meta_num==4){%>
                                             <input
                                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                                id="grid-first-name" type="text" placeholder=""
-                                                value='Periodo no admitido, Contacte al administrador del Sistema'
-                                                disabled>
-                                            <%}%>
-
-
-
+                                                id="grid-first-name" type="text" value="Cuatrimestral" disabled>
+            
+                                            <%}else if(item[0].periodo_meta_num==6){%>
+                                                <input
+                                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                    id="grid-first-name" type="text" value="Semestral" disabled>
+            
+                                                <%} else if(item[0].periodo_meta_num==12){%>
+                                                    <input
+                                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                        id="grid-first-name" type="text" value="Anual" disabled>
+            
+                                                    <%} else {%>
+                                                        <input
+                                                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                            id="grid-first-name" type="text" placeholder=""
+                                                            value='Periodo no admitido, Contacte al administrador del Sistema'
+                                                            disabled>
+                                                        <%}%>
+        
+        
             </div>
+            <div class="flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-last-name">
+                 Mes
+                </label>&nbsp;
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="" value='<%= item[0].nombre_mes %>' disabled>
+            </div>
+        
+           
+              
         </div>
 
-
-        <div id="panel_descriptiva">
+        <div id="panel_descriptiva" >
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -168,7 +175,7 @@
                     </label>
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name" type="text" placeholder="" value='<%= item[0].formula_literal_numerador %>'
+                        id="grid-first-name" type="text" placeholder="" value='<%= item[0].meta_descriptiva %>'
                         disabled>
 
                 </div>
@@ -181,7 +188,7 @@
                     <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name" type="text" placeholder=""
-                        value='<%= item[0].formula_literal_denominador %>' disabled>
+                        value='<%= item[0].formula_literal_descriptiva %>' disabled>
                 </div>
             </div>
 
@@ -189,68 +196,71 @@
 
         </div>
 
-        <div id="panel_numerica" style=" text-align: center;">
-
-            <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full">
-
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Meta Númerica </label>
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text" value='Superior al <%= item[0].meta_numerica %> %' disabled>
+        <div id="panel_numerica" style=" text-align: center;" >
+            
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full">
+    
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            Meta Númerica </label>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            type="text" value='Superior al <%= item[0].meta_numerica %> %' disabled>
+                    </div>
+    
                 </div>
-
-            </div>
-
-            <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-first-name">
-                        Numerador
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name" type="text" placeholder="" value='<%= item[0].formula_literal_numerador %>'
-                        disabled>
-
+    
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            for="grid-first-name">
+                            Numerador
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            id="grid-first-name" type="text" placeholder="" value='<%= item[0].formula_literal_numerador %>'
+                            disabled>
+    
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            for="grid-last-name">
+                            Denominador
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            id="grid-first-name" type="text" placeholder=""
+                            value='<%= item[0].formula_literal_denominador %>' disabled>
+                    </div>
                 </div>
-                <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-last-name">
-                        Denominador
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name" type="text" placeholder=""
-                        value='<%= item[0].formula_literal_denominador %>' disabled>
+    
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            for="grid-first-name">
+                            Valor Numerador
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            id="grid-first-name" type="text" placeholder="" value='<%= item[0].formula_cifras_numerador %>'
+                            disabled>
+    
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            for="grid-last-name">
+                            Valor Denominador
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            id="grid-first-name" type="text" placeholder=""
+                            value='<%= item[0].formula_cifras_denominador %>' disabled>
+                    </div>
                 </div>
-            </div>
+    
 
-            <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-first-name">
-                        Valor Numerador
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name" type="text" placeholder="" value='<%= item[0].formula_cifras_numerador %>'
-                        disabled>
-
-                </div>
-                <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-last-name">
-                        Valor Denominador
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name" type="text" placeholder=""
-                        value='<%= item[0].formula_cifras_denominador %>' disabled>
-                </div>
-            </div>
-
+            
+            
 
         </div>
 
@@ -294,24 +304,20 @@
     loadContentHtml(peticion_soportes, '#panel_soportes');
 
     const form = document.querySelector("#formDetalle");
-
-    if ("<%= item.length && item[0].tipo_meta? item[0].tipo_meta:'Numerica' %>") {
+    const check = '<%= item.length && (item[0].estado==false || item[0].calificacion==true) %>';
+    const checkTipoMeta= '<%= item[0].tipo_meta %>';
+    
+    if (checkTipoMeta == 'Numerica') {
         $('#panel_descriptiva').attr('hidden', true);
         $('#panel_numerica').attr('hidden', false);
-
-    } if ("<%= item.length && item[0].tipo_meta? item[0].tipo_meta:'Descriptiva' %>") {
-        $('#panel_descriptiva').attr('hidden', false);
-        $('#panel_numerica').attr('hidden', true);
-
-
     }
-
-    const check = '<%= item.length && (item[0].estado==false || item[0].calificacion==true) %>';
-
+    else {
+        $('#panel_numerica').attr('hidden', true);
+        $('#panel_descriptiva').attr('hidden', false);
+    }
     if (check == 'true') {
         loadToast();
     }
-
 
     function loadToast() {
         let timerInterval
@@ -319,7 +325,7 @@
             title: 'Atencion!',
             html: 'Tenga en cuenta que el registro no está Aprobado, generar un nuevo registro en "Responder Indicador"',
             icon: 'warning',
-            timer: 5000,
+            timer: 500,
             timerProgressBar: true,
             didOpen: () => {
                 Swal.showLoading()
