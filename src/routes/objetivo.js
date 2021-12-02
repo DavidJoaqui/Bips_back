@@ -29,17 +29,6 @@ router.get("/ctm-objetivos", authMiddleware, (req, res) => {
   });
 });
 
-router.get(
-  "/consultar-lineas-accion_x_plan_general",
-  authMiddleware,
-  (req, res) => {
-    modelControlMando
-      .consultar_LineasAccionXplangral(req.query.id_plan_gral)
-      .then((lista_lineas_accion) => {
-        return res.send(lista_lineas_accion);
-      });
-  }
-);
 
 router.delete(
   "/objetivo/delete/:id/control-mando-bips",
@@ -80,11 +69,11 @@ router.get("/form-ctm-objetivo/:id", authMiddleware, (req, res) => {
     });
 });
 
-router.post("/actualizar-objetivo", authMiddleware, (req, res) => {;
+router.put("/actualizar-objetivo", authMiddleware, (req, res) => {
   modelControlMando
     .actualizar_RegistroObjetivo_x_id(
       req.body.id_objetivo,
-      req.body.id_linea_accion,
+      req.body.linea_accion,
       req.body.objetivo
     )
     .then((respuesta) => {
