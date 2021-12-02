@@ -63,6 +63,7 @@
     function reloadContainer(action) {
         loadContentHtml('/ctm-plans', '#container-tab')
         if (action == 'update') {
+            alert('dsfd')
             document.querySelector("#closeModalEdit").click();
         } else if (action == 'created') {
             document.querySelector("#closeModalNew").click();

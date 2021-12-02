@@ -11,8 +11,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, config.rutaFile)));
 app.use(express.static(path.join(__dirname, config.rutaPublic)));
 app.use(express.static(config.rutaSoportesCtm));
-app.use(express.static(config.rutaPublicPdfjs));
-app.use(express.static(config.rutaPublicPdfjs+"/filespublic"));
+app.use('/filespublic',express.static(config.rutaPublicFile));
 // Body parse
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

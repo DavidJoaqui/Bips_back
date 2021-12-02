@@ -7,10 +7,31 @@ router.get("/ctm-calificacion-indicadores", authMiddleware, (req, res) => {
   modelControlMando
     .consultar_reg_ind_xcalificar()
     .then((lista_calificacion_indicadores) => {
+
+      modelControlMando.consultar_vigenciaxreg_indicadores().then(lista_años => {
       res.render(config.rutaPartials + "calificacionIndicador/list", {
         layout:false,
         lista_calificacion_indicadores: lista_calificacion_indicadores,
+        lista_años: lista_años,
       });
+
+    });
+    });
+});
+
+router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultar_reg_ind_xcalificar()
+    .then((lista_calificacion_indicadores) => {
+      
+      modelControlMando.consultar_registros_Calificados().then(lista_calificacion_indicadores => {
+        //console.log(lista_Estrategias);lista_Estrategias
+        res.render(config.rutaPartials + "calificacionIndicador/listcalificados", {
+          layout:false,
+          lista_calificacion_indicadores: lista_calificacion_indicadores,        
+        });
+    });
+    
     });
 });
 
@@ -21,6 +42,21 @@ router.get("/form-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res
       //console.log(lista_reg_indicadores);
       //res.setHeader('Content-type', 'text/html');
       res.render(config.rutaPartials +"calificacionIndicador/detalle", {layout:false, lista_calificacion_indicadores: lista_reg_indicadores });
+  });
+
+
+
+});
+
+router.get("/edit-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res) => {
+
+  modelControlMando.consultar_calificacion_reg_indicador(req.params.id).then(lista_reg_indicadores => {
+    
+      res.render(
+        config.rutaPartials +"calificacionIndicador/detalle", 
+        {layout:false, 
+          lista_calificacion_indicadores: lista_reg_indicadores,          
+        });    
   });
 
 
@@ -82,5 +118,47 @@ router.post("/persistir-calificacion-indicador", authMiddleware, (req, res) => {
       res.json({ status: 500, msg: 'ERROR!! Ocurrio un problema al realizar la Calificación del Indicador, contacte con el administrador! ...' });
   });
 })
+
+router.get("/consultar-periodo-x-anio-calificacion", authMiddleware, (req, res) => {
+
+  modelControlMando.consultar_periodoxaño_calificacion(req.query.año).then(lista_periodo => {
+      res.send(lista_periodo);
+  });
+});
+
+router.get("/consultar-area-x-periodo-calificacion", authMiddleware, (req, res) => {
+  //console.log('periodo'+req.query.periodo);
+  //console.log('vigencia'+req.query.vigencia);
+
+  modelControlMando.consultar_areaxperiodo_calificacion(req.query.periodo, req.query.vigencia).then(lista_area => {
+      //console.log('lista_area'+lista_area);
+      res.send(lista_area);
+
+  });
+
+});
+
+router.get("/obtener-reg-indicadores_xvigencia_xperiodo_xarea", authMiddleware, (req, res) => {
+  //console.log('id_area:' + req.query.area);
+  //console.log('VIGENCIA:' + req.query.vigencia);
+  //console.log('PERIODO:' + req.query.periodo);
+
+
+  modelControlMando.consultar_indicadorxVigencia_xPeriodo_xarea(req.query.vigencia, req.query.periodo, req.query.area).then(resultados_reg_indicadores => {
+      res.send(resultados_reg_indicadores);
+
+  });
+});
+
+router.get("/lista-ctm-reg-ind-xcal-filtrado", authMiddleware, (req, res) => {
+
+  modelControlMando.consultar_reg_ind_xcal_filtrado(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_reg_indicadores => {    
+   
+      res.render(config.rutaPartials + "calificacionIndicador/listtable", {layout: false, lista_calificacion_indicadores: lista_reg_indicadores });
+    
+  });
+
+
+});
 
 module.exports = router;

@@ -16,13 +16,13 @@
 
 
 
-                    <form id="formulario" enctype="multipart/form-data" method="POST">
+                    <form id="formulario">
              
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full">
                                 <br>
-                              <h1 style="color: darkblue;">Detalles Generales Registro de Indicador.</h1>                          
-                            
+                              <h1 style="color: darkblue;">Detalles Generales Registro de Indicador. <%= lista_calificacion_indicadores[0].id_calificacion_indicador %> </h1>                          
+                              <input type="text" name="id_reg_indicador" style="display: none;" value="<%= lista_calificacion_indicadores[0].id_registroindicador %>">
                             </div>
                             
                         </div>
@@ -340,8 +340,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="panel_soportes" class="col-2 col-form-label" style="font-weight: bold;color: blue">
+                        <div class="text-center">
+                            <label for="panel_soportes" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;color: blue">
                                     Soportes: </label>
                             <div class="" id="panel_soportes">
 
@@ -356,13 +356,23 @@
                                 <label class="" style="font-weight: bold;color: blue;">
                                         Calificación </label><br>
 
-                                <label class="col-2 col-form-label" style="font-weight: bold;">
+                                <label class="" style="font-weight: bold;">
                                         Resultado: </label>
                                 <div class="col-4">
                                     <select class="form-select block w-full mt-1 justify-center Items-Center" name="select_resultado_descriptivo" id="select_resultado_descriptivo" data-toggle="tooltip" title="Seleccionar Resultado!" data-placement="right" required>
+                                        <% if (lista_calificacion_indicadores[0].resultado_descriptivo == 0) { %>
+                                            <option value="">Seleccionar</option>
+                                            <option value="1">Cumple</option>
+                                            <option value="0" selected>No Cumple</option>
+                                            <% } else if(lista_calificacion_indicadores[0].resultado_descriptivo == 1) { %>
+                                            <option value="">Seleccionar</option>
+                                            <option value="1" selected>Cumple</option>
+                                            <option value="0">No Cumple</option>
+                                                <% }else{ %>
                                             <option selected="selected" value="">Seleccionar</option>
-                                            <option value=1>Cumple</option>
-                                            <option value=0>No Cumple</option>
+                                            <option value="1">Cumple</option>
+                                            <option value="0">No Cumple</option>
+                                            <% } %>
                                         </select>
                                 </div>
                             </div>
@@ -376,7 +386,7 @@
         
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                             Comentario acerca de la calificación: </label>                                                            
-                                        <textarea id="txt_comentario" class="form-textarea mt-1 block w-full" rows="3" placeholder="Ingresa un comentario" name="txt_tipo_meta" id="txt_tipo_meta" value=''></textarea>
+                                        <textarea id="txt_comentario" name="txt_comentario" class="form-textarea mt-1 block w-full" rows="3" placeholder="Ingresa un comentario" name="txt_tipo_meta" id="txt_tipo_meta" value='<%= lista_calificacion_indicadores[0].comentario %>' required><%= lista_calificacion_indicadores[0].comentario %></textarea>
                                     </div>
         
                                 </div>
@@ -387,22 +397,36 @@
                                     <div class="">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="max-width: 400px">
                                         <span class="text-gray-700">Aprobado</span>
-                                        <select id="select_aprobar" name="select_aprobar" class="form-select block w-full mt-1 justify-center Items-Center">
-                                            <option value="1">Si</option>
-                                            <option value="0">No</option>
+                                        <select id="select_aprobar" name="select_aprobar" class="form-select block w-full mt-1 justify-center Items-Center" required>
+                                            <% if (lista_calificacion_indicadores[0].estado) { %>
+                                                <option value="">Seleccionar</option>
+                                                <option value="1" selected>Si</option>
+                                                <option value="1" >No</option>
+                                            
+                                            <% } else if(!lista_calificacion_indicadores[0].estado) { %>
+                                                <option value="">Seleccionar</option>
+                                                <option value="1">Si</option>
+                                                <option value="0" selected >No</option>
+                                                <% }else{ %>
+                                                    <option selected="selected" value="">Seleccionar</option>
+                                                    <option value="1">Si</option>
+                                                    <option value="0" >No</option>
+                                                    <% } %>
+                                            
+                                            
                                         </select>
                                       </label>
                                     </div>
                                 </div>
 
-                                <div class="">
+                                <!--<div class="">
                                     <div class="text-center">
                                         <button id="btn-save" onclick="almacenar_registro()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                                             Guardar Calificación Indicador
                                           </button>
                                     </div>
-                                </div>
-
+                                </div>-->
+                                <button hidden id="btnForm" type="submit"></button>
 
                     </form>
                 </div>
@@ -418,6 +442,22 @@
     <script type="text/javascript">
      var peticion_soportes = "/obtener_soportesxreg_indicador/<%= lista_calificacion_indicadores[0].id_registroindicador %>";   
     loadContentHtml(peticion_soportes, '#panel_soportes');
+
+    const form = document.querySelector("#formulario");
+
+    form.addEventListener("submit", function (event) {
+        // Stop form submission
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(form));
+
+        if (data.id_reg_indicador != '0') {
+            //updateAjax('/', data, reloadContainer)
+        } else {
+            createdAjax('/persistir-calificacion-indicador', data, reloadContainer)
+        }
+
+    });
+
 
         function almacenar_registro() {
 
@@ -522,8 +562,6 @@
             });
 
         }
-
-
 
         $(document).ready(function() {
 

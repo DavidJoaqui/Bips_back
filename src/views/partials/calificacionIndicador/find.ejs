@@ -1,0 +1,194 @@
+<div class="">
+    <%# include("../../partials/calificacionIndicador/find", {lista_años}); %>
+    <div style="">
+
+
+        <div class="" style="">
+    
+            <div class="" id="panel_nuevo_indicador" style="">
+    
+                <form id="formulario" enctype="multipart/form-data" method="POST">
+    
+                    <div class="" id="panel_reg_indicador">
+                        <h2 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="">Buscar Registro Indicador
+                        </h2>                                                                
+                        <div class="grid gap-6 mb-8 md:grid-cols-4 xl:grid-cols-4">
+
+                            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                                <label class="block mt-4 text-sm">
+                                    <span class="text-gray-700 dark:text-gray-400">
+                                        Seleccionar año
+                                    </span>
+                                    <select name="select_vigencia" id="select_vigencia" data-toggle="tooltip" title="Seleccionar vigencia!" data-placement="right" required 
+                                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                        <option selected="selected" value="">Seleccionar Vigencia
+                                        </option>
+                                        <% lista_años.forEach(lista=> { %>
+                                            <option value="<%= lista.año %>">
+                                                <%= lista.año %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                </label>
+                            </div>
+                    
+                    
+                            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                                <label class="block mt-4 text-sm">
+                                    <span class="text-gray-700 dark:text-gray-400">
+                                        Seleccionar Periodo evaluado
+                                    </span>
+                                    <select name="select_periodo" id="select_periodo" data-toggle="" title="Seleccionar Periodo!" data-placement="right" required
+                                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                        <option selected="selected" value="">Seleccionar periodo
+                                        </option>
+                                        
+                                    </select>
+                                </label>
+                            </div>
+                    
+                    
+                            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                                <label class="block mt-4 text-sm">
+                                    <span class="text-gray-700 dark:text-gray-400">
+                                        Seleccionar Area
+                                    </span>
+                                    <select name="select_area" id="select_area" data-toggle="tooltip" title="Seleccionar Area!" data-placement="right" required
+                                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                        <option selected="selected" value="">Seleccionar area
+                                        </option>
+                                        
+                                    </select>
+                                </label>
+                            </div>        
+
+                            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                                <label class="block mt-4 text-sm">
+                                    <span class="text-gray-700 dark:text-gray-400">
+                                        Nombre Indicador
+                                    </span>
+                                    <select  name="select_indicador" id="select_indicador" data-toggle="tooltip" title="Seleccionar Indicador!" data-placement="right" required
+                                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                        <option selected="selected" value="">Seleccionar Indicador
+                                        </option>
+                                        
+                                    </select>
+                                </label>
+                            </div>
+                    
+                    
+                        </div>
+
+                        <div class="">
+                           
+
+                             
+                            <div class="">
+    
+                                <button type="button" id="btn-all" class="" onclick="verTodos()" disabled>
+                                    Ver todos
+                                </button>
+    
+                            </div>
+    
+                        </div>
+
+                    </div>
+                            
+                </form>        
+            </div>        
+    
+        </div>
+    </div>
+</div>
+
+
+<script>
+      $(document).ready(function() {
+                $("#select_periodo").attr('disabled', true);
+                $("#select_area").attr('disabled', true);
+                $("#select_indicador").attr('disabled', true);
+                $("#btn-all").attr('disabled', true);
+
+                $("#select_vigencia").change(function() {
+                    var peticion = "/consultar-periodo-x-anio-calificacion/?año=" + $(this).val();
+                    $.ajax({
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            $("#select_periodo").attr('disabled', false);
+                            $("#select_periodo").html("");
+                            $("#select_periodo").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
+                            result.forEach(element => {
+                                $("#select_periodo").append('<option value=' + element.id_mes + '>' + element.nombre_mes + '</option>');
+                            });
+                        }
+                    });
+                });
+                $("#select_periodo").change(function() {
+                    var peticion = "/consultar-area-x-periodo-calificacion/?periodo=" + $(this).val() +
+                        "&vigencia=" + $('#select_vigencia').val();
+                    $.ajax({
+                        type: 'get',
+                        url: peticion,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            $("#select_periodo").attr('disabled', false);
+                            $("#select_area").attr('disabled', false);
+                            $("#select_indicador").attr('disabled', true);
+                            $("#btn-all").attr('disabled', false);
+                            $("#select_area").html("");
+                            $("#select_area").append('<option selected="selected">' + 'Seleccionar Area' + '</option>');
+                            result.forEach(element => {
+                                $("#select_area").append('<option value=' + element.id_area + '>' + element.nombre_area + '</option>');
+                            });
+                        }
+                    });
+                });
+                $("#select_area").change(function() {
+                    $("#select_indicador").attr('disabled', true);
+                    var peticion_indicadores = "/obtener-reg-indicadores_xvigencia_xperiodo_xarea/?vigencia=" +
+                        $('#select_vigencia').val() +
+                        "&periodo=" + $('#select_periodo').val() +
+                        "&area=" + $(this).val();
+                    /* var peticion = "/consultar-indicador-x-periodo-area/?area=" + $(this).val() +
+                         "&vigencia=" + $('#select_vigencia').val() + "&periodo=" + $('#select_periodo').val();*/
+                    $.ajax({
+                        type: 'get',
+                        url: peticion_indicadores,
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            $("#select_indicador").attr('disabled', false);
+                            $("#select_indicador").html("");
+                            $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                            result.forEach(element => {
+                                $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + ' </option>');
+                            });
+                        }
+                    });
+                });
+                $("#select_indicador").change(function() {
+                    
+                    var peticion_busqueda = '/lista-ctm-reg-ind-xcal-filtrado/?vigencia=' + $("#select_vigencia").val() +
+                        "&periodo=" + $("#select_periodo").val() + "&area=" + $("#select_area").val() + "&indicador=" + $(this).val();                        
+                        
+                        $("#list-reg-indicadores").html("");
+                        loadContentHtml(peticion_busqueda, '#list-reg-indicadores');
+                                          
+                });
+                $("#select_profesional").change(function() {
+                    //var peticion = "/consultar-profesional-x-area/?area=" + $(this).val();
+                })
+            });
+
+</script>

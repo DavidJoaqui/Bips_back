@@ -63,7 +63,7 @@ const modelControlMando = require("../models/controlMandoModel");
     modelControlMando
       .actualizar_RegistroEstrategia_x_id(
         req.body.id_estrategia,
-        req.body.id_objetivo,
+        req.body.objetivo,
         req.body.estrategia
       )
       .then((respuesta) => {

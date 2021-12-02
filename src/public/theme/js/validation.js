@@ -16,3 +16,14 @@ function validationForm(obj){
       }
     return flag;
 }
+
+
+function alertValidation(){
+    Swal.fire({
+      position: 'top-end',
+      icon: 'warning',
+      title: 'Faltan campos por completar',
+      showConfirmButton: false,
+      timer: 1500
+    })
+}

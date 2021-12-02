@@ -50,13 +50,12 @@
     })
  }
 
- function createdAjax(url,data,callback) {
+ function createdAjax(url,data,callback,otherParametersAjax={}) {
    $.ajax({
       url: url,
       method: 'POST',
       data,
-      contentType: false,
-      processData: false,
+      ...otherParametersAjax,
       success: function (result) {
          Swal.fire({
            position: 'top-end',
@@ -86,13 +85,12 @@
 }
 
 
-function updateAjax(url,data,callback) {
+function updateAjax(url,data,callback,otherParametersAjax={}) {
    $.ajax({
       url: url,
       method: 'PUT',
       data,
-      contentType: false,
-      processData: false,
+      ...otherParametersAjax,
       success: function (result) {
          Swal.fire({
            position: 'top-end',
