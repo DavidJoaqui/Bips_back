@@ -1,28 +1,11 @@
 
-
-    <body id="body_ent">
-
-        <style>
-            
-        </style>
-        
-
-        <div style="">
-
-
-            <div class="" style="padding-bottom: 0px">
-
-                <div class="" id="panel_nuevo_indicador" style=" text-align: center;">
-
-
-
-                    <form id="formulario">
+                    <form id="formCalificacionIndicador">
              
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full">
                                 <br>
                               <h1 style="color: darkblue;">Detalles Generales Registro de Indicador. <%= lista_calificacion_indicadores[0].id_calificacion_indicador %> </h1>                          
-                              <input type="text" name="id_reg_indicador" style="display: none;" value="<%= lista_calificacion_indicadores[0].id_registroindicador %>">
+                              <input type="text" name="id_reg_indicador" id="id_reg_indicador" style="display: none;" value="<%= lista_calificacion_indicadores[0].id_registroindicador %>">
                             </div>
                             
                         </div>
@@ -31,7 +14,7 @@
                             <div class="w-full">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="txt_meta_numerica" style="font-weight: bold;">
                                         Versión </label>                                
-                                <input class="text-center" type="text" name="txt_meta_numerica" id="txt_meta_numerica" value='<%= lista_calificacion_indicadores[0].version %>' disabled>                                                                                                                    
+                                <input class="text-center" type="text" name="txt_meta_numerica" id="txt_meta_numerica" value='<%= lista_calificacion_indicadores[0].version %>' >                                                                                                                    
                             </div>
                         </div>
                         <br>
@@ -80,7 +63,7 @@
                                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                                     Identificación
                                   </label>
-                                  <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="" value='<%= lista_calificacion_indicadores[0].num_identificacion %>' disabled>
+                                  <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="" value='<%= lista_calificacion_indicadores[0].num_identificacion %>' disabled> 
                                 </div>
                               </div>
 
@@ -241,7 +224,7 @@
                             <div class="w-full">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;">
                                     Meta Númerica </label>&nbsp;                               
-                                <input class="text-center" value='<%= lista_calificacion_indicadores[0].meta_numerica %>' disabled>  
+                                <input class="text-center" value='<%= lista_calificacion_indicadores[0].meta_numerica %>'>  
                                 
                             </div>
                             
@@ -285,7 +268,7 @@
                                         <div class="flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
                                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;">
                                                 Valor Numerador: </label>&nbsp;                               
-                                            <input  name="txt_vr_numerador" id="txt_vr_numerador" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value='<%= lista_calificacion_indicadores[0].formula_cifras_numerador %>' disabled>  
+                                            <input  name="txt_vr_numerador" id="txt_vr_numerador" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value='<%= lista_calificacion_indicadores[0].formula_cifras_numerador %>'>  
                                             
                                         </div>
                                         
@@ -293,48 +276,36 @@
                                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-first-name">
                                                 Valor Denominador:
                                             </label>&nbsp;
-                                            <input name="txt_vr_denominador" id="txt_vr_denominador" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="" value='<%= lista_calificacion_indicadores[0].formula_cifras_denominador %>' disabled>
+                                            <input name="txt_vr_denominador" id="txt_vr_denominador" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="" value='<%= lista_calificacion_indicadores[0].formula_cifras_denominador %>'>
                                             
                                         </div>
                                         <div class="flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
                                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-last-name">
                                                 Resultado:
                                             </label>&nbsp;
-                                            <output name="txt_resultado_numerico" id="txt_resultado_numerico" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="" value=''>
-                                                
-                                            </output disabled>
+                                            <input name="txt_resultado_numerico" id="txt_resultado_numerico" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="">                                                                                           
                                         </div>
                                         <div class="flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
                                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-last-name">
                                                 Desviación:
                                             </label>&nbsp;
-                                            <output name="txt_desviacion" id="txt_desviacion" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="" value=''>
-                                                
-                                            </output disabled>
+                                            <input name="txt_desviacion" id="txt_desviacion" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="">
+                                                                                            
                                         </div>
                                 </div>                                                                                                                                    
-    
-                                        <div class="col-1">
-                                            <output class="form-control" type="text" name="txt_id_reg_indicador" hidden 
-                                                id="txt_id_reg_indicador" value='<%= lista_calificacion_indicadores[0].id_registroindicador %>'>
-                                                <%= lista_calificacion_indicadores[0].id_registroindicador %>
-                                            </output>
-                                    <output class="form-control" type="text" name="" id="" value='' hidden>
-                                        
-                                        <input class="form-control" type="text" name="txt_periodo_evaluacion" id="txt_periodo_evaluacion" value='<%= lista_calificacion_indicadores[0].periodo_meta_num %>' hidden>
-                                                <%= lista_calificacion_indicadores[0].periodo_meta_num %>
-                                    </input>
-                                            </output>
-                                </div>
+                                            
                             </div>                            
 
                             <div class="flex flex-wrap -mx-3 mb-6">
+
+                                <input class="form-control" type="text" name="txt_periodo_evaluacion" id="txt_periodo_evaluacion" value='<%= lista_calificacion_indicadores[0].periodo_meta_num %>' hidden>
+                                                <%= lista_calificacion_indicadores[0].periodo_meta_num %>
+                                            </output>
                                 <div class="w-full">
     
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                     Observaciones: </label>                                                            
-                                    <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value='' disabled><%= lista_calificacion_indicadores[0].observaciones %>
-                                    </textarea>
+                                    <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="" name="txt_obs" id="txt_obs"><%= lista_calificacion_indicadores[0].observaciones %></textarea>
                                 </div>
     
                             </div>
@@ -386,7 +357,7 @@
         
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                             Comentario acerca de la calificación: </label>                                                            
-                                        <textarea id="txt_comentario" name="txt_comentario" class="form-textarea mt-1 block w-full" rows="3" placeholder="Ingresa un comentario" name="txt_tipo_meta" id="txt_tipo_meta" value='<%= lista_calificacion_indicadores[0].comentario %>' required><%= lista_calificacion_indicadores[0].comentario %></textarea>
+                                        <textarea id="txt_comentario" name="txt_comentario" class="form-textarea mt-1 block w-full" rows="3" placeholder="Ingresa un comentario" value='<%= lista_calificacion_indicadores[0].comentario %>' required><%= lista_calificacion_indicadores[0].comentario %></textarea>
                                     </div>
         
                                 </div>
@@ -429,11 +400,6 @@
                                 <button hidden id="btnForm" type="submit"></button>
 
                     </form>
-                </div>
-            </div>
-        </div>
-
-    </body>
 
 
 
@@ -443,17 +409,21 @@
      var peticion_soportes = "/obtener_soportesxreg_indicador/<%= lista_calificacion_indicadores[0].id_registroindicador %>";   
     loadContentHtml(peticion_soportes, '#panel_soportes');
 
-    const form = document.querySelector("#formulario");
+    const form = document.querySelector("#formCalificacionIndicador");
 
     form.addEventListener("submit", function (event) {
         // Stop form submission
         event.preventDefault();
+        //alert("test");
         const data = Object.fromEntries(new FormData(form));
 
+        alert(data.id_reg_indicador);
         if (data.id_reg_indicador != '0') {
             //updateAjax('/', data, reloadContainer)
-        } else {
+            console.log(data);
             createdAjax('/persistir-calificacion-indicador', data, reloadContainer)
+        } else {
+            
         }
 
     });
@@ -593,10 +563,8 @@
                     cache: false,
                     processData: false,
                     success: function(result) {
-                        $("#txt_resultado_numerico").html("");
-                        //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
-                        $("#txt_resultado_numerico").append('<option value=' + result + '>' + result + ' </option>');
-
+                        $("#txt_resultado_numerico").html("");                        
+                        $("#txt_resultado_numerico").val(result);
                         var peticion3 = "/calcular-desviacion/?meta_numerica=" + $('#txt_meta_numerica').val() +
                             "&periodo_evaluacion=" + $('#txt_periodo_evaluacion').val() + "&resultado_numerico=" + $("#txt_resultado_numerico").val();
                         $.ajax({
@@ -608,8 +576,7 @@
                             processData: false,
                             success: function(result2) {
                                 $("#txt_desviacion").html("");
-                                //$("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
-                                $("#txt_desviacion").append('<option value=' + result2 + '>' + result2 + ' </option>');
+                                $("#txt_desviacion").val(result2);                                
 
 
                             }

@@ -85,6 +85,9 @@ router.get("/calcular-desviacion", authMiddleware, (req, res) => {
 //persistir-calificacion-indicador
 router.post("/persistir-calificacion-indicador", authMiddleware, (req, res) => {
 
+console.log(req.body);
+console.log(req.params);
+console.log(req.query);
 
   modelControlMando.insertar_calificacion_indicador(Number(req.query.reg_indicador), parseFloat(req.query.vr_numerador), parseFloat(req.query.vr_denominador), parseFloat(req.query.resultado_numerico), Number(req.query.resultado_descriptivo), parseFloat(req.query.desviacion), req.query.comentario, Number(req.query.estado)).then(respuesta => {
 
@@ -159,3 +162,4 @@ router.get("/lista-ctm-reg-ind-xcal-filtrado", authMiddleware, (req, res) => {
 });
 
 module.exports = router;
+
