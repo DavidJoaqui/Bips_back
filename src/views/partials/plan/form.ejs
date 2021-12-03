@@ -76,9 +76,12 @@
 </form>
 
 <script>
-    cmbKeys.selectLinea.keyDataIdCompare = '<%= item.length && item[0].id_linea_accion? item[0].id_linea_accion:0 %>';
-    cmbKeys.selectObjetivo.keyDataIdCompare = '<%= item.length && item[0].id_linea_accion? item[0].id_linea_accion:0 %>';
-    cmbKeys.selectEstrategia.keyDataIdCompare = '<%= item.length && item[0].id_objetivo? item[0].id_objetivo:0 %>';
+    const planGeneralId = '<%= item.length && item[0].id_plan_general?item[0].id_plan_general:0 %>';
+    const lineaAccionId = '<%= item.length && item[0].id_linea_accion?item[0].id_linea_accion:0 %>';
+    const objetivoId = '<%= item.length && item[0].id_objetivo? item[0].id_objetivo:0 %>';
+    cmbKeys.selectLinea.keyDataIdCompare = lineaAccionId;
+    cmbKeys.selectObjetivo.keyDataIdCompare = objetivoId;
+    cmbKeys.selectEstrategia.keyDataIdCompare = '<%= item.length && item[0].id_estrategia? item[0].id_estrategia:0 %>';
 
     const form = document.querySelector("#formPlan");
 
@@ -86,6 +89,12 @@
         // Stop form submission
         event.preventDefault();
         const data = Object.fromEntries(new FormData(form));
+
+        
+        if(validationForm(data,'id_plan')){
+            alertValidation();
+            return;
+        }
 
         if (data.id_plan != '0') {
             updateAjax('/actualizar-plan', data, reloadContainer)
@@ -108,8 +117,8 @@
         loadCustomSelect(cmbKeys.selectEstrategia.url + $(this).val(), cmbKeys.selectEstrategia);
     });
 
-    loadCustomSelect(cmbKeys.selectLinea.url + cmbKeys.selectLinea.keyDataIdCompare, cmbKeys.selectLinea);
-    loadCustomSelect(cmbKeys.selectObjetivo.url + cmbKeys.selectObjetivo.keyDataIdCompare, cmbKeys.selectObjetivo);
-    loadCustomSelect(cmbKeys.selectEstrategia.url + cmbKeys.selectEstrategia.keyDataIdCompare, cmbKeys.selectEstrategia);
+    loadCustomSelect(cmbKeys.selectLinea.url +  planGeneralId, cmbKeys.selectLinea);
+    loadCustomSelect(cmbKeys.selectObjetivo.url + lineaAccionId, cmbKeys.selectObjetivo);
+    loadCustomSelect(cmbKeys.selectEstrategia.url + objetivoId, cmbKeys.selectEstrategia);
 
 </script>

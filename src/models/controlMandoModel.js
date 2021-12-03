@@ -127,6 +127,10 @@ module.exports = {
         return resultados;
     },
 
+    async eliminar_RegistroObjetivo(id) {
+        const resultados = await conexion.query("delete from schema_control.objetivos where id_objetivo= $1", [id]);
+        return resultados;
+    },
 
 
     //-----------------------Metodos ESTRATEGIAS--------------------------------------//
@@ -143,7 +147,7 @@ module.exports = {
     },
 
     async consultar_RegistrosEstrategias() {
-        const resultados = await conexion.query("select a.id_estrategia,a.estrategia, b.id_objetivo, b.objetivo from schema_control.estrategias a inner join schema_control.objetivos b on (a.id_objetivo=b.id_objetivo)");
+        const resultados = await conexion.query("select a.id_estrategia,a.estrategia, b.id_objetivo, b.objetivo, la.linea_accion, pg.plan_general from schema_control.estrategias a inner join schema_control.objetivos b on (a.id_objetivo=b.id_objetivo) inner join schema_control.lineas_acciones la on (b.id_linea_accion=la.id_linea) inner join schema_control.plangeneral pg on (la.id_plan_general=pg.id_plangeneral) ");
         return resultados.rows;
     },
 
@@ -164,6 +168,11 @@ module.exports = {
     },
 
 
+    async actualizar_RegistroEstrategia_x_id(id_est, id_objetivo, estrategia) {
+        const resultados = await conexion.query('update schema_control.estrategias set estrategia=$3, id_objetivo=$2 where id_estrategia=$1 ', [id_est, id_objetivo, estrategia]);
+        return resultados;
+    },
+    
     //---------------------------Metodos PLanes--------------------------------------//
     //------------------------------------------------------------------------------//
 
@@ -179,7 +188,7 @@ module.exports = {
     },
 
     async consultar_RegistroPlanes() {
-        const resultados = await conexion.query("select * from schema_control.planes");
+        const resultados = await conexion.query("select d.id_plan, d.plan,c.estrategia ,a.objetivo,b.linea_accion,pg.plan_general from schema_control.objetivos a inner join schema_control.lineas_acciones b on(a.id_linea_accion=b.id_linea) inner join schema_control.estrategias c on (c.id_objetivo=a.id_objetivo) inner join schema_control.planes d on (d.id_estrategia=c.id_estrategia) inner join  schema_control.plangeneral pg on (pg.id_plangeneral=b.id_plan_general)" );
         return resultados.rows;
     },
 
@@ -232,7 +241,7 @@ module.exports = {
     },
 
     async eliminar_area(id) {
-        const resultados = await conexion.query("delete from schema_control.area where id_area = $1", [id]);
+        const resultados = await conexion.query("delete from schema_control.areas where id_area = $1", [id]);
         return resultados;
     },
 

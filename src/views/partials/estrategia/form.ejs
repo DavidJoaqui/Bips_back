@@ -24,7 +24,7 @@
 
             <% planes_generales.forEach(lista=> { %>
                 <% if (lista.estado) { %>
-                    <% if (item.length && lista.id_plangeneral==item[0].id_plan_general) { %>
+                    <% if (item.length && lista.id_plangeneral==item[0].id_plangeneral) { %>
 
                         <option selected="selected" value="<%= lista.id_plangeneral %>">
                             <%= lista.plan_general %>
@@ -67,12 +67,10 @@
 </form>
 
 <script>
-    const planGeneralId = '<%= item.length && item[0].id_plan_general?item[0].id_plan_general:0 %>';
-    const lineaAccionId = '<%= item.length && item[0].id_linea_accion?item[0].id_linea_accion:0 %>'
-
-    console.log(planGeneralId)
+    const planGeneralId = '<%= item.length && item[0].id_plangeneral?item[0].id_plangeneral:0 %>';
+    const lineaAccionId = '<%= item.length && item[0].id_linea?item[0].id_linea:0 %>'
     cmbKeys.selectLinea.keyDataIdCompare = lineaAccionId;
-    cmbKeys.selectObjetivo.keyDataIdCompare = '<%= item.length && item[0].id_objeto? item[0].id_objetivo:0 %>';
+    cmbKeys.selectObjetivo.keyDataIdCompare = '<%= item.length && item[0].id_objetivo? item[0].id_objetivo:0 %>';
     const form = document.querySelector("#formEstrategia");
 
     form.addEventListener("submit", function (event) {
@@ -94,6 +92,12 @@
 
     });
 
+    $(cmbKeys.selectPlan.keyHtml).change(function () {
+        loadCustomSelect(cmbKeys.selectLinea.url + $(this).val(), cmbKeys.selectLinea);
+    });
+    $(cmbKeys.selectLinea.keyHtml).change(function () {
+        loadCustomSelect(cmbKeys.selectObjetivo.url + $(this).val(), cmbKeys.selectObjetivo);
+    });
     loadCustomSelect(cmbKeys.selectLinea.url + planGeneralId, cmbKeys.selectLinea);
     loadCustomSelect(cmbKeys.selectObjetivo.url + lineaAccionId, cmbKeys.selectObjetivo);
 

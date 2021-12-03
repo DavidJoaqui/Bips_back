@@ -50,7 +50,6 @@
     
     function loadCustomSelect(url, key) {
         $(key.keyHtml).html("");
-        $(key.keyHtml).append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
         $.ajax({
             type: 'get',
             url,
@@ -59,6 +58,9 @@
             cache: false,
             processData: false,
             success: function (result) {
+                if(result.length == 0){
+                    $(key.keyHtml).append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+                }
                 result.forEach(element => {
                     if (element[key.keyDataId] == key.keyDataIdCompare) {
                         $(key.keyHtml).append('<option value=' + element[key.keyDataId] + ' selected="selected">' + element[key.keyDataValue] + '</option>');

@@ -10,6 +10,10 @@
                 <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th>Plan</th>
+                    <th>Plan general</th>
+                    <th>Linea acción</th>
+                    <th>Objetivo</th>
+                    <th>Estregia</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -22,6 +26,25 @@
                         <td class="px-4 py-3 text-sm">
                             <%= item.plan %>
                         </td>
+
+                        <td class="px-4 py-3 text-sm">
+                            <%= item.plan_general %>
+                        </td>
+         
+
+                        <td class="px-4 py-3 text-sm">
+                            <%= item.linea_accion %>
+                        </td>
+         
+
+                        <td class="px-4 py-3 text-sm">
+                            <%= item.objetivo %>
+                        </td>
+
+                        <td class="px-4 py-3 text-sm">
+                            <%= item.estrategia %>
+                        </td>
+         
          
                         <td class="px-4 py-3">
                             <div class="flex items-center space-x-4 text-sm">
@@ -61,9 +84,8 @@
 
 <script>
     function reloadContainer(action) {
-        loadContentHtml('/ctm-plans', '#container-tab')
+        loadContentHtml('/ctm-planes', '#container-tab')
         if (action == 'update') {
-            alert('dsfd')
             document.querySelector("#closeModalEdit").click();
         } else if (action == 'created') {
             document.querySelector("#closeModalNew").click();
