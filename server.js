@@ -10,8 +10,7 @@ const app = express();
 // Static
 app.use(express.static(path.join(__dirname, config.rutaFile)));
 app.use(express.static(path.join(__dirname, config.rutaPublic)));
-app.use(express.static(config.rutaSoportesCtm));
-app.use('/filespublic',express.static(config.rutaPublicFile));
+app.use('/filespublic',express.static(config.rutaSoportesCtm));
 // Body parse
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

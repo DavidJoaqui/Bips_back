@@ -20,10 +20,7 @@ router.get("/ctm-calificacion-indicadores", authMiddleware, (req, res) => {
 });
 
 router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
-  modelControlMando
-    .consultar_reg_ind_xcalificar()
-    .then((lista_calificacion_indicadores) => {
-      
+        
       modelControlMando.consultar_registros_Calificados().then(lista_calificacion_indicadores => {
         //console.log(lista_Estrategias);lista_Estrategias
         res.render(config.rutaPartials + "calificacionIndicador/listcalificados", {
@@ -32,7 +29,7 @@ router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
         });
     });
     
-    });
+    
 });
 
 router.get("/form-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res) => {
@@ -88,6 +85,9 @@ router.get("/calcular-desviacion", authMiddleware, (req, res) => {
 //persistir-calificacion-indicador
 router.post("/persistir-calificacion-indicador", authMiddleware, (req, res) => {
 
+console.log(req.body);
+console.log(req.params);
+console.log(req.query);
 
   modelControlMando.insertar_calificacion_indicador(Number(req.query.reg_indicador), parseFloat(req.query.vr_numerador), parseFloat(req.query.vr_denominador), parseFloat(req.query.resultado_numerico), Number(req.query.resultado_descriptivo), parseFloat(req.query.desviacion), req.query.comentario, Number(req.query.estado)).then(respuesta => {
 
@@ -162,3 +162,4 @@ router.get("/lista-ctm-reg-ind-xcal-filtrado", authMiddleware, (req, res) => {
 });
 
 module.exports = router;
+

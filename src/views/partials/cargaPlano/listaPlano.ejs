@@ -16,12 +16,16 @@
 
         <hr class="py-2" />
 
-        <p id="loading" class="loading" style="display: none;">Procesando...</p>
-
+        <p id="loading" class="loading" style="display: none;">Procesando...</p>        
+        
         <div style="font-size: 10px; float: right; color: blue;" class="exportar" id="exportar" hidden>
-
+            &nbsp;
             <a href="" for=""> <i class="fas fa-file-excel" style="color: green;"></i> <b>Exportar Excel</b> </a>
         </div>
+        <div id="num-err" class="num-err" style="font-size: 10px; float: right;">
+            <p for="" style="float:right; color: #000;" id="valor_err" class="valor_err"></p>&nbsp;
+        </div>
+        
         <div id="panel_errores" class="div-err" hidden>
 
             <%- include("../cargaPlano/tabla-errores"); %>
@@ -193,10 +197,14 @@
                             }
                             $('#developers').html(str);
 
-
+                        
                             $('#exportar').attr("hidden", false);
-                            $('#' + index).attr("hidden", false);
+                            $('.num-err p').html(" Número de errores : "+result["respuesta"].length);
+                            $('#' + index).attr("hidden", false);                            
                             nombre = nombre_plano.split(".");
+
+                            
+
                             $.ajax({
                                 type: 'get',
                                 url: '/generar-xlsx-err/' + nombre[0] + '/archivo-bips',
@@ -207,9 +215,13 @@
                                 },
 
 
-                                success: function (result) {
+                                success: function (result) {                                    
+                                    //$('#num_errores').html("");  
+                                    alert("enlaces de descarga xlsx OK");                                                                      
                                     $('.exportar a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
                                     $('.' + index + ' a').prop('href', '/descargar-xlsx-errores/' + nombre[0] + '/descarga-errores-xlsx');
+
+                                    //se debe guardar estado de error y el path del archivo xlsx de errores
                                 }
 
                             })
