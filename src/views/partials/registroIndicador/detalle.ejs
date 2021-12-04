@@ -15,6 +15,8 @@
 
         </div>
 
+        
+
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -35,7 +37,7 @@
                                         Aprobado:
                                     </label>
 
-                                    <%if(item[0].calificado){%>
+                                    <%if(item[0].estado){%>
                                         <strong><label class="fas fa-check-circle text-center" style="color: green;">
                                                 SI</label></strong>&nbsp;
                                         <%}else{%>
@@ -84,6 +86,23 @@
             </div>
         </div>
     </div>
+    <%if( !item[0].estado && item[0].calificado){%>
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full">
+    
+                <label class="block uppercase text-center tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Comentario Evaluador </label>
+                <input
+                    class="text-center appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    type="text" value='<%= item[0].comentario%>' disabled>
+            </div>
+    
+        </div>
+        <%}%>
+
+
+    
+   
 
 
     <div class="" id="contenedor_info_indicador" name="contenedor_info_indicador" style=" text-align: center;">
@@ -95,6 +114,19 @@
                     Información del Indicador Seleccionado </label>
             </div>
         </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full">
+
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Nombre Indicador </label>
+                <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    type="text" value='<%= item[0].nombre_indicador%>' disabled>
+            </div>
+
+        </div>
+
+
 
         <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
             <div class="flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">

@@ -1,0 +1,176 @@
+<form id="formTrazabilidad">
+
+
+
+    <div class="" id="panel_detalle" style=" text-align: center;">
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full">
+                <br>
+                <h4 style="font-weight: bold;">TRAZABILIDAD DEL REGISTRO DE INDICADOR.</h4>
+
+            </div>
+
+         
+
+            <div class="w-full flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Nombre Indicador </label>
+                <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    value='<%= item[0].nombre_indicador%>' disabled>
+
+            </div>
+
+
+
+        </div>
+
+
+
+        <div class="table-responsive">
+
+            <table class="w-full divide-y divide-gray-200" id="tbl_planos">
+
+
+                <thead class="">
+               
+
+                    <tr class="text-center">
+
+                        <th colspan="9">
+
+
+
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Versión</th>
+                        <th scope="col">Fecha Registro</th>
+                        <!--<th scope="col">Profesional</th>-->
+                        <th scope="col">Fecha Calificación</th>
+                        <th scope="col">Vigencia</th>
+                        <th scope="col">Periodo</th>
+                        <th scope="col">Calificado</th>
+                        <th scope="col">Aprobado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="developers">
+                    <% for(var i=0; i<item.length; i++) { %>
+
+                        <tr class="text-justify sorting_1" style="font-size: 0.8em; line-height: 1.4em;">
+                            <td>
+                                <%= i+1%>
+
+                            </td>
+                            <td class="text-center">
+
+                                <%= item[i].version %>
+
+                            </td>
+
+                            <td>
+
+                                <%= item[i].fecharegistro2 %>
+
+                            </td>
+                            <td>
+
+                                <%= item[i].fecha_calificacion %>
+
+                            </td>
+
+                            <td>
+                                <%= item[i].vigencia %>
+                            </td>
+
+                            <td>
+                                <%= item[i].periodoevaluado %> -
+                                    <%= item[i].nombre_mes %>
+                            </td>
+                            <td>
+                                <%if(item[i].calificado){%>
+                                    <i class="fas fa-check-circle text-center" onclick="" style="color: green;"></i>SI
+                                    <%}else{%>
+                                        <i class="fas fa-minus-circle text-center" style="color: red;" onclick=""> </i>NO
+                                        <%}%>
+                            </td>
+
+                            <td>
+                                <%if(item[i].estado){%>
+                                    <i class="fas fa-check-circle text-center" onclick="" style="color: green;"></i>SI
+                                    <%}else{%>
+                                        <i class="fas fa-minus-circle text-center" style="color: red;" onclick=""> </i>
+                                        NO
+                                        <%}%>
+                            </td>
+
+                            <td class="px-4 py-3">
+                                <div class="flex items-center space-x-4 text-sm">
+                                    
+                                    <button
+                                        @click="openModalDetail('/form-ctm-detalle-registro-indicador/<%= item[i].id_registroindicador %>','xl') "
+                                        onclick="closeModal()"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        aria-label="Detail">
+                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                         
+                                            <i class="fas fa-eye" ></i>
+                                        </svg>
+                                    </button>
+                                    
+
+                                    <%if(item[i].calificado){%>
+                                        <button
+                                        @click="openModalDetail('/ver-nota/<%= item[0].comentario %>') "
+                                        onclick="closeModal()"
+                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                        aria-label="Ver Nota">
+                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                         
+                                            <i class="far fa-sticky-note" style="color: blue;" type="button" class="btn btn-info btn-lg"  title="Ver Nota"></i>
+         
+                                        </svg>
+                                    </button>   <%}%>
+                              
+
+
+    
+                                </div>
+                            </td>
+
+
+
+                        </tr>
+                        <% }%>
+                </tbody>
+                <tfoot>
+
+                </tfoot>
+            </table>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+</form>
+
+<script type="text/javascript">
+
+    function closeModal() {
+        document.querySelector("#closeModalDetail").click();
+    }
+
+
+
+
+</script>

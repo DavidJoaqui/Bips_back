@@ -2,21 +2,23 @@
                     <form id="formCalificacionIndicador">
              
                         <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full">
+                            <div class=" w-full md:w-1/2 text-center">
                                 <br>
-                              <h1 style="color: darkblue;">Detalles Generales Registro de Indicador. <%= lista_calificacion_indicadores[0].id_calificacion_indicador %> </h1>                          
-                              <input type="text" name="id_reg_indicador" id="id_reg_indicador" style="display: none;" value="<%= lista_calificacion_indicadores[0].id_registroindicador %>">
+                              <h1 style="color: darkblue; font-size: 15px;" class="text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Detalles Generales Registro de Indicador. </h1>                          
+                              <input type="text" name="id_calificacion_indicador" id="id_calificacion_indicador" value="<%= lista_calificacion_indicadores[0].id_calificacion_indicador %>" hidden>
+                              <input type="text" name="id_reg_indicador" id="id_reg_indicador" value="<%= lista_calificacion_indicadores[0].id_registroindicador %>" hidden>
                             </div>
                             
-                        </div>
-                        
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="txt_meta_numerica" style="font-weight: bold;">
-                                        Versión </label>                                
-                                <input class="text-center" type="text" name="txt_meta_numerica" id="txt_meta_numerica" value='<%= lista_calificacion_indicadores[0].version %>' >                                                                                                                    
+                            <div class="text-center">
+                                <div style="border: 1px solid gray; border-radius: 5px;float: right;">
+                                <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="txt_meta_numerica" style="font-weight: bold;">
+                                            Versión </label>                                
+                                    <input class="text-center" type="text" name="txt_meta_numerica" id="txt_meta_numerica" value='<%= lista_calificacion_indicadores[0].version %>' >                                                                                                                    
+                                </div>
                             </div>
                         </div>
+                        
+                        
                         <br>
 
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -38,16 +40,10 @@
                         <div class="">
 
 
-                            <label class="" style="color: darkblue;">
-                                Información del Profesional </label>
+                            <h2 class="text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="color: darkblue; font-size: 15px;">
+                                Información del Profesional </h2><br>
 
                         </div>
-
-                        <!-- <p>
-                            <%= lista_calificacion_indicadores[0].id_registroindicador %>
-                        </p>-->
-
-                      
 
                         <div class="">
 
@@ -73,8 +69,8 @@
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full">
 
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                    Area: </label>                            
+                            <h2 style="color: darkblue; font-size: 15px;" class="text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                                    Area: </h2>                            
                                 <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value='<%= lista_calificacion_indicadores[0].nombre_area %>' disabled>                                                                                                
                             </div>
 
@@ -85,17 +81,17 @@
                         <div class="">
 
 
-                            <label class="" style="color: darkblue;">
-                                Información del Indicador </label>
+                            <h2 class="text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="color: darkblue; font-size: 15px;">
+                                Información del Indicador </h2>
 
                         </div>
 
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full">
 
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                    Indicador: </label>                                                            
-                                <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value='' disabled><%= lista_calificacion_indicadores[0].nombre_indicador %>
+                            <h2 class=" text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                    Indicador: </h2>                                                            
+                                <textarea class=" text-center block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="" name="txt_tipo_meta" id="txt_tipo_meta" value='' disabled><%= lista_calificacion_indicadores[0].nombre_indicador %>
                                 </textarea>
                             </div>
 
@@ -177,8 +173,8 @@
                         <div class="">
 
 
-                            <label class="" style="color: darkblue;">
-                                Formulas Indicador </label>
+                            <h2 class="text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="color: darkblue; font-size: 15px;">
+                                Formulas Indicador </h2>
 
                         </div>
 
@@ -207,7 +203,7 @@
 
 
                                     <label class="" style="color: darkblue;">
-                                        Oobservaciones Ingresadas para el Indicador </label>
+                                        Observaciones Ingresadas para el Indicador </label>
         
                                 </div>
                                 <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
@@ -224,7 +220,7 @@
                             <div class="w-full">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;">
                                     Meta Númerica </label>&nbsp;                               
-                                <input class="text-center" value='<%= lista_calificacion_indicadores[0].meta_numerica %>'>  
+                                <input class="text-center appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center" value='<%= lista_calificacion_indicadores[0].meta_numerica %>' disabled>  
                                 
                             </div>
                             
@@ -254,8 +250,8 @@
                             <div class="">
 
 
-                                <label class="" style="color: darkblue;">
-                                    Valores Ingresados para el Indicador </label>
+                                <h2 class="text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="color: darkblue;font-size:15px;">
+                                    Valores Ingresados para el Indicador </h2>
     
                             </div>
                             
@@ -299,12 +295,12 @@
                             <div class="flex flex-wrap -mx-3 mb-6">
 
                                 <input class="form-control" type="text" name="txt_periodo_evaluacion" id="txt_periodo_evaluacion" value='<%= lista_calificacion_indicadores[0].periodo_meta_num %>' hidden>
-                                                <%= lista_calificacion_indicadores[0].periodo_meta_num %>
-                                            </output>
+                                <input class="form-control" type="text" name="txt_resultado_descriptivo" id="txt_resultado_descriptivo" value='<%= lista_calificacion_indicadores[0].periodo_meta_num %>' hidden>
+
                                 <div class="w-full">
     
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                    Observaciones: </label>                                                            
+                                <h2 class=" text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="color: darkblue; font-size: 15px;">
+                                    Observaciones </h2>                                                            
                                     <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="" name="txt_obs" id="txt_obs"><%= lista_calificacion_indicadores[0].observaciones %></textarea>
                                 </div>
     
@@ -312,8 +308,8 @@
                         </div>
 
                         <div class="text-center">
-                            <label for="panel_soportes" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;color: blue">
-                                    Soportes: </label>
+                            <h2 for="panel_soportes" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;color: blue; font-size: 15px;">
+                                    Soportes </h2>
                             <div class="" id="panel_soportes">
 
                             </div>
@@ -351,6 +347,14 @@
                             <% }%>
 
                                 <br>
+
+                                <div class="text-center">
+                                    <h2 for="panel_soportes" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;color: blue; font-size: 15px;">
+                                            CALIFICACIÓN </h2>
+                                    <div class="" id="panel_soportes">
+        
+                                    </div>
+                                </div>
                             
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full">
@@ -417,13 +421,34 @@
         //alert("test");
         const data = Object.fromEntries(new FormData(form));
 
-        alert(data.id_reg_indicador);
-        if (data.id_reg_indicador != '0') {
+        
+        var vr_numerador = $('#txt_vr_numerador').val();
+        var vr_denominador = $('#txt_vr_denominador').val();
+        var resultado_descriptivo = $('#select_resultado_descriptivo').val();
+
+        if (vr_numerador == '') {
+                vr_numerador = 0;
+                desviacion = 0;
+                resultado_numerico = 0;
+
+                data.txt_vr_numerador=0;
+                data.txt_resultado_numerico =0;
+                data.txt_desviacion=0;
+            }
+            if (vr_denominador == '') {
+                data.txt_vr_denominador = 0;
+            }
+            if (resultado_descriptivo == undefined || resultado_descriptivo == '') {
+                data.select_resultado_descriptivo = 0;
+            }
+
+        //alert( data.id_reg_indicador);
+        if (( data.id_calificacion_indicador == '' || data.id_calificacion_indicador == '0') && data.id_reg_indicador !='0') {
             //updateAjax('/', data, reloadContainer)
             console.log(data);
             createdAjax('/persistir-calificacion-indicador', data, reloadContainer)
         } else {
-            
+            updateAjax('/actualizar-calificacion', data, reloadContainer)
         }
 
     });
