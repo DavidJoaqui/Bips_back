@@ -9,7 +9,7 @@
         </span>
         <textarea name="indicador"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-            placeholder="Objetivo"
+            placeholder="Indicador"
             required><%= item.length && item[0].nombre_indicador? item[0].nombre_indicador:'' %></textarea>
     </label>
 
@@ -111,7 +111,7 @@
             <input name="meta_descriptiva"
                 value="<%= item.length && item[0].meta_descriptiva? item[0].meta_descriptiva:'' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                placeholder="Nombre plan" required>
+                placeholder="Meta descriptiva">
         </label>
 
         <label class="block mt-4 text-sm">
@@ -121,7 +121,7 @@
             <input name="literal_descriptiva"
                 value="<%= item.length && item[0].formula_literal_descriptiva? item[0].formula_literal_descriptiva:'' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                placeholder="Nombre plan" required>
+                placeholder="Literal Descriptiva">
         </label>
 
     </div>
@@ -134,7 +134,7 @@
             </span>
             <select name="periodo_evaluacion" id="select_periodo_evaluacion"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            </select required>
+            </select>
         </label>
 
         <label class="block mt-4 text-sm">
@@ -143,7 +143,7 @@
             </span>
             <input name="meta_numerica" value="<%= item.length && item[0].meta_numerica? item[0].meta_numerica:'' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                placeholder="Nombre plan" required>
+                placeholder=" Meta Númerica">
         </label>
 
 
@@ -154,7 +154,7 @@
             <input name="formula_literal_numerador"
                 value="<%= item.length && item[0].formula_literal_numerador? item[0].formula_literal_numerador:'' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                placeholder="Nombre plan" required>
+                placeholder="Formula literal Numerador">
         </label>
 
 
@@ -165,7 +165,7 @@
             <input name="formula_literal_denominador"
                 value="<%= item.length && item[0].formula_literal_denominador? item[0].formula_literal_denominador:'' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                placeholder="Nombre plan" required>
+                placeholder="Formula literal Denominador">
         </label>
     </div>
 
@@ -174,11 +174,17 @@
 </form>
 
 <script>
-    cmbKeys.selectLinea.keyDataIdCompare = '<%= item.length && item[0].id_linea_accion? item[0].id_linea_accion:0 %>';
-    cmbKeys.selectObjetivo.keyDataIdCompare = '<%= item.length && item[0].id_linea_accion? item[0].id_linea_accion:0 %>';
-    cmbKeys.selectEstrategia.keyDataIdCompare = '<%= item.length && item[0].id_objetivo? item[0].id_objetivo:0 %>';
-    cmbKeys.selectPlanAccion.keyDataIdCompare = '<%= item.length && item[0].id_estrategia? item[0].id_estrategia:0 %>';
-    cmbKeys.selectArea.keyDataIdCompare = '<%= item.length && item[0].id_area? item[0].id_area:0 %>';
+    const planGeneralId = '<%= item.length && item[0].id_plan_general?item[0].id_plan_general:0 %>';
+    const lineaAccionId = '<%= item.length && item[0].id_linea_accion?item[0].id_linea_accion:0 %>';
+    const objetivoId = '<%= item.length && item[0].id_objetivo?item[0].id_objetivo:0 %>';
+    const estretegiaId  = '<%= item.length && item[0].id_estrategia?item[0].id_estrategia:0 %>';
+    const planAccionId  = '<%= item.length && item[0].id_plan?item[0].id_plan:0 %>';
+    const areaId  = '<%= item.length && item[0].id_area?item[0].id_area:0 %>';
+    cmbKeys.selectLinea.keyDataIdCompare = lineaAccionId;
+    cmbKeys.selectObjetivo.keyDataIdCompare = objetivoId;
+    cmbKeys.selectEstrategia.keyDataIdCompare = estretegiaId;
+    cmbKeys.selectPlanAccion.keyDataIdCompare = planAccionId;
+    cmbKeys.selectArea.keyDataIdCompare = areaId;
     const form = document.querySelector("#formIndicador");
 
     function loadPeriodoEvaluacion() {
@@ -261,7 +267,7 @@
         $("#select_tipo_meta").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
         $.ajax({
             type: 'get',
-            url: "/consultar-tipo-meta-area-x-plan/?id_plan=" + '<%= item.length && item[0].id_plan? item[0].id_plan:0 %>',
+            url: "/consultar-tipo-meta-area-x-plan/?id_plan=" +  planAccionId,
             data: [],
             contentType: false,
             cache: false,
@@ -339,10 +345,13 @@
     loadTipoMeta();
     loadPeriodoEvaluacion();
     if(cmbKeys.selectArea.keyDataIdCompare != '0'){
-        loadCustomSelect(cmbKeys.selectArea.url + cmbKeys.selectArea.keyDataIdCompare, cmbKeys.selectArea);
+        loadCustomSelect(cmbKeys.selectArea.url + areaId, cmbKeys.selectArea);
     }
-    loadCustomSelect(cmbKeys.selectLinea.url + cmbKeys.selectLinea.keyDataIdCompare, cmbKeys.selectLinea);
-    loadCustomSelect(cmbKeys.selectObjetivo.url + cmbKeys.selectObjetivo.keyDataIdCompare, cmbKeys.selectObjetivo);
-    loadCustomSelect(cmbKeys.selectEstrategia.url + cmbKeys.selectEstrategia.keyDataIdCompare, cmbKeys.selectEstrategia);
-    loadCustomSelect(cmbKeys.selectPlanAccion.url + cmbKeys.selectPlanAccion.keyDataIdCompare, cmbKeys.selectPlanAccion);
+
+
+    loadCustomSelect(cmbKeys.selectLinea.url + planGeneralId, cmbKeys.selectLinea);
+    loadCustomSelect(cmbKeys.selectObjetivo.url + lineaAccionId, cmbKeys.selectObjetivo);
+    loadCustomSelect(cmbKeys.selectEstrategia.url + objetivoId, cmbKeys.selectEstrategia);
+    loadCustomSelect(cmbKeys.selectPlanAccion.url + estretegiaId, cmbKeys.selectPlanAccion);
+
 </script>

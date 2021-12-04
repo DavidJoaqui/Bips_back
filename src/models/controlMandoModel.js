@@ -486,6 +486,13 @@ module.exports = {
         return resultados.rows;
     },
 
+    async eliminarProfesional(id) {
+        const resultados = await conexion.query("delete from schema_seguridad.user where id_user= $1", [id]);
+        return resultados;
+    },
+
+
+
     //-----------------------Metodos calificacion indicadores--------------------------------------//
     //------------------------------------------------------------------------------//
 

@@ -197,6 +197,10 @@
           $("#notificacion_login").attr("style", "display:none");
         });
       });
+
+      if(!window.location.href.includes('login')){
+         location.reload();
+      }
     </script>
   </body>
 </html>

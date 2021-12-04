@@ -25,7 +25,7 @@ router.get("/form-ctm-plan-general/:id", authMiddleware, (req, res) => {
     })
 });
 
-router.post("/persistir-plan", authMiddleware, (req, res) => {
+router.post("/persistir-plan-general", authMiddleware, (req, res) => {
   modelControlMando
     .insertar_PlanGeneral(
       req.body.nombre_plan,

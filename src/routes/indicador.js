@@ -61,9 +61,6 @@ router.post(
   "/indicador/delete/:id/control-mando-bips",
   authMiddleware,
   function (req, res) {
-    var msg = "";
-
-    //primero se eliminan los soportes asociados al registro de indicador recibido en la peticion
     modelControlMando
       .eliminar_soporte_x_idRegistroIndicador(req.params.id)
       .then((rspta_eliminacion) => {
@@ -74,10 +71,6 @@ router.post(
           modelControlMando
             .eliminar_Registro_RegIndicador(req.params.id)
             .then((respuesta) => {
-              msg =
-                "El Registro de indicador para el indicador " +
-                req.query.nombre_indicador +
-                " se eliminó correctamente...";
               if (
                 respuesta["command"] == "DELETE" &&
                 respuesta["rowCount"] > 0

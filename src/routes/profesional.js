@@ -16,10 +16,10 @@ router.post("/persistir-profesional/", authMiddleware, (req, res) => {
     .insertar_Profesional(
       req.body.rol,
       req.body.password,
-      req.body.nombre_usuario,
+      req.body.usuario,
       req.body.area_trabajo,
-      req.body.nombres,
-      req.body.apellidos,
+      req.body.nombre,
+      req.body.apellido,
       req.body.profesional,
       req.body.num_identificacion,
       req.body.tipo_identificacion,
@@ -39,13 +39,13 @@ router.post("/persistir-profesional/", authMiddleware, (req, res) => {
     });
 });
 
-router.post("/actualizar-profesional", authMiddleware, (req, res) => {
+router.put("/actualizar-profesional", authMiddleware, (req, res) => {
   modelControlMando
     .actualizar_profesional_x_id(
       req.body.id_user,
       req.body.rol,
       req.body.password,
-      req.body.nombre_usuario,
+      req.body.usuario,
       req.body.area_trabajo,
       req.body.nombre,
       req.body.apellido,
@@ -64,6 +64,7 @@ router.post("/actualizar-profesional", authMiddleware, (req, res) => {
       }
     })
     .catch((err) => {
+      console.log(err)
       return res.status(500).send("Error al guardar datos");
     });
 });
@@ -85,5 +86,22 @@ router.get("/form-ctm-profesional/:id", authMiddleware, (req, res) => {
       });
     });
 });
+
+router.delete(
+  "/profesional/delete/:id/control-mando-bips",
+  authMiddleware,
+  function (req, res) {
+    modelControlMando
+      .eliminarProfesional(req.params.id)
+      .then((respuesta) => {
+        if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {
+          return res.status(200).send("Ok");
+        } else {
+          return res.status(400).send("Error al guardar datos");
+        }
+      });
+  }
+);
+
 
 module.exports = router;

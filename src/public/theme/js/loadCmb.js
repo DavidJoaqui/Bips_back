@@ -60,6 +60,8 @@
             success: function (result) {
                 if(result.length == 0){
                     $(key.keyHtml).append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+                }else{
+                    $(key.keyHtml).append('<option value="0" selected="selected">' + 'Escoge alguna opción ...' + '</option>');
                 }
                 result.forEach(element => {
                     if (element[key.keyDataId] == key.keyDataIdCompare) {

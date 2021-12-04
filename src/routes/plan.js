@@ -34,7 +34,7 @@ router.get("/form-ctm-plan/:id", authMiddleware, (req, res) => {
     });
 });
 
-router.post("/persistir-plan/", authMiddleware, (req, res) => {
+router.post("/persistir-plan", authMiddleware, (req, res) => {
   modelControlMando
     .insertar_plan(req.body.plan, req.body.estrategia)
     .then((respuesta) => {
