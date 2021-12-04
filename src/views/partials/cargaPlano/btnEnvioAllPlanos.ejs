@@ -29,3 +29,27 @@
 
     </div>
 </div>
+
+<script>
+    function enviar_carga() {
+                    $("#loading").attr("hidden", false);
+                    $.ajax({
+                        type: 'post',
+                        url: "/enviar-carga/ejecucion-multiple/archivo-bips",
+                        data: [],
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        beforeSend: function() {
+                            //console.log(data.status + ':' + data.statusText,data.responseText);
+                            $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b><br>Esto puede tomar algun tiempo ...  ...</strong></div>');
+                        },
+                        success: function(result) {
+                            $('#loading').html("");
+                            $('#lista_archivos').html("");
+                            $('#lista_archivos').html(result);
+                            console.log("Success ... " + result["descripcion"]);
+                        }
+                    });
+                }
+</script>

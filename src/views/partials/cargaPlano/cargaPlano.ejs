@@ -1,4 +1,4 @@
-<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800" id="seccion-validacion">
 
     <div class="grid gap-6 mb-8 md:grid-cols-4 xl:grid-cols-4">
 
@@ -44,7 +44,7 @@
             </label>
         </div>
 
-        <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs">
+        <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs" id="seccion-carga" hidden>
             <label class="block mt-4 text-sm">
                 <span class="text-white">
                     Selecciona los planos a cargar
@@ -56,12 +56,14 @@
             <button onclick="upload()" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg active:bg-gray-600 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">Subir</button>
         </div>
 
-        <button onclick="validarRegisros()" id="btn-validar" name="btn-validar" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Consultar
-            registros</button>
+        
 
 
     </div>
-
+    <div class="w-full  text-center">
+    <button onclick="validarRegisros()" id="btn-validar" name="btn-validar" class=" py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Consultar
+        registros</button>
+    </div>
 </div>
 
 <script>
@@ -146,10 +148,11 @@
             contentType: false,
             processData: false,
             success: function(result) {
+                $("#seccion-validacion").attr("disabled", true);
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
-                    title: 'Archivos subidos',
+                    title: 'Los archivos planos fueron cargados con exito',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -199,6 +202,7 @@
                     $('#btn-validar').attr("disabled", true);
                     $('#fechaInicial').attr("disabled", true);
                     $('#fechaFinal').attr("disabled", true);
+                    $('#seccion-carga').attr("hidden", false);
 
                 } else {
                     msg = "La IPS " + data.listaIps + " tiene Registros de Archivos Planos para el Rango de Fecha: " + data.fechaInicial + " hasta " + data.fechaFinal;
