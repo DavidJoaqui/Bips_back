@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BIPS - Dashboard</title>
     <script src="theme/js/jquery-1.12.4.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="theme/css/tailwind.output.css" />
     <script src="theme/js/alpine.min.js" defer></script>
     <script src="theme/js/sweetalert2@11.js"></script>
@@ -26,16 +25,16 @@
             max-height: 85vh;
             overflow-y: auto;
         }
-
+        
         #reporte-title {
             color: blue;
             font-size: bold;
         }
-
+        
         #reporte-title::first-letter {
             text-transform: uppercase;
         }
-
+        
         .textarea-td {
             background-color: #fafafa;
             border: 1px solid gainsboro;
@@ -104,6 +103,7 @@
     <%- include("../partials/editModal"); %>
         <%- include("../partials/newModal"); %>
             <%- include("../partials/detailModal"); %>
+                <%- include("../partials/detailTwoModal"); %>
 </body>
 
 </html>
