@@ -1,5 +1,4 @@
-<button @click="openModalNew('/form-ctm-registro-indicador/0','xl')"
-    class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+<button @click="openModalNew('/form-ctm-registro-indicador/0','xl')" class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
     Nuevo Registro Indicador
 </button>
 <hr class="py-2" />
@@ -8,8 +7,7 @@
 <table class="w-full whitespace-no-wrap" id="table-registro-indicador">
     <thead>
 
-        <tr
-            class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+        <tr class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
             <th scope="col">Fecha</th>
             <th scope="col">Vigencia</th>
             <th scope="col">Periodo</th>
@@ -93,9 +91,7 @@
 
 
 
-                        <button
-                            @click="openModalDetail('/form-ctm-detalle-registro-indicador/<%= item.id_registroindicador %>','xl') "
-                            class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                        <button @click="openModalDetail('/form-ctm-detalle-registro-indicador/<%= item.id_registroindicador %>','xl') " class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                             aria-label="Detail" title="Ver Detalle">
                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
 
@@ -104,9 +100,7 @@
                             </svg>
                         </button>
 
-                        <button
-                            @click="openModalDetail('/ctm-trazabilidad-registro-indicador/<%= item.id_indicador %>/?vigencia=<%= item.vigencia %>&periodo=<%= item.periodoevaluado %>','xl') "
-                            class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                        <button @click="openModalDetail('/ctm-trazabilidad-registro-indicador/<%= item.id_indicador %>/?vigencia=<%= item.vigencia %>&periodo=<%= item.periodoevaluado %>','xl') " class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                             aria-label="Trazabilidad" title=" Ver Trazabilidad">
                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                 <path
@@ -120,9 +114,7 @@
 
 
                         <%if(item.calificado==false&&item.estado=="No" ){%>
-                            <button
-                                @click="openModalEdit('/form-ctm-registro-indicador/<%= item.id_registroindicador %>','xl')"
-                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                            <button @click="openModalEdit('/form-ctm-registro-indicador/<%= item.id_registroindicador %>','xl')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="Edit" title="Editar">
                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                     <path
@@ -131,9 +123,7 @@
                                 </svg>
                             </button>
 
-                            <button
-                                onclick="openPopupDelete('/registro-indicador/delete/<%= item.id_registroindicador %>/control-mando-bips',reloadContainer)"
-                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                            <button onclick="openPopupDelete('/registro-indicador/delete/<%= item.id_registroindicador %>/control-mando-bips',reloadContainer)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="Delete" title="Eliminar">
                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"

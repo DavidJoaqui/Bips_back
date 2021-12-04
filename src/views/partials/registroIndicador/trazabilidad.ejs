@@ -10,14 +10,12 @@
 
             </div>
 
-         
+
 
             <div class="w-full flex items-center p-4 rounded-lg shadow-xs dark:bg-gray-800">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Nombre Indicador </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    value='<%= item[0].nombre_indicador%>' disabled>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value='<%= item[0].nombre_indicador%>' disabled>
 
             </div>
 
@@ -29,11 +27,11 @@
 
         <div class="table-responsive">
 
-            <table class="w-full divide-y divide-gray-200" id="tbl_planos">
+            <table class="w-full divide-y divide-gray-200" id="tbl_planosss">
 
 
                 <thead class="">
-               
+
 
                     <tr class="text-center">
 
@@ -102,42 +100,35 @@
                                 <%if(item[i].estado){%>
                                     <i class="fas fa-check-circle text-center" onclick="" style="color: green;"></i>SI
                                     <%}else{%>
-                                        <i class="fas fa-minus-circle text-center" style="color: red;" onclick=""> </i>
-                                        NO
+                                        <i class="fas fa-minus-circle text-center" style="color: red;" onclick=""> </i> NO
                                         <%}%>
                             </td>
 
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
-                                    
-                                    <button
-                                        @click="openModalDetail('/form-ctm-detalle-registro-indicador/<%= item[i].id_registroindicador %>','xl') "
-                                        onclick="closeModal()"
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+
+                                    <span @click="openModalDetailTwo('/form-ctm-detalle-registro-indicador/<%= item[i].id_registroindicador %>','xl') " class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Detail">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                          
                                             <i class="fas fa-eye" ></i>
                                         </svg>
-                                    </button>
-                                    
+                                    </span>
+
 
                                     <%if(item[i].calificado){%>
-                                        <button
-                                        @click="openModalDetail('/ver-nota/<%= item[0].comentario %>') "
-                                        onclick="closeModal()"
-                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                        aria-label="Ver Nota">
+                                        <span @click="openModalDetailTwo('/ver-nota/<%= item[0].comentario %>') " class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Ver Nota">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                          
                                             <i class="far fa-sticky-note" style="color: blue;" type="button" class="btn btn-info btn-lg"  title="Ver Nota"></i>
          
                                         </svg>
-                                    </button>   <%}%>
-                              
+                                    </span>
+                                        <%}%>
 
 
-    
+
+
                                 </div>
                             </td>
 
@@ -165,12 +156,7 @@
 </form>
 
 <script type="text/javascript">
-
     function closeModal() {
         document.querySelector("#closeModalDetail").click();
     }
-
-
-
-
 </script>

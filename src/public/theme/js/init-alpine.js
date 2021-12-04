@@ -99,6 +99,24 @@ function data() {
       this.isModalOpenDetail = false;
       this.trapCleanupDetail();
     },
+
+
+        // Modal detail
+        isModalOpenDetailTwo: false,
+        trapCleanupDetailTwo: null,
+        openModalDetailTwo(url,classSize) {
+          const modalId="#modalDetailTwo";
+          removeClassModal(modalId)
+          addClassModal(classSize,modalId);
+          loadContentHtml(url,'#contentDetailTwoModal')
+          this.isModalOpenDetailTwo = true;
+          this.trapCleanupDetailTwo = focusTrap(document.querySelector(modalId));
+        },
+        closeModalDetailTwo() {
+          $('#contentDetailTwoModal').html('');
+          this.isModalOpenDetailTwo = false;
+          this.trapCleanupDetailTwo();
+        },
   };
 }
 
