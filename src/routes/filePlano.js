@@ -9,6 +9,7 @@ const modelplanos = require("../models/archivosPlanosModel");
 const modelbips = require("../models/modelModel");
 const modelvalidaciones = require("../models/validacionModel");
 const exportErrorsToExcel = require('./exportService');
+const controlMandoModel = require("../models/controlMandoModel");
 
 const storage = multer.diskStorage({
     destination: config.rutaFile + "/",
@@ -330,7 +331,9 @@ router.post(
         let name_tmp = req.params.name;
         var array_nombre = name_tmp.split("_");
         let nombre_txt = array_nombre[2];
-
+        let array_nombre_org_sin_ext = nombre_txt.split(".");
+        let nombre_org_sin_ext = array_nombre_org_sin_ext[0];
+        console.log(nombre_org_sin_ext);
         var nombre_plano = nombre_txt.slice(0, 2);
         var habilita_eliminar_todos = false;
 
@@ -436,6 +439,14 @@ router.post(
                 } else {
                     //si la respuesta de validacion NO esta vacia, se retornan los errores encontrados
                     console.log("Número de errores encontrados en el plano: " + rsta_validacion.length);
+
+                    var urlFile_error_plano = '/descargar-xlsx-errores/'+nombre_org_sin_ext+"/descarga-errores-xlsx"
+
+                    modelplanos.actualizarErrorRegistroPlanoTmp(req.query.id_ips, name_tmp,urlFile_error_plano).then(resultado_act => {
+
+
+                    });
+
                     res.json({
                         status: 500,
                         respuesta: rsta_validacion,
@@ -603,6 +614,280 @@ router.get("/validacion-carga-envio", authMiddleware, (req, res) => {
                 })
         });
     });
+
+
+
+
+});
+
+router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (req, res) => {
+
+    //llamado de la transformacion que envia los datos de los archivos planos tmp a las tablas de los planos
+    //modelktr.selecionaKtr(name_tmp,nombre_plano);
+    //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
+    //se debe verficar que el plano este validado
+
+
+
+    //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
+    //se debe verficar que el plano este validado
+    var path_plano_AF = "";
+    var path_plano_AN = "";
+    var path_plano_AM = "";
+    var path_plano_AT = "";
+    var path_plano_AC = "";
+    var path_plano_AU = "";
+    var path_plano_US = "";
+    var path_plano_AH = "";
+    var path_plano_CT = "";
+    var path_plano_AP = "";
+
+    var cont = 0;
+
+    var spawn = require('child_process').spawn;
+
+    modelplanos.ObtenerPlanos_validos().then(rsta => {
+        //console.log(rsta);        
+        //var num_planos = rsta.length;
+        //console.log("numero incial de planos validados: " + num_planos);
+        rsta.forEach(plano => {
+
+
+            if (plano['validado'] == true) {
+
+                //var path_plano = plano['path_plano'];
+                //modelktr.selecionaKtr(plano['nombre_original'].slice(0, 2)).then(nombre_ruta => {
+                // console.log(rsta_seleccionKtr);
+                //console.log(path_plano);
+
+                if (plano["nombre_original"].slice(0, 2) == "AF") {
+                    path_plano_AF = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AP") {
+                    path_plano_AP = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AC") {
+                    path_plano_AC = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AT") {
+                    path_plano_AT = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AH") {
+                    path_plano_AH = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "CT") {
+                    path_plano_CT = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "US") {
+                    path_plano_US = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AM") {
+                    path_plano_AM = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AN") {
+                    path_plano_AN = plano["path_plano"];
+                    cont++;
+                } else if (plano["nombre_original"].slice(0, 2) == "AU") {
+                    path_plano_AU = plano["path_plano"];
+                    cont++;
+                }
+
+            } else {
+                console.log("----------------------------------------------------------------------------------------------------");
+                console.log("Se omite la ejecucion del comando/transformacion para el archivo: " + plano['nombre_original'] + " NO se encuentra validado...");
+                console.log("----------------------------------------------------------------------------------------------------");
+                return 1;
+            }
+
+        });
+
+
+
+        if (cont == 10) {
+            //var prueba_3 = spawn('cd /var/lib/data-integration/; sh pan.sh -file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr" -level=Error >> /archivos_bips/trans.log;', {encoding: 'utf8', stdio: 'ignore'});
+            //const spawn_trs = spawn('sh pan.sh',['-file="/archivos_bips/Trans_Archivos_Planos/Trans_archivosPlanos.ktr']);
+            //console.log(__dirname);.
+            //console.log(rsta[0]['validado']);
+            //console.log(rsta[0]['path_plano']);
+            //var str=JSON.stringify(rsta,['path_plano']);
+            //console.log(str);
+            //console.log(Object.entries(str));
+
+            //console.log(`value=${path_plano}`);
+
+            //console.log(path);
+
+
+            //console.log(JSON.stringify(rsta));
+            //console.log(JSON.parse(JSON.stringify(rsta)));
+            //console.log(JSON.stringify(rsta,['path_plano']));
+            console.log("===========================================================================");
+            console.log("================Inicia ejecucion de la transformacion      =================");
+            console.log("fecha/hora de inicio de la ejecucion : ");
+            var now = new Date();
+            console.log(now.toUTCString());
+            //obtener_fecha_hora().then(rt=>{
+            //  console.log(rt);
+
+            //            });
+            console.log("===========================================================================");
+
+
+            /*
+                            La función spawn lanza un comando en un nuevo proceso y podemos usarlo para pasarle cualquier argumento a ese comando
+            
+                            */
+            //let spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo_af=" + path_plano_AF, '-logfile=/tmp/trans.log']);
+            var spawn_trs = spawn('cmd.exe',['/c',config.rutaDataIntegrationPentaho +'/pan.bat', "/file:"+"src/IntegracionKtr/tras-all-Planos.ktr", '-level=Detailed',
+                "-param:ruta_archivo_af=" + path_plano_AF,
+               // "-param:ruta_archivo_ac=" + path_plano_AC,
+               //"-param:ruta_archivo_at=" + path_plano_AT,
+               //"-param:ruta_archivo_an=" + path_plano_AN,
+               // "-param:ruta_archivo_am=" + path_plano_AM,
+                //"-param:ruta_archivo_ap=" + path_plano_AP,
+                 //"-param:ruta_archivo_ct=" + path_plano_CT,
+                 //"-param:ruta_archivo_us=" + path_plano_US,
+                 //"-param:ruta_archivo_au=" + path_plano_AU,
+                 //"-param:ruta_archivo_ah=" + path_plano_AH,
+                "-logfile='"+config.rutaLogPentaho+"/trans.log'"
+            ]);
+
+            console.log(spawn_trs);
+            //const spawn_trs = spawn('ls',['-ltr','/var/lib/data-integration']);
+
+            //const spawn_trs = spawn('ls', ['-ltr']);
+
+            //la opcion pipe canaliza spawn_trs.stdout directamente a process.stdout
+            spawn_trs.stdout.pipe(process.stdout);
+
+            spawn_trs.stdout.setEncoding('utf8');
+
+            spawn_trs.stderr.setEncoding('utf8');
+
+            //Con los flujos legibles, podemos escuchar el evento de datos, que tendrá la 
+            //salida del comando o cualquier error encontrado al ejecutar el comando
+            spawn_trs.stdout.on('data', data => {
+                console.log(`stdout:\n${data}`)
+            });
+            spawn_trs.stderr.on('data', (data) => {
+                // console.error(`stderr: ${data}`);
+            });
+
+
+
+            spawn_trs.on('close', (code) => {
+
+                console.log("===========================================================================");
+                console.log("================   FIN ejecucion de la transformacion      =================");
+                console.log("fecha/hora fin de la ejecucion: ");
+                //console.log(obtener_fecha_hora());
+                console.log(now.toUTCString());
+                console.log("===========================================================================");
+                console.log("resultado de la ejecucion: ");
+                console.log(code)
+                    //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito
+                    //OK : 0
+
+
+                if (code == 0) {
+
+                    console.log("El comando/transformacion se ejecuto con exito... estado: " + code);
+
+
+                    modelplanos.actualizar_carga_temp().then(respuesta => {
+                        if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
+                            // console.log("actualizo CARGA TEMP OK para el plano ... " + plano['nombre_original']);
+                            console.log("actualizo CARGA TEMP OK para todos los planos ... ");
+
+
+                        }
+
+                    });
+                    //num_planos--;
+                    //return 0;      
+                    //console.log("numero de planos decrementando: " + num_planos);
+
+                    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+                            //console.log(listaArchivos);    
+                            req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                            //res.setHeader('Content-type', 'text/html');
+                            res.render("paginas/listaArchivos", {
+                                arr_files: listaArchivos,
+                                habilitar_envio_la: true,
+                                habilitar_carga: false,
+                                habilitar_eliminar: false,
+                                habilitar_btn_envio: true,
+                                status: 200,
+                                code: 0,
+                                retorno: "0",
+                            });
+
+
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            return res.status(500).send("Error obteniendo registros");
+                        });
+
+                    //req.flash('notify', 'La carga de los Planos se realizo con exito...');
+                    /*res.json({
+                        status: 200,
+                        code: 0,
+                        retorno: "0",
+                        descripcion: 'La operacion de carga multiple se ejecuto con exito',
+                    });*/
+
+
+
+
+
+                } else {
+                    console.error('Ocurrio un problema con la ejecucion del comando/transformacion ' + code);
+                    //se retorna el codigo de estado de errro
+                    //return 1;
+                    req.flash('error', 'Ocurrio un error en la carga de los planos, Contacte con el administrador... Cod.Transformacion: ' + code);
+                    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
+
+
+                        res.render("paginas/listaArchivos", {
+                            arr_files: listaArchivos,
+                            habilitar_envio_la: true,
+                            habilitar_carga: true,
+                            habilitar_eliminar: false,
+                            habilitar_btn_envio: false,
+                            status: 200,
+                            code: code,
+                            retorno: "0",
+                        });
+                    });
+
+
+                }
+
+
+
+            });
+
+            spawn_trs.on('exit', (code) => {
+                console.log(`exit child process exited with code ${code}`);
+                //return code;
+            });
+
+        }
+
+
+        //});
+
+
+
+
+
+
+
+
+
+    });
+
 
 
 
