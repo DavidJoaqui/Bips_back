@@ -40,6 +40,33 @@ router.get("/form-ctm-detalle-registro-indicador/:id",
   }
 );
 
+router.get("/ctm-trazabilidad-registro-indicador/:id",
+  authMiddleware,
+  (req, res) => {
+    modelControlMando
+      .consultar_trazabilidad_reg_indicador(req.params.id,req.session.username["id_profesional"],req.query.vigencia,req.query.periodo)
+      .then((item) => {
+        res.render(config.rutaPartials + "registroIndicador/trazabilidad", {
+          layout: false,
+          id_indicador: req.params.id,
+          item: item,
+        });
+      });
+  }
+);
+
+router.get("/ver-nota/:nota",
+  authMiddleware,
+  (req, res) => {
+    res.render(config.rutaPartials+"registroIndicador/notaCalificacion",
+    {
+      layout: false,
+      nota: req.params.nota,
+    });
+  }
+);
+
+
 router.get("/consultar-vigencia-anio-profesional",
   authMiddleware,
   (req, res) => {
