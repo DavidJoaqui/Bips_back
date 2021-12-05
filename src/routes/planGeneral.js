@@ -91,10 +91,14 @@ router.delete(
               } else {
                 return res.status(400).send("Error al guardarla entidad");
               }
+            }).catch((err) => {
+              return res.status(500).send("Error al guardar datos");
             });
         } else {
           return res.status(500).send("Error al guardar datos");
         }
+      }).catch((err) => {
+        return res.status(500).send("Error al guardar datos");
       });
   }
 );

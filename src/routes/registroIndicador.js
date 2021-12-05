@@ -356,14 +356,18 @@ router.delete("/registro-indicador/delete/:id/control-mando-bips", authMiddlewar
           } else {
             return res.status(400).send("Error al Eliminar");
           }
-        })
+        }).catch((err) => {
+          return res.status(500).send("Error al guardar datos");
+        });
 
       } else {
 
         return res.status(400).send("Error al Eliminar 2");
       }
 
-    })
+    }) .catch((err) => {
+      return res.status(500).send("Error al guardar datos");
+    });
   }
 );
 
