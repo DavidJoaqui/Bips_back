@@ -21,6 +21,8 @@
         <select name="plan_general" id="select_plan"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
 
+            <option value="">Escoge alguna opción ...</option>
+            
             <% planes_generales.forEach(lista=> { %>
                 <% if (lista.estado) { %>
                     <% if (item.length && lista.id_plangeneral==item[0].id_plan_general) { %>
@@ -82,7 +84,7 @@
         <span class="text-gray-700 dark:text-gray-400">
             Area:
         </span>
-        <select name="plan_general" id="select_area"
+        <select name="area" id="select_area"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
             <% lista_areas.forEach(lista=> { %>
                 <option value="<%= lista.id_area %>">
@@ -109,7 +111,8 @@
                 Meta descriptiva:
             </span>
             <input name="meta_descriptiva"
-                value="<%= item.length && item[0].meta_descriptiva? item[0].meta_descriptiva:'' %>"
+                type="number"
+                value="<%= item.length && item[0].meta_descriptiva? item[0].meta_descriptiva:'0' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                 placeholder="Meta descriptiva">
         </label>
@@ -119,7 +122,8 @@
                 Literal Descriptiva:
             </span>
             <input name="literal_descriptiva"
-                value="<%= item.length && item[0].formula_literal_descriptiva? item[0].formula_literal_descriptiva:'' %>"
+                type="number"
+                value="<%= item.length && item[0].formula_literal_descriptiva? item[0].formula_literal_descriptiva:'0' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                 placeholder="Literal Descriptiva">
         </label>
@@ -141,7 +145,8 @@
             <span class="text-gray-700 dark:text-gray-400">
                 Meta Númerica:
             </span>
-            <input name="meta_numerica" value="<%= item.length && item[0].meta_numerica? item[0].meta_numerica:'' %>"
+            <input name="meta_numerica" value="<%= item.length && item[0].meta_numerica? item[0].meta_numerica:'0' %>"
+                type="number"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                 placeholder=" Meta Númerica">
         </label>
@@ -316,7 +321,7 @@
         event.preventDefault();
         const data = Object.fromEntries(new FormData(form));
 
-        if (data.id_objetivo != '0') {
+        if (data.id_indicador != '0') {
             updateAjax('/actualizar-indicador', data, reloadContainer)
         } else {
             createdAjax('/persistir-indicador', data, reloadContainer)
@@ -337,7 +342,7 @@
     });
 
     $(cmbKeys.selectEstrategia.keyHtml).change(function () {
-        loadCustomSelect(cmbKeys.planAccion.url + $(this).val(), cmbKeys.planAccion);
+        loadCustomSelect(cmbKeys.selectPlanAccion.url + $(this).val(), cmbKeys.selectPlanAccion);
     });
 
 

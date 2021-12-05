@@ -3,15 +3,15 @@ const authMiddleware = require("../middlewares/auth");
 const config = require("../config/config");
 const modelControlMando = require("../models/controlMandoModel");
 
-router.post("/actualizar-indicador", authMiddleware, (req, res) => {
+router.put("/actualizar-indicador", authMiddleware, (req, res) => {
   modelControlMando
     .actualizar_indicador(
       req.body.id_indicador,
-      req.body.nombre_indicador,
+      req.body.indicador,
       req.body.plan_accion,
       req.body.area,
       req.body.tipo_meta,
-      req.body.formula_literal_descriptiva,
+      req.body.literal_descriptiva,
       req.body.meta_descriptiva,
       req.body.meta_numerica,
       req.body.formula_literal_numerador,
@@ -34,11 +34,11 @@ router.post("/actualizar-indicador", authMiddleware, (req, res) => {
 router.post("/persistir-indicador", authMiddleware, (req, res) => {
   modelControlMando
     .insertar_indicador(
-      req.body.nombre_indicador,
+      req.body.indicador,
       req.body.plan_accion,
       req.body.area,
       req.body.tipo_meta,
-      req.body.formula_descriptiva,
+      req.body.literal_descriptiva,
       req.body.meta_descriptiva,
       Number(req.body.periodo_evaluacion),
       req.body.meta_numerica,
@@ -57,7 +57,7 @@ router.post("/persistir-indicador", authMiddleware, (req, res) => {
     });
 });
 
-router.post(
+router.delete(
   "/indicador/delete/:id/control-mando-bips",
   authMiddleware,
   function (req, res) {
@@ -77,10 +77,20 @@ router.post(
               ) {
                 return res.status(200).send("Ok");
               } else {
-                return res.status(500).send("Error al guardar datos");
+                return res.status(400).send("Error al guardar datos");
               }
+            })
+            .catch((err) => {
+              console.log(err)
+              return res.status(500).send("Error al guardar datos");
             });
+        }else{
+          return res.status(400).send("Error al guardar datos");
         }
+      })
+      .catch((err) => {
+        console.log(err)
+        return res.status(500).send("Error al guardar datos");
       });
   }
 );
@@ -92,17 +102,15 @@ router.get("/form-ctm-indicador/:id", authMiddleware, (req, res) => {
       modelControlMando
         .consultar_RegistrosPlan_General()
         .then((listaPlanes_grales) => {
-          modelControlMando
-            .consultar_RegistroAreas()
-            .then((lista_areas) => {
-              res.render(config.rutaPartials + "indicador/form", {
-                layout: false,
-                id_indicador: req.params.id,
-                planes_generales: listaPlanes_grales,
-                item: indicador_info,
-                lista_areas: lista_areas,
-              });
+          modelControlMando.consultar_RegistroAreas().then((lista_areas) => {
+            res.render(config.rutaPartials + "indicador/form", {
+              layout: false,
+              id_indicador: req.params.id,
+              planes_generales: listaPlanes_grales,
+              item: indicador_info,
+              lista_areas: lista_areas,
             });
+          });
         });
     });
 });
