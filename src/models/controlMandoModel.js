@@ -411,7 +411,7 @@ module.exports = {
 //------------------------SOPORTES-----------------------------------------------
 
     async consultar_soportes_x_regIndicador(id_reg_indicador) {
-        const resultados = await conexion.query("select s.*, to_char(s.fecha_carga, 'YYYY-MM-DD HH12:MIPM') fecha from schema_control.soporte s inner join schema_control.registroindicadores r on (s.id_registro_indicador = r.id_registroindicador) where s.id_registro_indicador = $1 and s.es_habilitado = '1' and s.es_valido = '1'", [id_reg_indicador]);
+        const resultados = await conexion.query("select r.calificado, s.*, to_char(s.fecha_carga, 'YYYY-MM-DD HH12:MIPM') fecha from schema_control.soporte s inner join schema_control.registroindicadores r on (s.id_registro_indicador = r.id_registroindicador) where s.id_registro_indicador = $1 and s.es_habilitado = '1' and s.es_valido = '1'", [id_reg_indicador]);
         return resultados.rows;
     },
 
@@ -428,6 +428,12 @@ module.exports = {
     //eliminar_soporte_x_idRegistroIndicador
     async eliminar_soporte_x_idRegistroIndicador(id) {
         const resultados = await conexion.query("delete from schema_control.soporte where id_registro_indicador= $1", [id]);
+        return resultados;
+    },
+
+    //eliminar_indicador
+    async eliminar_Indicador(id) {
+        const resultados = await conexion.query("delete from schema_control.indicadores where id_indicador= $1", [id]);
         return resultados;
     },
 

@@ -62,7 +62,7 @@ router.delete(
   authMiddleware,
   function (req, res) {
     modelControlMando
-      .eliminar_soporte_x_idRegistroIndicador(req.params.id)
+      .eliminar_Indicador(req.params.id)
       .then((rspta_eliminacion) => {
         if (
           rspta_eliminacion["command"] == "DELETE" &&

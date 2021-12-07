@@ -376,7 +376,7 @@
                                             <% if (lista_calificacion_indicadores[0].estado) { %>
                                                 <option value="">Seleccionar</option>
                                                 <option value="1" selected>Si</option>
-                                                <option value="1" >No</option>
+                                                <option value="0" >No</option>
                                             
                                             <% } else if(!lista_calificacion_indicadores[0].estado) { %>
                                                 <option value="">Seleccionar</option>
@@ -410,7 +410,7 @@
 
 
     <script type="text/javascript">
-     var peticion_soportes = "/obtener_soportesxreg_indicador/<%= lista_calificacion_indicadores[0].id_registroindicador %>";   
+     var peticion_soportes = "/obtener_soportesxreg_indicador/<%= lista_calificacion_indicadores[0].id_registroindicador %>/detalle";   
     loadContentHtml(peticion_soportes, '#panel_soportes');
 
     const form = document.querySelector("#formCalificacionIndicador");

@@ -1,8 +1,7 @@
 <form id="formRegistroIndicador">
 
     <input type="text" name="id_reg_indicador" style="display: none;" value="<%= id_reg_indicador %>">
-    <input type="text" id="txt_version" name="txt_version"
-        value="<%= item.length && item[0].version? item[0].version:''  %>" hidden>
+    <input type="text" id="txt_version" name="txt_version" value="<%= item.length && item[0].version? item[0].version:''  %>" hidden>
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
             Indicador:
@@ -49,20 +48,16 @@
 
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="txt_meta_numerica" style="font-weight: bold;">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="txt_meta_numerica" style="font-weight: bold;">
                     Información del Indicador Seleccionado </label>
             </div>
         </div>
 
         <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
             <div class="flex items-center p-2 rounded-lg shadow-xs dark:bg-gray-800">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3"
-                    style="font-weight: bold;">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;">
                     Tipo Meta </label>&nbsp;
-                <output name="txt_tipo_meta" id="txt_tipo_meta"
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    value="">
+                <output name="txt_tipo_meta" id="txt_tipo_meta" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value="">
 
             </div>
 
@@ -96,34 +91,31 @@
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name" type="text" placeholder="" value=""></output>
 
-                </div>
-                <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-last-name">
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                         Descripción
 
                     </label>
-                    <output name="txt_fl_descriptiva" id="txt_fl_descriptiva"
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name" type="text" placeholder="" value=""></output>
-                </div>
+                <output name="txt_fl_descriptiva" id="txt_fl_descriptiva" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder=""
+                    value=""></output>
             </div>
-
-
-
-
         </div>
 
-        <div id="panel_numerica" style=" text-align: center;">
 
-            <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full">
 
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+
+    </div>
+
+    <div id="panel_numerica" style=" text-align: center;">
+
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full">
+
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Meta Númerica </label>
-                    <output name="txt_meta_numerica" id="txt_meta_numerica"
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text" value="" disabled>
+                <output name="txt_meta_numerica" id="txt_meta_numerica" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" value=""
+                    disabled>
                 </div>
 
             </div>
@@ -230,7 +222,7 @@
 
 
 
-    var peticion_soportes = "/obtener_soportesxreg_indicador/<%= item.length && item[0].id_registroindicador? item[0].id_registroindicador:0 %>";
+    var peticion_soportes = "/obtener_soportesxreg_indicador/<%= item.length && item[0].id_registroindicador? item[0].id_registroindicador:0 %>/edicion";
     loadContentHtml(peticion_soportes, '#panel_soportes');
 
 

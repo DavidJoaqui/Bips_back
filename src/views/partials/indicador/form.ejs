@@ -111,8 +111,7 @@
                 Meta descriptiva:
             </span>
             <input name="meta_descriptiva"
-                type="number"
-                value="<%= item.length && item[0].meta_descriptiva? item[0].meta_descriptiva:'0' %>"
+                value="<%= item.length && item[0].meta_descriptiva? item[0].meta_descriptiva:'' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                 placeholder="Meta descriptiva">
         </label>
@@ -122,8 +121,7 @@
                 Literal Descriptiva:
             </span>
             <input name="literal_descriptiva"
-                type="number"
-                value="<%= item.length && item[0].formula_literal_descriptiva? item[0].formula_literal_descriptiva:'0' %>"
+                value="<%= item.length && item[0].formula_literal_descriptiva? item[0].formula_literal_descriptiva:'' %>"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                 placeholder="Literal Descriptiva">
         </label>
@@ -182,9 +180,9 @@
     const planGeneralId = '<%= item.length && item[0].id_plan_general?item[0].id_plan_general:0 %>';
     const lineaAccionId = '<%= item.length && item[0].id_linea_accion?item[0].id_linea_accion:0 %>';
     const objetivoId = '<%= item.length && item[0].id_objetivo?item[0].id_objetivo:0 %>';
-    const estretegiaId  = '<%= item.length && item[0].id_estrategia?item[0].id_estrategia:0 %>';
-    const planAccionId  = '<%= item.length && item[0].id_plan?item[0].id_plan:0 %>';
-    const areaId  = '<%= item.length && item[0].id_area?item[0].id_area:0 %>';
+    const estretegiaId = '<%= item.length && item[0].id_estrategia?item[0].id_estrategia:0 %>';
+    const planAccionId = '<%= item.length && item[0].id_plan?item[0].id_plan:0 %>';
+    const areaId = '<%= item.length && item[0].id_area?item[0].id_area:0 %>';
     cmbKeys.selectLinea.keyDataIdCompare = lineaAccionId;
     cmbKeys.selectObjetivo.keyDataIdCompare = objetivoId;
     cmbKeys.selectEstrategia.keyDataIdCompare = estretegiaId;
@@ -203,7 +201,7 @@
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 if (result.length == 0) {
                     $("#select_periodo_evaluacion").append('<option value="1">Mensual</option>');
@@ -272,13 +270,13 @@
         $("#select_tipo_meta").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
         $.ajax({
             type: 'get',
-            url: "/consultar-tipo-meta-area-x-plan/?id_plan=" +  planAccionId,
+            url: "/consultar-tipo-meta-area-x-plan/?id_plan=" + planAccionId,
             data: [],
             contentType: false,
             cache: false,
             processData: false,
 
-            success: function (result) {
+            success: function(result) {
 
                 if (result.length == 0) {
                     $("#select_tipo_meta").html("");
@@ -301,7 +299,7 @@
 
         });
     }
-    $("#select_tipo_meta").change(function () {
+    $("#select_tipo_meta").change(function() {
         toggleTipoMeta();
     });
 
@@ -316,7 +314,7 @@
     }
 
 
-    form.addEventListener("submit", function (event) {
+    form.addEventListener("submit", function(event) {
         // Stop form submission
         event.preventDefault();
         const data = Object.fromEntries(new FormData(form));
@@ -329,19 +327,19 @@
 
     });
 
-    $(cmbKeys.selectPlan.keyHtml).change(function () {
+    $(cmbKeys.selectPlan.keyHtml).change(function() {
         loadCustomSelect(cmbKeys.selectLinea.url + $(this).val(), cmbKeys.selectLinea);
     });
 
-    $(cmbKeys.selectLinea.keyHtml).change(function () {
+    $(cmbKeys.selectLinea.keyHtml).change(function() {
         loadCustomSelect(cmbKeys.selectObjetivo.url + $(this).val(), cmbKeys.selectObjetivo);
     });
 
-    $(cmbKeys.selectObjetivo.keyHtml).change(function () {
+    $(cmbKeys.selectObjetivo.keyHtml).change(function() {
         loadCustomSelect(cmbKeys.selectEstrategia.url + $(this).val(), cmbKeys.selectEstrategia);
     });
 
-    $(cmbKeys.selectEstrategia.keyHtml).change(function () {
+    $(cmbKeys.selectEstrategia.keyHtml).change(function() {
         loadCustomSelect(cmbKeys.selectPlanAccion.url + $(this).val(), cmbKeys.selectPlanAccion);
     });
 
@@ -349,7 +347,7 @@
 
     loadTipoMeta();
     loadPeriodoEvaluacion();
-    if(cmbKeys.selectArea.keyDataIdCompare != '0'){
+    if (cmbKeys.selectArea.keyDataIdCompare != '0') {
         loadCustomSelect(cmbKeys.selectArea.url + areaId, cmbKeys.selectArea);
     }
 
@@ -358,5 +356,4 @@
     loadCustomSelect(cmbKeys.selectObjetivo.url + lineaAccionId, cmbKeys.selectObjetivo);
     loadCustomSelect(cmbKeys.selectEstrategia.url + objetivoId, cmbKeys.selectEstrategia);
     loadCustomSelect(cmbKeys.selectPlanAccion.url + estretegiaId, cmbKeys.selectPlanAccion);
-
 </script>
