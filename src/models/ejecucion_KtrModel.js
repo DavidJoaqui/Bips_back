@@ -176,10 +176,11 @@ async function ejecucionKtr(nombre_transformacion, nombre_archivo_tmp) {
 
     //buscar en bd el plano que llega como parametro y obtener el path del plano para pasar a la transformacion,
     //se debe verficar que el plano este validado
-
+   
+    
 
     modelplanos_.obtener_plano_tmp(nombre_archivo_tmp).then(rsta => {
-
+     
 
         if (rsta[0]['validado'] == true) {
             var path_plano = rsta[0]['path_plano'];
@@ -188,7 +189,7 @@ async function ejecucionKtr(nombre_transformacion, nombre_archivo_tmp) {
             La función spawn lanza un comando en un nuevo proceso y podemos usarlo para pasarle cualquier argumento a ese comando
             
             */
-            const spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo=" + path_plano, '-logfile=/tmp/trans.log']);
+            const spawn_trs = spawn('bat', ['F:/data-integration/pan.bat', "/ file=src/IntegracionKtr/" + nombre_transformacion, '/ level=Basic', "/ param:ruta_archivo=" + path_plano, '/ logfile=/tmp/trans.log']);
 
 
             //const spawn_trs = spawn('ls',['-ltr','/var/lib/data-integration']);
