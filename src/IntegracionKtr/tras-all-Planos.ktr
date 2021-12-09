@@ -500,7 +500,7 @@
   <notepads>
   </notepads>
   <connection>
-    <name>PostgresSQL</name>
+    <name>postgres</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
@@ -668,7 +668,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_ac}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_AC000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -896,7 +896,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_af}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_AF000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -1124,7 +1124,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_ah}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_AH000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -1374,7 +1374,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_am}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_AM000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -1569,7 +1569,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_an}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_AN000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -1764,7 +1764,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_ap}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_AP000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -1970,7 +1970,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_at}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_AT000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -2132,7 +2132,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_au}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_AU000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -2360,7 +2360,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_ct}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_CT000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -2445,7 +2445,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${ruta_archivo_us}</filename>
+    <filename>E:\Dato_BI\Bips_back\filesBipsUploads\_8122021_US000940.txt</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -2640,7 +2640,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_ac</table>
     <commit>100000</commit>
@@ -2756,7 +2756,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_af</table>
     <commit>100000</commit>
@@ -2872,7 +2872,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_ah</table>
     <commit>100000</commit>
@@ -2996,7 +2996,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_am</table>
     <commit>100000</commit>
@@ -3100,7 +3100,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_an</table>
     <commit>100000</commit>
@@ -3204,7 +3204,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_ap</table>
     <commit>100000</commit>
@@ -3312,7 +3312,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_at</table>
     <commit>100000</commit>
@@ -3404,7 +3404,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_au</table>
     <commit>100000</commit>
@@ -3520,7 +3520,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_ct</table>
     <commit>100000</commit>
@@ -3584,7 +3584,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresSQL</connection>
+    <connection>postgres</connection>
     <schema>schema_planos</schema>
     <table>plano_us</table>
     <commit>100000</commit>
