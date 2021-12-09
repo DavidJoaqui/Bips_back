@@ -26,31 +26,4 @@ const exportErrorsToExcel = (errores, workSheetColumnNames, workSheetName, fileP
 
 }
 
-function extraerData(error) {
-    for (let i = 0; i < error.length; i++) {
-
-        var obj = error[i];
-        id = obj["id"];
-        name = obj["name"];
-        age = obj["age"];
-        let dts = new Array(id, name, age);
-
-        //arr_errores.push(id, name, age);
-        arr_errores.push(i + 1, obj);
-        //cadena = cadena + i + 1, obj[i];
-        //arr_errores.push(dts);
-        /*for (var key in obj) {
-            var value = obj[key];
-
-            console.log("item " + i + " clave " + key + " valor: " + value);
-            //console.log(key.id + key.name + key.age);
-            //return [error.id, error.name, error.age];
-            //return [ key , valor];
-            //                return [obj["id"], obj["name"], obj["age"]];
-        }*/
-
-        //return [obj["id"], obj["name"], obj["age"]];
-    }
-}
-
 module.exports = exportErrorsToExcel;

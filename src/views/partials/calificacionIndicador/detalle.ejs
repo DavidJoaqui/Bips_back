@@ -1,21 +1,22 @@
 
                     <form id="formCalificacionIndicador">
              
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class=" w-full md:w-1/2 text-center">
-                                <br>
-                              <h1 style="color: darkblue; font-size: 15px;" class="text-center uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Detalles Generales Registro de Indicador. </h1>                          
+                        <div class="">
+
+                                
+                                <div class="text-center" style="border: 1px solid gray; border-radius: 5px;float: right; margin-right: 20px">
+                                    <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="txt_meta_numerica" style="font-weight: bold;">
+                                                Versión </label>                                
+                                        <input class="text-center" type="text" name="txt_meta_numerica" id="txt_meta_numerica" value='<%= lista_calificacion_indicadores[0].version %>' disabled>                                                                                                                    
+                                    </div>
+
+                              <h1 style="color: darkblue; font-size: 25px;margin-left: 190px; padding-left: 20px;" class=" text-center tracking-wide text-gray-700 text-xs font-bold mb-2">Detalles Generales Registro de Indicador. </h1>                          
                               <input type="text" name="id_calificacion_indicador" id="id_calificacion_indicador" value="<%= lista_calificacion_indicadores[0].id_calificacion_indicador %>" hidden>
                               <input type="text" name="id_reg_indicador" id="id_reg_indicador" value="<%= lista_calificacion_indicadores[0].id_registroindicador %>" hidden>
-                            </div>
                             
-                            <div class="text-center">
-                                <div style="border: 1px solid gray; border-radius: 5px;float: right;">
-                                <label  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="txt_meta_numerica" style="font-weight: bold;">
-                                            Versión </label>                                
-                                    <input class="text-center" type="text" name="txt_meta_numerica" id="txt_meta_numerica" value='<%= lista_calificacion_indicadores[0].version %>' >                                                                                                                    
-                                </div>
-                            </div>
+
+                              
+                                                                                                                                                          
                         </div>
                         
                         

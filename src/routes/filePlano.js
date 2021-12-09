@@ -520,16 +520,7 @@ router.get("/generar-xlsx-err/:nombre_plano/archivo-bips", authMiddleware, (req,
         "#",
         "Descripción",
     ];
-
-    //console.log(req.params);
-    //console.log(req.body);
-    //console.log(req.query);
-    /*const workSheetColumnName = [
-        "ID",
-        "Name",
-        "Age"
-    ];*/
-
+    
     var workSheetName = 'xlsx_errores_plano_' + req.params.nombre_plano;
     //var filePath = './outputFiles/excel-from-js.xlsx';
     var filePath = path.join(config.rutaFile + '/xlsx_errores_plano_' + req.params.nombre_plano + '.xlsx');

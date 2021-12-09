@@ -182,5 +182,35 @@ router.put("/actualizar-calificacion", authMiddleware, (req, res) => {
     });
 });
 
+router.delete(
+  "/calificacion/delete/:id_cal/:id_reg_ind/control-mando-bips",
+  authMiddleware,
+  function (req, res) {
+    modelControlMando
+      .eliminar_RegistroCalificacion(req.params.id_cal)
+      .then((respuesta) => {
+        if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {
+
+    modelControlMando
+      .actualizar_calificadoRegIndicador(req.params.id_reg_ind)
+      .then(result_act =>{
+
+        if (result_act["command"] == "UPDATE" && result_act["rowCount"] > 0) {
+          return res.status(200).send("Ok");
+        } else {
+          return res.status(400).send("Error al actualizar la calificación");
+        }
+
+    });
+          
+        } else {
+          return res.status(400).send("Error al guardar datos");
+        }
+      }).catch((err) => {
+        return res.status(500).send("Error al guardar datos");
+      });
+  }
+);
+
 module.exports = router;
 

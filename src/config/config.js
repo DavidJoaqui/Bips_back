@@ -5,14 +5,19 @@ config = {
     rutaViews: "src/views",
     rutaPublic: "src/public",
 
-    //rutaFile: "C:/Bips_back/filesBipsUploads",
-    rutaFile: "E:/Dato_BI/Bips_back/filesBipsUploads",
+    rutaFile: "C:/Bips_back/filesBipsUploads",
+    //rutaFile: "E:/Dato_BI/Bips_back/filesBipsUploads",
 
-    //rutaSoportesCtm: "C:/Upload_Soportes_Bips",
-    rutaSoportesCtm: "E:/Upload_Soportes_Bips",
+    rutaSoportesCtm: "C:/Upload_Soportes_Bips",
+    //rutaSoportesCtm: "E:/Upload_Soportes_Bips",
 
-    rutaSoportes_tmp_Ctm : "E:/tmp",
-    rutaPublicFile: "E:/Dato_BI/Bips_back/filespublic",
+    rutaSoportes_tmp_Ctm : "C:/tmp",
+    //rutaSoportes_tmp_Ctm : "E:/tmp",
+
+    //rutaPublicFile: "E:/Dato_BI/Bips_back/filespublic",
+    rutaPublicFile: "C:/Bips_back/filespublic",
+
+    //--------------CONFIG RUTAS PENTAHO--------------------------
     //rutaDataIntegrationPentaho: "D:/David/bips/data-integration",
     //rutaArchivoKtrTransformacionPlanos: "C:/Bips_back/src/IntegracionKtr",
     //rutaLogPentaho: "C:/tmp",
