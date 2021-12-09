@@ -81,7 +81,6 @@ router.delete(
               }
             })
             .catch((err) => {
-              console.log(err)
               return res.status(500).send("Error al guardar datos");
             });
         }else{
@@ -89,7 +88,6 @@ router.delete(
         }
       })
       .catch((err) => {
-        console.log(err)
         return res.status(500).send("Error al guardar datos");
       });
   }

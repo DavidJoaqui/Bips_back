@@ -22,7 +22,7 @@
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
 
             <option value="">Escoge alguna opción ...</option>
-            
+
             <% planes_generales.forEach(lista=> { %>
                 <% if (lista.estado) { %>
                     <% if (item.length && lista.id_plangeneral==item[0].id_plan_general) { %>
@@ -86,11 +86,19 @@
         </span>
         <select name="area" id="select_area"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option value="">Escoge alguna opción ...</option>
             <% lista_areas.forEach(lista=> { %>
-                <option value="<%= lista.id_area %>">
-                    <%= lista.nombre_area %>
-                </option>
-            <% }); %>
+                <%if (item.length && item[0].id_area==lista.id_area) { %>
+                    <option selected="selected" value="<%= lista.id_area %>">
+                        <%= lista.nombre_area %>
+                    </option>
+
+                    <% } else { %>
+                        <option value="<%= lista.id_area %>">
+                            <%= lista.nombre_area %>
+                        </option>
+                        <% } %>
+                            <% }); %>
         </select required>
     </label>
 
@@ -143,7 +151,7 @@
             <span class="text-gray-700 dark:text-gray-400">
                 Meta Númerica:
             </span>
-            <input name="meta_numerica" value="<%= item.length && item[0].meta_numerica? item[0].meta_numerica:'0' %>"
+            <input name="meta_numerica" value="<%= item.length && item[0].meta_numerica? item[0].meta_numerica:'' %>"
                 type="number"
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                 placeholder=" Meta Númerica">
@@ -182,17 +190,27 @@
     const objetivoId = '<%= item.length && item[0].id_objetivo?item[0].id_objetivo:0 %>';
     const estretegiaId = '<%= item.length && item[0].id_estrategia?item[0].id_estrategia:0 %>';
     const planAccionId = '<%= item.length && item[0].id_plan?item[0].id_plan:0 %>';
-    const areaId = '<%= item.length && item[0].id_area?item[0].id_area:0 %>';
+
     cmbKeys.selectLinea.keyDataIdCompare = lineaAccionId;
     cmbKeys.selectObjetivo.keyDataIdCompare = objetivoId;
     cmbKeys.selectEstrategia.keyDataIdCompare = estretegiaId;
     cmbKeys.selectPlanAccion.keyDataIdCompare = planAccionId;
-    cmbKeys.selectArea.keyDataIdCompare = areaId;
+
+    const selectPeriodo = $("input[name='periodo_evaluacion']");
+    const metaNumerica = $("input[name='meta_numerica']");
+    const formulaLiteralNumerador = $("input[name='formula_literal_numerador']");
+    const formulaLiteralDenominador = $("input[name='formula_literal_denominador']");
+
+    const metaDescriptiva = $("input[name='meta_descriptiva']");
+    const literalDescriptiva = $("input[name='literal_descriptiva']");
+
+    const tipoMeta = $('#select_tipo_meta');
+
     const form = document.querySelector("#formIndicador");
 
     function loadPeriodoEvaluacion() {
         $("#select_periodo_evaluacion").html("");
-        $("#select_periodo_evaluacion").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+        $("#select_periodo_evaluacion").append('<option value="" selected="selected">' + 'No hay opciones disponibles' + '</option>');
         $.ajax({
             type: 'get',
             url: "/consultar-periodo-evaluacion-x-id-indicador/?id_indicador=" + '<%=item.length && item[0].id_indicador? item[0].id_indicador:0 %>',
@@ -201,63 +219,16 @@
             cache: false,
             processData: false,
 
-            success: function(result) {
+            success: function (result) {
+                $("#select_periodo_evaluacion").append('<option value="1">Mensual</option>');
+                $("#select_periodo_evaluacion").append('<option value="2">Bimensual</option>');
+                $("#select_periodo_evaluacion").append('<option value="3">Trimestral</option>');
+                $("#select_periodo_evaluacion").append('<option value="4">Cuatrimestral</option>');
+                $("#select_periodo_evaluacion").append('<option value="6">Semnestral</option>');
+                $("#select_periodo_evaluacion").append('<option value="12">Anual</option>');
 
-                if (result.length == 0) {
-                    $("#select_periodo_evaluacion").append('<option value="1">Mensual</option>');
-                    $("#select_periodo_evaluacion").append('<option value="2">Bimensual</option>');
-                    $("#select_periodo_evaluacion").append('<option value="3">Trimestral</option>');
-                    $("#select_periodo_evaluacion").append('<option value="4">Cuatrimestral</option>');
-                    $("#select_periodo_evaluacion").append('<option value="6">Semnestral</option>');
-                    $("#select_periodo_evaluacion").append('<option value="12">Anual</option>');
-                } else {
-                    result.forEach(element => {
-                        if (element.periodo_meta_num == 1) {
-                            $("#select_periodo_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Mensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="2">Bimensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="3">Trimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="4">Cuatrimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="6">Semnestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="12">Anual</option>');
-                        } else if (element.periodo_meta_num == 2) {
-                            $("#select_periodo_evaluacion").append('<option value="2">Mensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Bimensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="3">Trimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="4">Cuatrimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="6">Semnestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="12">Anual</option>');
-                        } else if (element.periodo_meta_num == 3) {
-                            $("#select_periodo_evaluacion").append('<option value="1">Mensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="2">Bimensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Trimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="4">Cuatrimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="6">Semnestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="12">Anual</option>');
-                        } else if (element.periodo_meta_num == 4) {
-                            $("#select_periodo_evaluacion").append('<option value="1">Mensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="2">Bimensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="3">Trimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Cuatrimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="6">Semnestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="12">Anual</option>');
-                        } else if (element.periodo_meta_num == 6) {
-                            $("#select_periodo_evaluacion").append('<option value="1">Mensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="2">Bimensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="3">Trimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="4">Cuatrimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Semestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="12">Anual</option>');
-                        } else if (element.periodo_meta_num == 12) {
-                            $("#select_periodo_evaluacion").append('<option value="1">Mensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="2">Bimensual</option>');
-                            $("#select_periodo_evaluacion").append('<option value="3">Trimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="4">Cuatrimestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value="6">Semnestral</option>');
-                            $("#select_periodo_evaluacion").append('<option value=' + element.periodo_meta_num + ' selected="selected">Anual</option>');
-
-                        }
-
-                    });
+                if (result.length) {
+                    $("#select_tipo_meta option[value=" + result[0].periodo_meta_num + "]").attr("selected", true);
                 }
             }
 
@@ -266,8 +237,7 @@
     }
 
     function loadTipoMeta() {
-        $("#select_tipo_meta").html("");
-        $("#select_tipo_meta").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+        tipoMeta.html("");
         $.ajax({
             type: 'get',
             url: "/consultar-tipo-meta-area-x-plan/?id_plan=" + planAccionId,
@@ -276,48 +246,80 @@
             cache: false,
             processData: false,
 
-            success: function(result) {
-
-                if (result.length == 0) {
-                    $("#select_tipo_meta").html("");
-                    $("#select_tipo_meta").append('<option value="Descriptiva" >Descriptiva</option>');
-                    $("#select_tipo_meta").append('<option value="Numerica">Númerica</option>');
-                } {
-                    result.forEach(element => {
-                        if (element.tipo_meta == '<%= item.length && item[0].tipo_meta? item[0].tipo_meta:0 %>') {
-                            $("#select_tipo_meta").append('<option value=' + element.tipo_meta + ' selected="selected">' + element.tipo_meta + '</option>');
-
-                        } else {
-                            $("#select_tipo_meta").append('<option value=' + element.tipo_meta + ' >' + element.tipo_meta + '</option>');
-                        }
-
-                    });
+            success: function (result) {
+                tipoMeta.html("");
+                tipoMeta.append('<option value="Descriptiva" >Descriptiva</option>');
+                tipoMeta.append('<option value="Numerica">Númerica</option>');
+                if (result.length) {
+                    $("#select_tipo_meta option[value=" + result[0].tipo_meta + "]").attr("selected", true);
                 }
-
                 toggleTipoMeta();
             }
 
         });
     }
-    $("#select_tipo_meta").change(function() {
+
+    tipoMeta.change(function () {
         toggleTipoMeta();
     });
 
     function toggleTipoMeta() {
-        if ($('#select_tipo_meta').val() == "Descriptiva") {
+        if (tipoMeta.val() == "Descriptiva") {
             $('#panel_numerica').attr('hidden', true);
             $('#panel_descriptiva').attr('hidden', false);
+
+            $("#select_periodo_evaluacion option[value='']").attr("selected", true);
+            metaNumerica.val("");
+            formulaLiteralNumerador.val("");
+            formulaLiteralDenominador.val("");
+
         } else {
             $('#panel_numerica').attr('hidden', false);
             $('#panel_descriptiva').attr('hidden', true);
+
+            metaDescriptiva.val("");
+            literalDescriptiva.val("");
         }
     }
 
+    function validationIndicador(_data) {
+        // Creamos una copia del objeto para validar
+        const data = { ..._data };
+        // Inicializamos estos campos para no se validen en el método
+        data.periodo_evaluacion = 1;
+        data.meta_numerica = 1;
+        data.formula_literal_numerador = 1;
+        data.formula_literal_denominador = 1;
+        data.meta_descriptiva = 1;
+        data.literal_descriptiva = 1;
 
-    form.addEventListener("submit", function(event) {
+        if (validationForm(data, 'id_indicador')) {
+            return true;
+        }
+
+        if (tipoMeta.val() == "Descriptiva") {
+            if (metaDescriptiva.val() == "" || literalDescriptiva.val() == "") {
+                return true;
+            }
+        } else {
+            if (selectPeriodo.val() == "" || metaNumerica.val() == "" || formulaLiteralNumerador.val() == "" || formulaLiteralDenominador.val() == "") {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    form.addEventListener("submit", function (event) {
         // Stop form submission
         event.preventDefault();
         const data = Object.fromEntries(new FormData(form));
+
+        if (validationIndicador(data)) {
+            alertValidation();
+            return false;
+        }
 
         if (data.id_indicador != '0') {
             updateAjax('/actualizar-indicador', data, reloadContainer)
@@ -327,19 +329,19 @@
 
     });
 
-    $(cmbKeys.selectPlan.keyHtml).change(function() {
+    $(cmbKeys.selectPlan.keyHtml).change(function () {
         loadCustomSelect(cmbKeys.selectLinea.url + $(this).val(), cmbKeys.selectLinea);
     });
 
-    $(cmbKeys.selectLinea.keyHtml).change(function() {
+    $(cmbKeys.selectLinea.keyHtml).change(function () {
         loadCustomSelect(cmbKeys.selectObjetivo.url + $(this).val(), cmbKeys.selectObjetivo);
     });
 
-    $(cmbKeys.selectObjetivo.keyHtml).change(function() {
+    $(cmbKeys.selectObjetivo.keyHtml).change(function () {
         loadCustomSelect(cmbKeys.selectEstrategia.url + $(this).val(), cmbKeys.selectEstrategia);
     });
 
-    $(cmbKeys.selectEstrategia.keyHtml).change(function() {
+    $(cmbKeys.selectEstrategia.keyHtml).change(function () {
         loadCustomSelect(cmbKeys.selectPlanAccion.url + $(this).val(), cmbKeys.selectPlanAccion);
     });
 
@@ -347,9 +349,6 @@
 
     loadTipoMeta();
     loadPeriodoEvaluacion();
-    if (cmbKeys.selectArea.keyDataIdCompare != '0') {
-        loadCustomSelect(cmbKeys.selectArea.url + areaId, cmbKeys.selectArea);
-    }
 
 
     loadCustomSelect(cmbKeys.selectLinea.url + planGeneralId, cmbKeys.selectLinea);
