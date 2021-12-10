@@ -729,21 +729,30 @@ router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (re
             
                             */
             //let spawn_trs = spawn('sh', ['/var/lib/data-integration/pan.sh', "-file=src/IntegracionKtr/" + nombre_transformacion, '-level=Basic', "-param:ruta_archivo_af=" + path_plano_AF, '-logfile=/tmp/trans.log']);
-            var spawn_trs = spawn('cmd.exe',['/c',config.rutaDataIntegrationPentaho +'/pan.bat', "/file:"+"src/IntegracionKtr/tras-all-Planos.ktr", '-level=Detailed',
-                "-param:ruta_archivo_af=" + path_plano_AF,
-               // "-param:ruta_archivo_ac=" + path_plano_AC,
-               //"-param:ruta_archivo_at=" + path_plano_AT,
-               //"-param:ruta_archivo_an=" + path_plano_AN,
-               // "-param:ruta_archivo_am=" + path_plano_AM,
-                //"-param:ruta_archivo_ap=" + path_plano_AP,
-                 //"-param:ruta_archivo_ct=" + path_plano_CT,
-                 //"-param:ruta_archivo_us=" + path_plano_US,
-                 //"-param:ruta_archivo_au=" + path_plano_AU,
-                 //"-param:ruta_archivo_ah=" + path_plano_AH,
-                "-logfile='"+config.rutaLogPentaho+"/trans.log'"
-            ]);
+            
+            //carga archivo plano ct funcionando
+            /**
+            var ruta_archivo='"/param:ruta_archivo=E:/Dato_BI/temp/CT000940.Txt" ';
+            var spawn_trs = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-CT.ktr "+ruta_archivo+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
+                windowsVerbatimArguments: true
+              }); 
+              
+            */    
 
+            var ruta_archivo='"/param:ruta_archivo=E:/Dato_BI/temp/CT000940.Txt" ';
+            var spawn_trs = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-CT.ktr "+ruta_archivo+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
+                windowsVerbatimArguments: true
+              });
+            
+            //spawn('cmd.exe', ['/c','C:\\Users\\SOPORTE_FACTURACION\\Downloads\\data-integration\\pan.bat' + " "+ '/file:E:\\Dato_BI\\Bips_back\\src\\IntegracionKtr\\tras-CT.ktr'+' "'+'/param:ruta_archivo='+"E:\\Dato_BI\\temp\\CT000940.Txt"+'"'],{ stdio: 'inherit'});
+
+            //spawn('cmd.exe', ['/c', '"ipconfig"', '"/all"' ], { stdio: 'inherit'});
+            
+            //spawn('cmd.exe', ['/c','C:\\Users\\SOPORTE_FACTURACION\\Downloads\\data-integration\\pan.bat', '/file=E:\\Dato_BI\\Bips_back\\src\\IntegracionKtr\\tras-CT.ktr', "/param:ruta_archivo=E:\\Dato_BI\\temp\\CT000940.Txt", '/level=Detailed'],{ stdio: 'inherit'});
+
+             //spawn('cmd.exe', ['/c', 'ipconfig ', 'C:\\3DP\\Net', ], { stdio: 'inherit'});
             console.log(spawn_trs);
+            
             //const spawn_trs = spawn('ls',['-ltr','/var/lib/data-integration']);
 
             //const spawn_trs = spawn('ls', ['-ltr']);
