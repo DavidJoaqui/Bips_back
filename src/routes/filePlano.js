@@ -741,10 +741,10 @@ router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (re
             */    
 
             var ruta_archivo='"/param:ruta_archivo=E:/Dato_BI/temp/CT000940.Txt" ';
-            var aux =  '"/param:ruta_archivo='+path_plano_CT+'" ';
+            var param_ct =  '"/param:ruta_archivo='+path_plano_CT+'" ';
             //var aux ='"/param:ruta_archivo=E:/Dato_BI/Bips_back/filesBipsUploads/_9122021_CT000940.Txt" ';
                                             
-            var spawn_trs = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-CT.ktr "+aux+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
+            var spawn_trs = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-CT.ktr "+param_ct+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
                 windowsVerbatimArguments: true
               });
             
