@@ -712,6 +712,7 @@ router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (re
             //console.log(JSON.stringify(rsta));
             //console.log(JSON.parse(JSON.stringify(rsta)));
             //console.log(JSON.stringify(rsta,['path_plano']));
+            console.log(path_plano_CT);
             console.log("===========================================================================");
             console.log("================Inicia ejecucion de la transformacion      =================");
             console.log("fecha/hora de inicio de la ejecucion : ");
@@ -740,7 +741,10 @@ router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (re
             */    
 
             var ruta_archivo='"/param:ruta_archivo=E:/Dato_BI/temp/CT000940.Txt" ';
-            var spawn_trs = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-CT.ktr "+ruta_archivo+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
+            var aux =  '"/param:ruta_archivo='+path_plano_CT+'" ';
+            //var aux ='"/param:ruta_archivo=E:/Dato_BI/Bips_back/filesBipsUploads/_9122021_CT000940.Txt" ';
+                                            
+            var spawn_trs = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-CT.ktr "+aux+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
                 windowsVerbatimArguments: true
               });
             
