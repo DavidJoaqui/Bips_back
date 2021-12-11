@@ -443,7 +443,7 @@
     <database>bips_bd</database>
     <port>5432</port>
     <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce10dc9bbfc9</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ac79ce81adde</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -691,7 +691,7 @@ ORDER BY field_005 asc
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_AR</date_format_locale>
+        <date_format_locale>es_CO</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
