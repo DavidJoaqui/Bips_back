@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header text-white bg-success mb-3 container-fluid">
             <b>
-            ENVIAR</b>
+                ENVIAR</b>
         </div>
         <div class="panel-body">
             <div class="text-center" style="margin: 20px;">
@@ -11,10 +11,12 @@
 
 
 
-                <button style="width:45%;font-weight: bold;" class="btn btn-success " id="btn-cargar" name="btn-cargar" onclick="enviar_carga()" disabled>Cargar</button>
+                <button style="width:45%;font-weight: bold;" class="btn btn-success " id="btn-cargar" name="btn-cargar"
+                    onclick="enviar_carga()" disabled>Cargar</button>
 
 
-                <button style="width:45%;font-weight: bold;" class="btn btn-primary " id="btn-enviar" name="btn-enviar" onclick="enviar_trabajo()" disabled>Enviar</button>
+                <button style="width:45%;font-weight: bold;" class="btn btn-primary " id="btn-enviar" name="btn-enviar"
+                    onclick="enviar_trabajo()" disabled>Enviar</button>
 
 
 
@@ -32,24 +34,81 @@
 
 <script>
     function enviar_carga() {
-                    $("#loading").attr("hidden", false);
-                    $.ajax({
-                        type: 'post',
-                        url: "/enviar-carga/ejecucion-multiple/archivo-bips",
-                        data: [],
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        beforeSend: function() {
-                            //console.log(data.status + ':' + data.statusText,data.responseText);
-                            $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b><br>Esto puede tomar algun tiempo ...  ...</strong></div>');
-                        },
-                        success: function(result) {
-                            $('#loading').html("");
-                            $('#lista_archivos').html("");
-                            $('#lista_archivos').html(result);
-                            console.log("Success ... " + result["descripcion"]);
-                        }
-                    });
+        $("#loading").attr("hidden", false);
+        $.ajax({
+            type: 'post',
+            url: "/enviar-carga/ejecucion-multiple/archivo-bips",
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function () {
+                //console.log(data.status + ':' + data.statusText,data.responseText);
+                $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b><br>Esto puede tomar algun tiempo ...  ...</strong></div>');
+            },
+            success: function (result) {
+                $('#loading').html("");
+                $('#btn-enviar').attr("disabled", false);
+                if (result['estado'] == 200) {
+                    msg = result['msg'];
+                    icon = "success";
+
+                }else{
+                    msg = result['msg'];
+                    icon = "warning";
+
                 }
+                mensaje(icon,msg);
+            
+                /*$('#loading').html("");
+                $('#lista_archivos').html("");
+                $('#lista_archivos').html(result);
+                console.log("Success ... " + result["descripcion"]);*/
+            }
+        });
+    }
+
+    function mensaje(icon,msg){
+
+        Swal.fire({
+                    position: 'top-end',
+                    icon,
+                    title: msg,
+                    showConfirmButton: false,
+                    timer: 5000
+                })
+    }
+
+    function enviar_trabajo() {
+        $("#loading").attr("hidden", false);
+        $.ajax({
+            type: 'post',
+            url: "/enviar-trabajo/ejecucion/archivo-bips",
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function () {
+                //console.log(data.status + ':' + data.statusText,data.responseText);
+                $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b><br>Esto puede tomar algun tiempo ...  ...</strong></div>');
+            },
+            success: function (result) {
+                $('#loading').html("");
+                if (result['estado'] == 200) {
+                    msg = result['msg'];
+                    icon = "success";
+
+                }else{
+                    msg = result['msg'];
+                    icon = "warning";
+
+                }
+                mensaje(icon,msg);
+
+
+            }
+        });
+    }
+
+
 </script>

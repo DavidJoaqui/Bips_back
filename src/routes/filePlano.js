@@ -195,8 +195,7 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
     });
 });
 
-router.delete(
-    "/file/delete/:name/archivo-bips",
+router.delete("/file/delete/:name/archivo-bips",
     authMiddleware,
     function(req, res) {
         let name = req.params.name;
@@ -237,8 +236,7 @@ router.delete(
     }
 );
 
-router.post(
-    "/files",
+router.post("/files",
     authMiddleware,
     upload.array("files"),
     (req, res, err) => {
@@ -307,8 +305,7 @@ router.post(
     }
 );
 
-router.get(
-    "/validar-registros-ap/:ips",
+router.get("/validar-registros-ap/:ips",
     authMiddleware,
     async function(req, res, next) {
         modelbips
@@ -324,8 +321,7 @@ router.get(
     }
 );
 
-router.post(
-    "/file/validar/:name/archivo-bips",
+router.post("/file/validar/:name/archivo-bips",
     authMiddleware,
     function(req, res) {
         let name_tmp = req.params.name;
@@ -740,11 +736,20 @@ router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (re
               
             */    
 
-            var ruta_archivo='"/param:ruta_archivo=E:/Dato_BI/temp/CT000940.Txt" ';
-            var param_ct =  '"/param:ruta_archivo='+path_plano_CT+'" ';
+              var param_ct =  "/param:ruta_archivo_ct="+path_plano_CT;
+              var param_af =  "/param:ruta_archivo_af="+path_plano_AF;
+              var param_an =  "/param:ruta_archivo_an="+path_plano_AN;
+              var param_am =  "/param:ruta_archivo_am="+path_plano_AM;
+              var param_at =  "/param:ruta_archivo_at="+path_plano_AT;  
+              var param_ac =  "/param:ruta_archivo_ac="+path_plano_AC;  
+              var param_au =  "/param:ruta_archivo_au="+path_plano_AU;
+              var param_us =  "/param:ruta_archivo_us="+path_plano_US;
+              var param_ah =  "/param:ruta_archivo_ah="+path_plano_AH;
+              var param_ap =  "/param:ruta_archivo_ap="+path_plano_AP;  
+
             //var aux ='"/param:ruta_archivo=E:/Dato_BI/Bips_back/filesBipsUploads/_9122021_CT000940.Txt" ';
                                             
-            var spawn_trs = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-CT.ktr "+param_ct+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
+            var spawn_trs = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-all-Planos.ktr "+'"'+param_ct+'" "'+param_af+'" "'+param_an+'" "'+param_am+'" "'+param_at+'" "'+param_ac+'" "'+param_au+'" "'+param_us+'" "'+param_ah+'" "'+param_ap+'"'+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
                 windowsVerbatimArguments: true
               });
             
@@ -802,69 +807,20 @@ router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (re
                         if (respuesta['command'] == "UPDATE" && respuesta['rowCount'] > 0) {
                             // console.log("actualizo CARGA TEMP OK para el plano ... " + plano['nombre_original']);
                             console.log("actualizo CARGA TEMP OK para todos los planos ... ");
+                            return res.status(200)
+                                        .send(
+                                            {msg:"Se realizo la carga de archivos correctamente...actualizados -> "+respuesta['rowCount']+ " registros"+ code, estado: 200 }
+                                        );
 
 
                         }
 
-                    });
-                    //num_planos--;
-                    //return 0;      
-                    //console.log("numero de planos decrementando: " + num_planos);
-
-                    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-                            //console.log(listaArchivos);    
-                            req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                            //res.setHeader('Content-type', 'text/html');
-                            res.render("paginas/listaArchivos", {
-                                arr_files: listaArchivos,
-                                habilitar_envio_la: true,
-                                habilitar_carga: false,
-                                habilitar_eliminar: false,
-                                habilitar_btn_envio: true,
-                                status: 200,
-                                code: 0,
-                                retorno: "0",
-                            });
-
-
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            return res.status(500).send("Error obteniendo registros");
-                        });
-
-                    //req.flash('notify', 'La carga de los Planos se realizo con exito...');
-                    /*res.json({
-                        status: 200,
-                        code: 0,
-                        retorno: "0",
-                        descripcion: 'La operacion de carga multiple se ejecuto con exito',
-                    });*/
-
-
-
-
-
+                    });                                  
                 } else {
                     console.error('Ocurrio un problema con la ejecucion del comando/transformacion ' + code);
                     //se retorna el codigo de estado de errro
                     //return 1;
-                    req.flash('error', 'Ocurrio un error en la carga de los planos, Contacte con el administrador... Cod.Transformacion: ' + code);
-                    modelplanos.consultar_RegistrosPlanos_tmp().then(listaArchivos => {
-
-
-                        res.render("paginas/listaArchivos", {
-                            arr_files: listaArchivos,
-                            habilitar_envio_la: true,
-                            habilitar_carga: true,
-                            habilitar_eliminar: false,
-                            habilitar_btn_envio: false,
-                            status: 200,
-                            code: code,
-                            retorno: "0",
-                        });
-                    });
-
+                    return res.status(500).send({msg: "Ocurrio un problema al ejecutar la carga de los archivos, problema con la transformacion, COD_ERR " + code, estado: 500});                    
 
                 }
 
@@ -879,17 +835,6 @@ router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (re
 
         }
 
-
-        //});
-
-
-
-
-
-
-
-
-
     });
 
 
@@ -897,5 +842,126 @@ router.post("/enviar-carga/ejecucion-multiple/archivo-bips", authMiddleware, (re
 
 
 });
+
+router.post("/enviar-trabajo/ejecucion/archivo-bips", authMiddleware,(req, res) => {
+
+    //RETORNA  O CUANDO TERMINA EL TRABAJO EXITOSO  
+
+    //Se realiza el llamado de la funcion que permite ejecutar el trabajo con la herramienta kitchen de spoon
+    //modelktr.ejecucionJob().then(rsta => console.log("La respuesta de ejecucion del trabajo es "+rsta));
+
+    const path = require('path');
+    const fs = require('fs');
+    const spawn = require('child_process').spawn;
+
+    console.log("===========================================================================");
+    console.log("================Inicia ejecucion de la job      =================");
+    console.log("fecha/hora de inicio de la ejecucion : ");
+    //modelktr.obtener_fecha_hora().then(fh => console.log(fh));
+    console.log("===========================================================================");
+
+    const spawn_job = spawn('cmd.exe', ['/c', "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration/kitchen.bat E:/Dato_BI/Bips_back/src/integracionKjb/Job_reporte2193.kjb /level=Error >> E:/Dato_BI/temp/job.log"], {
+        windowsVerbatimArguments: true
+      });
+    spawn_job.stdout.pipe(process.stdout);
+
+
+    spawn_job.stdout.on('data', data => {
+        console.log(`stdout:\n${data}`)
+
+        // res.send(data.toString());
+    });
+    spawn_job.stderr.on('data', (data) => {
+        //console.error(`stderr: ${data}`);
+    });
+    //res.send(stdout);
+
+
+
+    spawn_job.on('close', (code) => {
+
+
+
+        console.log("CODE EJECUCION :" + code);
+
+        //res.send(code);
+
+
+
+        console.log("===========================================================================");
+        console.log("================   FIN ejecucion del Job      =================");
+        console.log("fecha/hora fin de la ejecucion: ");
+        //modelktr.obtener_fecha_hora().then(fh => console.log(fh));
+        console.log("===========================================================================");
+        console.log("resultado de la ejecucion: ");
+
+        console.log(`child process exited with code: ${code}`);
+
+        if (code == '0') {
+            //res.send(code);
+            console.log("El comando/job se ejecuto con exito... estado: " + code);
+
+            //res.status(200).send(code.toString());
+            modelplanos.ObtenerPlanos_validos().then(rsta => {
+
+                var cont = rsta.length;
+                var bandera = false;
+
+                rsta.forEach(plano => {
+                    ruta = plano["path_plano"];
+
+
+                    try {
+                        //var ruta = path.join(__dirname, 'filesBipsUploads') + '/' + file;
+                        fs.unlinkSync(ruta, function(err) {
+                            if (err) {
+                                bandera = true;
+                                return console.error(err);
+                            }
+
+                        });
+
+
+                    } catch (error) {
+                        console.error('Something wrong happened removing the file', error)
+
+                    }
+
+                })
+
+                if (!bandera) {
+
+                    modelplanos.eliminar_all_RegistrosPlanos_tmp_validos().then(rsta_elim => {
+                        if (rsta_elim['command'] == "DELETE" && rsta_elim['rowCount'] > 0) {
+                           // console.log("respuesta de eliminacion: 1, todos los planos fueron eliminados en bd y proyecto");
+                            //req.flash('notify', 'informacion fue cargada exitosamente...');
+                            //res.json({ respuesta: "OK", status: 200, retorno: code.toString(), descripcion: ' ' });
+                            return res.status(200).send({msg: "El trabajo se ejecuto con exito..." + code, estado: 200});                    
+
+
+                        }
+                    });
+                }
+
+
+            });
+
+
+
+
+
+        } else {
+           // res.status(200).send(code.toString());
+            //console.error('Ocurrio un problema con la ejecucion del comando/job CODE:' + code);
+            return res.status(500).send({msg: "Ocurrio un problema con la ejecucion del comando/job CODE:" + code, estado: 500});                    
+
+        }
+
+    });
+
+
+});
+
+
 
 module.exports = router;
