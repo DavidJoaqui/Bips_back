@@ -108,6 +108,7 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
     var habilitar_carga_bandera = false;
     var habilitar_eliminar_all = true;
     var bandera_btn_enviar = false;
+    var bandera_cargados= false;
 
     modelplanos.ObtenerPlanos_validos().then((planos_val) => {
         modelplanos.validarPlanosNecesarios(planos_val).then((rsta) => {
@@ -132,6 +133,7 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
                                             bandera_btn_enviar = true;
 
                                             habilitar_eliminar_all = false;
+                                            bandera_cargados = false;
 
                                             res.setHeader("Content-type", "text/html");
                                             res.render(
@@ -142,9 +144,13 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
                                                     habilitar_carga: habilitar_carga_bandera,
                                                     habilitar_eliminar: habilitar_eliminar_all,
                                                     habilitar_btn_envio: bandera_btn_enviar,
+                                                    habilitar_bandera_cargados:bandera_cargados,
                                                 }
                                             );
                                         } else {
+
+                                            
+
                                             modelplanos
                                                 .consultar_RegistrosPlanos_tmp()
                                                 .then((listaArchivos) => {
@@ -156,6 +162,7 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
                                                             habilitar_carga: habilitar_carga_bandera,
                                                             habilitar_eliminar: habilitar_eliminar_all,
                                                             habilitar_btn_envio: bandera_btn_enviar,
+                                                            
                                                         }
                                                     );
                                                 });
@@ -163,7 +170,7 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
                                     });
                             } else {
                                 bandera_panel_envio = false;
-
+                                
                                 res.setHeader("Content-type", "text/html");
                                 res.render(config.rutaPartials + "cargaPlano/listaPlano", {
                                     layout: false,
@@ -172,6 +179,7 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
                                     habilitar_carga: habilitar_carga_bandera,
                                     habilitar_eliminar: habilitar_eliminar_all,
                                     habilitar_btn_envio: bandera_btn_enviar,
+                                    
                                 });
                             }
                         })
@@ -180,6 +188,7 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
                         });
                 });
             } else {
+                
                 modelplanos.consultar_RegistrosPlanos_tmp().then((listaArchivos) => {
                     res.render(config.rutaPartials + "cargaPlano/listaPlano", {
                         layout: false,
@@ -188,6 +197,7 @@ router.get("/listado-archivos", authMiddleware, (req, res) => {
                         habilitar_carga: habilitar_carga_bandera,
                         habilitar_eliminar: habilitar_eliminar_all,
                         habilitar_btn_envio: bandera_btn_enviar,
+                        
                     });
                 });
             }
@@ -953,6 +963,7 @@ router.post("/enviar-trabajo/ejecucion/archivo-bips", authMiddleware,(req, res) 
         } else {
            // res.status(200).send(code.toString());
             //console.error('Ocurrio un problema con la ejecucion del comando/job CODE:' + code);
+            
             return res.status(500).send({msg: "Ocurrio un problema con la ejecucion del comando/job CODE:" + code, estado: 500});                    
 
         }

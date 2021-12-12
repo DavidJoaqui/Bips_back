@@ -17,8 +17,7 @@
 
         <hr class="py-2" />
 
-        <p id="loading" class="loading" hidden>Procesando...</p>        
-        
+      
         <div style="font-size: 10px; float: right; color: blue;" class="exportar" id="exportar" hidden>
             &nbsp;
             <a href="" for=""> <i class="fas fa-file-excel" style="color: green;"></i> <b>Exportar Excel</b> </a>
@@ -172,20 +171,23 @@
                     data: [],
 
                     beforeSend: function (result) {
-                        document.getElementById('loading').style.display = 'block';
+                        /*document.getElementById('loading').style.display = 'block';
                         var load = $('.loading');
                         load.html("");
+                        
                         var text = load.children();
                         load.html('<small> Validando información para el plano: <b>' +
                             nombre_plano + '</b> Esto puede tomar un tiempo</small>');
-                        load.append(text);
+                        load.append(text);*/
+                        msg= "Validando información para el plano: "+nombre_plano ;    
+                        procesando(msg);
 
                     },
 
                     success: function (result) {
 
                         if (result['status'] == 500) { //se presentan errores en la validacion del plano
-                            $('#loading').fadeOut('fast');
+                            //$('#loading').fadeOut('fast');
 
                             Swal.fire({
                                 position: 'top-end',
@@ -304,7 +306,12 @@
                         } else {
                             $("#div-envio").attr("hidden", false);
                             $("#btn-cargar").attr("disabled", false);
+                            $('#btn-cargar').addClass('opacity-100');
                         }
+                       
+                        
+
+
 
                     }
                 });

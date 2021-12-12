@@ -11,12 +11,15 @@
 
 
 
-                <button style="width:45%;font-weight: bold;" class="btn btn-success " id="btn-cargar" name="btn-cargar"
-                    onclick="enviar_carga()" disabled>Cargar</button>
+                <button id="btn-cargar" name="btn-cargar" onclick="enviar_carga()" style="width:45%;font-weight: bold;"
+                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+                    disabled>Cargar</button>
 
 
-                <button style="width:45%;font-weight: bold;" class="btn btn-primary " id="btn-enviar" name="btn-enviar"
-                    onclick="enviar_trabajo()" disabled>Enviar</button>
+                <button id="btn-enviar" name="btn-enviar" onclick="enviar_trabajo(), reloadContainer"
+                    style="width:45%;font-weight: bold;"
+                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-teal-600 border border-transparent rounded-lg active:bg-teal-600 hover:bg-teal-700 focus:outline-none focus:shadow-outline-teal opacity-50 disabled:opacity-50"
+                    disabled>Enviar</button>
 
 
 
@@ -33,6 +36,8 @@
 </div>
 
 <script>
+
+
     function enviar_carga() {
         $("#loading").attr("hidden", false);
         $.ajax({
@@ -43,40 +48,77 @@
             cache: false,
             processData: false,
             beforeSend: function () {
-                //console.log(data.status + ':' + data.statusText,data.responseText);
-                $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b><br>Esto puede tomar algun tiempo ...  ...</strong></div>');
+           
+                procesando();
+      
             },
             success: function (result) {
-                $('#loading').html("");
+               
+                // $('#loading').html("");
                 $('#btn-enviar').attr("disabled", false);
+                $('#btn-enviar').addClass('opacity-100');
+
+                // $('#btn-enviar').addClass('cursor-not-allowed', false);
+
                 if (result['estado'] == 200) {
+                    var estado=1;
                     msg = result['msg'];
                     icon = "success";
+                    $('#btn-cargar').attr("hidden", true);
+                    //$('#btn-cargar').attr("disabled", true);
+                    mensaje(icon, msg);
+                   
+                
 
-                }else{
+                } else {
                     msg = result['msg'];
                     icon = "warning";
+                    mensaje(icon, msg);
 
                 }
-                mensaje(icon,msg);
-            
-                /*$('#loading').html("");
-                $('#lista_archivos').html("");
-                $('#lista_archivos').html(result);
-                console.log("Success ... " + result["descripcion"]);*/
+                
             }
+                
         });
     }
 
-    function mensaje(icon,msg){
+    function mensaje(icon, msg) {
 
         Swal.fire({
-                    position: 'top-end',
-                    icon,
-                    title: msg,
-                    showConfirmButton: false,
-                    timer: 5000
-                })
+            position: 'center',
+            icon,
+            title: msg,
+            showConfirmButton: false,
+            timer: 3000
+        })
+
+        
+    }
+
+    function reloadContainer(action) {
+        loadContentHtml("/listado-archivos", '#container');   
+    }
+
+    function procesando(msg) {
+
+        if(msg==undefined){
+
+            msg="";
+        }
+        let timerInterval
+        Swal.fire({
+            title: 'Procesando!',
+            html: 'Esto puede tomar algun tiempo ...'+msg,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            closeOnEsc: true,
+            
+            didOpen: () => {
+                Swal.showLoading()
+                
+            },
+            
+        })
     }
 
     function enviar_trabajo() {
@@ -89,21 +131,31 @@
             cache: false,
             processData: false,
             beforeSend: function () {
-                //console.log(data.status + ':' + data.statusText,data.responseText);
-                $('#loading').html('<div class="text-center"> <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><strong>&nbsp;&nbsp;Procesando informacion<b></b><br>Esto puede tomar algun tiempo ...  ...</strong></div>');
-            },
+                procesando();
+                   },
             success: function (result) {
-                $('#loading').html("");
+                
                 if (result['estado'] == 200) {
                     msg = result['msg'];
                     icon = "success";
+                    $('#btn-enviar').attr("hidden", true);        
+                    
+                    mensaje(icon, msg);         
+                    eliminar_all();
 
-                }else{
+                    setTimeout(function() {
+                                window.location.reload(1);
+                            }, 3000);
+
+
+                } else {
                     msg = result['msg'];
                     icon = "warning";
 
+                    mensaje(icon, msg);
+
                 }
-                mensaje(icon,msg);
+               
 
 
             }

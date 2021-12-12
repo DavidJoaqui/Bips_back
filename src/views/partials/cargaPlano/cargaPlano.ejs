@@ -1,78 +1,104 @@
+
+ 
+
 <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800" id="seccion-validacion">
 
-    <div class="grid gap-6 mb-8 md:grid-cols-4 xl:grid-cols-4">
+    <div class="m-8 grid grid-cols-3 gap-1 justify-evenly">
 
-        <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-            <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                    Seleccionar IPS
-                </span>
-                <select name="listaIps" id="listaIps"
-                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                    <option selected="selected" value="">Seleccionar Ips
-                    </option>
-                    <% listaIps.forEach(lista=> { %>
-                        <option value="<%= lista.codigo_ips %>">
-                            <%= lista.codigo_ips + " (" + lista.descripcion_ips +")" %>
+        <div class="bg-green-300 rounded-lg h-12">
+
+            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                        Seleccionar IPS
+                    </span>
+                    <select name="listaIps" id="listaIps"
+                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray">
+                        <option selected="selected" value="">Seleccionar Ips
                         </option>
-                        <% }); %>
-                </select>
-            </label>
+                        <% listaIps.forEach(lista=> { %>
+                            <option value="<%= lista.codigo_ips %>">
+                                <%= lista.codigo_ips + " (" + lista.descripcion_ips +")" %>
+                            </option>
+                            <% }); %>
+                    </select>
+                </label>
+            </div>
         </div>
 
+        
+            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                        Fecha inicial
+                    </span>
+                    <input name="fechaInicial" id="fechaInicial" type="date"
+                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray form-input"
+                        placeholder="Nombre de entidad">
+                </label>
+            </div>
+        
 
-        <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-            <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                    Fecha inicial
-                </span>
-                <input name="fechaInicial" id="fechaInicial" type="date"
-                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-                    placeholder="Nombre de entidad">
-            </label>
-        </div>
+      
 
-
+        
         <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
             <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">
                     Fecha final
                 </span>
                 <input name="fechaFinal" id="fechaFinal" type="date"
-                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray form-input"
                     placeholder="Nombre de entidad">
             </label>
         </div>
+        
+        <div class="bg-green-500 col-span-3 rounded-lg h-12">
+            <div class="w-full  text-center">
+                <button onclick="validarRegisros()" id="btn-validar" name="btn-validar" style="width:50%;font-weight: bold;"
+                    class=" py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">Consultar
+                    registros</button>
+            </div>
 
-        <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs" id="seccion-carga" hidden>
+        </div>
+
+  
+        
+    </div>
+
+
+   
+
+   
+
+
+
+    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
+        <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800" style='justify-content:center ;' id="seccion-carga" hidden>
             <label class="block mt-4 text-sm">
                 <span class="text-white">
                     Selecciona los planos a cargar
                 </span>
                 <input name="files" type="file" id="files" multiple
-                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" disabled>
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray form-input"
+                    disabled>
             </label>
 
-            <button onclick="upload()" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg active:bg-gray-600 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">Subir</button>
+            <button onclick="upload()" style="width:50%;font-weight: bold;"
+                class="text-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-teal-600 border border-transparent rounded-lg active:bg-teal-600 hover:bg-teal-700 focus:outline-none focus:shadow-outline-teal" >Subir</button>
         </div>
-
-        
-
-
     </div>
-    <div class="w-full  text-center">
-    <button onclick="validarRegisros()" id="btn-validar" name="btn-validar" class=" py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Consultar
-        registros</button>
-    </div>
+
+
 </div>
 
 <script>
-    $(document).ready(function() {
-        $("#files").change(function() {
+    $(document).ready(function () {
+        $("#files").change(function () {
             $("#btn-subir").prop("disabled", this.files.length == 0);
         });
 
-        $("#listaIps").change(function() {
+        $("#listaIps").change(function () {
             $("#btn-subir").prop("disabled", true);
             $('#files').attr("disabled", true);
             $('#nombre_ips').text($("#listaIps option:selected").text().trim());
@@ -90,7 +116,7 @@
         const fechaFinal = $('#fechaFinal');
 
         if (listaIps.val() == "") {
-            setTimeout(function() {
+            setTimeout(function () {
                 listaIps.focus();
             })
             return false;
@@ -104,7 +130,7 @@
 
         } else if (new Date(fechaInicial.val()) > new Date(fechaFinal.val())) {
             Swal.fire({
-                position: 'top-end',
+                position: 'center',
                 icon: 'warning',
                 title: 'La fecha final no puede ser menor a la fecha inicial',
                 showConfirmButton: false,
@@ -147,28 +173,32 @@
             data: formData,
             contentType: false,
             processData: false,
-            success: function(result) {
+            error: function (result) {
+                //alert(result.responseText);
+                //alert(error);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Archivo no subidos',
+                    html: result.responseText,
+                    showConfirmButton: false,
+                    timer: 5000
+                })
+            },
+            success: function (result) {
                 $("#seccion-validacion").attr("disabled", true);
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Los archivos planos fueron cargados con exito',
                     showConfirmButton: false,
                     timer: 1500
                 })
-                setTimeout(function() {
+                setTimeout(function () {
                     loadContentHtml('/listado-archivos', '#container-carga-data')
                 }, 1500);
-            },
-            error: function(request, msg, error) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'Archivo no subidos',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
             }
+
         })
     }
 
@@ -187,7 +217,7 @@
         $.ajax({
             url,
             method: 'GET',
-            success: function(result) {
+            success: function (result) {
 
                 let msg = "";
                 let icon = "";
@@ -210,16 +240,16 @@
                 }
 
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon,
                     title: msg,
                     showConfirmButton: false,
                     timer: 5000
                 })
             },
-            error: function(request, msg, error) {
+            error: function (request, msg, error) {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'error',
                     title: 'No se pudo cargar los datos',
                     showConfirmButton: false,
