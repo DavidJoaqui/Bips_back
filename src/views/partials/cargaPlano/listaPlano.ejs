@@ -1,5 +1,5 @@
 <%- include("btnDeleteAll"); %>
-    <%- include("btnValidAll"); %>
+    <!--<%- include("btnValidAll"); %>-->
 
     <div style="margin-top: 15px;"></div>
         <style>
@@ -304,11 +304,24 @@
                             $("#div-envio").attr("hidden", true);
 
                         } else {
-                            $("#div-envio").attr("hidden", false);
-                            $("#btn-cargar").attr("disabled", false);
-                            $('#btn-cargar').addClass('opacity-100');
+                            $("#div-envio").attr("hidden", false);                            
                         }
                        
+                        if (result['habilitar_carga'] == false) {
+
+                        $("#btn-cargar").attr("hidden", true);
+
+                        }else{
+                            $("#div-envio").attr("hidden", false);
+                            $("#btn-cargar").attr("hidden", false);
+                            $("#btn-enviar").attr("hidden", true);
+                        }
+                         if(result['habilitar_envio'] == true) {
+                            $("#div-envio").attr("hidden", false);
+                            $("#btn-cargar").attr("hidden", true);
+                            //$('#btn-cargar').addClass('opacity-100');
+                            //$('#btn-cargar').attr("disabled", false);
+                        }
                         
 
 

@@ -1,11 +1,11 @@
-<button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-purple" id="elim-all" onclick="eliminar_all()">Eliminar todos</button>
+<button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-purple" id="elim-all" onclick="eliminar_all('delete_archivos')">Eliminar todos</button>
 
 <script>
-    function eliminar_all() {
+    function eliminar_all(tipo) {
 
         $.ajax({
             type: 'delete',
-            url: "/delete-all/archivo-bips",
+            url: "/delete-all/archivo-bips/"+tipo,
             data: [],
             contentType: false,
             cache: false,

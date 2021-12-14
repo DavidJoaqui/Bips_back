@@ -12,14 +12,12 @@
 
 
                 <button id="btn-cargar" name="btn-cargar" onclick="enviar_carga()" style="width:45%;font-weight: bold;"
-                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-                    disabled>Cargar</button>
+                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">Cargar</button>
 
 
                 <button id="btn-enviar" name="btn-enviar" onclick="enviar_trabajo(), reloadContainer"
                     style="width:45%;font-weight: bold;"
-                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-teal-600 border border-transparent rounded-lg active:bg-teal-600 hover:bg-teal-700 focus:outline-none focus:shadow-outline-teal opacity-50 disabled:opacity-50"
-                    disabled>Enviar</button>
+                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-teal-600 border border-transparent rounded-lg active:bg-teal-600 hover:bg-teal-700 focus:outline-none focus:shadow-outline-teal">Enviar</button>
 
 
 
@@ -48,27 +46,26 @@
             cache: false,
             processData: false,
             beforeSend: function () {
-           
+
                 procesando();
-      
+
             },
             success: function (result) {
-               
-                // $('#loading').html("");
-                $('#btn-enviar').attr("disabled", false);
-                $('#btn-enviar').addClass('opacity-100');
 
-                // $('#btn-enviar').addClass('cursor-not-allowed', false);
 
+                //$("#div-envio").attr("hidden", false);
+                $("#btn-cargar").attr("hidden", true);
+                $("#btn-enviar").attr("hidden", false);
+                console.log(result);
                 if (result['estado'] == 200) {
-                    var estado=1;
+                    var estado = 1;
                     msg = result['msg'];
                     icon = "success";
                     $('#btn-cargar').attr("hidden", true);
                     //$('#btn-cargar').attr("disabled", true);
                     mensaje(icon, msg);
-                   
-                
+
+
 
                 } else {
                     msg = result['msg'];
@@ -76,9 +73,9 @@
                     mensaje(icon, msg);
 
                 }
-                
+
             }
-                
+
         });
     }
 
@@ -92,32 +89,32 @@
             timer: 3000
         })
 
-        
+
     }
 
     function reloadContainer(action) {
-        loadContentHtml("/listado-archivos", '#container');   
+        loadContentHtml("/listado-archivos", '#container');
     }
 
     function procesando(msg) {
 
-        if(msg==undefined){
+        if (msg == undefined) {
 
-            msg="";
+            msg = "";
         }
         let timerInterval
         Swal.fire({
             title: 'Procesando!',
-            html: 'Esto puede tomar algun tiempo ...'+msg,
+            html: 'Esto puede tomar algun tiempo ...' + msg,
             timerProgressBar: true,
             allowOutsideClick: false,
             closeOnEsc: true,
-            
+
             didOpen: () => {
                 Swal.showLoading()
-                
+
             },
-            
+
         })
     }
 
@@ -132,30 +129,33 @@
             processData: false,
             beforeSend: function () {
                 procesando();
-                   },
+            },
             success: function (result) {
-                
+
                 if (result['estado'] == 200) {
                     msg = result['msg'];
                     icon = "success";
-                    $('#btn-enviar').attr("hidden", true);        
-                    
-                    mensaje(icon, msg);         
-                    eliminar_all();
-
-                    setTimeout(function() {
-                                window.location.reload(1);
-                            }, 3000);
+                    $('#btn-enviar').attr("hidden", true);
 
 
-                } else {
+                    eliminar_all("delete_trabajo");
+
+                    mensaje(icon, msg);
+
+                    setTimeout(function () {
+                        window.location.reload(1);
+                    }, 3000);
+
+
+                }
+                else {
                     msg = result['msg'];
                     icon = "warning";
 
                     mensaje(icon, msg);
 
                 }
-               
+
 
 
             }

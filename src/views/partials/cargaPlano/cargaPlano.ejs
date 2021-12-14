@@ -222,7 +222,7 @@
                 let msg = "";
                 let icon = "";
 
-                if (result <= 0) {
+                if (result == 0) {
                     msg = "la IPS " + data.listaIps + " No tiene datos asociados, puede cargar los planos"
                     icon = "success";
                     $('#files').attr('disabled', false);
