@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BIPS - Dashboard</title>
     <script src="theme/js/jquery-1.12.4.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="theme/css/tailwind.output.css" />
     <script src="theme/js/alpine.min.js" defer></script>
     <script src="theme/js/sweetalert2@11.js"></script>
@@ -25,16 +26,16 @@
             max-height: 85vh;
             overflow-y: auto;
         }
-        
+
         #reporte-title {
             color: blue;
             font-size: bold;
         }
-        
+
         #reporte-title::first-letter {
             text-transform: uppercase;
         }
-        
+
         .textarea-td {
             background-color: #fafafa;
             border: 1px solid gainsboro;
@@ -42,6 +43,19 @@
             width: 100%;
             min-width: 100px;
         }
+
+
+        #container-tab{ 
+                max-width: calc(100vw - 325px);
+        }
+ 
+        @media (max-width: 760px) {
+            #container-tab{ 
+                max-width: calc(100vw - 70px);
+            }
+        }
+
+     
     </style>
 
 </head>
@@ -87,15 +101,7 @@
                     <main class="h-full pb-16 overflow-y-auto">
                         <!-- Remove everything INSIDE this div to a really blank page -->
                         <div class="container-fluid px-6 grid">
-                            <h2 class="
-                my-6
-                text-2xl
-                font-semibold
-                text-gray-700
-                dark:text-gray-200
-              ">
-                                <%- body %>
-                            </h2>
+                            <%- body %>
                         </div>
                     </main>
                 </div>
