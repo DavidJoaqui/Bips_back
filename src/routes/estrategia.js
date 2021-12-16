@@ -91,6 +91,8 @@ const modelControlMando = require("../models/controlMandoModel");
           } else {
             return res.status(500).send("Error al guardar datos");
           }
+        }).catch((err) => {
+          return res.status(500).send("Error al guardar datos");
         });
     }
   );

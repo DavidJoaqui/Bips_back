@@ -20,10 +20,7 @@ router.get("/ctm-calificacion-indicadores", authMiddleware, (req, res) => {
 });
 
 router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
-  modelControlMando
-    .consultar_reg_ind_xcalificar()
-    .then((lista_calificacion_indicadores) => {
-      
+        
       modelControlMando.consultar_registros_Calificados().then(lista_calificacion_indicadores => {
         //console.log(lista_Estrategias);lista_Estrategias
         res.render(config.rutaPartials + "calificacionIndicador/listcalificados", {
@@ -32,7 +29,7 @@ router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
         });
     });
     
-    });
+    
 });
 
 router.get("/form-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res) => {
@@ -88,14 +85,13 @@ router.get("/calcular-desviacion", authMiddleware, (req, res) => {
 //persistir-calificacion-indicador
 router.post("/persistir-calificacion-indicador", authMiddleware, (req, res) => {
 
-
-  modelControlMando.insertar_calificacion_indicador(Number(req.query.reg_indicador), parseFloat(req.query.vr_numerador), parseFloat(req.query.vr_denominador), parseFloat(req.query.resultado_numerico), Number(req.query.resultado_descriptivo), parseFloat(req.query.desviacion), req.query.comentario, Number(req.query.estado)).then(respuesta => {
+  modelControlMando.insertar_calificacion_indicador(Number(req.body.id_reg_indicador), parseFloat(req.body.txt_vr_numerador), parseFloat(req.body.txt_vr_denominador), parseFloat(req.body.txt_resultado_numerico), Number(req.body.select_resultado_descriptivo), parseFloat(req.body.txt_desviacion), req.body.txt_comentario, Number(req.body.select_aprobar)).then(respuesta => {
 
 
       if (respuesta['command'] == "INSERT" && respuesta['rowCount'] > 0) {
 
           //actualizarRegIndicador
-          modelControlMando.actualizar_RegIndicador_calificado(req.query.reg_indicador).then(calificado => {
+          modelControlMando.actualizar_RegIndicador_calificado(req.body.id_reg_indicador).then(calificado => {
 
               if (calificado['command'] == "UPDATE" && calificado['rowCount'] > 0) {
                   console.log("OK... insert NEW Indicador, update registro de indicador --> calificado: 1");
@@ -161,4 +157,60 @@ router.get("/lista-ctm-reg-ind-xcal-filtrado", authMiddleware, (req, res) => {
 
 });
 
+router.put("/actualizar-calificacion", authMiddleware, (req, res) => {
+
+  console.log(req.body);
+  console.log(req.query);
+  console.log(req.params);
+
+  modelControlMando
+    .actualizar_calificacion(
+      req.body.id_calificacion_indicador,
+      req.body.txt_comentario,
+      req.body.select_aprobar,
+      req.body.select_resultado_descriptivo
+    )
+    .then(respuesta => {
+      if (respuesta["command"] == "UPDATE" && respuesta["rowCount"] > 0) {
+        return res.status(200).send("Ok");
+      } else {
+        return res.status(400).send("Error al actualizar la calificación");
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send("Error al actualizar los datos de calificación");
+    });
+});
+
+router.delete(
+  "/calificacion/delete/:id_cal/:id_reg_ind/control-mando-bips",
+  authMiddleware,
+  function (req, res) {
+    modelControlMando
+      .eliminar_RegistroCalificacion(req.params.id_cal)
+      .then((respuesta) => {
+        if (respuesta["command"] == "DELETE" && respuesta["rowCount"] > 0) {
+
+    modelControlMando
+      .actualizar_calificadoRegIndicador(req.params.id_reg_ind)
+      .then(result_act =>{
+
+        if (result_act["command"] == "UPDATE" && result_act["rowCount"] > 0) {
+          return res.status(200).send("Ok");
+        } else {
+          return res.status(400).send("Error al actualizar la calificación");
+        }
+
+    });
+          
+        } else {
+          return res.status(400).send("Error al guardar datos");
+        }
+      }).catch((err) => {
+        return res.status(500).send("Error al guardar datos");
+      });
+  }
+);
+
 module.exports = router;
+

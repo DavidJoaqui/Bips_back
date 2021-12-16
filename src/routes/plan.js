@@ -24,7 +24,7 @@ router.get("/form-ctm-plan/:id", authMiddleware, (req, res) => {
             .then((lineas_accion) => {
               res.render(config.rutaPartials + "plan/form", {
                 layout:false,
-                id_plan: req.query.id_plan,
+                id_plan: req.params.id,
                 planes_generales: listaPlanes_grales,
                 item: plan_accion_info,
                 lineas_accion: lineas_accion,
@@ -34,7 +34,7 @@ router.get("/form-ctm-plan/:id", authMiddleware, (req, res) => {
     });
 });
 
-router.post("/persistir-plan/", authMiddleware, (req, res) => {
+router.post("/persistir-plan", authMiddleware, (req, res) => {
   modelControlMando
     .insertar_plan(req.body.plan, req.body.estrategia)
     .then((respuesta) => {
@@ -57,7 +57,6 @@ router.put("/actualizar-plan", authMiddleware, (req, res) => {
       req.body.estrategia
     )
     .then((respuesta) => {
-      console.log(respuesta);
       if (respuesta["command"] == "UPDATE" && respuesta["rowCount"] > 0) {
         return res.status(200).send("Ok");
       } else {

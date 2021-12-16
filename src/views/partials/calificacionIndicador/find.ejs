@@ -1,13 +1,6 @@
-<div class="">
-    <%# include("../../partials/calificacionIndicador/find", {lista_años}); %>
-    <div style="">
 
-
-        <div class="" style="">
     
-            <div class="" id="panel_nuevo_indicador" style="">
-    
-                <form id="formulario" enctype="multipart/form-data" method="POST">
+                <form id="formCalificacionIndicadorBuscar">
     
                     <div class="" id="panel_reg_indicador">
                         <h2 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" style="">Buscar Registro Indicador
@@ -84,10 +77,12 @@
 
                              
                             <div class="">
-    
-                                <button type="button" id="btn-all" class="" onclick="verTodos()" disabled>
-                                    Ver todos
+                                    
+                                <a href="" onclick="listaPendientes()" title="ver todos" style="float: right;">
+                                    <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                    <i class="fas fa-eye" ></i><label  for="">&nbsp; Ver todos</label>
                                 </button>
+                                </a>
     
                             </div>
     
@@ -96,14 +91,18 @@
                     </div>
                             
                 </form>        
-            </div>        
-    
-        </div>
-    </div>
-</div>
+
 
 
 <script>
+
+function listaPendientes() {
+        event.preventDefault();
+        const peticion = "/ctm-calificacion-indicadores";                
+         loadContentHtml(peticion, '#container-tab')
+                            
+    }
+
       $(document).ready(function() {
                 $("#select_periodo").attr('disabled', true);
                 $("#select_area").attr('disabled', true);

@@ -1,55 +1,96 @@
 
-<p id="reporte-title"><%= area %></p>
-    <br />
-    <label class="block mt-4 text-sm">
-        <span class="text-gray-700 dark:text-gray-400">
-            Reporte:
-        </span>
-        <select name="plan_general" id="select_reporte"
-            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option value="/reportes-pentaho/loading">Escoge el reporte a vizualizar</option>
-        </select required>
-    </label>
-    <span id="loading"
-        class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-        Cargando Información, esto puede tardar algún tiempo...</span>
-    <br />
-    <br />
-    <div>
-        <iframe id="iframeReporte" src="/reportes-pentaho/loading" scrolling="si" onload='validateLoad()' frameBorder="0" width="100%" style="height:120vh;"
-            height="100$">
-        </iframe>
+<p id="reporte-title">
+    <%= area %>
+</p>
+<br />
+
+
+<%if( area=="Presupuesto" ){ %>
+
+
+    <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+
+        <div>
+            <span class="text-gray-700 dark:text-gray-400">
+                Seleccione la Fecha inicial del siguiente mes de corte :
+            </span>
+            <input name="fechaInicial" id="fechaInicial" type="date" placeholder="Nombre de entidad">
+            <button onclick="validarRegisros()" id="btn-validar" name="btn-validar" style="width:20%;font-weight: bold;"
+                class=" py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">Actualizar
+            </button>
+        </div>
     </div>
 
-    <script>
-        const selectReporte = $('#select_reporte');
-        const area = '<%= area %>';
-        const reportesArea = {
-            facturacion: {
-                "Reporte olap 2193": "http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku",
-                "Reporte  2193": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AReportes_PRD_2193%3Areporte_2193_trimestral.prpt/viewer"
-            },
-            venta: {
-                "Reporte venta olap 2193": "http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku",
-                "Reporte venta 2193": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AReportes_PRD_2193%3Areporte_2193_trimestral.prpt/viewer"
+
+    <% } %>
+
+        <label class="block mt-4 text-sm">
+            <span class="text-gray-700 dark:text-gray-400">
+                Reporte:
+            </span>
+            <select name="plan_general" id="select_reporte"
+                class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                <option value="/reportes-pentaho/loading">Escoge el reporte a vizualizar</option>
+            </select required>
+        </label>
+        <span id="loading"
+            class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+            Cargando Información, esto puede tardar algún tiempo...</span>
+        <br />
+        <br />
+        <div>
+            <iframe id="iframeReporte" src="/reportes-pentaho/loading" scrolling="si" onload='validateLoad()'
+                frameBorder="0" width="100%" style="height:120vh;" height="100$">
+            </iframe>
+        </div>
+
+        <script>
+            const selectReporte = $('#select_reporte');
+            const area = '<%= area %>';
+            const reportesArea = {
+                facturacion: {
+                    "Reporte olap 2193": "http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku",
+                    "Reporte  2193": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AReportes_PRD_2193%3Areporte_2193_trimestral.prpt/viewer"
+                },
+                Contabilidad: {
+                    "Reporte Estados Financieros": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AH_Reporte_Anexo0319(BCEHORIZ).prpt/viewer",
+                    "Reporte  Resultado Operacional": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AReporte_Anexo0319.prpt/viewer",
+                    "Estadistica Estado Financiero": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AContabilidad_tmp.wcdf/generatedContent"
+
+                },
+                Presupuesto: {
+                    "Reporte 2193 Presupuesto": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer"
+                },
+                Cartera: {
+                    "Reporte Olap Cartera": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer",
+                    "Estado Cartera Estadistica": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer"
+                },
             }
-        }
-        function validateLoad() {
-            $("#loading").css("display", "none");
-        }
+            function validateLoad() {
+                $("#loading").css("display", "none");
+            }
 
-        selectReporte.change(function () {
-            $("#loading").css("display", "block");
-            const iframe = $('#iframeReporte');
-            iframe.attr('src', $(this).val());
-            iframe.attr('title', $(this).text());
-        });
+            selectReporte.change(function () {
+                $("#loading").css("display", "block");
+                const iframe = $('#iframeReporte');
+                iframe.attr('src', $(this).val());
+                iframe.attr('title', $(this).text());
+            });
 
-        function loadReportesArea() {
+            function loadReportesArea() {
                 for (var [key, value] of Object.entries(reportesArea[area])) {
                     selectReporte.append('<option value=' + value + ' >' + key + '</option>');
                 }
-        }
+            }
 
-        loadReportesArea();
-    </script>
+            loadReportesArea();
+            
+
+    
+            function actualizar_contabilidad() {
+        event.preventDefault();
+        const peticion = "/ejecutar-update-presupuesto";                
+         //loadContentHtml(peticion, '#container-tab')
+                            
+    }
+        </script>

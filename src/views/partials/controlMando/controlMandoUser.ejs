@@ -1,12 +1,9 @@
-<div class="bg-white">
-    <nav class="flex flex-col flex-wrap sm:flex-row" id="tabs-base">
-        <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
-            onclick="loadTab(this,'/ctm-registro-indicadores')">
-            Registros Indicadores
-        </button>
-    </nav>
-</div>
-
+<nav class="flex flex-col flex-wrap sm:flex-row" id="tabs-base">
+    <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
+        onclick="loadTab(this,'/ctm-registro-indicadores')">
+        Registros Indicadores
+    </button>
+</nav>
 
 
 <div id="container-tab">
@@ -17,18 +14,18 @@
     const tabActiveClass = "text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 border-l border-t border-r"
     const tabClass = "text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
 
-    function loadTab(btn,url) {
-        toggleTab(btn,url);
+    function loadTab(btn, url) {
+        toggleTab(btn, url);
         loadContentHtml(url, '#container-tab')
     }
 
-    
-    function toggleTab(btn,url) {
-        const button=$(btn);
+
+    function toggleTab(btn, url) {
+        const button = $(btn);
         $("#tabs-base button").each(function (index) {
-            $(this).removeClass().addClass( tabClass );
-            if($(this).text()===button.text()){
-                button.removeClass().addClass( tabActiveClass );
+            $(this).removeClass().addClass(tabClass);
+            if ($(this).text() === button.text()) {
+                button.removeClass().addClass(tabActiveClass);
             }
         });
     }

@@ -4,3 +4,4 @@ filesBipsUploads/
 models/persistencia/*
 daemon/*
 pdf.js
+src/config/config.js

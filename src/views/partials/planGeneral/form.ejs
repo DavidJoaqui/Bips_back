@@ -60,7 +60,7 @@ form.addEventListener("submit", function (event) {
     if(data.id_plan!='0'){
         updateAjax('/actualizar-plan-general',data,reloadContainer)
     }else{
-        createdAjax('/persistir-plan',data,reloadContainer)
+        createdAjax('/persistir-plan-general',data,reloadContainer)
     }
 
 });

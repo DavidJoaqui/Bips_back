@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header text-white bg-success mb-3 container-fluid">
             <b>
-            ENVIAR</b>
+                ENVIAR</b>
         </div>
         <div class="panel-body">
             <div class="text-center" style="margin: 20px;">
@@ -11,10 +11,13 @@
 
 
 
-                <button style="width:45%;font-weight: bold;" class="btn btn-success " id="btn-cargar" name="btn-cargar" onclick="enviar_carga()" disabled>Cargar</button>
+                <button id="btn-cargar" name="btn-cargar" onclick="enviar_carga()" style="width:45%;font-weight: bold;"
+                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">Cargar</button>
 
 
-                <button style="width:45%;font-weight: bold;" class="btn btn-primary " id="btn-enviar" name="btn-enviar" onclick="enviar_trabajo()" disabled>Enviar</button>
+                <button id="btn-enviar" name="btn-enviar" onclick="enviar_trabajo(), reloadContainer"
+                    style="width:45%;font-weight: bold;"
+                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-teal-600 border border-transparent rounded-lg active:bg-teal-600 hover:bg-teal-700 focus:outline-none focus:shadow-outline-teal">Enviar</button>
 
 
 
@@ -29,3 +32,135 @@
 
     </div>
 </div>
+
+<script>
+
+
+    function enviar_carga() {
+        $("#loading").attr("hidden", false);
+        $.ajax({
+            type: 'post',
+            url: "/enviar-carga/ejecucion-multiple/archivo-bips",
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function () {
+
+                procesando();
+
+            },
+            success: function (result) {
+
+
+                //$("#div-envio").attr("hidden", false);
+                $("#btn-cargar").attr("hidden", true);
+                $("#btn-enviar").attr("hidden", false);
+                console.log(result);
+                if (result['estado'] == 200) {
+                    var estado = 1;
+                    msg = result['msg'];
+                    icon = "success";
+                    $('#btn-cargar').attr("hidden", true);
+                    //$('#btn-cargar').attr("disabled", true);
+                    mensaje(icon, msg);
+
+
+
+                } else {
+                    msg = result['msg'];
+                    icon = "warning";
+                    mensaje(icon, msg);
+
+                }
+
+            }
+
+        });
+    }
+
+    function mensaje(icon, msg) {
+
+        Swal.fire({
+            position: 'center',
+            icon,
+            title: msg,
+            showConfirmButton: false,
+            timer: 3000
+        })
+
+
+    }
+
+    function reloadContainer(action) {
+        loadContentHtml("/listado-archivos", '#container');
+    }
+
+    function procesando(msg) {
+
+        if (msg == undefined) {
+
+            msg = "";
+        }
+        let timerInterval
+        Swal.fire({
+            title: 'Procesando!',
+            html: 'Esto puede tomar algun tiempo ...' + msg,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            closeOnEsc: true,
+
+            didOpen: () => {
+                Swal.showLoading()
+
+            },
+
+        })
+    }
+
+    function enviar_trabajo() {
+        $("#loading").attr("hidden", false);
+        $.ajax({
+            type: 'post',
+            url: "/enviar-trabajo/ejecucion/archivo-bips",
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function () {
+                procesando();
+            },
+            success: function (result) {
+
+                if (result['estado'] == 200) {
+                    msg = result['msg'];
+                    icon = "success";
+                    $('#btn-enviar').attr("hidden", true);
+
+
+                    eliminar_all("delete_trabajo");
+
+                    mensaje(icon, msg);
+
+                    setTimeout(function () {
+                        window.location.reload(1);
+                    }, 3000);
+
+
+                }
+                else {
+                    msg = result['msg'];
+                    icon = "warning";
+
+                    mensaje(icon, msg);
+
+                }
+
+
+
+            }
+        });
+    }
+
+
+</script>

@@ -23,6 +23,7 @@
             Número de Identificación:
         </span>
         <input name="num_identificacion"
+            type="number"
             value="<%= item.length && item[0].num_identificacion? item[0].num_identificacion:'' %>"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
             placeholder="Número de Identificación" required>
@@ -50,9 +51,9 @@
         <span class="text-gray-700 dark:text-gray-400">
             Usuario:
         </span>
-        <input name="apellido" value="<%= item.length && item[0].nombre_usuario? item[0].nombre_usuario:'' %>"
+        <input name="usuario" value="<%= item.length && item[0].nombre_usuario? item[0].nombre_usuario:'' %>"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-            placeholder="Apellido" required>
+            placeholder="Usuario" required>
     </label>
 
     <label class="block mt-4 text-sm">
@@ -68,7 +69,7 @@
         <span class="text-gray-700 dark:text-gray-400">
             Telefono:
         </span>
-        <input name="telefono" value="<%= item.length && item[0].correo? item[0].telefono:'' %>"
+        <input name="telefono" value="<%= item.length && item[0].telefono? item[0].telefono:'' %>"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
             placeholder="Telefono" required>
     </label>
@@ -77,7 +78,7 @@
         <span class="text-gray-700 dark:text-gray-400">
             Contraseña: <span id="show-password" class="fa fa-fw fa-eye"></span>
         </span>
-        <input name="password" id="txt_password" value="<%= item.length && item[0].password? item[0].password:'' %>"
+        <input name="password" id="txt_password" value="<%= item.length && item[0].password_? item[0].password_:'' %>"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
             type="password" required>
     </label>
@@ -87,7 +88,7 @@
             Repita Contraseña: <span id="msg-password"></span>
         </span>
         <input name="repitPassword" id="txt_password2"
-            value="<%= item.length && item[0].password? item[0].password:'' %>"
+            value="<%= item.length && item[0].password_? item[0].password_:'' %>"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
             type="password" required>
     </label>
@@ -141,7 +142,7 @@
 
 
     <label class="flex items-center dark:text-gray-400">
-        <% if (item.length && item.es_activo==true ) { %>
+        <% if (item.length && item[0].es_activo==true ) { %>
             <input type="checkbox" name="activo" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" checked>
          <% }else{%>
             <input type="checkbox" name="activo" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -152,7 +153,7 @@
       </label>
 
       <label class="flex items-center dark:text-gray-400">
-        <% if (item.length && item.es_profesional==true ) { %>
+        <% if (item.length && item[0].es_profesional==true ) { %>
             <input type="checkbox" name="profesional" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" checked>
          <% }else{%>
             <input type="checkbox" name="profesional" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -176,8 +177,13 @@
 
         data.activo? data.activo=true: data.activo=false;
         data.profesional? data.profesional=true: data.profesional=false;
-        console.log(validationForm(data,'id_user'))
-        return;
+      
+        console.log(data)
+        if(validationForm(data,'id_user')){
+            alertValidation();
+            return;
+        }
+
         if (data.id_user != '0') {
             updateAjax('/actualizar-profesional', data, reloadContainer)
         } else {

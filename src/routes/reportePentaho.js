@@ -21,5 +21,10 @@ router.get("/reportes-pentaho/:area", authMiddleware, (req, res) => {
   });
 });
 
+///ejecutar-update-presupuesto
+router.post("/ejecutar-update-presupuesto/:fecha", authMiddleware, (req, res) => {
+  
+});
+
 
 module.exports = router;

@@ -6,12 +6,12 @@ module.exports = {
 
 
     async insertar_RegistrosPlanos_tmp(id_ips, nombre_ips, periodo_cargado, nombre_archivo, mimetypes, fecha_carga, validado, nombre_tmp, path_archivo) {
-        const resultados = await conexion.query('insert into schema_planos.registros_planos_tmp (id_ips,nombre_ips,periodo_cargado,nombre_original,mimetypes,fecha_carga,validado,nombre_tmp,path_plano) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)', [id_ips, nombre_ips, periodo_cargado, nombre_archivo, mimetypes, fecha_carga, validado, nombre_tmp, path_archivo]);
+        const resultados = await conexion.query("insert into schema_planos.registros_planos_tmp (id_ips,nombre_ips,periodo_cargado,nombre_original,mimetypes,fecha_carga,validado,nombre_tmp,path_plano,en_error,path_error_plano) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,'false','')", [id_ips, nombre_ips, periodo_cargado, nombre_archivo, mimetypes, fecha_carga, validado, nombre_tmp, path_archivo]);
         return resultados;
     },
 
     async consultar_RegistrosPlanos_tmp() {
-        const resultados = await conexion.query("select id_ips,nombre_ips,descripcion_ips,periodo_cargado,nombre_original,fecha_carga,validado,nombre_tmp,path_plano,cargado from schema_planos.registros_planos_tmp inner join schema_bips.ips on(schema_bips.ips.codigo_ips =schema_planos.registros_planos_tmp.id_ips) order by schema_planos.registros_planos_tmp.nombre_original asc");
+        const resultados = await conexion.query("select id_ips,nombre_ips,descripcion_ips,periodo_cargado,nombre_original,fecha_carga,validado,nombre_tmp,path_plano,cargado, en_error,path_error_plano from schema_planos.registros_planos_tmp inner join schema_bips.ips on(schema_bips.ips.codigo_ips =schema_planos.registros_planos_tmp.id_ips) order by schema_planos.registros_planos_tmp.nombre_original asc");
         return resultados.rows;
     },
 
@@ -132,14 +132,19 @@ module.exports = {
             return 0;
 
         }
-    },
-
+    },  
 
     async eliminarPlanosValidosTmp() {
 
         const resultados = await conexion.query("delete from schema_planos.registros_planos_tmp where validado = true");
         return resultados;
-    }
+    },
 
+    //actualizarErrorRegistroPlanoTmp
+
+    async actualizarErrorRegistroPlanoTmp(id_ips, nombre_archivo,path_error_plano) {
+        const resultados = await conexion.query("UPDATE schema_planos.registros_planos_tmp SET validado=false, en_error=true,path_error_plano=$3  where id_ips= $1 and nombre_tmp= $2", [id_ips, nombre_archivo, path_error_plano]);
+        return resultados;
+    },
 
 }
