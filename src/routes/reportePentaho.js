@@ -66,6 +66,7 @@ router.post("/ejecutar-update-presupuesto/:fecha", authMiddleware, (req, res) =>
       console.log("================   FIN ejecucion de la transformacion      =================");
       console.log("fecha/hora fin de la ejecucion: ");
       //console.log(obtener_fecha_hora());
+      now = new Date();
       console.log(now.toUTCString());
       console.log("===========================================================================");
       console.log("resultado de la ejecucion: ");
