@@ -24,13 +24,14 @@ router.get("/reportes-pentaho/:area", authMiddleware, (req, res) => {
 
 ///ejecutar-update-presupuesto
 router.post("/ejecutar-update-presupuesto/:fecha", authMiddleware, (req, res) => {
-  //console.log(req.params.fecha);
-  var fecha = new Date(req.params.fecha);
-  const formatDate = (date)=>{
-    let formatted_date = (date.getDate()+1) + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
-     return formatted_date;
-    }
-    console.log(formatDate(fecha));
+
+        let fecha = new Date(req.params.fecha+ " 00:00:00");
+
+        let fecha_format = fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear();
+        
+        console.log(fecha_format);
+        
+
   console.log("================Inicia ejecucion de la transformacion      =================");
             console.log("fecha/hora de inicio de la ejecucion : ");
             var now = new Date();
@@ -39,7 +40,7 @@ router.post("/ejecutar-update-presupuesto/:fecha", authMiddleware, (req, res) =>
 
   var spawn = require('child_process').spawn;
 
-  var spawn_trs = spawn('cmd.exe', ['/c', "F:/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-PrAwa.ktr "+'"'+formatDate(fecha)+'" "'+formatDate(fecha)+'"'+" /level=Detailed >> E:/Dato_BI/temp/log_tras_PrAwa.log"], {
+  var spawn_trs = spawn('cmd.exe', ['/c', "F:/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-PrAwa.ktr "+'"'+fecha_format+'" "'+fecha_format+'"'+" /level=Detailed >> E:/Dato_BI/temp/log_tras_PrAwa.log"], {
     windowsVerbatimArguments: true
   });
 
