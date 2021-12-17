@@ -24,7 +24,69 @@ router.get("/reportes-pentaho/:area", authMiddleware, (req, res) => {
 ///ejecutar-update-presupuesto
 router.post("/ejecutar-update-presupuesto/:fecha", authMiddleware, (req, res) => {
   
+  console.log("================Inicia ejecucion de la transformacion      =================");
+            console.log("fecha/hora de inicio de la ejecucion : ");
+            var now = new Date();
+            console.log(now.toUTCString());
+  console.log("===========================================================================");
+
+  var spawn = require('child_process').spawn;
+
+  var spawn_trs = spawn('cmd.exe', ['/c', "F:/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-PrAwa.ktr "+'"'+req.params.fecha+'" "'+req.params.fecha+'"'+" /level=Detailed >> E:/Dato_BI/temp/trans.log"], {
+    windowsVerbatimArguments: true
+  });
+
+  spawn_trs.stdout.pipe(process.stdout);
+
+  spawn_trs.stdout.setEncoding('utf8');
+
+  spawn_trs.stderr.setEncoding('utf8');
+
+
+    spawn_trs.stdout.on('data', data => {
+      console.log(`stdout:\n${data}`)
+  });
+  spawn_trs.stderr.on('data', (data) => {
+      // console.error(`stderr: ${data}`);
+  });
+
+
+
+  spawn_trs.on('close', (code) => {
+
+      console.log("===========================================================================");
+      console.log("================   FIN ejecucion de la transformacion      =================");
+      console.log("fecha/hora fin de la ejecucion: ");
+      //console.log(obtener_fecha_hora());
+      console.log(now.toUTCString());
+      console.log("===========================================================================");
+      console.log("resultado de la ejecucion: ");
+      console.log(code)
+
+      if (code == 0) {
+         //Se retorna el codigo de estado capturado por el buffer para validar si la transformacion se ejecuto con Exito code: 0
+         //OK : 0
+        console.log("El comando/transformacion se ejecuto con exito... estado: " + code);
+
+        return res.status(200)
+                            .send(
+                                 {msg:"La actuaización del reporte de presupuesto se realizo con Exito", estado: 200 }
+                                        );
+
+
+      }else{
+        console.error('Ocurrio un problema con la ejecucion del comando/transformacion ' + code);
+           //se retorna el codigo de estado de errro
+          //return 1;
+          return res.status(200).send({msg: "Ocurrio un problema al ejecutar --> la transformacion de actualización REPORTE PRESUPUESTO, problema con la transformacion, COD_ERR " + code, estado: 500});                    
+
+      }
 });
 
+  spawn_trs.on('exit', (code) => {
+    console.log(`exit child process exited with code ${code}`);
+    //return code;
+  });
 
+});
 module.exports = router;
