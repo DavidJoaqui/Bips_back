@@ -41,7 +41,7 @@ router.post("/ejecutar-update-presupuesto/:fecha/:year", authMiddleware, (req, r
 
   var spawn = require('child_process').spawn;
 
-  var spawn_trs = spawn('cmd.exe', ['/c', "F:/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-PrAwa.ktr "+'"'+fecha_format+'" "'+fecha_format+'"'+" /level=Detailed >> E:/Dato_BI/temp/log_tras_PrAwa.log"], {
+  var spawn_trs = spawn('cmd.exe', ['/c', "F:/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/IntegracionKtr/tras-PrAwa.ktr "+'"'+req.params.year+'" "'+fecha_format+'"'+" /level=Detailed >> E:/Dato_BI/temp/log_tras_PrAwa.log"], {
     windowsVerbatimArguments: true
   });
 
