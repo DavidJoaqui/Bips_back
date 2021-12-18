@@ -23,13 +23,14 @@ router.get("/reportes-pentaho/:area", authMiddleware, (req, res) => {
 });
 
 ///ejecutar-update-presupuesto
-router.post("/ejecutar-update-presupuesto/:fecha", authMiddleware, (req, res) => {
+router.post("/ejecutar-update-presupuesto/:fecha/:year", authMiddleware, (req, res) => {
 
         let fecha = new Date(req.params.fecha+ " 00:00:00");
 
         let fecha_format = fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear();
         
         console.log(fecha_format);
+        console.log(req.params.year);
         
 
   console.log("================Inicia ejecucion de la transformacion      =================");

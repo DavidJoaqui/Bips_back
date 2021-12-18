@@ -15,6 +15,14 @@
                 Seleccione la Fecha inicial del siguiente mes de corte :
             </span>
             <input name="fechaCorte" id="fechaCorte" type="date" placeholder="fecha corte" title="seleccione fecha de corte" style="border: gray 1px solid;">
+            <span>
+                <label for="year">Año:</label>
+                <select name="year" id="year" data-toggle="" title="Seleccionar año" data-placement="right" requiredclass="" style="border: gray 1px solid;">
+                <option selected="selected" value="">Seleccionar año
+                </option>
+                                        
+                                    </select>
+              </span>
             <button onclick="actualizar_a_fechaCorte()" id="btn-act" name="btn-act" style="width:20%;font-weight: bold;"
                 class=" py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">Actualizar
             </button>
@@ -45,6 +53,19 @@
         </div>
 
         <script>
+
+            var yearSelect = document.querySelector('#year');
+
+            var date = new Date();
+            var year = date.getFullYear();
+
+            // Make this year, and the 100 years before it available in the year <select>
+            for(var i = 0; i <= 20; i++) {
+                var option = document.createElement('option');
+                option.textContent = year-i;
+                yearSelect.appendChild(option);
+            }
+
             const selectReporte = $('#select_reporte');
             const area = '<%= area %>';
             const reportesArea = {
@@ -87,10 +108,11 @@
             
 
     
-            function actualizar_a_fechaCorte() {
+    function actualizar_a_fechaCorte() {
         event.preventDefault();
         const fechacorte = $('#fechaCorte');
-        const peticion = "/ejecutar-update-presupuesto/"+fechacorte.val();     
+        const year = $('#year');        
+        const peticion = "/ejecutar-update-presupuesto/"+fechacorte.val()+"/"+year.val();     
         
         $.ajax({
             url: peticion,
@@ -160,5 +182,5 @@
             },
 
         })
-        }
-        </script>
+        }            
+    </script>
