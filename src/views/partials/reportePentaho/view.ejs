@@ -1,21 +1,21 @@
-
 <p id="reporte-title">
     <%= area %>
 </p>
 <br />
 
 
-<%if( area=="Presupuesto" ){ %>
 
 
-    <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
 
-        <div>
-            <span class="text-gray-700 dark:text-gray-400">
+<div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+
+    <div>
+
+        <span class="text-gray-700 dark:text-gray-400">
                 Seleccione la Fecha inicial del siguiente mes de corte :
             </span>
-            <input name="fechaCorte" id="fechaCorte" type="date" placeholder="fecha corte" title="seleccione fecha de corte" style="border: gray 1px solid;">
-            <span>
+        <input name="fechaCorte" id="fechaCorte" type="date" placeholder="fecha corte" title="seleccione fecha de corte" style="border: gray 1px solid;">
+        <span>
                 <label for="year">Año:</label>
                 <select name="year" id="year" data-toggle="" title="Seleccionar año" data-placement="right" requiredclass="" style="border: gray 1px solid;">
                 <option selected="selected" value="">Seleccionar año
@@ -23,16 +23,16 @@
                                         
                                     </select>
               </span>
-            <button onclick="actualizar_a_fechaCorte()" id="btn-act" name="btn-act" style="width:20%;font-weight: bold;"
-                class=" py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">Actualizar
+        <button onclick="actualizar_a_fechaCorte()" id="btn-act" name="btn-act" style="width:20%;font-weight: bold;" class=" py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">Actualizar
             </button>
-        </div>
+
     </div>
+</div>
 
 
-    <% } %>
 
-        <label class="block mt-4 text-sm">
+
+<label class="block mt-4 text-sm">
             <span class="text-gray-700 dark:text-gray-400">
                 Reporte:
             </span>
@@ -41,86 +41,87 @@
                 <option value="/reportes-pentaho/loading">Escoge el reporte a vizualizar</option>
             </select required>
         </label>
-        <span id="loading"
-            class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+<span id="loading" class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
             Cargando Información, esto puede tardar algún tiempo...</span>
-        <br />
-        <br />
-        <div>
-            <iframe id="iframeReporte" src="/reportes-pentaho/loading" scrolling="si" onload='validateLoad()'
-                frameBorder="0" width="100%" style="height:120vh;" height="100$">
+<br />
+<br />
+<div>
+    <iframe id="iframeReporte" src="/reportes-pentaho/loading" scrolling="si" onload='validateLoad()' frameBorder="0" width="100%" style="height:120vh;" height="100$">
             </iframe>
-        </div>
+</div>
 
-        <script>
+<script>
+    var yearSelect = document.querySelector('#year');
 
-            var yearSelect = document.querySelector('#year');
+    var date = new Date();
+    var year = date.getFullYear() + 1;
 
-            var date = new Date();
-            var year = date.getFullYear()+1;
+    // Make this year, and the 100 years before it available in the year <select>
+    for (var i = 0; i <= 20; i++) {
+        var option = document.createElement('option');
+        option.textContent = year - i;
+        yearSelect.appendChild(option);
+    }
 
-            // Make this year, and the 100 years before it available in the year <select>
-            for(var i = 0; i <= 20; i++) {
-                var option = document.createElement('option');
-                option.textContent = year-i;
-                yearSelect.appendChild(option);
-            }
+    const selectReporte = $('#select_reporte');
+    const area = '<%= area %>';
+    const reportesArea = {
+        facturacion: {
+            "Reporte olap 2193": "http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku",
+            "Reporte  2193": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AReportes_PRD_2193%3Areporte_2193_trimestral.prpt/viewer"
+        },
+        Contabilidad: {
+            "Reporte Estados Financieros": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AH_Reporte_Anexo0319(BCEHORIZ).prpt/viewer",
+            "Reporte  Resultado Operacional": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AReporte_Anexo0319.prpt/viewer",
+            "Estadistica Estado Financiero": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AContabilidad_tmp.wcdf/generatedContent"
 
-            const selectReporte = $('#select_reporte');
-            const area = '<%= area %>';
-            const reportesArea = {
-                facturacion: {
-                    "Reporte olap 2193": "http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku",
-                    "Reporte  2193": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AReportes_PRD_2193%3Areporte_2193_trimestral.prpt/viewer"
-                },
-                Contabilidad: {
-                    "Reporte Estados Financieros": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AH_Reporte_Anexo0319(BCEHORIZ).prpt/viewer",
-                    "Reporte  Resultado Operacional": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AReporte_Anexo0319.prpt/viewer",
-                    "Estadistica Estado Financiero": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3AContabilidad%3AContabilidad_tmp.wcdf/generatedContent"
+        },
+        Presupuesto: {
+            "Reporte 2193 Presupuesto": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer"
+        },
+        Cartera: {
+            "Reporte Olap Cartera": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer",
+            "Estado Cartera Estadistica": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer"
+        },
+        ControlMando: {
+            "Reporte Control de Mando": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AReportes_Control_Mando%3AReporte_Control_Mando_indicadores.prpt/viewer"
+        },
+    }
 
-                },
-                Presupuesto: {
-                    "Reporte 2193 Presupuesto": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer"
-                },
-                Cartera: {
-                    "Reporte Olap Cartera": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer",
-                    "Estado Cartera Estadistica": "http://192.168.1.84:8080/pentaho/api/repos/%3Ahome%3Aadmin%3AInformes%3APresupuesto%3AReporte_2193_Pr.prpt/viewer"
-                },
-            }
-            function validateLoad() {
-                $("#loading").css("display", "none");
-            }
+    function validateLoad() {
+        $("#loading").css("display", "none");
+    }
 
-            selectReporte.change(function () {
-                $("#loading").css("display", "block");
-                const iframe = $('#iframeReporte');
-                iframe.attr('src', $(this).val());
-                iframe.attr('title', $(this).text());
-            });
+    selectReporte.change(function() {
+        $("#loading").css("display", "block");
+        const iframe = $('#iframeReporte');
+        iframe.attr('src', $(this).val());
+        iframe.attr('title', $(this).text());
+    });
 
-            function loadReportesArea() {
-                for (var [key, value] of Object.entries(reportesArea[area])) {
-                    selectReporte.append('<option value=' + value + ' >' + key + '</option>');
-                }
-            }
+    function loadReportesArea() {
+        for (var [key, value] of Object.entries(reportesArea[area])) {
+            selectReporte.append('<option value=' + value + ' >' + key + '</option>');
+        }
+    }
 
-            loadReportesArea();
-            
+    loadReportesArea();
 
-    
+
+
     function actualizar_a_fechaCorte() {
         event.preventDefault();
         const fechacorte = $('#fechaCorte');
-        const year = $('#year');        
-        const peticion = "/ejecutar-update-presupuesto/"+fechacorte.val()+"/"+year.val();     
-        
+        const year = $('#year');
+        const peticion = "/ejecutar-update-presupuesto/" + fechacorte.val() + "/" + year.val();
+
         $.ajax({
             url: peticion,
             method: 'POST',
             data: [],
             contentType: false,
             processData: false,
-            error: function (result) {
+            error: function(result) {
                 //alert(result.responseText);
                 //alert(error);
                 Swal.fire({
@@ -132,34 +133,34 @@
                     timer: 5000
                 })
             },
-            beforeSend: function(result){
+            beforeSend: function(result) {
                 procesando("Actualizando reporte de Presupuesto...");
             },
 
-            success: function (result) {
-                if(result["estado"] == 200){
+            success: function(result) {
+                if (result["estado"] == 200) {
                     Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Actualización exitosa',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                }else{
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Actualización exitosa',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                } else {
                     Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    title: 'Ocurrio un problema con la actualización',
-                    showConfirmButton: false,
-                    timer: 1500
-                })   
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'Ocurrio un problema con la actualización',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
-                
-                
+
+
             }
 
-        })        
-                            
+        })
+
     }
 
     function procesando(msg) {
@@ -182,5 +183,5 @@
             },
 
         })
-        }            
-    </script>
+    }
+</script>

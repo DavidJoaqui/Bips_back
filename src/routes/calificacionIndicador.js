@@ -32,6 +32,20 @@ router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
     
 });
 
+router.get("/ctm-lista-semaforizacion", authMiddleware, (req, res) => {
+        
+  modelControlMando.consultar_registros_Semaforizacion().then(lista_semaforizacion => {
+    //console.log(lista_Estrategias);lista_Estrategias
+    res.render(config.rutaPartials + "calificacionIndicador/listsemaforizacion", {
+      layout:false,
+      lista_semaforizacion: lista_semaforizacion,        
+    });
+});
+
+
+});
+
+
 router.get("/form-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res) => {
 
   modelControlMando.consultar_det_reg_ind_xcalificar(req.params.id).then(lista_reg_indicadores => {

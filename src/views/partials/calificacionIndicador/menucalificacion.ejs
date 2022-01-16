@@ -1,6 +1,5 @@
-
-    <a href="" onclick="listaPendientes()"  title="Calificar">
-        <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+<a href="" onclick="listaPendientes()" title="Calificar">
+    <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
             <i class="fas fa-edit"></i></i><label for="">&nbsp; Pendientes Calificar</label>
     </button>
 </a>
@@ -11,20 +10,31 @@
 </button>
 </a>
 
-<script>
+<a href="" onclick="listaSemaforizacion()" title="Calificar">
+    <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+    <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Indicadores</label>
+</button>
+</a>
 
+<script>
     function listaPendientes() {
         event.preventDefault();
-        const peticion = "/ctm-calificacion-indicadores";                
-         loadContentHtml(peticion, '#container-tab')
-                            
+        const peticion = "/ctm-calificacion-indicadores";
+        loadContentHtml(peticion, '#container-tab')
+
     }
 
     function listaCalificados() {
         event.preventDefault();
-        const peticion = "/ctm-lista-calificados";                
-         loadContentHtml(peticion, '#container-tab')
-                            
+        const peticion = "/ctm-lista-calificados";
+        loadContentHtml(peticion, '#container-tab')
+
     }
 
+    function listaSemaforizacion() {
+        event.preventDefault();
+        const peticion = "/ctm-lista-semaforizacion";
+        loadContentHtml(peticion, '#container-tab')
+
+    }
 </script>

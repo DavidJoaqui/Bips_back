@@ -528,6 +528,12 @@ module.exports = {
         return resultados.rows;
     },
 
+    async consultar_registros_Semaforizacion() {
+        
+        const resultados = await conexion.query("select * from schema_control.vista_resultado_mes ");
+        return resultados.rows;
+    },
+
     async consultar_calificacion_reg_indicador(id) {
         const resultados = await conexion.query("select a.id_registroindicador, to_char(a.fecharegistro, 'MON-DD-YYYY HH12:MIPM') as fecharegistro, a.vigencia, a.periodoevaluado, a.formula_cifras_numerador , a.formula_cifras_denominador, a.observaciones , a.calificado, a.version , e.nombre_mes, b.*, u.num_identificacion, concat(u.nombre, ' ', u.apellido) as nombre_profesional, d.nombre_area, f.* from schema_control.registroindicadores a inner join schema_control.indicadores b on (a.id_indicador = b.id_indicador) inner join schema_control.profesionales c on (a.id_profesional = c.id_profesional) inner join schema_seguridad.user u on (c.id_user = u.id_user) inner join schema_control.areas d on (u.id_area = d.id_area) inner join schema_control.periodo_mes e on (a.periodoevaluado = e.id_mes) left join schema_control.calificacion_registro_indicadores f on (a.id_registroindicador = f.id_registro_indicador) where a.id_registroindicador = $1", [id]);
         return resultados.rows;
