@@ -16,6 +16,12 @@
 </button>
 </a>
 
+<a href="" onclick="listaSemaforizacionPlanes()" title="Calificar">
+    <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+    <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Planes</label>
+</button>
+</a>
+
 <script>
     function listaPendientes() {
         event.preventDefault();
@@ -34,6 +40,13 @@
     function listaSemaforizacion() {
         event.preventDefault();
         const peticion = "/ctm-lista-semaforizacion";
+        loadContentHtml(peticion, '#container-tab')
+
+    }
+
+    function listaSemaforizacionPlanes() {
+        event.preventDefault();
+        const peticion = "/ctm-lista-semaforizacion-planes";
         loadContentHtml(peticion, '#container-tab')
 
     }

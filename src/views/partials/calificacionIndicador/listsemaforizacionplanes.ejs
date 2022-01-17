@@ -1,0 +1,114 @@
+<%- include("../../partials/calificacionIndicador/menucalificacion"); %>
+
+    <div id="listas">
+        <h1>Registros de Planes</h1><small>Se encontraron <%= lista_semaforizacion.length %> registro(s)</small>
+        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+
+            <div class="w-full overflow-x-auto" id="list-reg-indicadores">
+
+                <hr class="py-2" />
+
+                <table class="w-full whitespace-no-wrap" id="table-calificados">
+
+
+                    <thead class="">
+                        <tr class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                            <th>#</th>
+                            <th>Plan de Acción</th>
+                            <th>Vigencia</th>
+                            <th>Enero</th>
+                            <th>Febrero</th>
+                            <th>Marzo</th>
+                            <th>Abril</th>
+                            <th>Mayo</th>
+                            <th>Junio</th>
+                            <th>Julio</th>
+                            <th>Agosto</th>
+                            <th>Septiembre</th>
+                            <th>Octubre</th>
+                            <th>Noiviembre</th>
+                            <th>Diciembre</th>
+                            <th>resultado</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+
+                        <% for(var i=0; i<lista_semaforizacion.length; i++) { %>
+
+                            <tr class="text-gray-700 dark:text-gray-400">
+                                <td class="px-4 py-3 text-sm">
+                                    <%= i+1 %>
+
+                                </td>
+
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].plan %>
+                                </td>
+
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].vigencia %>
+                                </td>
+
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].enero %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].febrero %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].marzo %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].abril %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].mayo %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].junio %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].julio %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].agosto %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].septiembre %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].octubre %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].noviembre %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].diciembre %>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <%= lista_semaforizacion[i].resultado %>
+                                </td>
+                               
+                                
+
+
+
+
+                            </tr>
+                            <% }%>
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+
+            </div>
+            <%- include("../../partials/pagination"); %>
+        </div>
+
+    </div>
+
+    <script>
+        getPagination('#table-calificados');
+    </script>
