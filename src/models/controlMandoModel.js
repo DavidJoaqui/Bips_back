@@ -7,23 +7,23 @@ module.exports = {
     //-----------------------Metodos Plan General-----------------------------------//
     //------------------------------------------------------------------------------//
 
-    async insertar_PlanGeneral(plan_general, fecha_inicial, fecha_fin, es_activo) {
-        const resultados = await conexion.query('insert into schema_control.plangeneral (plan_general,fecha_inicial, fecha_final, estado) values ($1,$2,$3,$4)', [plan_general, fecha_inicial, fecha_fin, es_activo]);
+    async insertar_PlanGeneral(plan_general, fecha_inicial, fecha_fin, es_activo,meta) {
+        const resultados = await conexion.query('insert into schema_control.plangeneral (plan_general,fecha_inicial, fecha_final, estado, meta) values ($1,$2,$3,$4,$5)', [plan_general, fecha_inicial, fecha_fin, es_activo, meta]);
         return resultados;
     },
 
     async consultar_RegistrosPlan_General() {
-        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general, concat(to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD'),'-',to_char(p.fecha_inicial, 'YYYY')) as fecha_inicial ,concat(to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD'),'-',to_char(p.fecha_final , 'YYYY')) as fecha_final, p.estado from schema_control.plangeneral p");
+        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general, concat(to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD'),'-',to_char(p.fecha_inicial, 'YYYY')) as fecha_inicial ,concat(to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD'),'-',to_char(p.fecha_final , 'YYYY')) as fecha_final,p.meta, p.estado from schema_control.plangeneral p");
         return resultados.rows;
     },
 
     async consultar_RegistrosPlan_General_x_id(id_plan) {
-        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general,concat(to_char(p.fecha_inicial, 'YYYY'),'-',to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD')) as fecha_inicial ,concat(to_char(p.fecha_final , 'YYYY'),'-',to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD')) as fecha_final, p.estado from schema_control.plangeneral p where id_plangeneral=$1", [id_plan]);
+        const resultados = await conexion.query("select p.id_plangeneral,p.plan_general,concat(to_char(p.fecha_inicial, 'YYYY'),'-',to_char(p.fecha_inicial, 'MM'),'-',to_char(p.fecha_inicial, 'DD')) as fecha_inicial ,concat(to_char(p.fecha_final , 'YYYY'),'-',to_char(p.fecha_final , 'MM'),'-',to_char(p.fecha_final , 'DD')) as fecha_final,p.meta, p.estado from schema_control.plangeneral p where id_plangeneral=$1", [id_plan]);
         return resultados.rows;
     },
 
-    async actualizar_RegistrosPlan_General_x_id(id_plan, nombre_plan, fecha_inicial, fecha_fin, es_activo) {
-        const resultados = await conexion.query("UPDATE schema_control.plangeneral set plan_general=$2, fecha_inicial=$3, fecha_final=$4, estado=$5 where id_plangeneral=$1", [id_plan, nombre_plan, fecha_inicial, fecha_fin, es_activo]);
+    async actualizar_RegistrosPlan_General_x_id(id_plan, nombre_plan, fecha_inicial, fecha_fin,es_activo,meta) {
+        const resultados = await conexion.query("UPDATE schema_control.plangeneral set plan_general=$2, fecha_inicial=$3, fecha_final=$4, estado=$5, meta=$6 where id_plangeneral=$1", [id_plan, nombre_plan, fecha_inicial, fecha_fin,es_activo,meta]);
         return resultados;
     },
 
@@ -537,6 +537,12 @@ module.exports = {
     async consultar_registros_semaforizacion_planes() {
         
         const resultados = await conexion.query("select * from schema_control.vista_resultado_plan_mes");
+        return resultados.rows;
+    },
+
+    async consultar_registros_semaforizacion_plan_general() {
+        
+        const resultados = await conexion.query("select * from schema_control.vista_resultado_plan_general_mes");
         return resultados.rows;
     },
 

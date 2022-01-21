@@ -4,23 +4,30 @@
     </button>
 </a>
 
-<a href="" onclick="listaCalificados()" title="Calificar">
+<a href="" onclick="listaCalificados()" >
     <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
     <i class="fas fa-list " ></i><label  for="">&nbsp; Calificados</label>
 </button>
 </a>
 
-<a href="" onclick="listaSemaforizacion()" title="Calificar">
+<a href="" onclick="listaSemaforizacion()" >
     <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
     <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Indicadores</label>
 </button>
 </a>
 
-<a href="" onclick="listaSemaforizacionPlanes()" title="Calificar">
+<a href="" onclick="listaSemaforizacionPlanes()">
     <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
     <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Planes</label>
 </button>
 </a>
+
+<a href="" onclick="listaSemaforizacionPlanGeneral()">
+    <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+    <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Plan General</label>
+</button>
+</a>
+
 
 <script>
     function listaPendientes() {
@@ -47,6 +54,13 @@
     function listaSemaforizacionPlanes() {
         event.preventDefault();
         const peticion = "/ctm-lista-semaforizacion-planes";
+        loadContentHtml(peticion, '#container-tab')
+
+    }
+
+    function listaSemaforizacionPlanGeneral() {
+        event.preventDefault();
+        const peticion = "/ctm-lista-semaforizacion-plan-general";
         loadContentHtml(peticion, '#container-tab')
 
     }

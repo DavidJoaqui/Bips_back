@@ -52,6 +52,16 @@ router.get("/ctm-lista-semaforizacion-planes", authMiddleware, (req, res) => {
   });
 });
 
+router.get("/ctm-lista-semaforizacion-plan-general", authMiddleware, (req, res) => {
+  modelControlMando.consultar_registros_semaforizacion_plan_general().then(lista_semaforizacion => {
+    //console.log(lista_Estrategias);lista_Estrategias
+    res.render(config.rutaPartials + "calificacionIndicador/listsemaforizacionplangeneral", {
+      layout: false,
+      lista_semaforizacion: lista_semaforizacion,
+    });
+  });
+});
+
 
 router.get("/form-ctm-calificacion-reg-indicador/:id", authMiddleware, (req, res) => {
   modelControlMando.consultar_det_reg_ind_xcalificar(req.params.id).then(lista_reg_indicadores => {

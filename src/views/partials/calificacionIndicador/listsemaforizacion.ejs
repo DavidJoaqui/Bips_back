@@ -8,11 +8,12 @@
 
                 <hr class="py-2" />
 
-                <table class="w-full whitespace-no-wrap" id="table-calificados">
+                <table class="w-full whitespace-no-wrap" id="table-semaforizacion-indicadores">
 
 
                     <thead class="">
-                        <tr class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                        <tr
+                            class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th>#</th>
                             <th>Identificacion</th>
                             <th>Nombres</th>
@@ -70,434 +71,985 @@
                                 <td class="px-4 py-3 text-sm">
                                     <%= lista_semaforizacion[i].vigencia %>
                                 </td>
-                                <td class=" text-center px-4 py-3 text-sm">
+                                <!-- td enero -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
 
+                                        <%if(lista_semaforizacion[i].enero>= lista_semaforizacion[i].meta_numerica ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].enero %>
+                                                    </label></strong>
+                                            </td>
 
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].enero = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].enero %></label></strong>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].enero %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].enero %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
 
+                                                        <%if(lista_semaforizacion[i].enero==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].enero %>
+                                                                    </label></strong>
+                                                            </td>
 
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].enero >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                    <%= lista_semaforizacion[i].enero %></label></strong>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                        <%= lista_semaforizacion[i].enero %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].enero %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].enero <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                    <%= lista_semaforizacion[i].enero %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+
+                                                                        <%if(lista_semaforizacion[i].enero
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].enero
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
+
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                        <%= lista_semaforizacion[i].enero %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].enero
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                    
-                                                                    
-                                                                    else{%>
-                                                                                        <%= lista_semaforizacion[i].enero %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].febrero = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].febrero %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].enero
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td febrero -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].febrero>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].febrero %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].febrero %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].febrero %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].febrero >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].febrero %></label></strong>
-                                                            <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].febrero %></label></strong>
-                                                                <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].febrero <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].febrero %></label></strong>
-                                                                            <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].febrero %></label></strong>
-                                                                                <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].febrero %>
-                                                                                            <%}%>
-                                </td>
-                                <td class=" text-center px-4 py-3 text-sm">
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
 
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].marzo = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].marzo %></label></strong>
+                                                        <%if(lista_semaforizacion[i].febrero==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].febrero %>
+                                                                    </label></strong>
+                                                            </td>
+                                                            <%}else{%>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].febrero %>
+                                                                        </label></strong>
+                                                                </td>
+                                                                <%}%>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].febrero
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].febrero
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
+                                                                            <%}else{%>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].febrero
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
+                                                                                <%}%>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].febrero
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td marzo -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].marzo>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].marzo %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].marzo %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].marzo %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].marzo >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].marzo %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].marzo==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].marzo %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].marzo %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].marzo %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].marzo <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].marzo %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].marzo
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].marzo
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].marzo %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].marzo
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].marzo %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].abril = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].abril %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].marzo
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td abril -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].abril>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].abril %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].abril %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].abril %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].abril >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].abril %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].abril==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].abril %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].abril %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].abril %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].abril <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].abril %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].abril
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].abril
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].abril %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].abril
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].abril %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].mayo = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].mayo %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].abril
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td mayo -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].mayo>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].mayo %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].mayo %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].mayo %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].mayo >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].mayo %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].mayo==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].mayo %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].mayo %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].mayo %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].mayo <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].mayo %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].mayo
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].mayo
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].mayo %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].mayo
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].mayo %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].junio = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].junio %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].mayo
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td junio -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].junio>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].junio %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].junio %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].junio %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].junio >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].junio %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].junio==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].junio %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].junio %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].junio %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].junio <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].junio %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].junio
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].junio
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].junio %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].junio
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].junio %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].julio = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].julio %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].junio
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td julio -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].julio>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].julio %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].julio %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].julio %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].julio >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].julio %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].julio==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].julio %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].julio %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].julio %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].julio <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].julio %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].julio
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].julio
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].julio %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].julio
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].julio %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].agosto = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].agosto %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].julio
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td agosto -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].agosto>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].agosto %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].agosto %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].agosto %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].agosto >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].agosto %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].agosto==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].agosto %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].agosto %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].agosto %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].agosto <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].agosto %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].agosto
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].agosto
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].agosto %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].agosto
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].agosto %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].septiembre = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].septiembre %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].agosto
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td septiembre -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].septiembre>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].septiembre %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].septiembre %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].septiembre %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].septiembre >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].septiembre %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].septiembre==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].septiembre %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].septiembre %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].septiembre %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].septiembre <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].septiembre %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].septiembre
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].septiembre
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].septiembre %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].septiembre
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].septiembre %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].octubre = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].octubre %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].septiembre
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td octubre -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].octubre>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].octubre %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].octubre %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].octubre %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].octubre >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].octubre %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].octubre==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].octubre %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].octubre %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].octubre %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].octubre <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].octubre %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].octubre
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].octubre
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].octubre %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].octubre
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].octubre %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].noviembre = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].noviembre %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].octubre
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td noviembre -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].noviembre>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].noviembre %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].noviembre %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].noviembre %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].noviembre >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].noviembre %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].noviembre==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].noviembre %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].noviembre %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].noviembre %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].noviembre <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].noviembre %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].noviembre
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].noviembre
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].noviembre %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].noviembre
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].noviembre %>
-                                                                                            <%}%>
-                                </td>
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].diciembre = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].diciembre %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].noviembre
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td diciembre -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].diciembre>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].diciembre %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].diciembre %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].diciembre %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].diciembre >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].diciembre %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].diciembre==lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].diciembre %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].diciembre %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].diciembre %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].diciembre <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].diciembre %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].diciembre
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].diciembre
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].diciembre %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].diciembre
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].diciembre %>
-                                                                                            <%}%>
-                                </td>
-
-
-
-
-                                <td class=" text-center px-4 py-3 text-sm">
-
-                                    <%if(lista_semaforizacion[i].operador_logico  == '='){%>
-                                        <%if(lista_semaforizacion[i].resultado = lista_semaforizacion[i].meta_numerica ){%>
-                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                <%= lista_semaforizacion[i].resultado %></label></strong>
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].diciembre
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
+                                <!-- td resultado -->
+                                <div>
+                                    <%if(lista_semaforizacion[i].operador_logico=='>='){%>
+                                        <%if(lista_semaforizacion[i].resultado>= lista_semaforizacion[i].meta_numerica
+                                            ){%>
+                                            <td class=" text-center px-4 py-3 text-sm "
+                                                style=" background-color:LightGreen">
+                                                <strong><label style="color: green"> <i
+                                                            class="fas fa-check-circle text-center"></i>
+                                                        <%= lista_semaforizacion[i].resultado %>
+                                                    </label></strong>
+                                            </td>
                                             <%}else{%>
-                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                    <%= lista_semaforizacion[i].resultado %></label></strong>
+                                                <td class=" text-center px-4 py-3 text-sm "
+                                                    style=" background-color:#FFCDD2">
+                                                    <strong><label style="color: red;"><i
+                                                                class="fas fa-minus-circle text-center"> </i>
+                                                            <%= lista_semaforizacion[i].resultado %>
+                                                        </label></strong>
+                                                </td>
                                                 <%}%>
-                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '>='){%>
-                                                        <%if(lista_semaforizacion[i].resultado >= lista_semaforizacion[i].meta_numerica ){%>
-                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                         <%= lista_semaforizacion[i].resultado %></label></strong>
+                                                    <%} else if(lista_semaforizacion[i].operador_logico=='=' ){%>
+
+                                                        <%if(lista_semaforizacion[i].resultado>=lista_semaforizacion[i].meta_numerica
+                                                            ){%>
+                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                style=" background-color:LightGreen">
+                                                                <strong><label style="color: green"> <i
+                                                                            class="fas fa-check-circle text-center"></i>
+                                                                        <%= lista_semaforizacion[i].resultado %>
+                                                                    </label></strong>
+                                                            </td>
                                                             <%}else{%>
-                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                              <%= lista_semaforizacion[i].resultado %></label></strong>
+                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                    style=" background-color:#FFCDD2">
+                                                                    <strong><label style="color: red;"><i
+                                                                                class="fas fa-minus-circle text-center">
+                                                                            </i>
+                                                                            <%= lista_semaforizacion[i].resultado %>
+                                                                        </label></strong>
+                                                                </td>
                                                                 <%}%>
-                                                                    <%}else if (lista_semaforizacion[i].operador_logico  == '<='){%>
-                                                                        <%if(lista_semaforizacion[i].resultado <= lista_semaforizacion[i].meta_numerica ){%>
-                                                                            <strong><label style="color: green;"> <i class="fas fa-check-circle text-center"></i>
-                                                                             <%= lista_semaforizacion[i].resultado %></label></strong>
+                                                                    <%} else
+                                                                        if(lista_semaforizacion[i].operador_logico=='<='
+                                                                        ){%>
+                                                                        <%if(lista_semaforizacion[i].resultado
+                                                                            <=lista_semaforizacion[i].meta_numerica ){%>
+                                                                            <td class=" text-center px-4 py-3 text-sm "
+                                                                                style=" background-color:LightGreen">
+                                                                                <strong><label style="color: green"> <i
+                                                                                            class="fas fa-check-circle text-center"></i>
+                                                                                        <%= lista_semaforizacion[i].resultado
+                                                                                            %>
+                                                                                    </label></strong>
+                                                                            </td>
                                                                             <%}else{%>
-                                                                                <strong><label style="color: red;"><i class="fas fa-minus-circle text-center"> </i>
-                                                                                      <%= lista_semaforizacion[i].resultado %></label></strong>
+                                                                                <td class=" text-center px-4 py-3 text-sm "
+                                                                                    style=" background-color:#FFCDD2">
+                                                                                    <strong><label
+                                                                                            style="color: red;"><i
+                                                                                                class="fas fa-minus-circle text-center">
+                                                                                            </i>
+                                                                                            <%= lista_semaforizacion[i].resultado
+                                                                                                %>
+                                                                                        </label></strong>
+                                                                                </td>
                                                                                 <%}%>
-                                                                                    <%}
-                                                                                     else{%>
-                                                                                        <%= lista_semaforizacion[i].resultado %>
-                                                                                            <%}%>
-                                </td>
-
-
-
-
-
+                                                                                    <%} else{%>
+                                                                                        <td
+                                                                                            class=" text-center px-4 py-3 text-sm ">
+                                                                                            <%= lista_semaforizacion[i].resultado
+                                                                                                %>
+                                                                                        </td>
+                                                                                        <%}%>
+                                </div>
                             </tr>
                             <% }%>
                     </tbody>
@@ -513,5 +1065,5 @@
     </div>
 
     <script>
-        getPagination('#table-calificados');
+        getPagination('#table-semaforizacion-indicadores');
     </script>
