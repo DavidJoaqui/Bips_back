@@ -42,9 +42,28 @@ router.get("/ctm-lista-semaforizacion", authMiddleware, (req, res) => {
   });
 });
 
-router.get("/ctm-lista-semaforizacion-planes", authMiddleware, (req, res) => {
-  modelControlMando.consultar_registros_semaforizacion_planes().then(lista_semaforizacion => {
-    //console.log(lista_Estrategias);lista_Estrategias
+router.get("/ctm-lista-semaforizacion-planes/:campo", authMiddleware, (req, res) => {
+ 
+//console.log(req.query.campo); 
+console.log(req.params.campo); 
+//console.log(req.body.campo); 
+filtro_campo = req.params.campo;
+
+console.log("a:"+ filtro_campo); 
+
+  if(filtro_campo =='' ){
+
+    filtro_campo = 'plan_general';
+
+  }
+  
+  
+
+  modelControlMando.consultar_registros_semaforizacion_planes(req.params.campo).then(lista_semaforizacion => {
+    
+  console.log(lista_semaforizacion);
+   
+    
     res.render(config.rutaPartials + "calificacionIndicador/listsemaforizacionplanes", {
       layout: false,
       lista_semaforizacion: lista_semaforizacion,
@@ -178,7 +197,8 @@ router.get("/lista-ctm-reg-ind-xcal-filtrado", authMiddleware, (req, res) => {
 
   modelControlMando.consultar_reg_ind_xcal_filtrado(req.query.vigencia, req.query.periodo, req.query.area, req.query.indicador).then(lista_reg_indicadores => {
 
-    res.render(config.rutaPartials + "calificacionIndicador/listtable", { layout: false, lista_calificacion_indicadores: lista_reg_indicadores });
+    res.render(config.rutaPartials + "calificacionIndicador/listtable", 
+    { layout: false, lista_calificacion_indicadores: lista_reg_indicadores });
 
   });
 

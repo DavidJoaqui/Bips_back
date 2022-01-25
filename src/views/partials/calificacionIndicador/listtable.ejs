@@ -1,5 +1,6 @@
 <hr class="py-2" />
-<h1>Registros de Indicador Pendientes de Calificación</h1><small>Se encontraron <%= lista_calificacion_indicadores.length %> registro(s)</small>
+<h1>Registros de Indicador Pendientes de Calificación <button onclick="ExportToExcel('xlsx','','','table-calificacion-indicador')"><i class="fas fa-file-excel" style="color: green;"><small>  Export.xlsx</small></i></button> </h1>
+<small>Se encontraron <%= lista_calificacion_indicadores.length %> registro(s)</small>
                     <table class="w-full whitespace-no-wrap" id="table-calificacion-indicador">
                         
                         <thead class="">

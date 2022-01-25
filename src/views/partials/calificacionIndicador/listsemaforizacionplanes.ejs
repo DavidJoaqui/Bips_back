@@ -1,20 +1,55 @@
 <%- include("../../partials/calificacionIndicador/menucalificacion"); %>
 
     <div id="listas">
-        <h1>Registros de Planes</h1><small>Se encontraron <%= lista_semaforizacion.length %> registro(s)</small>
+
+        <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+
+            <div>
+
+                <span class="text-gray-700 dark:text-gray-400">
+                    Seleccione el campo a mostrar:
+                </span>
+                <span>
+
+                    <select name="select_campo" id="select_campo" data-toggle="" title="Seleccionar año"
+                        data-placement="right" requiredclass="" style="border: gray 1px solid;">
+                        <option selected="selected" value="plan">Seleccionar Campo</option>
+                        <option value="plan_general">Plan General</option>
+                        <option value="linea_accion">Linea de Acción</option>
+                        <option value="objetivo">Objetivo</option>
+                        <option value="estrategia">Estrategia</option>
+                        <option value="plan">Plan de Acción</option>
+ 
+                    </select>
+                </span>
+
+             
+
+            </div>
+        </div>
+        <div class="w-full overflow-x-auto" id="list-semaforizacion-campo">
+        <h1>Registros Semaforización Planes <button
+                onclick="ExportToExcel('xlsx','','','table-semaforizacion-campo')"><i class="fas fa-file-excel"
+                    style="color: green;"><small> Export.xlsx </small></i></button> </h1>
+
+        <small>Se encontraron <%= lista_semaforizacion.length %> registro(s)</small>
+
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
 
-            <div class="w-full overflow-x-auto" id="list-reg-indicadores">
+            
 
                 <hr class="py-2" />
 
-                <table class="w-full whitespace-no-wrap" id="table-calificados">
+
+                <table class="w-full whitespace-no-wrap" id="table-semaforizacion-campo">
 
 
                     <thead class="">
-                        <tr class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                            <th>#</th>
-                            <th>Plan de Acción</th>
+                       
+                        <tr
+                            class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                            <th>#</th>                            
+                            <th id="columna"></th>
                             <th>Vigencia</th>
                             <th>Enero</th>
                             <th>Febrero</th>
@@ -32,6 +67,7 @@
 
                         </tr>
                     </thead>
+
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
                         <% for(var i=0; i<lista_semaforizacion.length; i++) { %>
@@ -43,7 +79,7 @@
                                 </td>
 
                                 <td class="px-4 py-3 text-sm">
-                                    <%= lista_semaforizacion[i].plan %>
+                                    <%= lista_semaforizacion[i].columna %>
                                 </td>
 
                                 <td class="px-4 py-3 text-sm">
@@ -89,8 +125,8 @@
                                 <td class="px-4 py-3 text-sm">
                                     <%= lista_semaforizacion[i].resultado %>
                                 </td>
-                               
-                                
+
+
 
 
 
@@ -109,6 +145,34 @@
 
     </div>
 
+
+
     <script>
-        getPagination('#table-calificados');
+
+        getPagination('#table-semaforizacion-campo');
+        $("#select_campo").change(function () {
+                
+            var combo = document.getElementById("select_campo");
+            var selected = combo.options[combo.selectedIndex].value;
+            var selected_text = combo.options[combo.selectedIndex].text;
+
+            var peticion = "/ctm-lista-semaforizacion-planes/" + selected;
+                
+            $("#table-semaforizacion-campo").html("");
+            loadContentHtml(peticion, '#container-tab');
+
+            $("#columna").html("");
+            //$("#columna").append("<label>aa"+selected_text+"</label>");
+            $("#columna").val(selected_text);
+                    
+
+            //$("#list-semaforizacion-campo").attr("hidden", false);
+ 
+
+            });
+                 
+            
+            
+
+
     </script>

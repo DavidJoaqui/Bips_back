@@ -28,6 +28,8 @@
 </button>
 </a>
 
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
 
 <script>
     function listaPendientes() {
@@ -52,8 +54,8 @@
     }
 
     function listaSemaforizacionPlanes() {
-        event.preventDefault();
-        const peticion = "/ctm-lista-semaforizacion-planes";
+        event.preventDefault()
+        const peticion = "/ctm-lista-semaforizacion-planes/plan_general";
         loadContentHtml(peticion, '#container-tab')
 
     }
@@ -64,4 +66,17 @@
         loadContentHtml(peticion, '#container-tab')
 
     }
+
+    function ExportToExcel(type, fn, dl,table) {
+            var elt = document.getElementById(table);
+           //var elt=table;
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "hoja1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || (table+'.'+ (type || 'xlsx')));
+    }
+
+ 
+
+
 </script>

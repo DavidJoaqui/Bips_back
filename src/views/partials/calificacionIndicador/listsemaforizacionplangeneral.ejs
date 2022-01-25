@@ -1,14 +1,15 @@
 <%- include("../../partials/calificacionIndicador/menucalificacion"); %>
 
     <div id="listas">
-        <h1>Registros de Planes</h1><small>Se encontraron <%= lista_semaforizacion.length %> registro(s)</small>
+        <h1>Registros Semaforización Plan General  <button onclick="ExportToExcel('xlsx','','','table-semaforizacion-plan-general')"><i class="fas fa-file-excel" style="color: green;"><small>  Export.xlsx</small></i></button></h1>
+        <small>Se encontraron <%= lista_semaforizacion.length %> registro(s)</small>
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
 
             <div class="w-full overflow-x-auto" id="list-reg-indicadores">
 
                 <hr class="py-2" />
 
-                <table class="w-full whitespace-no-wrap" id="table-calificados">
+                <table class="w-full whitespace-no-wrap" id="table-semaforizacion-plan-general">
 
 
                     <thead class="">
@@ -363,5 +364,5 @@
     </div>
 
     <script>
-        getPagination('#table-calificados');
+        getPagination('#table-semaforizacion-plan-general');
     </script>
