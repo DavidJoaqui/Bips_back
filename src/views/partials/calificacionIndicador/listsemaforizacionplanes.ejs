@@ -23,20 +23,19 @@
                     </select>
                 </span>
 
-             
+
 
             </div>
         </div>
         <div class="w-full overflow-x-auto" id="list-semaforizacion-campo">
-        <h1>Registros Semaforización Planes <button
-                onclick="ExportToExcel('xlsx','','','table-semaforizacion-campo')"><i class="fas fa-file-excel"
+            <h1>Registros Semaforización Planes <button onclick="ExportToExcel('xlsx','','','table-semaforizacion-campo')"><i class="fas fa-file-excel"
                     style="color: green;"><small> Export.xlsx </small></i></button> </h1>
 
-        <small>Se encontraron <%= lista_semaforizacion.length %> registro(s) con el filtro:<strong style="text-transform:uppercase"><%= campo %></strong> </small>
+            <small>Se encontraron <%= lista_semaforizacion.length %> registro(s) con el filtro: <strong style="text-transform:uppercase">&nbsp; <%= campo %></strong> </small>
 
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+            <div class="w-full overflow-hidden rounded-lg shadow-xs">
 
-            
+
 
                 <hr class="py-2" />
 
@@ -45,11 +44,12 @@
 
 
                     <thead class="">
-                       
-                        <tr
-                            class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                            <th>#</th>                            
-                            <th id="columna" style="color: darkblue;"><%= campo  %> </th>
+
+                        <tr class="text-center text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                            <th>#</th>
+                            <th id="columna" style="color: darkblue;">
+                                <%= campo  %>
+                            </th>
                             <th>Vigencia</th>
                             <th>Enero</th>
                             <th>Febrero</th>
@@ -148,24 +148,18 @@
 
 
     <script>
-
         getPagination('#table-semaforizacion-campo');
-        $("#select_campo").change(function () {
-                
+        $("#select_campo").change(function() {
+
             var combo = document.getElementById("select_campo");
             var selected = combo.options[combo.selectedIndex].value;
             var selected_text = combo.options[combo.selectedIndex].text;
 
-            var peticion = "/ctm-lista-semaforizacion-planes/" + selected+"/?txt='"+selected_text+"'";
-                
+            var peticion = "/ctm-lista-semaforizacion-planes/" + selected + "/?txt='" + selected_text + "'";
+
             $("#table-semaforizacion-campo").html("");
-            loadContentHtml(peticion, '#container-tab');            
- 
-
-            });
-                 
-            
-            
+            loadContentHtml(peticion, '#container-tab');
 
 
+        });
     </script>
