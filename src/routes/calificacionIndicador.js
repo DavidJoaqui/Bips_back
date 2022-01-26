@@ -48,15 +48,33 @@ router.get("/ctm-lista-semaforizacion-planes/:campo", authMiddleware, (req, res)
 console.log(req.params.campo); 
 //console.log(req.body.campo); 
 filtro_campo = req.params.campo;
+filtro_txt = req.query.txt;
 
-console.log("a:"+ filtro_campo); 
+  if(filtro_campo == 'plan_general'){
 
-  if(filtro_campo =='' ){
-
-    filtro_campo = 'plan_general';
+    filtro_txt = 'plan general';
 
   }
-  
+  else if(filtro_campo == 'linea_accion'){
+
+    filtro_txt = 'linea de acción';
+
+  }
+  else if(filtro_campo == 'objetivo'){
+
+    filtro_txt = 'Objetivo';
+
+  }
+  else if(filtro_campo == 'estrategia'){
+
+    filtro_txt = 'Estrategia';
+
+  }
+  else if(filtro_campo == 'plan'){
+
+    filtro_txt = 'Plan de Acción';
+
+  }
   
 
   modelControlMando.consultar_registros_semaforizacion_planes(req.params.campo).then(lista_semaforizacion => {
@@ -67,6 +85,7 @@ console.log("a:"+ filtro_campo);
     res.render(config.rutaPartials + "calificacionIndicador/listsemaforizacionplanes", {
       layout: false,
       lista_semaforizacion: lista_semaforizacion,
+      campo: filtro_txt
     });
   });
 });

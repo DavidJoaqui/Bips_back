@@ -55,7 +55,7 @@
 
     function listaSemaforizacionPlanes() {
         event.preventDefault()
-        const peticion = "/ctm-lista-semaforizacion-planes/plan_general";
+        const peticion = "/ctm-lista-semaforizacion-planes/plan_general/?txt='Plan general'";
         loadContentHtml(peticion, '#container-tab')
 
     }
