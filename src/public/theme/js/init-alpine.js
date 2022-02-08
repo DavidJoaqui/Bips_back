@@ -11,9 +11,20 @@ function data() {
       window.matchMedia("(prefers-color-scheme: dark)").matches
     );
   }
+  function getIsSideMenuOpenFromStorage(_return) {
+    if (window.localStorage.getItem("isSideMenuOpen")) {
+      return window.localStorage.getItem("isSideMenuOpen") === 'true';
+    }
+    return _return;
+  }
+
+  function setIsSideMenuOpenStorage(value) {
+    window.localStorage.setItem("dark", value);
+  }
+
 
   function setThemeToLocalStorage(value) {
-    window.localStorage.setItem("dark", value);
+    window.localStorage.setItem("isSideMenuOpen", value);
   }
 
   return {
@@ -23,8 +34,24 @@ function data() {
       setThemeToLocalStorage(this.dark);
     },
     isSideMenuOpen: false,
+    isSideMenuDesktopOpen : getIsSideMenuOpenFromStorage(true),
     toggleSideMenu() {
-      this.isSideMenuOpen = !this.isSideMenuOpen;
+      const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+      if(navigator.userAgent.match(toMatch)){
+        this.isSideMenuOpen = !this.isSideMenuOpen;
+        setThemeToLocalStorage(this.isSideMenuOpen);
+      } else{
+        this.isSideMenuDesktopOpen = !this.isSideMenuDesktopOpen;
+        setThemeToLocalStorage(this.isSideMenuDesktopOpen);
+      }
     },
     closeSideMenu() {
       this.isSideMenuOpen = false;
