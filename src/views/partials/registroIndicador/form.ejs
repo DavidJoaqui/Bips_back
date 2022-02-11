@@ -4,35 +4,25 @@
     <input type="text" id="txt_version" name="txt_version" value="<%= item.length && item[0].version? item[0].version:''  %>" hidden>
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
-            Indicador:
-        </span>
-
-        <select name="select_indicador" id="select_indicador"
-            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option selected="selected" value="">Seleccionar Indicador</option>
-            <% listaIndicadores.forEach(lista=> { %>
-
-                <% if (item.length && item[0].id_indicador==lista.id_indicador) { %>
-                    <option selected="selected" value="<%= lista.id_indicador %>">
-                        <%= lista.nombre_indicador %>
-                    </option>
-                    <% } else{ %>
-                        <option value="<%= lista.id_indicador %>">
-                            <%= lista.nombre_indicador %>
-                        </option>
-                        <% } %>
-                            <% }); %>
-        </select required>
-    </label>
-
-    <label class="block mt-4 text-sm">
-        <span class="text-gray-700 dark:text-gray-400">
             Vigencia:
         </span>
         <select name="select_vigencia" id="select_vigencia"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
         </select required>
     </label>
+   
+    <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Indicador:
+        </span>
+
+        <select name="select_indicador" id="select_indicador"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option selected="selected" value="">Seleccionar Indicador</option>            
+        </select required>
+    </label>
+
+ 
 
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
@@ -385,13 +375,49 @@
         });
     }
 
+    function loadIndicadorVigencia(url){
+        $.ajax({
+            type: 'get',
+            url,
+            data: [],
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (result) {
+                //select_linea
+                $("#select_indicador").html("");
+                $("#select_indicador").append('<option selected="selected" value="">Seleccionar indicador</option>');
+                if (result.length == 0) {
+                    $("#select_indicador").html("");
+                    $("#select_indicador").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
+
+                } else if (result) {
+                    result.forEach(element => {
+                        if (element.id_indicador == '<%= item.length && item[0].id_indicador? item[0].id_indicador:0 %>') {
+
+                            $("#select_indicador").append('<option value=' + element.id_indicador + ' selected="selected">' + element.nombre_indicador + '</option>');
+
+                        } else {
+
+                            $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + '</option>');
+                        }
+                    });
+                }
+            }
+        });    
+    }
 
     $("#select_indicador").change(function () {
-        loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + $(this).val());
+        
+        //loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + $(this).val());
+        //loadIndicadorPeriodo();
+        loadPeriodoVigencia("/consultar-periodo-x-anio-edit/?año=" + $('#select_vigencia').val().toString()        
+        + '&indicador=' + $(this).val());
     });
 
     $("#select_vigencia").change(function () {
-        loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + $(this).val() + "&indicador=" + $('#select_indicador').val().toString());
+       loadIndicadorVigencia("/consultar-indicador-vigencia/?año=" + $(this).val());
+       // loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + $(this).val() + "&indicador=" + $('#select_indicador').val().toString());
     });
 
     $("#select_periodo").change(function () {
@@ -399,7 +425,7 @@
         $('#contenedor_info_indicador').attr('hidden', false);
     });
 
-    loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + '<%= item.length && item[0].id_indicador %>')
+    loadVigenciaIndicador("/consultar-vigencia-anio-profesional")
 
     loadPeriodoVigencia("/consultar-periodo-x-anio-edit/?año=" + '<%= item.length && item[0].periodo_año %>'
         + '&id_area=' + '<%= item.length && item[0].id_area %>' + '&id_profesional=' + '<%= item.length && item[0].id_profesional %>'
