@@ -45,6 +45,11 @@
             Cargando Información, esto puede tardar algún tiempo...</span>
 <br />
 <br />
+
+<div class="" style="display: none;">
+    <iframe id="iframeLog" src="" scrolling="si" onload='' frameBorder="0" title="Login Pentaho" class="">
+    </iframe>
+</div>
 <div>
     <iframe id="iframeReporte" src="/reportes-pentaho/loading" scrolling="si" onload='validateLoad()' frameBorder="0" width="100%" style="height:120vh;" height="100$">
             </iframe>
@@ -90,6 +95,10 @@
 
     function validateLoad() {
         $("#loading").css("display", "none");
+
+        const iframe = $('#iframeLog');
+        iframe.attr('src', 'http://192.168.1.84:8080/pentaho/content/saiku-ui/index.html?biplugin5=true&userid=admin&password=password&dimension_prefetch=false#query/open/%3Ahome%3Aadmin%3AAnalisis_Olap_2193%3Aolap_2193.saiku');
+
     }
 
     selectReporte.change(function() {
