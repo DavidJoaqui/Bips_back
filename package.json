@@ -36,9 +36,11 @@
         "path": "^0.12.7",
         "pdfjs-dist": "^2.10.377",
         "pg": "^8.7.1",
+        "pg-cursor": "^2.7.1",
         "shelljs": "^0.8.4",
         "shelljs.exec": "^1.1.8",
         "sweetalert": "^2.1.2",
+        "tableexport": "^5.2.0",
         "xlsx": "^0.17.4"
     },
     "devDependencies": {

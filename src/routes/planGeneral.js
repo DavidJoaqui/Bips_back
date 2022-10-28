@@ -31,7 +31,8 @@ router.post("/persistir-plan-general", authMiddleware, (req, res) => {
       req.body.nombre_plan,
       req.body.fecha_inicial,
       req.body.fecha_fin,
-      req.body.activo
+      req.body.activo,
+      req.body.meta
     )
     .then((respuesta) => {
       if (respuesta["command"] == "INSERT" && respuesta["rowCount"] > 0) {
@@ -54,7 +55,8 @@ router.put("/actualizar-plan-general", authMiddleware, (req, res) => {
       req.body.nombre_plan,
       req.body.fecha_inicial,
       req.body.fecha_fin,
-      req.body.activo
+      req.body.activo,
+      req.body.meta
     )
     .then((respuesta) => {
       if (respuesta["command"] == "UPDATE" && respuesta["rowCount"] > 0) {

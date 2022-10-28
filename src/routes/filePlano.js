@@ -891,7 +891,7 @@ router.post("/enviar-trabajo/ejecucion/archivo-bips", authMiddleware,(req, res) 
     //modelktr.obtener_fecha_hora().then(fh => console.log(fh));
     console.log("===========================================================================");
 
-    const spawn_job = spawn('cmd.exe', ['/c', ":/data-integration/pan.bat /file=E:/Dato_BI/Bips_back/src/integracionKjb/Job_reporte2193.kjb /level=Error >> E:/Dato_BI/temp/job.log"], {
+    const spawn_job = spawn('cmd.exe', ['/c', "F:/data-integration/kitchen.bat /file=E:/Dato_BI/Bips_back/src/integracionKjb/Job_reporte2193.kjb /level=Error >> E:/Dato_BI/temp/job.log"], {
         windowsVerbatimArguments: true
       });
 

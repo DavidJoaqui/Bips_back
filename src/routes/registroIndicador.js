@@ -11,19 +11,15 @@ router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
   modelControlMando
     .consultar_reg_indicadores_x_id(req.params.id)
     .then((item) => {
-      modelControlMando
-        .consultar_indicadorxarea(req.session.username["id_area"])
-        .then((listaIndicadores) => {
+      
           res.render(config.rutaPartials + "registroIndicador/form", {
             layout: false,
             respuesta:req.query.respuesta,
-            id_reg_indicador: req.params.id,
-            listaIndicadores: listaIndicadores,
+            id_reg_indicador: req.params.id,            
             item: item,
           });
-        });
-    });
-});
+        });  
+  });
 
 router.get("/form-ctm-detalle-registro-indicador/:id",
   authMiddleware,
@@ -72,8 +68,7 @@ router.get("/consultar-vigencia-anio-profesional",
   (req, res) => {
     modelControlMando
       .consultar_vigencia_año(
-        req.session.username["id_profesional"],
-        Number(req.query.indicador)
+        req.session.username["id_profesional"]
       )
       .then((lista_años) => {
         return res.send(lista_años);
@@ -97,6 +92,22 @@ router.get("/consultar-periodo-x-anio", authMiddleware, (req, res) => {
     });
 });
 
+router.get("/consultar-indicador-vigencia", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultar_indicadorxVigencia(
+      Number(req.session.username["id_area"]) ,
+      req.query.año,
+         
+    )
+    .then((lista_indicador) => {
+      console.log(lista_indicador);
+      return res.send(lista_indicador);
+    });
+});
+
+
+
+
 router.get("/consultar-periodo-x-anio-edit", authMiddleware, (req, res) => {
 
 
@@ -105,10 +116,10 @@ router.get("/consultar-periodo-x-anio-edit", authMiddleware, (req, res) => {
     .consultar_periodoxañoedit(req.query.año,
       Number(req.session.username["id_area"]),
       Number(req.session.username["id_profesional"]),
-      req.query.indicador
+      req.query.indicador      
     )
     .then((lista_periodo) => {
-
+      console.log(lista_periodo);
       return res.send(lista_periodo);
     });
 });

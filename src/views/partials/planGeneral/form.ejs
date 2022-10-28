@@ -28,6 +28,16 @@
       </label>
       <br/>
 
+      <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+            Meta Númerica:
+        </span>
+        <input name="meta" value="<%= item.length && item[0].meta? item[0].meta:'0' %>"
+            type="number"
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Meta">
+    </label>
+
       <% if (item.length && item[0].estado) { %>
         <label class="flex items-center dark:text-gray-400">
             <input type="checkbox" name="activo"  checked class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">

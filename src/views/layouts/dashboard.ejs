@@ -44,9 +44,8 @@
             min-width: 100px;
         }
 
-
         #container-tab{ 
-                max-width: calc(100vw - 325px);
+                max-width: calc(100vw - 80px);
         }
  
         @media (max-width: 760px) {
@@ -55,13 +54,17 @@
             }
         }
 
+        .menu-desktop-open #container-tab{ 
+                max-width: calc(100vw - 325px);
+        }
+ 
      
     </style>
 
 </head>
 
 <body>
-    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}" >
         <%- include("desktopSidebar"); %>
             <!-- Mobile sidebar -->
             <!-- Backdrop -->
@@ -100,7 +103,7 @@
                     </header>
                     <main class="h-full pb-16 overflow-y-auto">
                         <!-- Remove everything INSIDE this div to a really blank page -->
-                        <div class="container-fluid px-6 grid">
+                        <div class="container-fluid px-6 grid" :class="{ 'menu-desktop-open': isSideMenuDesktopOpen}">
                             <%- body %>
                         </div>
                     </main>
