@@ -101,12 +101,15 @@ router.get("/form-ctm-indicador/:id", authMiddleware, (req, res) => {
         .consultar_RegistrosPlan_General()
         .then((listaPlanes_grales) => {
           modelControlMando.consultar_RegistroAreas().then((lista_areas) => {
+            modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
             res.render(config.rutaPartials + "indicador/form", {
               layout: false,
               id_indicador: req.params.id,
               planes_generales: listaPlanes_grales,
               item: indicador_info,
               lista_areas: lista_areas,
+              lista_equivalencias:lista_equivalencias,
+            });
             });
           });
         });
@@ -117,9 +120,12 @@ router.get("/ctm-indicadores", authMiddleware, (req, res) => {
   modelControlMando
     .consultar_RegistrosIndicadores()
     .then((lista_Indicadores) => {
+      modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
       res.render(config.rutaPartials + "indicador/list", {
         layout: false,
         list: lista_Indicadores,
+        lista_equivalencias:lista_equivalencias,
+      });
       });
     });
 });

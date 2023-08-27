@@ -5,18 +5,18 @@
 
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
-            Plan
+            <%= lista_equivalencias[4].equivalencia_concepto %>:
         </span>
         <textarea name="plan"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-            placeholder="Plan"
+            placeholder="<%= lista_equivalencias[4].equivalencia_concepto %>"
             required><%= item.length && item[0].plan? item[0].plan:'' %></textarea>
     </label>
 
 
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
-            Plan general:
+            <%= lista_equivalencias[0].equivalencia_concepto %>:
         </span>
         <select name="plan_general" id="select_plan"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -46,7 +46,7 @@
 
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
-            Linea acción:
+            <%= lista_equivalencias[1].equivalencia_concepto %>:
         </span>
         <select name="linea_accion" id="select_linea"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -56,7 +56,7 @@
     
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
-            Objetivo:
+            <%= lista_equivalencias[2].equivalencia_concepto %>:
         </span>
         <select name="objetivo" id="select_objetivo"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -65,7 +65,7 @@
 
     <label class="block mt-4 text-sm">
         <span class="text-gray-700 dark:text-gray-400">
-            Estregia:
+            <%= lista_equivalencias[3].equivalencia_concepto %>:
         </span>
         <select name="estrategia" id="select_estrategia"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">

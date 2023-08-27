@@ -10,21 +10,23 @@
 </button>
 </a>
 
+<a href="" onclick="listaSemaforizacionPlanes()">
+    <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+    <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Categoria</label>
+</button>
+</a>
+
 <a href="" onclick="listaSemaforizacion()" >
     <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
     <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Indicadores</label>
 </button>
 </a>
 
-<a href="" onclick="listaSemaforizacionPlanes()">
-    <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-    <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Planes</label>
-</button>
-</a>
+
 
 <a href="" onclick="listaSemaforizacionPlanGeneral()">
     <button class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-    <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Plan General</label>
+    <i class="fas fa-list " ></i><label  for="">&nbsp; Semaforizacion Política</label>
 </button>
 </a>
 
@@ -55,7 +57,7 @@
 
     function listaSemaforizacionPlanes() {
         event.preventDefault()
-        const peticion = "/ctm-lista-semaforizacion-planes/plan_general/?txt='Plan general'";
+        const peticion = "/ctm-lista-semaforizacion-planes/plan_general/?txt='Política'";
         loadContentHtml(peticion, '#container-tab')
 
     }

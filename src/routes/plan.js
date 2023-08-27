@@ -5,9 +5,12 @@ const modelControlMando = require("../models/controlMandoModel");
 
 router.get("/ctm-planes", authMiddleware, (req, res) => {
   modelControlMando.consultar_RegistroPlanes().then((lista_Planes) => {
+    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
     res.render(config.rutaPartials + "plan/list", {
       layout: false,
       list: lista_Planes,
+      lista_equivalencias:lista_equivalencias,
+    });
     });
   });
 });
@@ -22,12 +25,15 @@ router.get("/form-ctm-plan/:id", authMiddleware, (req, res) => {
           modelControlMando
             .consultar_RegistrosLineasAccion()
             .then((lineas_accion) => {
+              modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
               res.render(config.rutaPartials + "plan/form", {
                 layout:false,
                 id_plan: req.params.id,
                 planes_generales: listaPlanes_grales,
                 item: plan_accion_info,
                 lineas_accion: lineas_accion,
+                lista_equivalencias:lista_equivalencias,
+              });
               });
             });
         });

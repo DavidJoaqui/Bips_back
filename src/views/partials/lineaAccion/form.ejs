@@ -1,23 +1,37 @@
+
+    
 <form id="formLineaAccion">
 
 
     <input type="text" name="id_linea" style="display: none;" value="<%= id_linea %>">
+ 
+    
+
 
     <label class="block mt-4 text-sm">
+       
         <span class="text-gray-700 dark:text-gray-400">
-            Linea de acción:
+          <%= lista_equivalencias[1].equivalencia_concepto %>:
         </span>
+        
         <input name="linea_accion"
             value="<%= item.length && item[0].linea_accion? item[0].linea_accion:'' %>"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-            placeholder="Nombre plan" required>
+            placeholder="Nombre <%= lista_equivalencias[1].equivalencia_concepto %>" required>
     </label>
 
 
+
+    
     <label class="block mt-4 text-sm">
-        <span class="text-gray-700 dark:text-gray-400">
-            Plan general:
-        </span>
+        
+		<span class="text-gray-700 dark:text-gray-400">
+             <%= lista_equivalencias[0].equivalencia_concepto %>:
+         </span>
+    </label> 
+ 
+
+       
         <select name="plan_general"
             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
 
@@ -53,11 +67,13 @@
             
             <%}%>
         </select required>
-    </label>
+    
+    
 
 
     <button hidden id="btnForm" type="submit"></button>
 </form>
+
 
 <script>
     const form = document.querySelector("#formLineaAccion");

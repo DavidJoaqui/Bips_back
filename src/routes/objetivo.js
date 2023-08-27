@@ -22,9 +22,12 @@ router.post("/persistir-objetivo/", authMiddleware, (req, res) => {
 
 router.get("/ctm-objetivos", authMiddleware, (req, res) => {
   modelControlMando.consultar_RegistrosObjetivos().then((lista_objetivos) => {
+    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
     res.render(config.rutaPartials + "objetivo/list", {
       layout: false,
       list: lista_objetivos,
+      lista_equivalencias:lista_equivalencias,
+    });
     });
   });
 });
@@ -59,12 +62,15 @@ router.get("/form-ctm-objetivo/:id", authMiddleware, (req, res) => {
           modelControlMando
             .consultar_RegistrosLineasAccion()
             .then((lineas_accion) => {
+              modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
               res.render(config.rutaPartials + "objetivo/form", {
                 layout: false,
                 id_objetivo:req.params.id,
                 planes_generales: listaPlanes_grales,
                 item: item,
                 lineas_accion: lineas_accion,
+                lista_equivalencias:lista_equivalencias,
+              });
               });
             });
         });

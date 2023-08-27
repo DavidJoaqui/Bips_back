@@ -2,37 +2,85 @@
 
     <input type="text" name="id_reg_indicador" style="display: none;" value="<%= id_reg_indicador %>">
     <input type="text" id="txt_version" name="txt_version" value="<%= item.length && item[0].version? item[0].version:''  %>" hidden>
-    <label class="block mt-4 text-sm">
-        <span class="text-gray-700 dark:text-gray-400">
-            Vigencia:
-        </span>
-        <select name="select_vigencia" id="select_vigencia"
-            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+    
+    <%if(respuesta==0 ){%>
+        
+        
+            <label class="block mt-4 text-sm">
+            
+                <span class="text-gray-700 dark:text-gray-400">
+                    Vigencia:
+                </span>
+                <select name="select_vigencia" id="select_vigencia" 
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                </select>
+            </label>
+
+            <label class="block mt-4 text-sm">
+                <span class="text-gray-700 dark:text-gray-400">
+                    Indicador:
+                </span>
+        <select name="select_indicador" id="select_indicador" 
+            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"> 
+            <option selected="selected" value="">Seleccionar Indicador</option>
+         
         </select required>
-    </label>
-   
-    <label class="block mt-4 text-sm">
-        <span class="text-gray-700 dark:text-gray-400">
-            Indicador:
-        </span>
+                <!--<select name="select_indicador" id="select_indicador"
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option selected="selected" value="">Seleccionar Indicador</option>            
+                </select required>-->
+            </label>
+        
+         
+        
+            <label class="block mt-4 text-sm">
+                <span class="text-gray-700 dark:text-gray-400">
+                    Periodo:
+                </span>
+                <select name="select_periodo" id="select_periodo" 
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    
+                </select required>
+            </label>
+        
+            
+        <%}else{%>
+        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">   
+            <div class="flex items-center p-2 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;">
+                    Vigencia </label>&nbsp;
+                <output name="txt_vigencia" id="txt_vigencia" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value="">
 
-        <select name="select_indicador" id="select_indicador"
-            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option selected="selected" value="">Seleccionar Indicador</option>            
-        </select required>
-    </label>
+            </div>
 
- 
+            <div class="flex items-center p-2 rounded-lg shadow-xs dark:bg-gray-800">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;">
+                    Periodo</label>&nbsp;
+                <output name="txt_periodo" id="txt_periodo" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value="">
 
-    <label class="block mt-4 text-sm">
-        <span class="text-gray-700 dark:text-gray-400">
-            Periodo:
-        </span>
-        <select name="select_periodo" id="select_periodo"
-            class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            </div>
+            
+        
+        </div>
 
-        </select required>
-    </label>
+     
+
+        <div class="w-full" style=" text-align: center;">
+
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" style="font-weight: bold;">
+                Indicador</label>&nbsp;
+            <output name="txt_indicador" id="txt_indicador" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value="">
+
+            </div>
+
+        </div>
+
+          
+
+            
+
+            <%}%>
+
 
     <div class="" id="contenedor_info_indicador" name="contenedor_info_indicador" style=" text-align: center;">
         <br>
@@ -236,11 +284,11 @@
             processData: false,
         }
 
-        if (obj.id_reg_indicador == '0' || check == '1') {
+        if (obj.id_reg_indicador == '0' || check == '0' ) {
             createdAjax('/persistir-registro-indicador', data, reloadContainer, formDataAjax)
             
 
-        } else if (obj.id_reg_indicador != '0' && check == '0') {
+        } else if (obj.id_reg_indicador != '0' && check == '1') {
             updateAjax('/actualizar-registro-indicador', data, reloadContainer, formDataAjax)
 
         }
@@ -269,11 +317,17 @@
                     result.forEach(element => {
                         if (element.periodo_año == '<%= item.length && item[0].periodo_año? item[0].periodo_año:0 %>') {
 
-                            $("#select_vigencia").append('<option value=' + element.periodo_año + ' selected="selected">' + element.periodo_año + '</option>');
+                            $("#select_vigencia").append('<option value=' + element.periodo_año + ' selected="selected" readonly="readonly">' + element.periodo_año + '</option>');
+                            //$("#select_vigencia").addClassName("campo_disabled");  
+                            document.getElementById("select_vigencia").classList.add("campo_disabled");
+                            document.getElementById("select_indicador").classList.add("campo_disabled");
+                           // element.classList.add("campo_disabled");
+                            //$('#select_vigencia').prop('Readonly', true);
 
                         } else {
 
                             $("#select_vigencia").append('<option value=' + element.periodo_año + '>' + element.periodo_año + '</option>');
+                           
                         }
                     });
                 }
@@ -300,7 +354,9 @@
                 } else if (result) {
                     result.forEach(element => {
                         if (element.id_mes == '<%= item.length && item[0].periodoevaluado? item[0].periodoevaluado:0 %>') {
-                            $("#select_periodo").append('<option value=' + element.cod_mes + ' selected="selected">' + element.nombre_mes + '</option>');
+                            $("#select_periodo").append('<option value=' + element.cod_mes + ' selected="selected" value= '+ element.cod_mes+'>' + element.nombre_mes + '</option>');
+                            document.getElementById("select_periodo").classList.add("campo_disabled");
+                           //$('#select_periodo').prop('disabled', true);
                         } else {
 
                             $("#select_periodo").append('<option value=' + element.cod_mes + '>' + element.nombre_mes + '</option>');
@@ -329,6 +385,12 @@
                 $("#txt_fl_denominador").html("");
 
                 result.forEach(element => {
+                    $("#select_indicador").append('<option value=' + element.id_indicador + ' selected="selected">' + element.nombre_indicador + '</option>');
+                    //document.getElementById("select_indicador").classList.add("campo_disabled");
+                   // $('#select_indicador').prop('disabled', true);
+                    $("#txt_vigencia").append('<output value=' + element.periodo_año + '>' + element.periodo_año);
+                    $("#txt_indicador").append('<output value=' + element.id_indicador + '>' + element.nombre_indicador);
+                    $("#txt_periodo").append('<output value=' + element.periodo_mes + '>' + element.periodo_mes);
                     $("#txt_tipo_meta").append('<output value=' + element.tipo_meta + '>' + element.tipo_meta);
                     $("#txt_meta_numerica").append('<output value=' + element.meta_numerica + '>' + 'Superior al ' + element.meta_numerica + '%');
                     $("#txt_meta_descriptiva").append('<output value=' + element.meta_descriptiva + '>' + element.meta_descriptiva);
@@ -384,9 +446,8 @@
             cache: false,
             processData: false,
             success: function (result) {
-                //select_linea
-                $("#select_indicador").html("");
-                $("#select_indicador").append('<option selected="selected" value="">Seleccionar indicador</option>');
+                //select_linea                          
+
                 if (result.length == 0) {
                     $("#select_indicador").html("");
                     $("#select_indicador").append('<option value="0" selected="selected">' + 'No hay opciones disponibles' + '</option>');
@@ -394,12 +455,15 @@
                 } else if (result) {
                     result.forEach(element => {
                         if (element.id_indicador == '<%= item.length && item[0].id_indicador? item[0].id_indicador:0 %>') {
-
-                            $("#select_indicador").append('<option value=' + element.id_indicador + ' selected="selected">' + element.nombre_indicador + '</option>');
+                                                        
+                            $("#select_indicador").append('<option value=' + element.id_indicador + ' selected="selected" >' + element.nombre_indicador + '</option>');
+                            //$('#select_indicador').prop('disabled', true);
+                            
 
                         } else {
 
                             $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + '</option>');
+                            
                         }
                     });
                 }
@@ -407,32 +471,50 @@
         });    
     }
 
+    
+
     $("#select_indicador").change(function () {
         
         //loadVigenciaIndicador("/consultar-vigencia-anio-profesional/?indicador=" + $(this).val());
         //loadIndicadorPeriodo();
-        loadPeriodoVigencia("/consultar-periodo-x-anio-edit/?año=" + $('#select_vigencia').val().toString()        
+        loadPeriodoVigencia("/consultar-periodo-x-anio-respuesta/?año=" + $('#select_vigencia').val().toString()        
         + '&indicador=' + $(this).val());
     });
 
     $("#select_vigencia").change(function () {
        loadIndicadorVigencia("/consultar-indicador-vigencia/?año=" + $(this).val());
-       // loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + $(this).val() + "&indicador=" + $('#select_indicador').val().toString());
+       loadPeriodoVigencia("/consultar-periodo-x-anio/?año=" + $(this).val() + "&indicador=" + $('#select_indicador').val().toString());
     });
+
 
     $("#select_periodo").change(function () {
         loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?periodo=" + $(this).val() + "&vigencia=" + $('#select_vigencia').val().toString() + "&indicador=" + $('#select_indicador').val().toString());
         $('#contenedor_info_indicador').attr('hidden', false);
     });
 
-    loadVigenciaIndicador("/consultar-vigencia-anio-profesional")
+    loadVigenciaIndicador("/consultar-vigencia-anio-profesional");
+
+    //loadIndicadorVigencia("/consultar-indicador-vigencia/?año=" + $('#select_vigencia').toString())+ '&id_area=' + '<%= item.length && item[0].id_area %>' ;
+    //loadIndicadorVigencia("/consultar-indicador-vigencia/?año=" + $('#select_vigencia').val().toString());
+
 
     loadPeriodoVigencia("/consultar-periodo-x-anio-edit/?año=" + '<%= item.length && item[0].periodo_año %>'
         + '&id_area=' + '<%= item.length && item[0].id_area %>' + '&id_profesional=' + '<%= item.length && item[0].id_profesional %>'
         + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
 
-    loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?vigencia=" + '<%= item.length && item[0].periodo_año %>' + '&periodo=' + '<%= item.length && item[0].periodo_mes %>' + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
-
+    loadIndicadorxId("/consultar-detalle-indicador-x-indicador/?vigencia=" + '<%= item.length && item[0].periodo_año %>' + '&periodo='
+     + '<%= item.length && item[0].periodo_mes %>' + '&indicador=' + '<%= item.length && item[0].id_indicador %>');
+     
+   
 
 
 </script>
+
+<style>
+    .campo_disabled
+    {
+        cursor: not-allowed;
+        background-color: rgb(229, 229, 229) !important;
+        pointer-events:none;
+    }
+</style>

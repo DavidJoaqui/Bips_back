@@ -8,7 +8,13 @@ const modelControlMando = require("../models/controlMandoModel");
 
 router.get("/ctm-lineas-accion", authMiddleware, (req, res) => {
   modelControlMando.consultar_RegistrosLineasAccion().then(lista_lineas_accion => {
-    res.render(config.rutaPartials + "lineaAccion/list", { layout: false,list: lista_lineas_accion });
+    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
+    res.render(config.rutaPartials + "lineaAccion/list", {
+       layout: false,
+       list: lista_lineas_accion,
+       lista_equivalencias:lista_equivalencias,
+      });
+      });
 });
 });
 
@@ -52,16 +58,16 @@ router.post("/persistir-linea-accion/", authMiddleware, (req, res) => {
 
 router.get("/form-ctm-linea-accion/:id", authMiddleware, (req, res) => {
   modelControlMando
-    .consultar_RegistrosPlan_General()
-    .then((listaPlanes_grales) => {
-      modelControlMando
-        .consultar_LineasAccionXId(req.params.id)
-        .then((item) => {
-          return res.render(config.rutaPartials + "lineaAccion/form", {
+    .consultar_RegistrosPlan_General().then((listaPlanes_grales) => {
+      modelControlMando.consultar_LineasAccionXId(req.params.id).then((item) => {
+        modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
+        return res.render(config.rutaPartials + "lineaAccion/form", {
             layout: false,
             id_linea: req.params.id,
             item: item,
             planes_generales: listaPlanes_grales,
+            lista_equivalencias:lista_equivalencias,
+          });
           });
         });
     });

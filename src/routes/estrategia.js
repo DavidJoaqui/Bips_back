@@ -7,9 +7,12 @@ const modelControlMando = require("../models/controlMandoModel");
     modelControlMando
       .consultar_RegistrosEstrategias()
       .then((lista_Estrategias) => {
+        modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
         res.render(config.rutaPartials + "estrategia/list", {
           layout: false,
           list: lista_Estrategias,
+          lista_equivalencias:lista_equivalencias,
+        });
         });
       });
   });
@@ -27,6 +30,7 @@ const modelControlMando = require("../models/controlMandoModel");
                 modelControlMando
                   .consultar_RegistrosObjetivos()
                   .then((lista_objetivos) => {
+                    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
                     return res.render(config.rutaPartials + "estrategia/form", {
                       layout: false,
                       id_estrategia: req.params.id,
@@ -34,6 +38,8 @@ const modelControlMando = require("../models/controlMandoModel");
                       item: estrategia_info,
                       lineas_accion: lineas_accion,
                       lista_objetivos: lista_objetivos,
+                      lista_equivalencias:lista_equivalencias,
+                    });
                     });
                   });
               });

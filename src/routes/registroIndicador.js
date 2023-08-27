@@ -7,19 +7,26 @@ const path = require("path");
 
 router.get("/form-ctm-registro-indicador/:id", authMiddleware, (req, res) => {
 
-  
+  //console.log("param"+req.params.respuesta);
+  //console.log("query " + req.query.respuesta);
   modelControlMando
     .consultar_reg_indicadores_x_id(req.params.id)
     .then((item) => {
-      
+      modelControlMando
+        .consultar_indicadorxarea(req.session.username["id_area"])
+        .then((listaIndicadores) => {
           res.render(config.rutaPartials + "registroIndicador/form", {
             layout: false,
             respuesta:req.query.respuesta,
             id_reg_indicador: req.params.id,            
             item: item,
+            listaIndicadores:listaIndicadores,
           });
         });  
   });
+});
+
+
 
 router.get("/form-ctm-detalle-registro-indicador/:id",
   authMiddleware,
@@ -40,7 +47,7 @@ router.get("/ctm-trazabilidad-registro-indicador/:id",
   authMiddleware,
   (req, res) => {
     modelControlMando
-      .consultar_trazabilidad_reg_indicador(req.params.id,req.session.username["id_profesional"],req.query.vigencia,req.query.periodo)
+    .consultar_trazabilidad_reg_indicador(req.params.id,req.session.username["id_profesional"],req.query.vigencia,req.query.periodo,req.query.version)
       .then((item) => {
         res.render(config.rutaPartials + "registroIndicador/trazabilidad", {
           layout: false,
@@ -93,6 +100,8 @@ router.get("/consultar-periodo-x-anio", authMiddleware, (req, res) => {
 });
 
 router.get("/consultar-indicador-vigencia", authMiddleware, (req, res) => {
+
+  
   modelControlMando
     .consultar_indicadorxVigencia(
       Number(req.session.username["id_area"]) ,
@@ -100,7 +109,7 @@ router.get("/consultar-indicador-vigencia", authMiddleware, (req, res) => {
          
     )
     .then((lista_indicador) => {
-      console.log(lista_indicador);
+     // console.log(lista_indicador);
       return res.send(lista_indicador);
     });
 });
@@ -109,9 +118,6 @@ router.get("/consultar-indicador-vigencia", authMiddleware, (req, res) => {
 
 
 router.get("/consultar-periodo-x-anio-edit", authMiddleware, (req, res) => {
-
-
-
   modelControlMando
     .consultar_periodoxañoedit(req.query.año,
       Number(req.session.username["id_area"]),
@@ -124,7 +130,18 @@ router.get("/consultar-periodo-x-anio-edit", authMiddleware, (req, res) => {
     });
 });
 
-
+router.get("/consultar-periodo-x-anio-respuesta", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultar_periodoxañorespuesta(req.query.año,
+      Number(req.session.username["id_area"]),
+      Number(req.session.username["id_profesional"]),
+      req.query.indicador      
+    )
+    .then((lista_periodo) => {
+      console.log(lista_periodo);
+      return res.send(lista_periodo);
+    });
+});
 
 
 router.get("/consultar-detalle-indicador-x-indicador",
@@ -204,6 +221,7 @@ router.post("/persistir-registro-indicador/",
   upload_soportes.array("files_soporte"),
   (req, res) => {
     //const version = '0';
+console.log(req.body);
 
     let numerador = parseFloat(req.body.txt_vr_numerador);
     let denominador = parseFloat(req.body.txt_vr_denominador);
@@ -290,6 +308,12 @@ router.post("/persistir-registro-indicador/",
 router.put("/actualizar-registro-indicador", authMiddleware, upload_soportes.array("files_soporte"),
   (req, res) => {
 
+//console.log( Number(req.body.id_reg_indicador));
+//console.log( Number(req.body.txt_vr_numerador));
+//console.log( Number(req.body.txt_vr_denominador));
+
+
+
     modelControlMando
       .actualizar_reg_indicador(
         Number(req.body.id_reg_indicador),
@@ -358,7 +382,7 @@ router.delete("/registro-indicador/delete/:id/control-mando-bips", authMiddlewar
     modelControlMando.eliminar_soporte_x_idRegistroIndicador(Number(req.params.id)).then(rspta_eliminacion => {
 
 
-      if (rspta_eliminacion['command'] == "DELETE" && rspta_eliminacion['rowCount'] > 0) {
+      if (rspta_eliminacion['command'] == "DELETE" && rspta_eliminacion['rowCount'] >= 0) {
         modelControlMando.eliminar_Registro_RegIndicador(Number(req.params.id)).then(respuesta => {
 
 

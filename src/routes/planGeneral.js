@@ -6,23 +6,29 @@ const modelControlMando = require("../models/controlMandoModel");
 
 router.get("/ctm-plan-general", authMiddleware, (req, res) => {
   modelControlMando.consultar_RegistrosPlan_General().then((lista_planes) => {
+    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
     res.render(config.rutaPartials + "planGeneral/list", { 
       layout: false,
-      list: lista_planes });
+      list: lista_planes,
+      lista_equivalencias:lista_equivalencias,
+      });
+    });
   });
 });
 
 
 router.get("/form-ctm-plan-general/:id", authMiddleware, (req, res) => {
-  modelControlMando
-    .consultar_RegistrosPlan_General_x_id(req.params.id)
-    .then((item) => {
+  modelControlMando.consultar_RegistrosPlan_General_x_id(req.params.id).then((item) => {
+      modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
       return res.render(config.rutaPartials + "planGeneral/form", {
         layout: false,
         id_plan: req.params.id,
         item: item,
+        lista_equivalencias:lista_equivalencias,
       });
+      
     })
+  });
 });
 
 router.post("/persistir-plan-general", authMiddleware, (req, res) => {

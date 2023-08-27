@@ -6,7 +6,7 @@
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full">
                 <br>
-                <h4 style="font-weight: bold;">TRAZABILIDAD DEL REGISTRO DE INDICADOR.</h4>
+                <h4 style="font-weight: bold;"></h4>
 
             </div>
 
@@ -117,7 +117,7 @@
 
 
                                     <%if(item[i].calificado){%>
-                                        <span @click="openModalDetailTwo('/ver-nota/<%= item[0].comentario %>') " class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Ver Nota">
+                                        <span @click="openModalDetailTwo('/ver-nota/<%= item[i].comentario %>') " class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Ver Nota">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                          
                                             <i class="far fa-sticky-note" style="color: blue;" type="button" class="btn btn-info btn-lg"  title="Ver Nota"></i>

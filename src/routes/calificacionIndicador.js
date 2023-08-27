@@ -52,12 +52,12 @@ filtro_txt = req.query.txt;
 
   if(filtro_campo == 'plan_general'){
 
-    filtro_txt = 'plan general';
+    filtro_txt = 'Política';
 
   }
   else if(filtro_campo == 'linea_accion'){
 
-    filtro_txt = 'linea de acción';
+    filtro_txt = 'PROGRAMA';
 
   }
   else if(filtro_campo == 'objetivo'){
@@ -67,12 +67,12 @@ filtro_txt = req.query.txt;
   }
   else if(filtro_campo == 'estrategia'){
 
-    filtro_txt = 'Estrategia';
+    filtro_txt = 'Actividad';
 
   }
   else if(filtro_campo == 'plan'){
 
-    filtro_txt = 'Plan de Acción';
+    filtro_txt = 'Evidencia';
 
   }
   

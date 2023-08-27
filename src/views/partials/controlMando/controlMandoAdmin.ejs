@@ -4,92 +4,120 @@
     <% if(rol=='ROL_ADMIN' || rol=='ROL_SUPER_ADMIN' || rol=='ROL_COORDINADOR' || rol=='ROL_USUARIO' ||
         rol=='ROL_EVALUADOR' ){%>
 
+
+
         <% for(var i=0; i<permisos.length; i++){ %>
+            <% for(var j=0; j<equivalencia.length; j++){ %> 
+            
+         
+
             <% if(permisos[i].codigo=='ctm_plan_general' ){ %>
+                <% if(equivalencia[j].vista_concepto=='PLAN_GENERAL' ){ %>
                 <button
                     class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 border-l border-t border-r"
                     onclick="loadTab(this,'/ctm-plan-general')">
-                    Plan
-                    General
+                    
+                   <%= equivalencia[j].equivalencia_concepto_pl %>
+                    
                 </button>
+                <%}%>   
                 <%}%>
 
                     <% if(permisos[i].codigo=='ctm_lineas_acciones' ){ %>
+                        <% if(equivalencia[j].vista_concepto=='LINEA_DE_ACCION' ){ %>
                         <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                             onclick="loadTab(this,'/ctm-lineas-accion')">
-                            Lineas
-                            de
-                            Acción
+                           
+                    
+                                <%= equivalencia[j].equivalencia_concepto_pl %>
+                            
                         </button>
+                        <%}%>
                         <%}%>
 
 
                             <% if(permisos[i].codigo=='ctm_objetivos' ){ %>
+                                <% if(equivalencia[j].vista_concepto=='OBJETIVO' ){ %>
 
                                 <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                                     onclick="loadTab(this,'/ctm-objetivos')">
-                                    Objetivos
+                                        <%= equivalencia[j].equivalencia_concepto_pl %>
                                 </button>
+                                <%}%>
                                 <%}%>
 
                                     <% if(permisos[i].codigo=='ctm_estrategias' ){ %>
+                                        <% if(equivalencia[j].vista_concepto=='ESTRATEGIA' ){ %>
                                         <button
                                             class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                                             onclick="loadTab(this,'/ctm-estrategias')">
-                                            Estrategias
+                                                <%= equivalencia[j].equivalencia_concepto_pl %>
                                         </button>
+                                        <%}%>
                                         <%}%>
 
                                             <% if(permisos[i].codigo=='ctm_profesionales' ){ %>
+                                                <% if(equivalencia[j].vista_concepto=='USUARIO' ){ %>
                                                 <button
                                                     class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                                                     onclick="loadTab(this,'/ctm-profesionales')">
-                                                    Usuarios
+                                                        <%= equivalencia[j].equivalencia_concepto_pl %>
                                                 </button>
                                                 <%}%>
+                                                <%}%>
                                                     <% if(permisos[i].codigo=='ctm_planes' ){ %>
-
+                                                        <% if(equivalencia[j].vista_concepto=='PLAN' ){ %>
                                                         <button
                                                             class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                                                             onclick="loadTab(this,'/ctm-planes')">
-                                                            Planes
+                                                            
+                    
+                                                                <%= equivalencia[j].equivalencia_concepto_pl %>
+                                                            
                                                         </button>
-
+                                                        <%}%>
                                                         <%}%>
                                                             <% if(permisos[i].codigo=='ctm_indicadores' ){ %>
-
+                                                                <% if(equivalencia[j].vista_concepto=='INDICADOR' ){ %>
                                                                 <button
                                                                     class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                                                                     onclick="loadTab(this,'/ctm-indicadores')">
-                                                                    Indicadores
+                                                                    <%= equivalencia[j].equivalencia_concepto_pl %>
                                                                 </button>
-
                                                                 <%}%>
-                                                                    <% if(permisos[i].codigo=='ctm_registroindicadores'
-                                                                        ){ %>
+                                                                <%}%>
+                                                                    <% if(permisos[i].codigo=='ctm_registroindicadores' ){ %>
+                                                                    <% if(equivalencia[j].vista_concepto=='REGISTRO_INDICADOR' ){ %>
+                                                                       
                                                                         <button
                                                                             class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                                                                             onclick="loadTab(this,'/ctm-registro-indicadores')">
-                                                                            Registro
+                                                                            <%= equivalencia[j].equivalencia_concepto_pl %>
                                                                         </button>
-
+                                                                        <%}%>    
                                                                         <%}%>
-                                                                            <% if(permisos[i].codigo=='ctm_calificacion_registro_indicadores'
-                                                                                ){ %>
+                                                                            <% if(permisos[i].codigo=='ctm_calificacion_registro_indicadores'){ %>
+                                                                                <% if(equivalencia[j].vista_concepto=='CALIFICACION_INDICADOR' ){ %>
                                                                                 <button
                                                                                     class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                                                                                     onclick="loadTab(this,'/ctm-calificacion-indicadores')">
-                                                                                    Calificación
+                                                                                    <%= equivalencia[j].equivalencia_concepto_pl %>
                                                                                 </button>
                                                                                 <%}%>
-                                                                                    <% if(permisos[i].codigo=='ctm_areas'
-                                                                                        ){ %>
+                                                                                <%}%>
+                                                                                    <% if(permisos[i].codigo=='ctm_areas'){ %>
+                                                                                        <% if(equivalencia[j].vista_concepto=='AREA' ){ %>
+
                                                                                         <button
                                                                                             class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none"
                                                                                             onclick="loadTab(this,'/ctm-areas')">
-                                                                                            Areas
+                                                                                            <%= equivalencia[j].equivalencia_concepto_pl %>
                                                                                         </button>
                                                                                         <%}%>
+                                                                                        <%}%>
+
+                                                                                        <%}%>
+                                                                                        
 
                                                                                             <%}%>
                                                                                                 <%}else{%>

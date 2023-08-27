@@ -1,4 +1,4 @@
-<button @click="openModalNew('/form-ctm-registro-indicador/0','xl')" class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+<button @click="openModalNew('/form-ctm-registro-indicador/0/?respuesta=0','xl')" class="px-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
     Nuevo Registro Indicador
 </button>
 <hr class="py-2" />
@@ -100,7 +100,7 @@
                             </svg>
                         </button>
 
-                        <button @click="openModalDetail('/ctm-trazabilidad-registro-indicador/<%= item.id_indicador %>/?vigencia=<%= item.vigencia %>&periodo=<%= item.periodoevaluado %>','xl') " class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                        <button @click="openModalDetail('/ctm-trazabilidad-registro-indicador/<%= item.id_indicador %>/?vigencia=<%= item.vigencia %>&periodo=<%= item.periodoevaluado %>&version=<%= item.version %>','xl') " class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                             aria-label="Trazabilidad" title=" Ver Trazabilidad">
                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                 <path
@@ -114,7 +114,7 @@
 
 
                         <%if(item.calificado==false&&item.estado=="No" ){%>
-                            <button @click="openModalEdit('/form-ctm-registro-indicador/<%= item.id_registroindicador %>','xl')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                            <button @click="openModalEdit('/form-ctm-registro-indicador/<%= item.id_registroindicador %>/?respuesta=1','xl')" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="Edit" title="Editar">
                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                     <path
