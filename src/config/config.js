@@ -17,6 +17,7 @@ config = {
     rutaPublicFile: "E:/Dato_BI/Bips_back/filespublic",
     //rutaPublicFile: "C:/Bips_back/filespublic",
 
+    
     //--------------CONFIG RUTAS PENTAHO--------------------------
     rutaDataIntegrationPentaho: "C:/Users/SOPORTE_FACTURACION/Downloads/data-integration",
     rutaArchivoKtrTransformacionPlanos: "E:/Dato_BI/Bips_back/src/IntegracionKtr/",
