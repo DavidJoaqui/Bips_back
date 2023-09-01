@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="theme/css/tailwind.output.css" />
+    <link rel="stylesheet" href="theme/css/custom.css" />
     <script src="theme/js/alpine.min.js" defer></script>
     <script src="theme/js/sweetalert2@11.js"></script>
     <script src="theme/js/crud.js"></script>
@@ -36,35 +37,25 @@
             text-transform: uppercase;
         }
 
-        .textarea-td {
-            background-color: #fafafa;
-            border: 1px solid gainsboro;
-            border-radius: 5px;
-            width: 100%;
-            min-width: 100px;
+        #container-tab {
+            max-width: calc(100vw - 80px);
         }
 
-        #container-tab{ 
-                max-width: calc(100vw - 80px);
-        }
- 
         @media (max-width: 760px) {
-            #container-tab{ 
+            #container-tab {
                 max-width: calc(100vw - 70px);
             }
         }
 
-        .menu-desktop-open #container-tab{ 
-                max-width: calc(100vw - 325px);
+        .menu-desktop-open #container-tab {
+            max-width: calc(100vw - 325px);
         }
- 
-     
     </style>
 
 </head>
 
 <body>
-    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}" >
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}">
         <%- include("desktopSidebar"); %>
             <!-- Mobile sidebar -->
             <!-- Backdrop -->
@@ -84,20 +75,16 @@
               h-full
               px-6
               mx-auto
-              text-purple-600
-              dark:text-purple-300
+              text-blue-600
+              dark:text-blue-300
             ">
                             <!-- Mobile hamburger -->
                             <%- include("mobileHamburger.ejs"); %>
                                 <!-- Search input -->
                                 <%- include("search"); %>
                                     <ul class="flex items-center flex-shrink-0 space-x-6">
-                                        <!-- Theme toggler -->
-                                        <%- include("themeToggler"); %>
-                                            <!-- Notifications menu -->
-                                            <%- include("notificationsMenu"); %>
-                                                <!-- Profile menu -->
-                                                <%- include("profile"); %>
+                                        <!-- Profile menu -->
+                                        <%- include("profile"); %>
                                     </ul>
                         </div>
                     </header>

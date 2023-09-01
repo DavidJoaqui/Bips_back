@@ -17,6 +17,24 @@ const modelControlMando = require("../models/controlMandoModel");
       });
   });
 
+  router.get("/actividades", authMiddleware, (req, res) => {
+    modelControlMando
+      .consultar_RegistrosEstrategias()
+      .then((lista_Estrategias) => {
+        modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
+        res.render(config.rutaPartials + "estrategia/index", {
+          user: req.session.username["nombre"],
+          nombre_rol: req.session.username["nombre_rol"],
+          rol: req.session.username["rol"],
+          permisos: req.session.username["permisos"],
+          area: req.session.username["nombre_area"],
+          list: lista_Estrategias,
+          lista_equivalencias:lista_equivalencias,
+        });
+        });
+      });
+  });
+
   router.get("/form-ctm-estrategia/:id", authMiddleware, (req, res) => {
     modelControlMando
       .consultar_RegistroEstrategia_x_id(req.params.id)
