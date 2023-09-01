@@ -17,6 +17,23 @@ router.get("/ctm-plan-general", authMiddleware, (req, res) => {
 });
 
 
+router.get("/politicas", authMiddleware, (req, res) => {
+  modelControlMando.consultar_RegistrosPlan_General().then((lista_planes) => {
+    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
+    res.render(config.rutaPartials + "planGeneral/index", { 
+      user: req.session.username["nombre"],
+      nombre_rol: req.session.username["nombre_rol"],
+      rol: req.session.username["rol"],
+      permisos: req.session.username["permisos"],
+      area: req.session.username["nombre_area"],
+      list: lista_planes,
+      lista_equivalencias:lista_equivalencias,
+      });
+    });
+  });
+});
+
+
 router.get("/form-ctm-plan-general/:id", authMiddleware, (req, res) => {
   modelControlMando.consultar_RegistrosPlan_General_x_id(req.params.id).then((item) => {
       modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {

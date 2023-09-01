@@ -4,9 +4,7 @@ function getPagination(table) {
   $("table tr td").each(function () {
     if ($(this).text().trim().length > 50) {
       $(this).html(
-        '<textarea name="textarea" class="textarea-td">' +
-          $(this).text().trim() +
-          "</textarea>"
+        '<span>' +$(this).text().trim() +"</span>"
       );
     }
   });

@@ -19,6 +19,26 @@ router.get("/ctm-calificacion-indicadores", authMiddleware, (req, res) => {
     });
 });
 
+router.get("/calificaciones", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultar_reg_ind_xcalificar()
+    .then((lista_calificacion_indicadores) => {
+
+      modelControlMando.consultar_vigenciaxreg_indicadores().then(lista_años => {
+        res.render(config.rutaPartials + "calificacionIndicador/index", {
+          user: req.session.username["nombre"],
+          nombre_rol: req.session.username["nombre_rol"],
+          rol: req.session.username["rol"],
+          permisos: req.session.username["permisos"],
+          area: req.session.username["nombre_area"],
+          lista_calificacion_indicadores: lista_calificacion_indicadores,
+          lista_años: lista_años,
+        });
+
+      });
+    });
+});
+
 router.get("/ctm-lista-calificados", authMiddleware, (req, res) => {
 
   modelControlMando.consultar_registros_Calificados().then(lista_calificacion_indicadores => {

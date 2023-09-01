@@ -11,6 +11,20 @@ router.get("/ctm-profesionales", authMiddleware, (req, res) => {
   });
 });
 
+router.get("/usuarios", authMiddleware, (req, res) => {
+  modelControlMando.consultar_RegistrosProfesionales().then((lista_prof) => {
+    res.render(config.rutaPartials + "profesional/index", { 
+      user: req.session.username["nombre"],
+      nombre_rol: req.session.username["nombre_rol"],
+      rol: req.session.username["rol"],
+      permisos: req.session.username["permisos"],
+      area: req.session.username["nombre_area"],
+      list: lista_prof });
+  });
+});
+
+
+
 router.post("/persistir-profesional/", authMiddleware, (req, res) => {
   modelControlMando
     .insertar_Profesional(

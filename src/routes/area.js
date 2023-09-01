@@ -12,6 +12,19 @@ router.get("/ctm-areas",authMiddleware, (req, res) => {
   });
 });
 
+router.get("/areas",authMiddleware, (req, res) => {
+  modelControlMando.consultar_RegistroAreas().then((lista_areas) => {
+    res.render(config.rutaPartials + "area/index", {
+      user: req.session.username["nombre"],
+      nombre_rol: req.session.username["nombre_rol"],
+      rol: req.session.username["rol"],
+      permisos: req.session.username["permisos"],
+      area: req.session.username["nombre_area"],
+      list: lista_areas,
+    });
+  });
+});
+
 router.get("/form-ctm-area/:id", authMiddleware, (req, res) => {
   modelControlMando.consultar_areaxid(req.params.id).then((item) => {
     return res.render(config.rutaPartials + "area/form", {

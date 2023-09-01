@@ -18,6 +18,22 @@ router.get("/ctm-lineas-accion", authMiddleware, (req, res) => {
 });
 });
 
+router.get("/programas", authMiddleware, (req, res) => {
+  modelControlMando.consultar_RegistrosLineasAccion().then(lista_lineas_accion => {
+    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
+    res.render(config.rutaPartials + "lineaAccion/index", {
+       user: req.session.username["nombre"],
+       nombre_rol: req.session.username["nombre_rol"],
+       rol: req.session.username["rol"],
+       permisos: req.session.username["permisos"],
+       area: req.session.username["nombre_area"],
+       list: lista_lineas_accion,
+       lista_equivalencias:lista_equivalencias,
+      });
+      });
+});
+});
+
 
 
 router.delete(

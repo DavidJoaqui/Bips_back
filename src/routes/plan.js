@@ -15,6 +15,23 @@ router.get("/ctm-planes", authMiddleware, (req, res) => {
   });
 });
 
+router.get("/evidencias", authMiddleware, (req, res) => {
+  modelControlMando.consultar_RegistroPlanes().then((lista_Planes) => {
+    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
+    res.render(config.rutaPartials + "plan/index", {
+      user: req.session.username["nombre"],
+      nombre_rol: req.session.username["nombre_rol"],
+      rol: req.session.username["rol"],
+      permisos: req.session.username["permisos"],
+      area: req.session.username["nombre_area"],
+      list: lista_Planes,
+      lista_equivalencias:lista_equivalencias,
+    });
+    });
+  });
+});
+
+
 router.get("/form-ctm-plan/:id", authMiddleware, (req, res) => {
   modelControlMando
     .consultar_plan_accion_x_id(req.params.id)

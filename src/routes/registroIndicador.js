@@ -216,6 +216,22 @@ router.get("/ctm-registro-indicadores", authMiddleware, (req, res) => {
     });
 });
 
+router.get("/registros", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultar_reg_indicadores_x_profesional(req.session.username["id_profesional"])
+    .then((lista_registro_indicadores) => {
+      res.render(config.rutaPartials + "registroIndicador/index", {
+        user: req.session.username["nombre"],
+        nombre_rol: req.session.username["nombre_rol"],
+        rol: req.session.username["rol"],
+        permisos: req.session.username["permisos"],
+        area: req.session.username["nombre_area"],
+        list: lista_registro_indicadores,
+      });
+    });
+});
+
+
 router.post("/persistir-registro-indicador/",
   authMiddleware,
   upload_soportes.array("files_soporte"),

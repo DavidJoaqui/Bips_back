@@ -32,6 +32,22 @@ router.get("/ctm-objetivos", authMiddleware, (req, res) => {
   });
 });
 
+router.get("/objetivos", authMiddleware, (req, res) => {
+  modelControlMando.consultar_RegistrosObjetivos().then((lista_objetivos) => {
+    modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
+    res.render(config.rutaPartials + "objetivo/index", {
+      user: req.session.username["nombre"],
+      nombre_rol: req.session.username["nombre_rol"],
+      rol: req.session.username["rol"],
+      permisos: req.session.username["permisos"],
+      area: req.session.username["nombre_area"],
+      list: lista_objetivos,
+      lista_equivalencias:lista_equivalencias,
+    });
+    });
+  });
+});
+
 
 router.delete(
   "/objetivo/delete/:id/control-mando-bips",

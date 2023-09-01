@@ -130,4 +130,22 @@ router.get("/ctm-indicadores", authMiddleware, (req, res) => {
     });
 });
 
+router.get("/indicadores", authMiddleware, (req, res) => {
+  modelControlMando
+    .consultar_RegistrosIndicadores()
+    .then((lista_Indicadores) => {
+      modelControlMando.consultar_RegistrosEquivalencia_Vistas().then(lista_equivalencias => {
+      res.render(config.rutaPartials + "indicador/index", {
+        user: req.session.username["nombre"],
+        nombre_rol: req.session.username["nombre_rol"],
+        rol: req.session.username["rol"],
+        permisos: req.session.username["permisos"],
+        area: req.session.username["nombre_area"],
+        list: lista_Indicadores,
+        lista_equivalencias:lista_equivalencias,
+      });
+      });
+    });
+});
+
 module.exports = router;

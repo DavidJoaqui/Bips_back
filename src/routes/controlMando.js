@@ -11,8 +11,7 @@ router.get("/control-mando", authMiddleware, (req, res) => {
       rol: req.session.username["rol"],
       permisos: req.session.username["permisos"],
       area: req.session.username["nombre_area"],
-     
-
+    
   });
 
 });

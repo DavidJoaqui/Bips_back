@@ -1,0 +1,158 @@
+<div class="mt-6">
+    <%- include("../../partials/calificacionIndicador/menucalificacion"); %>
+
+        <hr class="py-2" />
+        <div id="listas">
+            <div class="">
+                <%- include("../../partials/calificacionIndicador/find", {lista_años}); %>
+            </div>
+            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+
+                <div class="w-full overflow-x-auto" id="list-reg-indicadores">
+
+                    <%- include("../../partials/calificacionIndicador/listtable",{lista_calificacion_indicadores}); %>
+
+                </div>
+                <%- include("../../partials/pagination"); %>
+            </div>
+
+        </div>
+</div>
+<script>
+
+    function reloadContainer(action) {
+        loadContentHtml('/ctm-calificacion-indicadores', '#container-tab')
+        if (action == 'update') {
+            document.querySelector("#closeModalEdit").click();
+        } else if (action == 'created') {
+            document.querySelector("#closeModalNew").click();
+        }
+    }
+    getPagination('#table-calificacion-indicador');
+
+
+
+    function RealizarCalificacion(id_reg_indicador) {
+        event.preventDefault();
+        const peticion = "/form-ctm-calificacion-reg-indicador/" + id_reg_indicador;
+        loadContentHtml(peticion, '#container-tab')
+
+    }
+
+    $(document).ready(function () {
+        $("#select_periodo").attr('disabled', true);
+        $("#select_area").attr('disabled', true);
+        $("#select_indicador").attr('disabled', true);
+        $("#btn-all").attr('disabled', true);
+
+        $("#select_vigencia").change(function () {
+            var peticion = "/consultar-periodo-x-anio-calificacion/?año=" + $(this).val();
+            $.ajax({
+                type: 'get',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (result) {
+                    $("#select_periodo").attr('disabled', false);
+                    $("#select_periodo").html("");
+                    $("#select_periodo").append('<option selected="selected">' + 'Seleccionar Periodo' + '</option>');
+                    result.forEach(element => {
+                        $("#select_periodo").append('<option value=' + element.id_mes + '>' + element.nombre_mes + '</option>');
+                    });
+                }
+            });
+        });
+        $("#select_periodo").change(function () {
+            var peticion = "/consultar-area-x-periodo-calificacion/?periodo=" + $(this).val() +
+                "&vigencia=" + $('#select_vigencia').val();
+            $.ajax({
+                type: 'get',
+                url: peticion,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (result) {
+                    $("#select_periodo").attr('disabled', false);
+                    $("#select_area").attr('disabled', false);
+                    $("#select_indicador").attr('disabled', true);
+                    $("#btn-all").attr('disabled', false);
+                    $("#select_area").html("");
+                    $("#select_area").append('<option selected="selected">' + 'Seleccionar Area' + '</option>');
+                    result.forEach(element => {
+                        $("#select_area").append('<option value=' + element.id_area + '>' + element.nombre_area + '</option>');
+                    });
+                }
+            });
+        });
+        $("#select_area").change(function () {
+            $("#select_indicador").attr('disabled', true);
+            var peticion_indicadores = "/obtener-reg-indicadores_xvigencia_xperiodo_xarea/?vigencia=" +
+                $('#select_vigencia').val() +
+                "&periodo=" + $('#select_periodo').val() +
+                "&area=" + $(this).val();
+            /* var peticion = "/consultar-indicador-x-periodo-area/?area=" + $(this).val() +
+                 "&vigencia=" + $('#select_vigencia').val() + "&periodo=" + $('#select_periodo').val();*/
+            $.ajax({
+                type: 'get',
+                url: peticion_indicadores,
+                data: [],
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (result) {
+                    $("#select_indicador").attr('disabled', false);
+                    $("#select_indicador").html("");
+                    $("#select_indicador").append('<option selected="selected">' + 'Seleccionar Indicador' + '</option>');
+                    result.forEach(element => {
+                        $("#select_indicador").append('<option value=' + element.id_indicador + '>' + element.nombre_indicador + ' </option>');
+                    });
+                }
+            });
+        });
+        $("#select_indicador").change(function () {
+
+
+            //iframe_res_reg_indicadores
+            /* $('#iframe_res_reg_indicadores').attr('hidden', false);
+        $('#iframe_res_reg_indicadores').attr("src", '/lista-ctm-reg-ind-xcal-filtrado/?vigencia='+$("#select_vigencia").val()+
+        "&periodo="+$("#select_periodo").val()+"&area="+$("#select_area").val()+"&indicador="+ $(this).val());
+        $("#iframe_res_reg_indicadores").show();*/
+            /*var peticion = "/consultar-detalle-indicador-x-indicador/?indicador=" + $(this).val() +
+                "&vigencia=" + $('#select_vigencia').val() + "&periodo=" + $('#select_periodo').val() + "&area=" + $('#select_area').val();*/
+            var peticion_busqueda = '/lista-ctm-reg-ind-xcal-filtrado/?vigencia=' + $("#select_vigencia").val() +
+                "&periodo=" + $("#select_periodo").val() + "&area=" + $("#select_area").val() + "&indicador=" + $(this).val();
+
+            $("#list-reg-indicadores").html("");
+            loadContentHtml(peticion_busqueda, '#list-reg-indicadores');
+
+            /*$.ajax({
+              type: 'get',
+              url: peticion_busqueda,
+              data: [],
+              contentType: false,
+              cache: false,
+              processData: false,
+              success: function(result) {
+                  //tabla_reg_ind_xcal_filtrados
+                  $("#list-reg-indicadores").html("");
+                  //$("#list-reg-indicadores").html(result);
+                  loadContentHtml(peticion_busqueda, '#list-reg-indicadores');
+                  
+
+                  $("#select_vigencia").attr('disabled', false);
+                  $("#select_periodo").attr('disabled', true);
+                  $("#select_area").attr('disabled', true);
+                  $("#select_indicador").attr('disabled', true);
+                  $("#btn-all").attr('disabled', false);
+              }
+          });*/
+        });
+        $("#select_profesional").change(function () {
+            //var peticion = "/consultar-profesional-x-area/?area=" + $(this).val();
+        })
+    });
+
+</script>
